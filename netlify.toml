@@ -1,4 +1,8 @@
 [[redirects]]
+    from = "/html/*"
+    to = "/:splat"
+
+[[redirects]]
     from = "/*"
     to = "/html/:splat"
     status = 200
@@ -9,7 +13,3 @@
 #    status = 200
 #    force = true
 
-#[[redirects]]
-#    from = "/html/*"
-#    to = "/:splat"
-#    force = true
