@@ -1,9 +1,4 @@
 [[redirects]]
-  from = "/"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/:splat"
-  to = "/html/:splat.html"
+  from = "/html/:splat"
+  to = "/:splat"
   status = 200
