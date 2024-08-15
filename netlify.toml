@@ -1,7 +1,7 @@
-#[[redirects]]
-#    from = ""
-#    to = "/index.html"
-#    force = true
+[[redirects]]
+    from = "/*"
+    to = "/html/:splat"
+    status = 200
 
 #[[redirects]]
 #    from = "/*"
