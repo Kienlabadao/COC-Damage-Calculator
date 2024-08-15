@@ -1,1 +1,1 @@
-const errorPage = 'error.html';
+const errorPage = '/html/error.html';
