@@ -1,15 +1,15 @@
-[[redirects]]
-    from = ""
-    to = "/index.html"
-    force = true
+#[[redirects]]
+#    from = ""
+#    to = "/index.html"
+#    force = true
 
-[[redirects]]
-    from = "/*"
-    to = "/html/:splat"
-    status = 200
-    force = true
+#[[redirects]]
+#    from = "/*"
+#    to = "/html/*"
+#    status = 200
+#    force = true
 
-[[redirects]]
-    from = "/html/*"
-    to = "/:splat"
-    force = true
+#[[redirects]]
+#    from = "/html/*"
+#    to = "/:splat"
+#    force = true
