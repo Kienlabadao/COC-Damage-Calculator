@@ -1,4 +1,10 @@
 [[redirects]]
+    from = "/"
+    to = "/"
+    status = 301
+    force = true
+
+[[redirects]]
     from = "/*"
     to = "/html/:splat"
     status = 200
