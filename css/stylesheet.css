@@ -23,7 +23,7 @@ main {
 }
 
 .brand-logo {
-    background-color: rgb(191, 0, 255);
+    background-color: hsl(285, 100%, 50%);
     border-radius: 10px;
     padding: 5px; 
 }
