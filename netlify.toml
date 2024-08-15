@@ -4,7 +4,7 @@
     status = 301
 #    force = true
 
-[[redirects]]
-    from = "/zapquake-calculator"
-    to = "/html/zapquake-calculator"
-    status = 200
+#[[redirects]]
+#    from = "/zapquake-calculator"
+ #   to = "/html/zapquake-calculator"
+#    status = 200
