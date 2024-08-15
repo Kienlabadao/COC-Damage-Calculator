@@ -7,10 +7,3 @@
     from = "/*"
     to = "/html/:splat"
     status = 200
-
-#[[redirects]]
-#    from = "/*"
-#    to = "/html/*"
-#    status = 200
-#    force = true
-

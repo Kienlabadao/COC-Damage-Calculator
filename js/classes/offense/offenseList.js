@@ -14,19 +14,19 @@ class OffenseList {
     loadKey(type) {
         switch (type) {
             case "simple":
-                this.loadSpell(type); 
-                this.loadEquipment(type);
+                this.loadSpellWithKey(type);
+                this.loadEquipmentWithKey(type);
                 break;
             default:
-                this.loadSpell(type); 
-                this.loadEquipment(type);
-                this.loadTroop(type);
-                this.loadModifier(type);
-                this.loadRepair(type);
-        }       
+                this.loadSpellWithKey(type); 
+                this.loadEquipmentWithKey(type);
+                this.loadTroopWithKey(type);
+                this.loadModifierWithKey(type);
+                this.loadRepairWithKey(type);
+        }
     }
 
-    loadSpell(type) {
+    loadSpellWithKey(type) {
         for (const spellID of Object.keys(getAllSpells())) {
             const spell = new Spell(spellID, false, null);
             const key = LocalStorageUtils.getObjectKey(type, spellID);
@@ -36,7 +36,8 @@ class OffenseList {
         }
     }
 
-    loadEquipment(type) {
+    loadEquipmentWithKey(type) {
+        console.log(Object.keys(getAllEquipments()));
         for (const equipmentID of Object.keys(getAllEquipments())) {
             const equipment = new Equipment(equipmentID, null);
             const key = LocalStorageUtils.getObjectKey(type, equipmentID);
@@ -50,7 +51,7 @@ class OffenseList {
         }
     }
 
-    loadTroop(type) {
+    loadTroopWithKey(type) {
         for (const troopID of Object.keys(getAllTroops())) {
             const troop = new Troop(troopID, null);
             const key = LocalStorageUtils.getObjectKey(type, troopID);
@@ -60,7 +61,7 @@ class OffenseList {
         }
     }
 
-    loadRepair(type) {
+    loadRepairWithKey(type) {
         for (const repairID of Object.keys(getAllRepairs())) {
             const repair = new Repair(repairID, null, false);
             const key = LocalStorageUtils.getObjectKey(type, repairID);
@@ -70,7 +71,7 @@ class OffenseList {
         }
     }
 
-    loadModifier(type) {
+    loadModifierWithKey(type) {
         for (const modifierID of Object.keys(getAllModifiers())) {
             const modifier = new Modifier(modifierID, null);
             const key = LocalStorageUtils.getObjectKey(type, modifierID);
