@@ -1,4 +1,4 @@
 [[redirects]]
     from = "/html/zapquake-calculator"
-    to = "/"
+    to = "/zapquake-calculator"
     force = true
