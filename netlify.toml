@@ -1,4 +1,5 @@
 [[redirects]]
     from = "/html/zapquake-calculator"
     to = "/zapquake-calculator"
+    status = 200
     force = true
