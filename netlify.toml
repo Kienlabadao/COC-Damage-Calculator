@@ -2,7 +2,7 @@
     from = "/html/zapquake-calculator"
     to = "/zapquake-calculator"
     status = 301
-#    force = true
+    force = true
 
 #[[redirects]]
 #    from = "/zapquake-calculator"
