@@ -1,0 +1,49 @@
+@media only screen and (max-width: 992px) {
+    .navbar-brand {
+        order: 1;
+    }
+
+    .navbar-toggler, .setting, #toggleDarkMode {
+        order: 2;
+    }
+
+    .navbar-collapse {
+        order: 3;
+    }
+
+    .dropdown-menu {
+        text-align: center;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .offense {
+        width: auto;
+    }
+
+    .offense-range input {
+        width: auto;
+    }
+
+    .donate-count input {
+        width: 25%;
+    }
+
+    #earthquakeOrder {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .brand-logo img {
+        width: 30px;
+    }
+    
+    .navbar-text {
+        font-size: 0.6em;
+    }
+
+    .content {
+        font-size: 1em;
+    }
+}

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | COC Damage Calculator</title>
+    <link rel="icon" type="image/webp" href="/images/other/logo.webp">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="/css/stylesheet.css" rel="stylesheet">
+    <link id="theme" rel="stylesheet">
+    <link href="/css/responsive.css" rel="stylesheet">
+    <script src="/js/util/localStorageUtils.js"></script>
+    <script src="/js/util/loadTheme.js"></script>
+    <script src="https://kit.fontawesome.com/e1acb8aa00.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <nav class="navbar navbar-expand-lg navbar-bg fixed-top" data-bs-theme="light" id="navbar">
+        <div class="container-fluid justify-content-start mx-lg-5 px-sm-5 fw-bold">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <div class="brand-logo me-3 d-flex justify-content-center align-items-center">
+                    <img src="/images/other/logo.webp" alt="Logo">
+                </div>               
+                <div class="brand-text navbar-text">
+                    <div class="text-orange">Damage</div>
+                    <div class="text-warning">Calculator</div>
+                </div>
+            </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Calculator
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/html/zapquake-calculator.html">Zapquake</a></li>
+                            <li><a class="dropdown-item" href="/html/advance-calculator.html">Advance</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item d-sm-none">
+                        <a class="nav-link" aria-current="page" href="/html/setting.html">Setting</a>
+                    </li>
+                </ul>
+            </div>
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>    
+            <button id="toggleDarkMode" class="btn" onclick="toggleDarkMode()">
+                <i class="fa-solid fa-sun fa-2x d-none" id="lightModeIcon"></i>
+                <i class="fa-solid fa-moon fa-2x" id="darkModeIcon"></i>
+            </button>
+            <a href="/html/setting.html" class="setting btn border-0 d-none d-sm-block">
+                <i class="fa-solid fa-gear fa-2x"></i>
+            </a>
+        </div>
+    </nav>
+
+    <main class="container-fluid pb-5">
+        <header class="text-center">
+            <img src="/images/other/coc.png" width="200">
+            <h1 class="brand-text text-center">
+                <span class="text-orange mt-2 d-inline-block">Damage</span>
+                <span class="text-warning mt-2 d-inline-block">Calculator</span>
+            </h1>
+        </header>
+        <section class="main-container mx-auto mt-5">
+            <section class="p-4 rounded-border shadow card-background">
+                <h2 class="text-center">Introduction</h2><hr>
+                <div class="content">
+                    <p>Welcome to the <strong>Clash of Clans Damage Calculator</strong> — your one-stop spot for all damage calculations in Clash of Clans, from zapquake to hero equipment and much more!</p>
+                    <p>Do you need to know how many lightning and earthquake spells are needed to take out the town hall with the help of a fireball and giant arrow? <strong>I've got you covered!</strong></p>
+                    <p>Do you need to know how quickly you need to snipe the clan castle before the builders can save it? <strong>I've got you covered!</strong></p>
+                    <div>This website have 2 main features:</div>
+                    <ul>
+                        <li class="mt-1">
+                            <div class="d-flex align-items-center flex-wrap">
+                                <div class="me-3">Zapquake Calculator</div>
+                                <div>
+                                    <a href="/html/zapquake-calculator.html" class="btn btn-secondary">Visit</a>
+                                </div>
+                            </div>                           
+                        </li>
+                        <li class="mt-3">
+                            <div class="d-flex align-items-center flex-wrap">
+                                <div class="me-3">Advance Calculator</div>
+                                <div>
+                                    <a href="/html/advance-calculator.html" class="btn btn-secondary">Visit</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>                
+            </section>
+
+            <section class="my-4 p-4 rounded-border shadow card-background">
+                <h2 class="text-center">Information</h2><hr>
+                <div class="content">
+                    <div>
+                        <h3>Zapquake Calculator</h3>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et at laborum reprehenderit ipsa incidunt tempora facilis perferendis sint eaque a alias minima adipisci, magni repellat aliquid perspiciatis corporis vero libero.</p>
+                    </div>
+                    <div class="mt-4">
+                        <h3>Advance Calculator</h3>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et at laborum reprehenderit ipsa incidunt tempora facilis perferendis sint eaque a alias minima adipisci, magni repellat aliquid perspiciatis corporis vero libero.</p>
+                    </div>
+                </div>    
+            </section>
+
+            <section class="my-4 p-4 rounded-border shadow card-background">
+                <h2 class="text-center">Links</h2><hr>
+                <div class="content">                   
+                    <div>Found a bug? Have suggestion? Contact me via:</div>
+                    <ul class="mt-1">
+                        <li>
+                            <div class="d-flex align-items-center flex-wrap">
+                                <div class="me-2">Reddit</div>
+                                <div>
+                                    <a href="https://www.reddit.com/user/Kienlabadao/" target="_blank" class="btn reddit">
+                                        <i class="fa-brands fa-reddit-alien"></i> Reddit
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mt-3">
+                            <div class="d-flex align-items-center flex-wrap">
+                                <div class="me-2">Discord</div>
+                                <div>
+                                    <a href="https://discord.com/invite/6SDDRw68" target="_blank" class="btn btn-primary">
+                                        <i class="fa-brands fa-discord"></i> Discord
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mt-3">
+                            <div class="d-flex align-items-center flex-wrap">
+                                <div class="me-2">Prefer staying anonymous?</div>
+                                <div>
+                                    <a href="https://forms.gle/weCLKkpg5py6PrGb9" target="_blank" class="btn btn-primary">
+                                        <i class="fa-solid fa-sheet-plastic"></i> Fill in this form
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div>Other links:</div>
+                    <ul class="mt-1">
+                        <li>
+                            <div class="d-flex align-items-center flex-wrap">
+                                <div class="me-2">Source Code</div>
+                                <div>
+                                    <a href="https://github.com/cocdamagecalculator/cocdamagecalculator.github.io" target="_blank" class="btn btn-primary"><i class="fa-brands fa-github"></i> Github</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mt-3">
+                            <div class="d-flex align-items-center flex-wrap">
+                                <div class="me-2">Like my work?</div>
+                                <div>
+                                    <a href="https://buymeacoffee.com/kienlabadao" target="_blank" class="btn btn-success donate-button">☕ Buy me a coffee</a>
+                                </div>
+                            </div>
+                        </li>                        
+                    </ul>
+                </div> 
+            </section>
+        </section>
+    </main>
+
+    <footer class="p-5 text-center mt-auto">
+        <h4>Last updated: 5/8/2024 (June 2024 Update)</h4>
+        <h4>Made by Kienlabadao</h4>
+    </footer>
+
+    <button type="button" id="scrollUpBtn" class="btn btn-secondary position-fixed d-none" onclick="scrollUp()">
+        <i class="fa-solid fa-arrow-up fa-2x"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="/js/util/init.js"></script>
+    <script src="/js/util/scrollUp.js"></script>
+    <script src="/js/util/toggleDarkMode.js"></script>
+</body>
+</html>

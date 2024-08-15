@@ -1,0 +1,42 @@
+body {
+    background-color: hsl(220, 13%, 91%);  
+    color: hsl(215, 28%, 17%);
+}
+
+.navbar-bg {
+    background-color: hsl(0, 0%, 100%);
+}
+
+footer {
+    background-color: hsl(0, 0%, 100%);
+}
+
+.card-background {
+    background-color: hsl(0, 0%, 100%); 
+}
+
+.text-box {
+    background-color: hsl(215, 14%, 34%);
+    color: hsl(0, 0%, 100%);    
+}
+
+.text-box:focus {
+    background-color: hsl(215, 14%, 34%);
+    color: hsl(0, 0%, 100%);
+}
+
+.fa-solid.fa-gear {
+    color: hsl(0, 0%, 25%);
+}
+
+.fa-solid.fa-gear:hover {
+    color: hsl(0, 0%, 60%);
+}
+
+.status-success {
+    color: hsl(113, 100%, 35%);
+}
+
+.status-fail {
+    color: hsl(0, 100%, 35%);
+}

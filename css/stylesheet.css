@@ -1,0 +1,404 @@
+/* Page Structure */
+@font-face {
+    font-family: SupercellMagic;
+    src: url(/fonts/SVN-SupercellMagic.otf);
+}
+
+main {
+    padding-top: 110px;
+}
+
+.main-container {    
+    width: 90%;
+}
+
+.content {
+    font-size: 1.2em;
+}
+
+/* Navbar */
+.navbar {
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.brand-logo {
+    background-color: rgb(191, 0, 255);
+    border-radius: 10px;
+    padding: 5px; 
+}
+
+.brand-logo img {
+    width: 30px;
+}
+
+.brand-text {  
+    font-family: SupercellMagic;   
+    color: white;
+    text-shadow: 3px 3px 8px hsl(0, 0%, 70%);
+}
+
+.navbar-text {
+    text-align: start;
+    font-size: 0.7em;
+    text-shadow: none;
+}
+
+/* Search Bar */
+.form {
+    position: relative;
+}
+
+.form .fa-search {
+    position: absolute;
+    top:20px;
+    left: 20px;
+    color: hsl(218, 11%, 65%);
+}
+
+.form-input {
+    height: 55px;
+    text-indent: 33px;
+    border-radius: 10px;
+    border: none;
+}
+
+#earthquakeOrder {
+    width: 50%;
+}
+
+.form-select, .text-box, .count-box {
+    border: none;
+}
+
+.form-select, .count-box  {
+    color: hsl(0, 0%, 100%); 
+}
+
+.text-box::placeholder {
+    color: hsl(0, 0%, 100%);
+}
+
+.count-box:focus {
+    background-color: hsl(215, 14%, 34%);
+    color: hsl(0, 0%, 100%);
+}
+
+/* Image Container */
+.image-container {
+    position: relative;
+    display: inline-block;   
+    background-color: rgb(85, 151, 250);
+    border: 1px solid rgb(0, 102, 255);
+    border-radius: 10px;
+}
+
+.image-container img {
+    display: block;
+    border-radius: 10px;
+}
+
+.overlay {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    width: 25px;
+    height: 25px;
+    border-radius: 7px;
+}
+
+.overlay-top-right {
+    position: absolute;
+    bottom: 60px;
+    left: 5px;
+}
+
+.overlay-top-right img {
+    border-radius: 5px;
+}
+
+.overlay-equipment {
+    width: auto;
+    height: auto;
+    padding: 2px 6px;
+}
+
+.level-number {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.offense {
+    width: 230px;
+}
+
+.offense-range input {
+    width: 100%;
+}
+
+/* Card Container */
+.card-container {
+    height: 82px;
+    width: 52px;
+    border-radius: 5px;
+}
+
+.card-container-no-count {
+    height: 52px;
+    width: 52px;
+    border-radius: 5px;
+}
+
+.card-container img {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    border-radius: 5px;
+}
+
+.overlay-card {
+    width: auto;
+    height: 16px;
+    padding: 2px 2px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+}
+
+.equipment-card {
+    width: auto;
+    height: 16px;
+    padding: 2px 2px;
+    border-radius: 4px;
+}
+
+.overlay-card .level-number, .equipment-card {
+    font-size: 12px;
+}
+
+.rounded-border {
+    border-radius: 20px;
+}
+
+/* Variance & Utilities */
+.immune {
+    background-color: rgb(255, 70, 70);
+    border: 1px solid rgb(150, 0, 0)
+}
+
+.epic-rarity {
+    background-color: rgb(191, 0, 255);
+    border: 1px solid rgb(68, 0, 116);
+}
+
+.raged {
+    background-color: rgb(191, 0, 255);
+}
+
+.death {
+    background: hsl(0, 0%, 35%);
+}
+
+.not-maxed {
+    background: hsl(0, 0%, 35%);
+    color: hsl(0, 0%, 100%);
+}
+
+.maxed {
+    background: hsl(45, 100%, 50%);
+    color: hsl(0, 0%, 0%);
+}
+
+.maxed-text {
+    color: hsl(45, 100%, 50%);
+}
+
+.earthquake-spell-bg {
+    background-color: hsl(49, 12%, 37%);
+}
+
+.donate-card-img {
+    position: absolute;
+    bottom: 30px;
+    left: 5px;
+    z-index: 1;
+}
+
+.donate-card-img img {
+    border-radius: 2px;
+}
+
+#toggleDarkMode {
+    width: 50px;
+    border: none;
+    background: none;
+}
+
+.show-more-button {
+    border: none;
+}
+
+.mb-10px {
+    margin-bottom: 1px;
+}
+
+.stat-tag {
+    border-radius: 5px;
+    background-color: hsl(215, 13%, 43%);
+    color: hsl(0, 0%, 100%);
+    padding: 1px 10px;
+}
+
+.text-orange {
+    color: hsl(26, 100%, 50%);
+}
+
+.text-brown {
+    color: hsl(41, 100%, 34%);
+}
+
+/* Icon */
+.fa-solid.fa-moon {
+    color: hsl(0, 0%, 25%);
+}
+
+.fa-solid.fa-moon:hover {
+    color: hsl(0, 0%, 60%);
+}
+
+.fa-solid.fa-sun {
+    color: hsl(210, 2%, 75%);     
+}
+
+.fa-solid.fa-sun:hover {
+    color: hsl(43, 100%, 50%);     
+}
+
+.fa-solid.fa-chart-simple {
+    color: hsl(121, 100%, 59%);
+}
+
+/* Range Slider */
+.range {
+    appearance: none; /* Standard */
+    -webkit-appearance: none; /* WebKit */
+    -moz-appearance: none; /* Firefox */
+    width: 100%;
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+    border-radius: 16px;
+}
+
+.range::-webkit-slider-runnable-track {
+    height: 15px;
+    border-radius: 16px;
+    background: hsl(0, 0%, 80%);
+}
+
+.range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none; 
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background-color: hsl(0, 0%, 100%);
+    border: 2px solid hsl(215, 14%, 34%); 
+    box-shadow: -407px 0 0 400px hsl(215, 14%, 34%); 
+}
+
+.range::-moz-range-thumb {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background-color: hsl(0, 0%, 100%);
+    border: 2px solid hsl(215, 14%, 34%); 
+    box-shadow: -407px 0 0 400px hsl(215, 14%, 34%); 
+}
+
+.range::-moz-range-track {
+    height: 15px;
+    border-radius: 16px;
+    background: hsl(0, 0%, 80%);
+}
+
+.range::-ms-track {
+    height: 15px;
+    border-radius: 16px;
+    background: hsl(0, 0%, 80%);
+    border-color: transparent;
+    color: transparent;
+}
+
+.range::-ms-thumb {
+    -ms-appearance: none;
+    appearance: none;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background-color: hsl(0, 0%, 100%);
+    border: 2px solid hsl(215, 14%, 34%);
+    box-shadow: -407px 0 0 400px hsl(215, 14%, 34%);
+}
+
+.range::-ms-fill-lower {
+    background: hsl(215, 14%, 34%);
+    border-radius: 16px;
+}
+
+.range::-ms-fill-upper {
+    background: hsl(0, 0%, 80%);
+    border-radius: 16px;
+}
+
+/* Button */
+#scrollUpBtn {
+    width: 50px;
+    height: 50px;
+    bottom: 15%;
+    right: 0;
+    border-radius: 10px 0 0 10px;
+}
+
+#scrollUpBtn i {
+    color: hsl(0, 0%, 100%);
+}
+
+.donate-button {
+    background-color: hsl(149, 78%, 40%);
+    border: none;
+}
+
+.reddit {
+    background-color: hsl(28, 100%, 50%);
+    color: hsl(0, 0%, 100%);
+    border: none;
+}
+
+.reddit:hover {
+    background-color: hsl(28, 100%, 35%);
+    color: hsl(0, 0%, 100%);
+}
+
+/* Table */
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    background-color: hsl(215, 13%, 43%);
+    color: hsl(0, 0%, 100%);
+    width: 100%;
+    min-width: 260px;
+    white-space: nowrap;
+}
+
+thead {
+    border-bottom: 3px solid;
+    border-color: hsl(0, 0%, 100%);
+}
+
+tbody tr {
+    border-top: 2px solid;
+    border-color: hsl(0, 0%, 100%);
+}
