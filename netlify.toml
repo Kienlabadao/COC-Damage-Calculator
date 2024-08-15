@@ -4,12 +4,12 @@
     force = true
 
 [[redirects]]
-    from = "/zapquake-calculator"
-    to = "/html/zapquake-calculator"
+    from = "/*"
+    to = "/html/:splat"
     status = 200
     force = true
 
 [[redirects]]
-    from = "/html/zapquake-calculator"
-    to = "/zapquake-calculator"
+    from = "/html/*"
+    to = "/:splat"
     force = true
