@@ -78,6 +78,10 @@ class Spell extends Offense {
         return `/images/offense/spells/${this.offenseID}.webp`;
     }
 
+    clone() {
+        return new Spell(this.offenseID, this.isDonated, this.currentLevelPos);
+    }
+
     set isDonated(isDonated) {
         return this._isDonated = isDonated === true;
     }

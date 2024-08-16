@@ -1,34 +1,42 @@
 class LocalStorageUtils {
 
-    static getObjectKey(type, objectID) {
-        return `${type}_${objectID}_pos`;
+    static getObjectKey(type, objectType, objectID) {
+        return `${type}_${objectType}_${objectID}_pos`;
     }
 
-    static getObjectKeyDonated(type, objectID) {
-        return `${type}_${objectID}_pos_donated`;
+    static getObjectKeyDonated(type, objectType, objectID) {
+        return `${type}_${objectType}_${objectID}_pos_donated`;
     }
 
     static getEQOrderKey(type) {
         return `${type}_earthquakeOrder`;
     }
 
+    static getUseTroopDeathDamageKey(type) {
+        return `${type}_useTroopDeathDamage`;
+    }
+
+    static getUseModifierKey(type, modifierID) {
+        return `${type}_use_${modifierID}`;
+    }
+
     static getKey(key) {
         return localStorage.getItem(key);
     }
 
-    static loadNumber(key) {
+    static getNumber(key) {
         const number = Number.parseInt(LocalStorageUtils.getKey(key));
 
         return Number.isNaN(number) === "number" ? number : null;
     }
 
-    static loadString(key) {
+    static getString(key) {
         const string = LocalStorageUtils.getKey(key);
 
         return typeof string === "string" ? string : null;
     }
 
-    static loadBoolean(key) {
+    static getBoolean(key) {
         const boolean = LocalStorageUtils.getKey(key);
 
         if (boolean !== null && ["true", "false"].includes(boolean)) {
@@ -66,7 +74,7 @@ class LocalStorageUtils {
         }
     }
 
-    static loadString(key, checkStringList, defaultValue) {
+    static loadStringInRange(key, checkStringList, defaultValue) {
         if (Array.isArray(checkStringList)) {
             const string = LocalStorageUtils.getKey(key);
             if (string === null || !checkStringList.includes(string)) {

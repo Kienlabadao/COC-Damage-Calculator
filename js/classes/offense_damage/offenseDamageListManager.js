@@ -33,9 +33,9 @@ class OffenseDamageListManager {
                         if (offense.isDamageTypeEQ()) {                           
                             eqCount++;
                         }
-                        this.add(new OffenseDamage(offense, false, damage, hp));
+                        this.add(new OffenseDamage(offense, null, false, damage, hp));
                     } else {
-                        this.add(new OffenseDamage(offense, true, damage, hp));
+                        this.add(new OffenseDamage(offense, null, true, damage, hp));
                     }
                     
                     if (hp <= 0) {

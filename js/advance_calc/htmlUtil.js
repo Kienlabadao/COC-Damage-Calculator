@@ -1,3 +1,80 @@
+function createActionDiv(action, count = 1) {
+    if (action instanceof Action) {
+        const offense = action.offense;
+        const modifier = action.modifier;
+
+        // Create the main container div
+        const containerDiv = document.createElement('div');
+        containerDiv.className = 'image-container text-center';
+
+        // Create the main image element
+        const mainImage = document.createElement('img');
+        mainImage.className = 'image';
+        mainImage.src = offense.getImagePath();
+        mainImage.height = 90;
+        containerDiv.appendChild(mainImage);
+
+        // Create the overlay top-left div
+        const overlayTopLeftDiv = document.createElement('div');
+        overlayTopLeftDiv.className = 'modifier overlay-top-left';
+        containerDiv.appendChild(overlayTopLeftDiv);
+
+        // Create the modifier image inside the overlay top-left div
+        const modifierImage = document.createElement('img');
+        if (modifier !== null) {
+            modifierImage.className = 'image raged';
+            modifierImage.src = modifier.getImagePath();
+        } else if (offense instanceof Troop) {
+            switch (offense.damageMode) {
+                case Troop.DEATH_DAMAGE:
+                    modifierImage.className = 'image death';
+                    modifierImage.src = deathDamageImage;
+                    break;
+            }
+        }
+        modifierImage.width = 25;
+        overlayTopLeftDiv.appendChild(modifierImage);
+
+        // Create the overlay top-right div
+        const overlayTopRightDiv = document.createElement('div');
+        overlayTopRightDiv.className = 'overlay-top-right';
+        containerDiv.appendChild(overlayTopRightDiv);
+
+        // Create the action order span inside the overlay top-right div
+        const actionOrderSpan = document.createElement('span');
+        actionOrderSpan.className = 'action-order';
+        actionOrderSpan.textContent = `${count}`;
+        overlayTopRightDiv.appendChild(actionOrderSpan);
+
+        // Create the maxed overlay div
+        const maxedOverlayDiv = document.createElement('div');
+        if (offense.isMaxLevel()) {
+            maxedOverlayDiv.className = 'overlay overlay-equipment maxed';
+        } else {
+            maxedOverlayDiv.className = 'overlay overlay-equipment not-maxed';
+        }       
+        containerDiv.appendChild(maxedOverlayDiv);
+
+        // Create the level number span inside the maxed overlay div
+        const levelNumberSpan = document.createElement('span');
+        levelNumberSpan.className = 'level-number';
+        levelNumberSpan.textContent = offense.getCurrentLevel();
+        maxedOverlayDiv.appendChild(levelNumberSpan);
+
+        return containerDiv;
+    } else {
+        throw new Error(`Invalid action: ${action}`)
+    }
+}
+
+function createOverlayImage(imagePath) {
+    const overlayImage = document.createElement('img');
+    overlayImage.className = 'overlay-image';
+    overlayImage.setAttribute('width', '25');
+    overlayImage.setAttribute('src', imagePath);
+    return overlayImage;
+}
+
 function createSpellNodeArray(spellCountListManager) {
     if (spellCountListManager instanceof SpellCountListManager) {
         const nodeArray = [];

@@ -4,8 +4,8 @@ function updateDefense(element) {
     if (defenseDiv) {
         const levelNumberSpan = defenseDiv.querySelector(".level");
         const defenseID = getDataTitle(defenseDiv);
-        const defense = defenseList.getDefense(defenseID);
-        const key = LocalStorageUtils.getObjectKey(type, defenseID);
+        const defense = defenseListManager.getDefense(defenseID);
+        const key = LocalStorageUtils.getObjectKey(type, "defense", defenseID);
        
         const currentLevelPos = Number.parseInt(element.value);       
         defense.currentLevelPos = currentLevelPos;
@@ -21,7 +21,7 @@ function updateDefense(element) {
         defenseDiv.querySelector(".image").src = imagePath;
         defenseDiv.querySelector(".hp").textContent = defense.getCurrentHP();   
     }
-    calcDefense(defenseDiv);
+    // calcDefense(defenseDiv);
 }
 
 function updateOffense(element) {
@@ -30,123 +30,181 @@ function updateOffense(element) {
     if (offenseDiv) {
         const overlayDiv = offenseDiv.querySelector(".overlay");
         const offenseID = getDataTitle(offenseDiv);
-        let offense = null;
-        let key = null;
-        if (offenseDiv.classList.contains("spell")) {
-            const isDonated = getDataDonated(offenseDiv);
+        const offense = offenseListManager.getOffense(offenseID);
+        const key = LocalStorageUtils.getObjectKey(type, "offense", offenseID);       
+        const currentLevelPos = Number.parseInt(element.value);
 
-            offense = offenseList.getSpell(offenseID, isDonated);
-            key = isDonated ? LocalStorageUtils.getObjectKeyDonated(type, offenseID) : LocalStorageUtils.getObjectKey(type, offenseID);
-        } else if (offenseDiv.classList.contains("equipment")) {
-            offense = offenseList.getEquipment(offenseID);
-            key = LocalStorageUtils.getObjectKey(type, offenseID);
-        } else {
-            throw new Error(`ERROR: Div did not contain appropriate type: ${offenseDiv.classList}`);
-        }
-       
-        const currentLevelPos = Number.parseInt(element.value);       
         offense.currentLevelPos = currentLevelPos;
-        LocalStorageUtils.saveNumber(key, currentLevelPos);
-
-        if (offenseDiv.classList.contains("equipment")) {
-            updateEquipmentUsed();
-        }
-        
-        if (offense.isMaxLevel()) {            
+        LocalStorageUtils.saveNumber(key, currentLevelPos);        
+        if (offense.isMaxLevel()) {
             addMaxedClass(overlayDiv);
         } else {
             addNotMaxedClass(overlayDiv);
         }
         offenseDiv.querySelector(".level-number").textContent = offense.getCurrentLevel();
+        offenseDiv.querySelector(".image").src = offense.getImagePath();
     }
-    calc();
+    updateOverlay();
 }
 
-function useDonatedZapSpell(element) {
-    useDonatedZap = element.checked;
-    LocalStorageUtils.saveBoolean(useDonatedZapSpellKey, useDonatedZap);
+function toggleUseModifer(element) {
+    const modifierDiv = getParentDiv(element, "modifier");
+    const modifierID = getDataTitle(modifierDiv);
+    const useModifier = element.checked;
+    const useModifierKey = LocalStorageUtils.getUseModifierKey(type, modifierID);
+    const modifier = offenseListManager.getModifier(modifierID);
 
-    toggleUseDonatedZapSpell(element);
-    calc();  
+    LocalStorageUtils.saveBoolean(useModifierKey, useModifier);
+    modifier.isActive = useModifier;
+
+    updateOverlay();
 }
 
-function toggleUseDonatedZapSpell() {
-    offenseDivs = offensesSection.querySelectorAll(".offense");
+function toggleUseTroopDeathDamage(element) {
+    useTroopDeathDamage = element.checked;
+    LocalStorageUtils.saveBoolean(LocalStorageUtils.getUseTroopDeathDamageKey(type), useTroopDeathDamage);
 
-    offenseDivs.forEach((offenseDiv) => {
-        const spellID = getDataTitle(offenseDiv);
-        if (spellID === "lightning_spell") {
-            if (getDataDonated(offenseDiv)) {
-                if (useDonatedZap) {
-                    showDiv(offenseDiv);            
-                } else {
-                    hideDiv(offenseDiv);
-                }                
-                return;
-            }
-        }
-    });
-}
-
-function updateDonatedCount(element) {
-    const warningDiv = document.getElementById("input-warning");
-    const inputNumber = Number.parseInt(element.value);
-
-    if (Number.isNaN(inputNumber)) {
-        showDiv(warningDiv);
-    } else {
-        if (inputNumber < 0 || inputNumber > 3) {
-            showDiv(warningDiv);
+    for (const troop of offenseListManager.getTroopList()) {
+        if (useTroopDeathDamage) {
+            troop.damageMode = Troop.DEATH_DAMAGE;
         } else {
-            donatedZapSpellCount = inputNumber;
-
-            LocalStorageUtils.saveNumber(donatedZapSpellCountKey, donatedZapSpellCount);
-            hideDiv(warningDiv);
-            calc();
-        }       
-    }
-}
-
-function updateEQOrder(element) {
-    eqOrder = element.value;
-    LocalStorageUtils.saveString(eqOrderKey, eqOrder);
-    calc();
-}
-
-function updateEquipmentUsed() {
-    const equipmentDivList = [];
-
-    for (const offense of offenseList.getEquipmentList()) {
-        if (!offense.isMinLevel()) {
-            equipmentDivList.push(createEquipmentDiv(offense));
+            troop.damageMode = Troop.DAMAGE;
         }
     }
 
-    if (equipmentDivList.length > 0) {
-        defenseDivs = defensesSection.querySelectorAll(".defense");
+    updateOverlay();
+}
 
-        defenseDivs.forEach((defenseDiv) => {        
-            const equipmentListDiv = defenseDiv.querySelector(".equipment-list");
-            const equipmentDiv = defenseDiv.querySelector(".equipment-div");
-            const defense = defenseList.getDefense(getDataTitle(defenseDiv));
-
-            removeAllChilds(equipmentListDiv)
-            for (const equipmentDiv of equipmentDivList) {
-                const equipmentNode = equipmentDiv.cloneNode(true);
-                const equipment = offenseList.getEquipment(getDataTitle(equipmentNode));
-
-                if (defense.isImmune(equipment)) {
-                    equipmentNode.classList.add("immune");
-                }
-                equipmentListDiv.appendChild(equipmentNode);
-            }
-            showDiv(equipmentDiv);
-        });
-    } else {
-        defenseDivs = defensesSection.querySelectorAll(".defense");
-
-        defenseDivs.forEach((defenseDiv) => {
-            hideDiv(defenseDiv.querySelector(".equipment-div"));
-        });
+function updateOverlay() {
+    for (const troopDiv of troopDivs) {
+        updateTroopDivOverlay(troopDiv);
     }
+    for (const repairDiv of repairDivs) {
+        updateRepairDivOverlay(repairDiv);
+    }
+}
+
+function updateTroopDivOverlay(troopDiv) {
+    const troopID = getDataTitle(troopDiv);
+    const troop = offenseListManager.getTroop(troopID);
+    const modifierListManager = new ModifierListManager;
+    modifierListManager.loadModifier(offenseListManager.getModifierList());
+    const troopModifierListManager = modifierListManager.getActiveTroopModifierListManager();
+    const overlayDiv = troopDiv.querySelector(".overlay-top-left");
+    removeAllChilds(overlayDiv);
+    clearDataTitle(overlayDiv);
+
+    if (useTroopDeathDamage && troop.canDealDeathDamage()) {
+        const overlayImage = createOverlayImage(deathDamageImage);
+        overlayImage.className = 'overlay-image death';
+        setDataTitle(overlayDiv, "death_damage");
+
+        overlayDiv.appendChild(overlayImage);
+    } else if (!troopModifierListManager.isEmpty()) {
+        const modifier = troopModifierListManager.getHighestModifier();
+
+        const overlayImage = createOverlayImage(modifier.getImagePath());
+        overlayImage.className = 'overlay-image raged';
+        setDataTitle(overlayDiv, modifier.offenseID);
+
+        overlayDiv.appendChild(overlayImage);
+    }
+}
+
+function updateRepairDivOverlay(repairDiv) {
+    const modifierListManager = new ModifierListManager;
+    modifierListManager.loadModifier(offenseListManager.getModifierList());
+    const repairModifierListManager = modifierListManager.getActiveRepairModifierListManager();
+    const overlayDiv = repairDiv.querySelector(".overlay-top-left");
+    removeAllChilds(overlayDiv);
+    clearDataTitle(overlayDiv);
+
+    if (!repairModifierListManager.isEmpty()) {
+        const modifier = repairModifierListManager.getHighestModifier();
+
+        const overlayImage = createOverlayImage(modifier.getImagePath());
+        overlayImage.className = 'overlay-image raged';
+        setDataTitle(overlayDiv, modifier.offenseID);
+
+        overlayDiv.appendChild(overlayImage);
+    }
+}
+
+function addAction(element) {
+    const amount = Number.parseInt(element.value);
+    const offenseDiv = getParentDiv(element, "offense");
+    const offenseID = getDataTitle(offenseDiv);
+    const offense = offenseListManager.getOffense(offenseID);
+    const modifierOverlayDiv = offenseDiv.querySelector(".modifier");
+
+    if (modifierOverlayDiv !== null) {
+        const modifierID = getDataTitle(modifierOverlayDiv);
+
+        if (modifierID.length !== 0 && modifierID !== "death") {
+            const modifier = offenseListManager.getModifier(modifierID);
+    
+            addActionList(amount, offense, modifier);          
+        } else {
+            addActionList(amount, offense);        
+        }
+    } else {
+        addActionList(amount, offense);
+    }
+    updateActionListDiv();
+}
+
+function removeAction(element) {
+    const amount = element.value;
+
+    if (amount === "all") {
+        actionListManager.clear();
+        hideActionList();
+    } else {
+        actionListManager.removeCount(Number.parseInt(amount));
+        updateActionListDiv();
+    }
+}
+
+function addActionList(amount, offense, modifier = null) {
+    for (let count = 0; count < amount; count++) {
+        actionListManager.add(new Action(offense.clone(), modifier !== null ? modifier.clone() : null));
+    }
+}
+
+function updateActionListDiv() {
+    removeAllChilds(actionListDiv);
+    
+    let count = 0;
+    for (const action of actionListManager.actionList) {
+        actionListDiv.appendChild(createActionDiv(action, ++count));
+    }
+    
+    if (actionListManager.isEmpty()) {
+        hideActionList();
+    } else {
+        showActionList();
+    }
+}
+
+function hideActionList() {
+    const showActionListButton = document.getElementById("showActionListButton");
+    const showActionList = document.getElementById("showActionList");
+
+    hideDiv(showActionListButton);
+    hideDiv(showActionList);
+}
+
+function showActionList() {
+    const showActionListButton = document.getElementById("showActionListButton");
+    const button = showActionListButton.querySelector("button");
+    button.textContent = "Hide";
+    const showActionList = document.getElementById("showActionList");
+
+    const collapse = new bootstrap.Collapse(showActionList, {
+        toggle: false
+    })
+    collapse.show();
+
+    showDiv(showActionListButton);
+    showDiv(showActionList);
 }

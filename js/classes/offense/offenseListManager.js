@@ -1,4 +1,4 @@
-class OffenseList {
+class OffenseListManager {
     constructor() {
         this.offenseList = [];
     }
@@ -14,7 +14,7 @@ class OffenseList {
     loadKey(type) {
         switch (type) {
             case "simple":
-                this.loadSpellWithKey(type);
+                this.loadSpellWithKey(type); 
                 this.loadEquipmentWithKey(type);
                 break;
             default:
@@ -26,88 +26,91 @@ class OffenseList {
         }
     }
 
+    loadSpell() {
+        for (const spellID of Object.keys(getAllSpells())) {
+            this.add(new Spell(spellID, false, null));
+        }
+    }
+
+    loadEquipment() {
+        for (const equipmentID of Object.keys(getAllEquipments())) {         
+            this.add(new Equipment(equipmentID, null));
+        }
+    }
+
+    loadTroop() {
+        for (const troopID of Object.keys(getAllTroops())) {       
+            this.add(new Troop(troopID, null));
+        }
+    }
+
+    loadRepair() {
+        for (const repairID of Object.keys(getAllRepairs())) {       
+            this.add(new Repair(repairID, null));
+        }
+    }
+
+    loadModifier() {
+        for (const modifierID of Object.keys(getAllModifiers())) {       
+            this.add(new Modifier(modifierID, null, false));
+        }
+    }
+
     loadSpellWithKey(type) {
         for (const spellID of Object.keys(getAllSpells())) {
             const spell = new Spell(spellID, false, null);
-            const key = LocalStorageUtils.getObjectKey(type, spellID);
+            const key = LocalStorageUtils.getObjectKey(type, "offense", spellID);
 
             spell.currentLevelPos = LocalStorageUtils.loadNumber(key, spell.currentLevelPos);
-            this.addOffense(spell);
+            this.add(spell);
         }
     }
 
     loadEquipmentWithKey(type) {
-        console.log(Object.keys(getAllEquipments()));
         for (const equipmentID of Object.keys(getAllEquipments())) {
             const equipment = new Equipment(equipmentID, null);
-            const key = LocalStorageUtils.getObjectKey(type, equipmentID);
+            const key = LocalStorageUtils.getObjectKey(type, "offense", equipmentID);
 
             if (type === "simple") {
                 equipment.currentLevelPos = LocalStorageUtils.loadNumber(key, 0);
             } else {
                 equipment.currentLevelPos = LocalStorageUtils.loadNumber(key, equipment.currentLevelPos);
             }           
-            this.addOffense(equipment);
+            this.add(equipment);
         }
     }
 
     loadTroopWithKey(type) {
         for (const troopID of Object.keys(getAllTroops())) {
             const troop = new Troop(troopID, null);
-            const key = LocalStorageUtils.getObjectKey(type, troopID);
+            const key = LocalStorageUtils.getObjectKey(type, "offense", troopID);
 
-            troop.currentLevelPos = LocalStorageUtils.loadNumber(key, troop.currentLevelPos);          
-            this.addOffense(troop);
+            troop.currentLevelPos = LocalStorageUtils.loadNumber(key, troop.currentLevelPos);
+            if (useTroopDeathDamage) {
+                troop.damageMode = Troop.DEATH_DAMAGE;
+            }             
+            this.add(troop);
         }
     }
 
     loadRepairWithKey(type) {
         for (const repairID of Object.keys(getAllRepairs())) {
-            const repair = new Repair(repairID, null, false);
-            const key = LocalStorageUtils.getObjectKey(type, repairID);
+            const repair = new Repair(repairID, null);
+            const key = LocalStorageUtils.getObjectKey(type, "offense", repairID);
 
             repair.currentLevelPos = LocalStorageUtils.loadNumber(key, repair.currentLevelPos);          
-            this.addOffense(modifier);
+            this.add(repair);
         }
     }
 
     loadModifierWithKey(type) {
         for (const modifierID of Object.keys(getAllModifiers())) {
-            const modifier = new Modifier(modifierID, null);
-            const key = LocalStorageUtils.getObjectKey(type, modifierID);
-
+            const key = LocalStorageUtils.getObjectKey(type, "offense", modifierID);
+            const useModifierKey = LocalStorageUtils.getUseModifierKey(type, modifierID);
+            const modifier = new Modifier(modifierID, null, LocalStorageUtils.loadBoolean(useModifierKey, false));
+            
             modifier.currentLevelPos = LocalStorageUtils.loadNumber(key, modifier.currentLevelPos);          
-            this.addOffense(modifier);
-        }
-    }
-
-    loadSpell() {
-        for (const spellID of Object.keys(getAllSpells())) {
-            this.addOffense(new Spell(spellID, false, null));
-        }
-    }
-
-    loadEquipment() {
-        for (const equipmentID of Object.keys(getAllEquipments())) {         
-            this.addOffense(new Equipment(equipmentID, null));
-        }
-    }
-
-    loadTroop() {
-        for (const troopID of Object.keys(getAllTroops())) {       
-            this.addOffense(new Troop(troopID, null));
-        }
-    }
-
-    loadRepair() {
-        for (const repairID of Object.keys(getAllRepairs())) {       
-            this.addOffense(new Repair(repairID, null, false));
-        }
-    }
-
-    loadModifier() {
-        for (const modifierID of Object.keys(getAllModifiers())) {       
-            this.addOffense(new Modifier(modifierID, null));
+            this.add(modifier);
         }
     }
 
@@ -221,9 +224,9 @@ class OffenseList {
         for (const offenseID of Object.keys(getAllSpells())) {
             if (offenseID === spellID) {
                 const spell = new Spell(spellID, true, null);
-                spell.currentLevelPos = LocalStorageUtils.loadNumber(LocalStorageUtils.getObjectKeyDonated(type, spellID), spell.currentLevelPos);
+                spell.currentLevelPos = LocalStorageUtils.loadNumber(LocalStorageUtils.getObjectKeyDonated(type, "offense", spellID), spell.currentLevelPos);
 
-                this.addOffense(spell);
+                this.add(spell);
                 return;
             }            
         }
@@ -244,11 +247,15 @@ class OffenseList {
         return false;
     }
 
-    addOffense(newOffense) {
-        if (!this.contain(newOffense)) {
-            this.offenseList.push(newOffense);
+    add(newOffense) {
+        if (newOffense instanceof Offense) {
+            if (!this.contain(newOffense)) {
+                this.offenseList.push(newOffense);
+            } else {
+                throw new Error(`Offense already exist: ${newOffense}`);
+            }  
         } else {
-            throw new Error(`Offense already exist: ${newOffense}`);
-        }       
+            throw new Error(`Invalid newOffense: ${newOffense}`);
+        }            
     }
 }

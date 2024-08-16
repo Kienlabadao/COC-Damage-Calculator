@@ -89,7 +89,7 @@
                             oninput="useDonatedZapSpell(this)">
                         <label class="form-check-label h5" for="useDonatedLightning">Use donated lightning spell</label>
                     </div>
-                    <div class="d-md-flex justify-content-evenly mt-4">
+                    <div class="row row-cols-6 justify-content-evenly gap-3 mt-4">
                         <div class="offense spell text-center" data-title="lightning_spell" data-donated="false">
                             <h5>Lightning Spell</h5>
                             <div class="image-container">
@@ -102,7 +102,7 @@
                                 <input type="range" class="range" min="1" oninput="updateOffense(this)">
                             </div>
                         </div>
-                        <div class="offense spell text-center mt-3 mt-md-0 d-none" data-title="lightning_spell"
+                        <div class="offense spell text-center d-none" data-title="lightning_spell"
                             data-donated="true">
                             <h5>Lightning Spell (Donated)</h5>
                             <div class="image-container">
@@ -127,7 +127,7 @@
                                     and 3!</div>
                             </div>
                         </div>
-                        <div class="offense spell text-center mt-3 mt-md-0" data-title="earthquake_spell" data-donated="false">
+                        <div class="offense spell text-center" data-title="earthquake_spell" data-donated="false">
                             <h5>Earthquake Spell</h5>
                             <div class="image-container">
                                 <img class="image earthquake-spell-bg" height="90">
@@ -152,8 +152,8 @@
                             <option value="earthquake_boots">Earthquake Boots first</option>
                         </select>
                     </div>
-                    <div class="row row-cols-6 mt-4 justify-content-evenly">
-                        <div class="col offense equipment text-center mt-4" data-title="earthquake_boots">
+                    <div class="row row-cols-6 justify-content-evenly gap-3 mt-4">
+                        <div class="col offense equipment text-center" data-title="earthquake_boots">
                             <h5>Earthquake Boots</h5>
                             <div class="image-container">
                                 <img class="image" height="90">
@@ -165,7 +165,7 @@
                                 <input type="range" class="range" min="0" oninput="updateOffense(this)">
                             </div>
                         </div>
-                        <div class="col offense equipment text-center mt-4" data-title="spiky_ball">
+                        <div class="col offense equipment text-center" data-title="spiky_ball">
                             <h5>Spiky Ball</h5>
                             <div class="image-container epic-rarity">
                                 <img class="image" height="90">
@@ -177,7 +177,7 @@
                                 <input type="range" class="range" min="0" oninput="updateOffense(this)">
                             </div>
                         </div>
-                        <div class="col offense equipment text-center mt-4" data-title="giant_arrow">
+                        <div class="col offense equipment text-center" data-title="giant_arrow">
                             <h5>Giant Arrow</h5>
                             <div class="image-container">
                                 <img class="image" height="90">
@@ -189,7 +189,7 @@
                                 <input type="range" class="range" min="0" oninput="updateOffense(this)">
                             </div>
                         </div>
-                        <div class="col offense equipment text-center mt-4" data-title="fireball">
+                        <div class="col offense equipment text-center" data-title="fireball">
                             <h5>Fireball</h5>
                             <div class="image-container epic-rarity">
                                 <img class="image" height="90">
@@ -201,7 +201,7 @@
                                 <input type="range" class="range" min="0" oninput="updateOffense(this)">
                             </div>
                         </div>
-                        <div class="col offense equipment text-center mt-4" data-title="seeking_shield">
+                        <div class="col offense equipment text-center" data-title="seeking_shield">
                             <h5>Seeking Shield</h5>
                             <div class="image-container">
                                 <img class="image" height="90">
@@ -262,9 +262,9 @@
     <script src="/js/classes/offense/troop.js"></script>
     <script src="/js/classes/offense/modifier.js"></script>
     <script src="/js/classes/offense/repair.js"></script>
-    <script src="/js/classes/offense/offenseList.js"></script>
+    <script src="/js/classes/offense/offenseListManager.js"></script>
     <script src="/js/classes/defense/defense.js"></script>
-    <script src="/js/classes/defense/defenseList.js"></script>
+    <script src="/js/classes/defense/defenseListManager.js"></script>
     <script src="/js/classes/spell_count/spellCount.js"></script>
     <script src="/js/classes/spell_count/spellCountListManager.js"></script>
     <script src="/js/classes/offense_damage/offenseDamage.js"></script>

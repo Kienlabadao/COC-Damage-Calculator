@@ -15,30 +15,29 @@ const useDonatedZapSpellCheckbox = document.getElementById("useDonatedLightning"
 
 let maxSpellCount = 0;
 let donatedZapSpellCount = LocalStorageUtils.loadNumber(donatedZapSpellCountKey, 0);
-let eqOrder = LocalStorageUtils.loadString(eqOrderKey, [eqSpellKey, eqBootsKey], eqSpellKey);
+let eqOrder = LocalStorageUtils.loadStringInRange(eqOrderKey, [eqSpellKey, eqBootsKey], eqSpellKey);
 let useDonatedZap = LocalStorageUtils.loadBoolean(useDonatedZapSpellKey, false);
 
-const offenseList = new OffenseList();
-const defenseList = new DefenseList();
+const offenseListManager = new OffenseListManager();
+const defenseListManager = new DefenseListManager();
 
 document.addEventListener('init', () => {
   console.log(localStorage);
   maxSpellCount = getMaxSpellCount();
 
-  offenseList.loadKey(type);
-  offenseList.addDonatedSpell(zapSpellKey, type);
-  defenseList.load(type);
-  console.log(offenseList);
+  offenseListManager.loadKey(type);
+  offenseListManager.addDonatedSpell(zapSpellKey, type);
+  defenseListManager.loadKey(type);
 
   if (!devMode) {
-    for (const defense of defenseList.defenseList) {
+    for (const defense of defenseListManager.getDefenseList()) {
       loadDefense(defense);
     }
   }
-  for (const spell of offenseList.getSpellList()) {
+  for (const spell of offenseListManager.getSpellList()) {
     loadSpell(spell);
   }
-  for (const equipment of offenseList.getEquipmentList()) {
+  for (const equipment of offenseListManager.getEquipmentList()) {
     loadEquipment(equipment);
   }
   updateEquipmentUsed();
@@ -70,7 +69,6 @@ function loadSpell(spell) {
     offenseDivs.forEach((offenseDiv) => {
       if (getDataTitle(offenseDiv) === spellID && getDataDonated(offenseDiv) === isDonated) {
         const overlayDiv = offenseDiv.querySelector(".overlay");       
-        const key = isDonated ? LocalStorageUtils.getObjectKeyDonated(type, spellID) : LocalStorageUtils.getObjectKey(type, spellID);
 
         offenseDiv.querySelector(".level-number").textContent = spell.getCurrentLevel();
         offenseDiv.querySelector(".image").src = imagePath;
@@ -102,7 +100,6 @@ function loadEquipment(equipment) {
     offenseDivs.forEach((offenseDiv) => {
       if (getDataTitle(offenseDiv) === equipmentID) {
         const overlayDiv = offenseDiv.querySelector(".overlay");
-        const key = LocalStorageUtils.getObjectKey(type, equipmentID);
   
         offenseDiv.querySelector(".level-number").textContent = equipment.getCurrentLevel();
         offenseDiv.querySelector(".image").src = imagePath;

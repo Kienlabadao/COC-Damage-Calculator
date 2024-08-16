@@ -4,8 +4,8 @@ function updateDefense(element) {
     if (defenseDiv) {
         const levelNumberSpan = defenseDiv.querySelector(".level");
         const defenseID = getDataTitle(defenseDiv);
-        const defense = defenseList.getDefense(defenseID);
-        const key = LocalStorageUtils.getObjectKey(type, defenseID);
+        const defense = defenseListManager.getDefense(defenseID);
+        const key = LocalStorageUtils.getObjectKey(type, "defense", defenseID);
        
         const currentLevelPos = Number.parseInt(element.value);       
         defense.currentLevelPos = currentLevelPos;
@@ -35,11 +35,11 @@ function updateOffense(element) {
         if (offenseDiv.classList.contains("spell")) {
             const isDonated = getDataDonated(offenseDiv);
 
-            offense = offenseList.getSpell(offenseID, isDonated);
-            key = isDonated ? LocalStorageUtils.getObjectKeyDonated(type, offenseID) : LocalStorageUtils.getObjectKey(type, offenseID);
+            offense = offenseListManager.getSpell(offenseID, isDonated);
+            key = isDonated ? LocalStorageUtils.getObjectKeyDonated(type, "offense", offenseID) : LocalStorageUtils.getObjectKey(type, "offense", offenseID);
         } else if (offenseDiv.classList.contains("equipment")) {
-            offense = offenseList.getEquipment(offenseID);
-            key = LocalStorageUtils.getObjectKey(type, offenseID);
+            offense = offenseListManager.getEquipment(offenseID);
+            key = LocalStorageUtils.getObjectKey(type, "offense", offenseID);
         } else {
             throw new Error(`ERROR: Div did not contain appropriate type: ${offenseDiv.classList}`);
         }
@@ -116,7 +116,7 @@ function updateEQOrder(element) {
 function updateEquipmentUsed() {
     const equipmentDivList = [];
 
-    for (const offense of offenseList.getEquipmentList()) {
+    for (const offense of offenseListManager.getEquipmentList()) {
         if (!offense.isMinLevel()) {
             equipmentDivList.push(createEquipmentDiv(offense));
         }
@@ -128,12 +128,12 @@ function updateEquipmentUsed() {
         defenseDivs.forEach((defenseDiv) => {        
             const equipmentListDiv = defenseDiv.querySelector(".equipment-list");
             const equipmentDiv = defenseDiv.querySelector(".equipment-div");
-            const defense = defenseList.getDefense(getDataTitle(defenseDiv));
+            const defense = defenseListManager.getDefense(getDataTitle(defenseDiv));
 
             removeAllChilds(equipmentListDiv)
             for (const equipmentDiv of equipmentDivList) {
                 const equipmentNode = equipmentDiv.cloneNode(true);
-                const equipment = offenseList.getEquipment(getDataTitle(equipmentNode));
+                const equipment = offenseListManager.getEquipment(getDataTitle(equipmentNode));
 
                 if (defense.isImmune(equipment)) {
                     equipmentNode.classList.add("immune");

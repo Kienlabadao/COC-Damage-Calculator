@@ -89,7 +89,6 @@ main {
     position: relative;
     display: inline-block;   
     background-color: rgb(85, 151, 250);
-    border: 1px solid rgb(0, 102, 255);
     border-radius: 10px;
 }
 
@@ -107,14 +106,25 @@ main {
     border-radius: 7px;
 }
 
-.overlay-top-right {
+.overlay-top-left {
     position: absolute;
     bottom: 60px;
     left: 5px;
 }
 
-.overlay-top-right img {
+.overlay-top-left img {
     border-radius: 5px;
+}
+
+.overlay-top-right {
+    position: absolute;
+    bottom: 60px;
+    left: 60px;
+    background-color: hsl(27, 100%, 50%);
+    width: 25px;
+    height: 25px;
+    color: white;
+    border-radius: 7px;
 }
 
 .overlay-equipment {
@@ -123,13 +133,15 @@ main {
     padding: 2px 6px;
 }
 
-.level-number {
+.level-number, .action-order {
     font-size: 16px;
     font-weight: bold;
 }
 
 .offense {
     width: 230px;
+    padding: 20px;
+    border-radius: 20px;
 }
 
 .offense-range input {
@@ -138,9 +150,9 @@ main {
 
 /* Card Container */
 .card-container {
-    height: 82px;
-    width: 52px;
-    border-radius: 5px;
+    height: 80px;
+    width: 50px;
+    border-radius: 7px;
 }
 
 .card-container-no-count {
@@ -183,12 +195,10 @@ main {
 /* Variance & Utilities */
 .immune {
     background-color: rgb(255, 70, 70);
-    border: 1px solid rgb(150, 0, 0)
 }
 
 .epic-rarity {
     background-color: rgb(191, 0, 255);
-    border: 1px solid rgb(68, 0, 116);
 }
 
 .raged {
@@ -303,8 +313,6 @@ main {
     width: 15px;
     border-radius: 50%;
     background-color: hsl(0, 0%, 100%);
-    border: 2px solid hsl(215, 14%, 34%); 
-    box-shadow: -407px 0 0 400px hsl(215, 14%, 34%); 
 }
 
 .range::-moz-range-thumb {
@@ -312,8 +320,6 @@ main {
     width: 15px;
     border-radius: 50%;
     background-color: hsl(0, 0%, 100%);
-    border: 2px solid hsl(215, 14%, 34%); 
-    box-shadow: -407px 0 0 400px hsl(215, 14%, 34%); 
 }
 
 .range::-moz-range-track {
@@ -337,12 +343,9 @@ main {
     width: 15px;
     border-radius: 50%;
     background-color: hsl(0, 0%, 100%);
-    border: 2px solid hsl(215, 14%, 34%);
-    box-shadow: -407px 0 0 400px hsl(215, 14%, 34%);
 }
 
 .range::-ms-fill-lower {
-    background: hsl(215, 14%, 34%);
     border-radius: 16px;
 }
 

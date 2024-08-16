@@ -62,11 +62,11 @@ class Defense {
 
     setImmuneList() {
         this.immuneList = [];
-        const offenseList = new OffenseList();
-        offenseList.load();
+        const offenseListManager = new OffenseListManager();
+        offenseListManager.load();
 
         for (const offenseID of this.defenseJSON["immune"]) {
-            this.immuneList.push(offenseList.getOffense(offenseID));
+            this.immuneList.push(offenseListManager.getOffense(offenseID));
         }
     }
 

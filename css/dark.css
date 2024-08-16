@@ -55,3 +55,32 @@ footer {
 .navbar-text {
     text-shadow: none;
 }
+
+.offense {
+    background-color: hsl(215, 14%, 34%);
+    box-shadow: 0 3px 10px hsl(215, 14%, 34%);
+}
+
+input[type="checkbox"]:checked {
+    background-color: hsl(215, 28%, 17%);
+    border-color: hsl(215, 28%, 17%);
+}
+
+.range::-webkit-slider-thumb {
+    border: 2px solid hsl(215, 28%, 17%);
+    box-shadow: -407px 0 0 400px hsl(215, 28%, 17%);
+}
+
+.range::-moz-range-thumb {
+    border: 2px solid hsl(215, 28%, 17%);
+    box-shadow: -407px 0 0 400px hsl(215, 28%, 17%);
+}
+
+.range::-ms-thumb {
+    border: 2px solid hsl(215, 28%, 17%);
+    box-shadow: -407px 0 0 400px hsl(215, 28%, 17%);
+}
+
+.range::-ms-fill-lower {
+    background: hsl(215, 28%, 17%);
+}

@@ -9,7 +9,7 @@ function calc() {
 function calcDirectEquipmentDamage() {
     let equipmentDamage = 0;
 
-    for (const equipment of offenseList.getEquipmentList()) {
+    for (const equipment of offenseListManager.getEquipmentList()) {
         if (!equipment.isDamageTypeEQ()) {
             equipmentDamage += equipment.getCurrentDamage();
         }
@@ -24,7 +24,7 @@ function canEquipmentDestroy(defense) {
         let hp = maxHP - directEquipmentDamage;
         let eqCount = 0;
         
-        for (const equipment of offenseList.getEquipmentList()) {
+        for (const equipment of offenseListManager.getEquipmentList()) {
             if (equipment.isDamageTypeEQ() && !defense.isImmune(equipment)) {
                 hp = equipment.calcRemainingHP(hp, maxHP, eqCount);
                 eqCount++;
@@ -38,7 +38,7 @@ function canEquipmentDestroy(defense) {
 
 function calcDefense(defenseDiv) {
     const defenseID = getDataTitle(defenseDiv);
-    const defense = defenseList.getDefense(defenseID);
+    const defense = defenseListManager.getDefense(defenseID);
     if (defense === null) {
         throw new Error(`Invalid defenseID: ${defenseID}`);
     }
@@ -126,13 +126,13 @@ function getSpellCountLists(defense) {
 function getOffenseOrderList(maxEQSpellCount, defense) {
     if (defense instanceof Defense) {
         const offenseOrderList = [];
-        const eqBoots = offenseList.getEquipment(eqBootsKey);
-        const eqSpell = offenseList.getSpell(eqSpellKey, false);
-        const donatedZapSpell = offenseList.getSpell(zapSpellKey, true);
-        const zapSpell = offenseList.getSpell(zapSpellKey, false);
+        const eqBoots = offenseListManager.getEquipment(eqBootsKey);
+        const eqSpell = offenseListManager.getSpell(eqSpellKey, false);
+        const donatedZapSpell = offenseListManager.getSpell(zapSpellKey, true);
+        const zapSpell = offenseListManager.getSpell(zapSpellKey, false);
         let spellCount = 0;
 
-        for (const equipment of offenseList.getEquipmentList()) {
+        for (const equipment of offenseListManager.getEquipmentList()) {
             if (!equipment.isDamageTypeEQ()) {
                 offenseOrderList.push(equipment);
             }

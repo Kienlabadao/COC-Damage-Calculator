@@ -32,6 +32,26 @@ function getDataString(dataDiv, attribute) {
     return dataDiv.getAttribute(attribute);
 }
 
+function setDataTitle(dataDiv, value) {
+    return setDataString(dataDiv, "data-title", value);
+}
+
+function setDataDonated(dataDiv, value) {
+    return setDataString(dataDiv, "data-donated", value);
+}
+
+function clearDataTitle(dataDiv) {
+    return setDataString(dataDiv, "data-title", "");
+}
+
+function clearDataDonated(dataDiv) {
+    return setDataString(dataDiv, "data-donated", "");
+}
+
+function setDataString(dataDiv, attribute, value) {
+    return dataDiv.setAttribute(attribute, value);
+}
+
 function getDataBoolean(dataDiv, attribute) {
     const boolean = dataDiv.getAttribute(attribute);
     if (boolean === "true" || boolean === "false") {

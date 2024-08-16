@@ -40,3 +40,32 @@ footer {
 .status-fail {
     color: hsl(0, 100%, 35%);
 }
+
+.offense {
+    background-color: hsl(220, 13%, 91%);
+    box-shadow: 0 3px 10px hsl(0, 0%, 80%);
+}
+
+input[type="checkbox"]:checked {
+    background-color: hsl(215, 14%, 34%);
+    border-color: hsl(215, 14%, 34%);
+}
+
+.range::-webkit-slider-thumb {
+    border: 2px solid hsl(215, 14%, 34%);
+    box-shadow: -407px 0 0 400px hsl(215, 14%, 34%);
+}
+
+.range::-moz-range-thumb {
+    border: 2px solid hsl(215, 14%, 34%);
+    box-shadow: -407px 0 0 400px hsl(215, 14%, 34%);
+}
+
+.range::-ms-thumb {
+    border: 2px solid hsl(215, 14%, 34%);
+    box-shadow: -407px 0 0 400px hsl(215, 14%, 34%);
+}
+
+.range::-ms-fill-lower {
+    background: hsl(215, 14%, 34%);
+}

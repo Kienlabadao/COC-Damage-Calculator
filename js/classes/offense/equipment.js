@@ -86,6 +86,10 @@ class Equipment extends Offense {
         return `/images/offense/equipments/${this.offenseID}.webp`;
     }
 
+    clone() {
+        return new Equipment(this.offenseID, this.currentLevelPos);
+    }
+
     setSortedDamageList() {
         this.damageList = Object.entries(this.offenseJSON["damage"]).sort(([, valueA], [, valueB]) => valueA - valueB);
     }

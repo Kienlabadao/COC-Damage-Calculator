@@ -3,13 +3,11 @@ class Repair extends Offense {
     static LEVEL_POS = 0;
     static REPAIR_POS = 1;
 
-    constructor(offenseID, currentLevelPos, isRaged = false) {
+    constructor(offenseID, currentLevelPos) {
         super(offenseID, "repair");
         this.setSortedRepairList();
-        this.rageTowerModify = this.offenseJSON["rage_tower_modify"];
         this.maxLevelPos = this.repairList.length - 1;
         this.currentLevelPos = currentLevelPos;
-        this.isRaged = isRaged;
     }
 
     getLevel(levelPos) {
@@ -32,12 +30,12 @@ class Repair extends Offense {
         return this.getRepair(this.currentLevelPos);
     }
 
-    calcRepair() {
-        return this.isRaged ? this.getCurrentRepair() * this.rageTowerModify / 100 : this.getCurrentRepair();  
+    calcRepair(modify = 0) {
+        return this.getCurrentRepair() + (this.getCurrentRepair() * modify / 100);  
     }
 
-    calcRemainingHP(hp) {
-        return hp + this.calcDamage();
+    calcRemainingHP(hp, modify = 0) {
+        return hp + this.calcDamage(modify);
     }
 
     isMaxLevel() {
@@ -56,12 +54,11 @@ class Repair extends Offense {
     }
 
     getImagePath() {
-        switch(this.repairType) {
-            case "normal":
-                return `/images/offense/repairs/${this.offenseID}/${this.getCurrentLevel()}.webp`;
-            case "super":
-                return `/images/offense/repairs/super_repairs/${this.offenseID}/${this.offenseID}.webp`;
-        }       
+        return `/images/offense/repairs/${this.offenseID}/${this.getCurrentLevel()}.webp`;    
+    }
+
+    clone() {
+        return new Repair(this.offenseID, this.currentLevelPos);
     }
 
     setSortedRepairList() {
@@ -73,7 +70,6 @@ class Repair extends Offense {
             if (typeof newCurrentLevelPos !== "number") {
                 throw new Error(`Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`);
             }
-
             if (this.repairList[newCurrentLevelPos] !== undefined) {
                 this._currentLevelPos = newCurrentLevelPos;
             } else {
@@ -84,19 +80,7 @@ class Repair extends Offense {
         }
     }
 
-    set isRaged(newIsRaged) {
-        if (typeof newIsRaged === "boolean") {
-            this._isRaged = newIsRaged;
-        } else {
-            throw new Error(`Invalid isRaged: ${newIsRaged}`)
-        }
-    }
-
     get currentLevelPos() {
         return this._currentLevelPos;
-    }
-
-    get isRaged() {
-        return this._isRaged;
     }
  }
