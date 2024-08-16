@@ -358,6 +358,14 @@ main {
 #scrollUpBtn {
     width: 50px;
     height: 50px;
+    bottom: 22%;
+    right: 0;
+    border-radius: 10px 0 0 10px;
+}
+
+#scrollDownBtn {
+    width: 50px;
+    height: 50px;
     bottom: 15%;
     right: 0;
     border-radius: 10px 0 0 10px;
