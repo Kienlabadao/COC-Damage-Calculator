@@ -41,7 +41,7 @@ footer {
     color: hsl(0, 100%, 35%);
 }
 
-.offense {
+.offense, .modifier-card {
     background-color: hsl(220, 13%, 91%);
     box-shadow: 0 3px 10px hsl(0, 0%, 80%);
 }
@@ -51,21 +51,21 @@ input[type="checkbox"]:checked {
     border-color: hsl(215, 14%, 34%);
 }
 
-.range::-webkit-slider-thumb {
+.range-theme::-webkit-slider-thumb {
     border: 2px solid hsl(215, 14%, 34%);
     box-shadow: -407px 0 0 400px hsl(215, 14%, 34%);
 }
 
-.range::-moz-range-thumb {
+.range-theme::-moz-range-thumb {
     border: 2px solid hsl(215, 14%, 34%);
     box-shadow: -407px 0 0 400px hsl(215, 14%, 34%);
 }
 
-.range::-ms-thumb {
+.range-theme::-ms-thumb {
     border: 2px solid hsl(215, 14%, 34%);
     box-shadow: -407px 0 0 400px hsl(215, 14%, 34%);
 }
 
-.range::-ms-fill-lower {
+.range-theme::-ms-fill-lower {
     background: hsl(215, 14%, 34%);
 }

@@ -1,8 +1,13 @@
-const devMode = true;
+const devMode = false;
 const type = "advance";
 
 const deathDamageImage = "/images/other/death.webp";
+const attackImage = "/images/other/attack.webp";
+const repairImage = "/images/other/repair.webp";
+const eqIcon = "/images/other/earthquake_icon.webp";
+
 const rageSpellTowerKey = "rage_spell_tower";
+const hideDestroyedDefensesKey = "hideDestroyedDefenses";
 
 const defensesSection = document.getElementById("defenses");
 const offensesSection = document.getElementById("offenses");
@@ -10,13 +15,17 @@ const spellDivs = offensesSection.querySelectorAll(".offense.spell");
 const equipmentDivs = offensesSection.querySelectorAll(".offense.equipment");
 const troopDivs = offensesSection.querySelectorAll(".offense.troop");
 const repairDivs = offensesSection.querySelectorAll(".offense.repair");
-const modifierDivs = offensesSection.querySelectorAll(".offense.modifier");
+const modifierDivs = offensesSection.querySelectorAll(".modifier");
 const actionListDiv = document.getElementById("actionList");
 const useTroopDeathDamageCheckbox = document.getElementById("useTroopDeathDamage");
+const hideDestroyedDefensesCheckbox = document.getElementById("hideDestroyedDefenses");
+const searchDefenseBox = document.getElementById("searchDefense");
 
 let useTroopDeathDamage = LocalStorageUtils.loadBoolean(LocalStorageUtils.getUseTroopDeathDamageKey(type), false);
+let hideDestroyedDefenses = LocalStorageUtils.loadBoolean(hideDestroyedDefensesKey, false);
 
 const offenseListManager = new OffenseListManager();
+const modifierListManager = new ModifierListManager();
 const defenseListManager = new DefenseListManager();
 const actionListManager = new ActionListManager();
 
@@ -24,7 +33,9 @@ document.addEventListener('init', () => {
   console.log(localStorage);
 
   offenseListManager.loadKey(type);
+  modifierListManager.loadKey(type);
   defenseListManager.loadKey(type);
+  console.log(offenseListManager);
 
   if (!devMode) {
     for (const defense of defenseListManager.getDefenseList()) {
@@ -40,14 +51,15 @@ document.addEventListener('init', () => {
   for (const troop of offenseListManager.getTroopList()) {
     loadTroop(troop);
   }
-  for (const modifier of offenseListManager.getModifierList()) {
-    loadModifier(modifier);
-  }
   for (const repair of offenseListManager.getRepairList()) {
     loadRepair(repair);
   }
+  for (const modifier of modifierListManager.getModifierList()) {
+    loadModifier(modifier);
+  }
 
   useTroopDeathDamageCheckbox.checked = useTroopDeathDamage;
+  hideDestroyedDefensesCheckbox.checked = hideDestroyedDefenses;
 
   updateOverlay();
   hideActionList();
@@ -153,7 +165,7 @@ function loadModifier(modifier) {
     const currentLevelPos = modifier.currentLevelPos;
     const maxLevelPos = modifier.maxLevelPos;
     const minLevelPos = 1;
-    
+    console.log(modifier);
     modifierDivs.forEach((modifierDiv) => {
       if (getDataTitle(modifierDiv) === modifierID) {
         const overlayDiv = modifierDiv.querySelector(".overlay");
@@ -211,36 +223,7 @@ function loadRepair(repair) {
 
 function loadDefense(defense) {
   if (defense instanceof Defense) {
-    const defenseID = defense.defenseID;
-    const name = defense.name;
-    const imagePath = defense.getImagePath();
-    const currentLevelPos = defense.currentLevelPos;
-    const maxLevelPos = defense.maxLevelPos;
-    const minLevelPos = 0;
-    const hp = defense.getCurrentHP();
-
-    // Update Value on defenseDiv
-    const defenseDiv = createDefenseDiv();
-    defenseDiv.setAttribute("data-title", defenseID);
-    defenseDiv.querySelector(".image").setAttribute('src', imagePath);
-    defenseDiv.querySelector(".name").textContent = `${name} `;
-    defenseDiv.querySelector(".hp").textContent = hp;
-    const levelSpan = defenseDiv.querySelector(".level");
-    levelSpan.textContent = defense.getCurrentLevel();
-    if (defense.isMaxLevel()) {
-      levelSpan.className = 'level maxed-text';
-    }
-    const rangeInput = defenseDiv.querySelector(".range");
-    rangeInput.setAttribute('min', minLevelPos);
-    rangeInput.setAttribute('max', maxLevelPos);
-    rangeInput.setAttribute('value', currentLevelPos);
-    const button = defenseDiv.querySelector(".show-more-button");
-    button.setAttribute('data-bs-target', `#showMore-${defenseID}`);
-    button.setAttribute('aria-controls', `showMore-${defenseID}`);
-    const showMoreDiv = defenseDiv.querySelector(".spell-display");
-    showMoreDiv.id = `showMore-${defenseID}`;
-
-    defensesSection.appendChild(defenseDiv);
+    defensesSection.appendChild(createDefenseDiv(defense));
   } else {
     throw new Error(`Invalid defense: ${defense}`);
   }

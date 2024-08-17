@@ -21,7 +21,7 @@ function updateDefense(element) {
         defenseDiv.querySelector(".image").src = imagePath;
         defenseDiv.querySelector(".hp").textContent = defense.getCurrentHP();   
     }
-    // calcDefense(defenseDiv);
+    calcDefense(defenseDiv);
 }
 
 function updateOffense(element) {
@@ -44,6 +44,28 @@ function updateOffense(element) {
         offenseDiv.querySelector(".level-number").textContent = offense.getCurrentLevel();
         offenseDiv.querySelector(".image").src = offense.getImagePath();
     }
+}
+
+function updateModifier(element) {
+    const modifierDiv = getParentDiv(element, "modifier");
+    
+    if (modifierDiv) {
+        const overlayDiv = modifierDiv.querySelector(".overlay");
+        const modifierID = getDataTitle(modifierDiv);
+        const modifier = modifierListManager.getModifier(modifierID);
+        const key = LocalStorageUtils.getObjectKey(type, "offense", modifierID);       
+        const currentLevelPos = Number.parseInt(element.value);
+
+        modifier.currentLevelPos = currentLevelPos;
+        LocalStorageUtils.saveNumber(key, currentLevelPos);
+        if (modifier.isMaxLevel()) {
+            addMaxedClass(overlayDiv);
+        } else {
+            addNotMaxedClass(overlayDiv);
+        }
+        modifierDiv.querySelector(".level-number").textContent = modifier.getCurrentLevel();
+        modifierDiv.querySelector(".image").src = modifier.getImagePath();
+    }
     updateOverlay();
 }
 
@@ -52,12 +74,18 @@ function toggleUseModifer(element) {
     const modifierID = getDataTitle(modifierDiv);
     const useModifier = element.checked;
     const useModifierKey = LocalStorageUtils.getUseModifierKey(type, modifierID);
-    const modifier = offenseListManager.getModifier(modifierID);
+    const modifier = modifierListManager.getModifier(modifierID);
 
     LocalStorageUtils.saveBoolean(useModifierKey, useModifier);
     modifier.isActive = useModifier;
 
     updateOverlay();
+}
+
+function toggleHideDestroyedDefenses(element) {
+    hideDestroyedDefenses = element.checked;
+    LocalStorageUtils.saveBoolean(hideDestroyedDefensesKey, hideDestroyedDefenses);
+    toggleDefenseDivVisibility();
 }
 
 function toggleUseTroopDeathDamage(element) {
@@ -87,8 +115,6 @@ function updateOverlay() {
 function updateTroopDivOverlay(troopDiv) {
     const troopID = getDataTitle(troopDiv);
     const troop = offenseListManager.getTroop(troopID);
-    const modifierListManager = new ModifierListManager;
-    modifierListManager.loadModifier(offenseListManager.getModifierList());
     const troopModifierListManager = modifierListManager.getActiveTroopModifierListManager();
     const overlayDiv = troopDiv.querySelector(".overlay-top-left");
     removeAllChilds(overlayDiv);
@@ -112,8 +138,6 @@ function updateTroopDivOverlay(troopDiv) {
 }
 
 function updateRepairDivOverlay(repairDiv) {
-    const modifierListManager = new ModifierListManager;
-    modifierListManager.loadModifier(offenseListManager.getModifierList());
     const repairModifierListManager = modifierListManager.getActiveRepairModifierListManager();
     const overlayDiv = repairDiv.querySelector(".overlay-top-left");
     removeAllChilds(overlayDiv);
@@ -141,9 +165,9 @@ function addAction(element) {
         const modifierID = getDataTitle(modifierOverlayDiv);
 
         if (modifierID.length !== 0 && modifierID !== "death") {
-            const modifier = offenseListManager.getModifier(modifierID);
+            const modifier = modifierListManager.getModifier(modifierID);
     
-            addActionList(amount, offense, modifier);          
+            addActionList(amount, offense, modifier);     
         } else {
             addActionList(amount, offense);        
         }
@@ -151,6 +175,7 @@ function addAction(element) {
         addActionList(amount, offense);
     }
     updateActionListDiv();
+    calc();
 }
 
 function removeAction(element) {
@@ -163,6 +188,7 @@ function removeAction(element) {
         actionListManager.removeCount(Number.parseInt(amount));
         updateActionListDiv();
     }
+    calc();
 }
 
 function addActionList(amount, offense, modifier = null) {
@@ -207,4 +233,25 @@ function showActionList() {
 
     showDiv(showActionListButton);
     showDiv(showActionList);
+}
+
+function toggleDefenseDivVisibility() {
+    const defensesDiv = defensesSection.querySelectorAll('.defense');
+    
+    if (hideDestroyedDefenses) {
+        defensesDiv.forEach((defenseDiv) => {
+            const isDestroyed = !getDataDefenseStatus(defenseDiv);
+
+            if (isDestroyed) {
+                hideDiv(defenseDiv);               
+            } else {
+                showDiv(defenseDiv);
+            }
+        });
+    } else {
+        defensesDiv.forEach((defenseDiv) => {
+            showDiv(defenseDiv);
+        });   
+    }
+    searchDefenses(searchDefenseBox);
 }

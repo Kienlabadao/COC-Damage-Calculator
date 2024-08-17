@@ -31,14 +31,6 @@ class Troop extends Offense {
         return this.damageList[levelPos][Troop.DAMAGE_POS];
     }
 
-    getCurrentDamage() {
-        return this.getDamage(this.currentLevelPos);
-    }
-
-    calcDamage(modify = 0) {
-        return this.getCurrentDamage() + (this.getCurrentDamage() * modify / 100);  
-    }
-
     getDeathDamage(levelPos) {
         if (this.canDealDeathDamage()) {
             return this.deathDamageList[levelPos][Troop.DAMAGE_POS];
@@ -48,23 +40,34 @@ class Troop extends Offense {
         }       
     }
 
-    getCurrentDeathDamage() {
-        return this.getDeathDamage(this.currentLevelPos);
-    }
-
-    calcDeathDamage() {
-        return this.getCurrentDamage();;  
-    }
-
-    calcRemainingHP(hp, damageType = Troop.DAMAGE, modify = 0) {
-        switch (damageType) {
+    getCurrentDamage() {
+        switch (this.damageMode) {
             case Troop.DAMAGE:
-                return hp - this.calcDamage(modify);
+                return this.getDamage(this.currentLevelPos);
             case Troop.DEATH_DAMAGE:
-                return hp - this.calcDeathDamage();
+                return this.getDeathDamage(this.currentLevelPos);
             default:
                 throw new Error();
         }
+    }
+
+    calcModify(modify = 0) {
+        return this.getCurrentDamage() * modify / 100;
+    }
+
+    calcDamage(modify = 0) {
+        switch (this.damageMode) {
+            case Troop.DAMAGE:
+                return this.getCurrentDamage() + this.calcModify(modify);
+            case Troop.DEATH_DAMAGE:
+                return this.getDeathDamage(this.currentLevelPos);
+            default:
+                throw new Error();
+        }
+    }
+
+    calcRemainingHP(hp, modify = 0) {
+        return hp - this.calcDamage(modify);
     }
 
     isMaxLevel() {
@@ -133,13 +136,16 @@ class Troop extends Offense {
         switch(newDamageMode) {
             case Troop.DAMAGE:
                 this._damageMode = newDamageMode;
+                break;
             case Troop.DEATH_DAMAGE:
                 if (this.canDealDeathDamage()) {
                     this._damageMode = newDamageMode;
                 } else {
-                    throw new Error(`Invalid damageMode: ${newDamageMode}`);
+                    throw new Error(`Troop cannot deal death damage: ${offenseID}`);
                 }
-            default:   
+                break;
+            default:
+                throw new Error(`Invalid damageMode: ${newDamageMode}`); 
         }
     }
 

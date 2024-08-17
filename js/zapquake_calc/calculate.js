@@ -102,7 +102,7 @@ function getSpellCountLists(defense) {
             const offenseDamageListManager = new OffenseDamageListManager();
             const spellCountListManager = new SpellCountListManager();
 
-            offenseDamageListManager.load(defense, getOffenseOrderList(maxEQSpellCount, defense));
+            offenseDamageListManager.loadWithOffenseOrderList(defense, getOffenseOrderList(maxEQSpellCount, defense));
             const offenseDamage = offenseDamageListManager.getLast();
             if (offenseDamage instanceof OffenseDamage && offenseDamage.remainingHP <= 0) {
                 spellCountListManager.load(offenseDamageListManager);

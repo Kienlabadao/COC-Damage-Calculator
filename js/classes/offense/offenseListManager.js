@@ -1,4 +1,5 @@
 class OffenseListManager {
+
     constructor() {
         this.offenseList = [];
     }
@@ -7,7 +8,6 @@ class OffenseListManager {
         this.loadSpell(); 
         this.loadEquipment();
         this.loadTroop();
-        this.loadModifier();
         this.loadRepair();
     }
     
@@ -21,7 +21,6 @@ class OffenseListManager {
                 this.loadSpellWithKey(type); 
                 this.loadEquipmentWithKey(type);
                 this.loadTroopWithKey(type);
-                this.loadModifierWithKey(type);
                 this.loadRepairWithKey(type);
         }
     }
@@ -47,12 +46,6 @@ class OffenseListManager {
     loadRepair() {
         for (const repairID of Object.keys(getAllRepairs())) {       
             this.add(new Repair(repairID, null));
-        }
-    }
-
-    loadModifier() {
-        for (const modifierID of Object.keys(getAllModifiers())) {       
-            this.add(new Modifier(modifierID, null, false));
         }
     }
 
@@ -152,15 +145,6 @@ class OffenseListManager {
         return null;
     }
 
-    getModifier(modifierID) {
-        for (const modifier of this.getModifierList()) {
-            if (modifier.offenseID === modifierID) {
-                return modifier;
-            }
-        }
-        return null;
-    }
-
     getRepair(repairID) {
         for (const repair of this.getRepairList()) {
             if (repair.offenseID === repairID) {
@@ -198,16 +182,6 @@ class OffenseListManager {
             }
         }
         return troopList;
-    }
-
-    getModifierList() {
-        const modifierList = [];
-        for (const offense of this.offenseList) {
-            if (offense instanceof Modifier) {
-                modifierList.push(offense);
-            }
-        }
-        return modifierList;
     }
 
     getRepairList() {

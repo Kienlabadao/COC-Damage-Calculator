@@ -3,9 +3,11 @@ class Spell extends Offense {
     constructor(offenseID, isDonated, currentLevelPos) {
         super(offenseID, "spell");
         this.isDonated = isDonated;
-        this.damageType = this.offenseJSON["damage_type"];
         this.maxLevelPos = this.getDamageList().length - 1;
         this.currentLevelPos = currentLevelPos;
+        if (this.isDamageTypeEQ()) {
+            this.eqCount = 0;
+        }
     }
 
     getLevel(levelPos) {
@@ -28,25 +30,29 @@ class Spell extends Offense {
         return this.getDamage(this.currentLevelPos);
     }
 
+    calcBaseEQDamage(maxHP) {
+        if (this.isDamageTypeEQ()) {
+            return maxHP * this.getCurrentDamage() / 100;
+        } else {
+            throw new Error(`Spell isn't EQ type: ${this.offenseID}`);
+        }
+    }
+
     calcDamage(maxHP) {
         switch (this.damageType) {
             case "direct":
                 return this.getCurrentDamage();
             case "earthquake":
-                return maxHP * this.getCurrentDamage() / 100;
+                return this.calcBaseEQDamage(maxHP) * (1 / (2 * this.eqCount + 1));            
         }      
     }
-
-    calcRemainingHP(hp, maxHP, eqCount) {
+ 
+    calcRemainingHP(hp, maxHP) {
         switch (this.damageType) {
             case "direct":
                 return hp - this.calcDamage();
             case "earthquake":
-                if (maxHP !== undefined && eqCount !== undefined && eqCount >= 0) {
-                    return hp - this.calcDamage(maxHP) * (1 / (2 * eqCount + 1));
-                } else {
-                    throw new Error(`Invalid maxHp: ${maxHP} & eqCount: ${eqCount}`);
-                }                
+                return hp - this.calcDamage(maxHP);               
         }  
         
     }
@@ -57,10 +63,6 @@ class Spell extends Offense {
 
     isMinLevel() {
         return this.getLevel(0) === this.getCurrentLevel();
-    }
-
-    isDamageTypeEQ() {
-        return this.damageType === "earthquake";
     }
 
     compare(compareSpell) {
@@ -102,11 +104,31 @@ class Spell extends Offense {
         }
     }
 
+    set eqCount(newEqCount) {
+        if (this.isDamageTypeEQ()) {
+            if (typeof newEqCount === "number" && newEqCount >= 0) {
+                this._eqCount = newEqCount;
+            } else {
+                throw new Error(`Invalid eqCount: ${eqCount}`);
+            }
+        } else {
+            throw new Error(`Equipment isn't EQ type: ${this.offenseID}`);
+        }
+    }
+
     get isDonated() {
         return this._isDonated;
     }
 
     get currentLevelPos() {
         return this._currentLevelPos;
+    }
+
+    get eqCount() {
+        if (this.isDamageTypeEQ()) {
+            return this._eqCount;
+        } else {
+            throw new Error(`Equipment isn't EQ type: ${this.offenseID}`);
+        }
     }
 }

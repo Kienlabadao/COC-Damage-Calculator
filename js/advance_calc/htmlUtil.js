@@ -75,298 +75,353 @@ function createOverlayImage(imagePath) {
     return overlayImage;
 }
 
-function createSpellNodeArray(spellCountListManager) {
-    if (spellCountListManager instanceof SpellCountListManager) {
-        const nodeArray = [];
-        const amountDiv = document.createElement('div');
-        const normalDiv = document.createElement('div');
+function createDefenseDiv(defense) {
+    if (defense instanceof Defense) {
+        const defenseID = defense.defenseID;
+        const name = defense.name;
+        const imagePath = defense.getImagePath();
+        const currentLevelPos = defense.currentLevelPos;
+        const maxLevelPos = defense.maxLevelPos;
+        const minLevelPos = 0;
+        const hp = defense.getCurrentHP();
 
-        for (const spellCount of spellCountListManager.spellCountList) {
-            nodeArray.push(createSpellDiv(spellCount.spell, spellCount.count));
-        } 
+        const defenseDiv = document.createElement('div');
+        defenseDiv.className = 'defense';
+        setDataTitle(defenseDiv, defenseID);
+        setDataDefenseStatus(defenseDiv, true);
+
+        // Create the nested structure inside the main container
+        const borderDiv = document.createElement('div');
+        borderDiv.className = 'p-3 col-12 h-100 rounded-border shadow card-background';
+        defenseDiv.appendChild(borderDiv);
+
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'd-flex align-items-center';
+        borderDiv.appendChild(titleDiv);
+
+        const imgDiv = document.createElement('div');
+        titleDiv.appendChild(imgDiv);
+
+        const img = document.createElement('img');
+        img.className = 'image';
+        img.src = imagePath;
+        img.height = 80;
+        imgDiv.appendChild(img);
+
+        const textDiv = document.createElement('div');
+        textDiv.className = 'ms-3';
+        titleDiv.appendChild(textDiv);
+
+        const nameDiv = document.createElement('div');
+        nameDiv.className = 'h5';
+        textDiv.appendChild(nameDiv);
+
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'name';
+        nameSpan.textContent = `${name} `;
+        nameDiv.appendChild(nameSpan);
+
+        const statDiv = document.createElement('div');
+        statDiv.className = "d-flex flex-wrap";
+        textDiv.appendChild(statDiv);
+
+        const hpDiv = document.createElement('div');
+        hpDiv.className = 'fw-bold fs-5 me-4 stat-tag mb-2';
+        statDiv.appendChild(hpDiv);
+
+        const hpIcon = document.createElement('span');
+        hpIcon.className = 'me-2';
+        hpIcon.textContent = "❤️";
+        hpDiv.appendChild(hpIcon);
+
+        const hpNumber = document.createElement('span');
+        hpNumber.className = 'hp full-hp';
+        hpNumber.textContent = hp;
+        hpDiv.appendChild(hpNumber);
         
-        nodeArray.reverse();        
-        normalDiv.className = "fs-5 fw-bold";
-        normalDiv.textContent = "(" + spellCountListManager.getTotalSpellCount() + "/" + maxSpellCount + ")";
-        amountDiv.appendChild(normalDiv);
+        const levelDiv = document.createElement('div');
+        levelDiv.className = 'fw-bold fs-5 stat-tag mb-2';
+        statDiv.appendChild(levelDiv);
 
-        const donatedSpellList = spellCountListManager.getDonatedSpell();
-        if (!donatedSpellList.isEmpty()) {
-            const donateDiv = document.createElement('div');
-            donateDiv.className = "d-flex align-items-center";      
-
-            const donateAmountDiv = document.createElement('span');
-            donateAmountDiv.className = "fs-5 fw-bold me-1 mb-1px";
-            donateAmountDiv.textContent = "+" + donatedSpellList.getTotalSpellCount();
-
-            const donateIcon = document.createElement('img');
-            donateIcon.className = 'image';
-            donateIcon.setAttribute('height', '18');
-            donateIcon.setAttribute('src', "/images/other/donate.webp");
-
-            donateDiv.appendChild(donateAmountDiv);
-            donateDiv.appendChild(donateIcon);
-            amountDiv.appendChild(donateDiv);
-        }
-        nodeArray.push(amountDiv);
-        return nodeArray;
-    } else {
-        throw new Error(`Invalid spellCountListManager: ${spellCountListManager}`);
-    }
-}
-
-function createEquipmentDiv(equipment) {
-    if (equipment instanceof Equipment) {
-        const equipmentID = equipment.offenseID;
-        const level = equipment.getCurrentLevel();
-        const isMaxLevel = equipment.isMaxLevel();
-        const imagePath = equipment.getImagePath();
-
-        // Create div
-        const imageContainerDiv = document.createElement('div');
-        let classString = 'image-container card-container text-center m-1';
-        if (equipment.isRarityEpic()) {
-            classString += " epic-rarity";
-        }
-        imageContainerDiv.className = classString;
-        imageContainerDiv.setAttribute('data-title', equipmentID);
-
-        const levelNumberDiv = document.createElement('div');
-        levelNumberDiv.className = 'my-1';
-
+        const i = document.createElement('i');
+        i.className = 'fa-solid fa-chart-simple me-2';
+        levelDiv.appendChild(i);
+        
         const levelNumberSpan = document.createElement('span');
-        let numberSpanClass = 'equipment-card level-number';
-        if (isMaxLevel) {            
-            numberSpanClass += " maxed";
-        } else {
-            numberSpanClass += " not-maxed";
+        levelNumberSpan.className = 'level';
+        levelNumberSpan.textContent = defense.getCurrentLevel();
+        if (defense.isMaxLevel()) {
+            levelNumberSpan.className = 'level maxed-text';
         }
-        levelNumberSpan.className = numberSpanClass;
-        levelNumberSpan.textContent = level;
+        levelDiv.appendChild(levelNumberSpan);
 
-        const image = document.createElement('img');
-        image.className = 'image';
-        image.setAttribute('height', '50');
-        image.setAttribute('src', imagePath);
+        const rangeInput = document.createElement('input');
+        rangeInput.setAttribute('type', 'range');
+        rangeInput.className = 'range w-100';
+        rangeInput.setAttribute('min', minLevelPos);
+        rangeInput.setAttribute('max', maxLevelPos);
+        rangeInput.setAttribute('value', currentLevelPos);
+        rangeInput.setAttribute('oninput', 'updateDefense(this)');
+        borderDiv.appendChild(rangeInput);
 
-        // Append the level number span to the overlay div
-        levelNumberDiv.appendChild(levelNumberSpan);
+        const actionDiv = document.createElement('div');
+        actionDiv.className = 'my-3';
+        borderDiv.appendChild(actionDiv);
 
-        imageContainerDiv.appendChild(levelNumberDiv);
-        imageContainerDiv.appendChild(image);
+        const buttonDiv = document.createElement('div');
+        buttonDiv.className = 'collapse-btn my-3 d-flex align-items-center';
+        actionDiv.appendChild(buttonDiv);
 
-        return imageContainerDiv;
+        const actionTitle = document.createElement('h4');
+        actionTitle.className = 'mb-0 me-3';
+        actionTitle.textContent = "Detail:"
+        buttonDiv.appendChild(actionTitle);
+
+        const button = document.createElement('button');
+        button.className = 'show-more-button btn btn-secondary fw-bold collapsed';
+        button.setAttribute('type', 'button');
+        button.setAttribute('data-bs-toggle', 'collapse');
+        button.setAttribute('data-bs-target', `#showMore-${defenseID}`);
+        button.setAttribute('aria-controls', `showMore-${defenseID}`);
+        button.setAttribute('aria-expanded', 'false');
+        button.textContent = 'Show';
+        button.setAttribute('onclick', "toggleCollapseText(this)");
+        buttonDiv.appendChild(button);
+
+        const showMoreDiv = document.createElement('div');
+        showMoreDiv.className = 'collapse';
+        showMoreDiv.id = `showMore-${defenseID}`;
+        actionDiv.appendChild(showMoreDiv);
+
+        const tableDiv = document.createElement('div');
+        tableDiv.className = 'table-container';
+        showMoreDiv.appendChild(tableDiv);
+
+        const table = document.createElement('table');
+        table.className = 'text-center align-middle fw-bold';
+        tableDiv.appendChild(table);
+
+        const thead = document.createElement('thead');
+        table.appendChild(thead);
+
+        const rowHeading = document.createElement('tr');
+        thead.appendChild(rowHeading);
+
+        ['Action', 'Type', 'DPH / HPH', 'HP'].forEach(text => {
+            const th = document.createElement('th');
+            th.textContent = text;
+            rowHeading.appendChild(th);
+        });       
+
+        const rowData = document.createElement('tr');
+        thead.appendChild(rowData);
+
+        const defenseIconCell = document.createElement('td');
+        rowData.appendChild(defenseIconCell);
+
+        const defenseIconDiv = document.createElement("div");
+        defenseIconDiv.className = "image-container card-container-no-count text-center m-1";
+        defenseIconCell.appendChild(defenseIconDiv);
+
+        const defenseIconImg = document.createElement("img");
+        defenseIconImg.className = "image";
+        defenseIconImg.src = imagePath;
+        defenseIconImg.width = 50;
+        defenseIconImg.height = 50;
+        defenseIconDiv.appendChild(defenseIconImg);
+
+        const overlayDiv = document.createElement("div");
+        overlayDiv.className = "overlay overlay-card";
+        if (defense.isMaxLevel()) {
+            overlayDiv.className = "overlay overlay-card maxed";
+        }
+        defenseIconDiv.appendChild(overlayDiv);
+
+        const defenseIconLevel = document.createElement("span");       
+        defenseIconLevel.textContent = defense.getCurrentLevel();
+        defenseIconLevel.className = "level-number";
+        overlayDiv.appendChild(defenseIconLevel);
+
+        rowData.appendChild(document.createElement('td'));
+        rowData.appendChild(document.createElement('td'));
+
+        const hpCell = document.createElement('td');
+        rowData.appendChild(hpCell);
+
+        const hpSpan = document.createElement('span');
+        hpSpan.textContent = `❤️${hp}`;
+        hpSpan.className = "full-hp";
+        hpCell.appendChild(hpSpan);
+
+        const tbody = document.createElement('tbody');
+        tbody.className = "action-display";
+        table.appendChild(tbody);
+
+        return defenseDiv;
     } else {
-        throw new Error(`Invalid equipment: ${equipment}`);
+        throw new Error(`Invalid defense: ${defense}`);
     }
 }
 
-function createSpellDiv(spell, amount) {
-    if (spell instanceof Spell) {
-        const spellID = spell.equipmentID;
-        const level = spell.getCurrentLevel();
-        const isDonated = spell.isDonated;
-        const isMaxLevel = spell.isMaxLevel();
-        const imagePath = spell.getImagePath();
+function createActionTableRow(offenseDamage, defense) {
+    if (offenseDamage instanceof OffenseDamage && defense instanceof Defense) {
+        const offense = offenseDamage.offense;
+        const modifier = offenseDamage.modifier;
+        const isImmune = offenseDamage.isImmune;
+        const damage = offenseDamage.damage;
+        const remainingHP = offenseDamage.remainingHP;
+        const maxHP = defense.getCurrentHP();
 
-        // Create div
-        const imageContainerDiv = document.createElement('div');
-        imageContainerDiv.className = 'image-container card-container text-center m-1';
-        imageContainerDiv.setAttribute('data-title', spellID);
+        const rowData = document.createElement('tr');
 
-        const amountDiv = document.createElement('span');
-        amountDiv.className = 'level-number text-light';
-        amountDiv.textContent = "x" + amount;
+        const offenseIconCell = document.createElement('td');
+        rowData.appendChild(offenseIconCell);
 
-        let donatedIconDiv;
-        if (isDonated) {
-            donatedIconDiv = document.createElement('div');
-            donatedIconDiv.className = 'donate-card-img';
+        const offenseIconDiv = document.createElement("div");
+        offenseIconDiv.className = "image-container card-container-no-count text-center m-1";
+        offenseIconCell.appendChild(offenseIconDiv);
 
-            const donateIcon = document.createElement('img');
-            donateIcon.className = 'image';
-            donateIcon.setAttribute('height', '18');
-            donateIcon.setAttribute('src', "/images/other/donate.webp");
+        if (offense instanceof Troop && offense.damageMode === Troop.DEATH_DAMAGE) {
+            const modifierOverlayDiv = document.createElement("div");
+            modifierOverlayDiv.className = "small-overlay-top-right";
+            offenseIconDiv.appendChild(modifierOverlayDiv);
 
-            donatedIconDiv.appendChild(donateIcon);
+            const modifierOverlayImg = document.createElement("img");
+            modifierOverlayImg.className = "image death";
+            modifierOverlayImg.src = deathDamageImage;
+            modifierOverlayImg.height = 18;
+            modifierOverlayDiv.appendChild(modifierOverlayImg);
+        } else if (modifier !== null) {
+            const modifierOverlayDiv = document.createElement("div");
+            modifierOverlayDiv.className = "small-overlay-top-right";
+            offenseIconDiv.appendChild(modifierOverlayDiv);
+
+            const modifierOverlayImg = document.createElement("img");
+            modifierOverlayImg.className = "image raged";
+            modifierOverlayImg.src = modifier.getImagePath();
+            modifierOverlayImg.height = 18;
+            modifierOverlayDiv.appendChild(modifierOverlayImg);
         }
 
-        const image = document.createElement('img');
-        let classString = 'image';
-        if (spellID === eqSpellKey) {
-            classString += " earthquake-spell-bg";
-        }
-        image.className = classString;
-        image.setAttribute('height', '50');
-        image.setAttribute('src', imagePath);
+        const offenseIconImg = document.createElement("img");
+        offenseIconImg.className = "image";
+        offenseIconImg.src = offense.getImagePath();
+        offenseIconImg.width = 50;
+        offenseIconImg.height = 50;
+        offenseIconDiv.appendChild(offenseIconImg);
 
-        const levelNumberDiv = document.createElement('div');
-        let numberDivClass = 'overlay overlay-card';
-        if (isMaxLevel) {            
-            numberDivClass += " maxed";
+        const overlayDiv = document.createElement("div");
+        overlayDiv.className = "overlay overlay-card not-maxed";
+        if (offense.isMaxLevel()) {
+            overlayDiv.className = "overlay overlay-card maxed";
+        }
+        offenseIconDiv.appendChild(overlayDiv);
+
+        const offenseIconLevel = document.createElement("span");       
+        offenseIconLevel.textContent = offense.getCurrentLevel();
+        offenseIconLevel.className = "level-number";
+        overlayDiv.appendChild(offenseIconLevel);
+
+        const typeCell = document.createElement('td');
+        rowData.appendChild(typeCell);
+
+        const typeImg = document.createElement("img");
+        if (offense instanceof Repair) {
+            typeImg.src = repairImage;
+        } else if (offense instanceof Troop && offense.damageMode === Troop.DEATH_DAMAGE) {
+            typeImg.src = deathDamageImage;
         } else {
-            numberDivClass += " not-maxed";
+            typeImg.src = attackImage;
+        }       
+        typeImg.width = 20;
+        typeCell.appendChild(typeImg);
+
+        const damageCell = document.createElement('td');
+        rowData.appendChild(damageCell);
+
+        const damageDiv = document.createElement('div');
+        damageDiv.className = "d-flex align-items-center justify-content-center";
+        damageCell.appendChild(damageDiv);
+
+        if (!isImmune) {
+            const damageIconImg = document.createElement("img");
+            if (offense instanceof Repair) {
+                damageIconImg.src = repairImage;
+            } else {
+                damageIconImg.src = attackImage;
+            }    
+            damageIconImg.width = 20;
+            damageDiv.appendChild(damageIconImg);
         }
-        levelNumberDiv.className = numberDivClass;
 
-        const levelNumberSpan = document.createElement('span');
-        levelNumberSpan.className = "level-number";
-        levelNumberSpan.textContent = level;    
+        const damageAmount = document.createElement('span');
+        if (isImmune) {
+            damageAmount.className = "immune-text";
+            damageAmount.textContent = "🚫Immune";
+        } else {
+            if (modifier !== null) {
+                damageAmount.className = "raged-text";
+            }
+            damageAmount.textContent = damage;
+        }  
+        damageDiv.appendChild(damageAmount);
 
-        // Append the level number span to the overlay div
-        levelNumberDiv.appendChild(levelNumberSpan);
+        if (!isImmune && offense.isDamageTypeEQ() && offense.eqCount > 0) {
+            const decimalPlace = 2;
+            const reducedDamage = round(offense.calcBaseEQDamage(maxHP) - damage, decimalPlace);
 
-        imageContainerDiv.appendChild(amountDiv);
-        if (isDonated) {
-            imageContainerDiv.appendChild(donatedIconDiv);
+            const differentDiv = document.createElement('div');
+            differentDiv.className = "d-flex align-items-center justify-content-center reduced-text";
+            damageCell.appendChild(differentDiv);
+
+            const prefixSpan = document.createElement('span');
+            prefixSpan.textContent = `(- ${reducedDamage}`;
+            differentDiv.appendChild(prefixSpan);
+
+            const eqIconImg = document.createElement("img");
+            eqIconImg.src = eqIcon;     
+            eqIconImg.width = 20;
+            differentDiv.appendChild(eqIconImg);
+
+            const surfixSpan = document.createElement('span');
+            surfixSpan.textContent = ")";
+            differentDiv.appendChild(surfixSpan);
+        } else if (modifier !== null) {
+            const decimalPlace = 2;
+            const reducedDamage = round(offense.calcModify(modifier.getCurrentModify()), decimalPlace);
+
+            const differentDiv = document.createElement('div');
+            differentDiv.className = "d-flex align-items-center justify-content-center raged-text";
+            damageCell.appendChild(differentDiv);
+
+            const prefixSpan = document.createElement('span');
+            prefixSpan.textContent = `(+ ${reducedDamage}`;
+            differentDiv.appendChild(prefixSpan);
+
+            const eqIconImg = document.createElement("img");
+            eqIconImg.src = modifier.getImagePath();     
+            eqIconImg.width = 20;
+            differentDiv.appendChild(eqIconImg);
+
+            const surfixSpan = document.createElement('span');
+            surfixSpan.textContent = ")";
+            differentDiv.appendChild(surfixSpan);
         }
-        imageContainerDiv.appendChild(image);
-        imageContainerDiv.appendChild(levelNumberDiv);
 
-        return imageContainerDiv;
+        const hpCell = document.createElement('td');
+        rowData.appendChild(hpCell);
+
+        const hpSpan = document.createElement('span');
+        hpSpan.textContent = `❤️${remainingHP}`;
+        if (remainingHP <= 0) {
+            hpSpan.className = "destroyed";
+        } else if (remainingHP === maxHP) {
+            hpSpan.className = "full-hp";
+        }
+        hpCell.appendChild(hpSpan);
+
+        return rowData;
     } else {
-        throw new Error(`Invalid spell: ${spell}`);
+        throw new Error(`Invalid offenseDamage: ${offenseDamage}`);
     }
-}
-
-function createDefenseDiv() {
-    const defenseDiv = document.createElement('div');
-    defenseDiv.className = 'defense col-xxl-3 col-lg-4 col-md-6';
-
-    // Create the nested structure inside the main container
-    const borderDiv = document.createElement('div');
-    borderDiv.className = 'p-3 col-12 h-100 rounded-border shadow card-background';
-
-    const titleDiv = document.createElement('div');
-    titleDiv.className = 'd-flex align-items-center';
-
-    const imgDiv = document.createElement('div');
-
-    const img = document.createElement('img');
-    img.className = 'image';
-    //img.setAttribute('width', '60');
-    img.setAttribute('height', '80');
-
-    const textDiv = document.createElement('div');
-    textDiv.className = 'ms-3';
-
-    const nameDiv = document.createElement('div');
-    nameDiv.className = 'h5';
-
-    const nameSpan = document.createElement('span');
-    nameSpan.className = 'name';
-
-    const statDiv = document.createElement('div');
-    statDiv.className = "d-flex flex-wrap";
-
-    const hpDiv = document.createElement('div');
-    hpDiv.className = 'fw-bold fs-5 me-4 stat-tag mb-2';
-
-    const hpIcon = document.createElement('span');
-    hpIcon.className = 'me-2';
-    hpIcon.textContent = "❤️";
-    hpDiv.appendChild(hpIcon);
-
-    const hpNumber = document.createElement('span');
-    hpNumber.className = 'hp';
-    hpDiv.appendChild(hpNumber);
-    
-    const levelDiv = document.createElement('div');
-    levelDiv.className = 'fw-bold fs-5 stat-tag mb-2';
-
-    const i = document.createElement('i');
-    i.className = 'fa-solid fa-chart-simple me-2';
-    levelDiv.appendChild(i);
-    
-    const levelNumberSpan = document.createElement('span');
-    levelNumberSpan.className = 'level';
-    levelDiv.appendChild(levelNumberSpan);
-
-    const rangeInput = document.createElement('input');
-    rangeInput.setAttribute('type', 'range');
-    rangeInput.className = 'range w-100';
-    rangeInput.setAttribute('oninput', 'updateDefense(this)');
-
-    const resultDiv = document.createElement('div');
-    resultDiv.className = 'my-3';
-
-    const equipmentDiv = document.createElement('div');
-    equipmentDiv.className = 'equipment-div my-3 d-none';
-
-    const equipmentTitle = document.createElement('h5');
-    equipmentTitle.textContent = "Heroes Equipment used:";
-
-    const equipmentList = document.createElement('div');
-    equipmentList.className = 'equipment-list d-flex justify-content-center align-items-center flex-wrap';
-
-    const statusDiv = document.createElement('div');
-    statusDiv.className = 'status-div d-flex align-items-center my-3 d-none';
-
-    const statusImg = document.createElement('img');
-    statusImg.className = 'status-img me-4';
-    statusImg.setAttribute('width', '80');
-
-    const statusText = document.createElement('div');
-    statusText.className = 'status-text fw-bold';
-    
-    const spellDiv = document.createElement('div');
-    spellDiv.className = 'spell-div my-3';
-
-    const spellTitle = document.createElement('h5');
-    spellTitle.textContent = "Spell needed:";
-
-    const spellList = document.createElement('div');
-    spellList.className = 'spell-main-display d-flex justify-content-center align-items-center';
-
-    const buttonDiv = document.createElement('div');
-    buttonDiv.className = 'collapse-btn text-center my-3';
-
-    const button = document.createElement('button');
-    button.className = 'show-more-button btn btn-secondary fw-bold';
-    button.setAttribute('type', 'button');
-    button.setAttribute('data-bs-toggle', 'collapse');
-    button.setAttribute('aria-expanded', 'false');
-    button.textContent = 'Show More';
-    button.setAttribute('onclick', "toggleCollapseText(this)");
-
-    const showMoreDiv = document.createElement('div');
-    showMoreDiv.className = 'spell-display collapse';
-
-    // Append the created elements to their respective parents
-    buttonDiv.appendChild(button);
-
-    equipmentDiv.appendChild(equipmentTitle);
-    equipmentDiv.appendChild(equipmentList);
-
-    statusDiv.appendChild(statusImg);
-    statusDiv.appendChild(statusText);
-
-    spellDiv.appendChild(spellTitle);
-    spellDiv.appendChild(spellList);
-    spellDiv.appendChild(buttonDiv);
-    spellDiv.appendChild(showMoreDiv);
-
-    resultDiv.appendChild(equipmentDiv);
-    resultDiv.appendChild(statusDiv);
-    resultDiv.appendChild(spellDiv);
-
-    imgDiv.appendChild(img);
-
-    nameDiv.appendChild(nameSpan);
-
-    statDiv.appendChild(hpDiv);
-    statDiv.appendChild(levelDiv);
-
-    textDiv.appendChild(nameDiv);
-    textDiv.appendChild(statDiv);
-
-    titleDiv.appendChild(imgDiv);
-    titleDiv.appendChild(textDiv);
-
-    borderDiv.appendChild(titleDiv);
-    borderDiv.appendChild(rangeInput);
-    borderDiv.appendChild(resultDiv);
-
-    defenseDiv.appendChild(borderDiv);
-    return defenseDiv;
 }

@@ -60,6 +60,17 @@ class Defense {
         }
     }
 
+    getDestroyedImagePath() {
+        switch (this.defenseID) {
+            case "archer_queen":
+                return "/images/other/archer_queen_ko.webp"; 
+            case "royal_champion":
+                return "/images/other/royal_champion_ko.webp";      
+            default:
+                return "/images/other/destroyed.webp";
+        }
+    }
+
     setImmuneList() {
         this.immuneList = [];
         const offenseListManager = new OffenseListManager();

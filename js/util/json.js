@@ -1,5 +1,6 @@
 let defenseJSON = null;
 let offenseJSON = null;
+let modifierJSON = null;
 let otherJSON = null;
 
 const initEvent = new Event("init");
@@ -17,6 +18,10 @@ async function fetchJSON() {
         const response3 = await fetch('/json/other.json');
         if (!response3.ok) throw new Error('Failed to fetch data from other.json');
         otherJSON = await response3.json();
+
+        const response4 = await fetch('/json/modifier.json');
+        if (!response4.ok) throw new Error('Failed to fetch data from other.json');
+        modifierJSON = await response4.json();
 
         document.dispatchEvent(initEvent);
     } catch (error) {
@@ -42,7 +47,7 @@ function getTroop(troopID) {
 }
 
 function getModifier(modifierID) {
-    return offenseJSON["offense"]["modifier"][modifierID];
+    return modifierJSON["modifier"][modifierID];
 }
 
 function getRepair(repairID) {
@@ -66,7 +71,7 @@ function getAllTroops() {
 }
 
 function getAllModifiers() {
-    return offenseJSON["offense"]["modifier"];
+    return modifierJSON["modifier"];
 }
 
 function getAllRepairs() {

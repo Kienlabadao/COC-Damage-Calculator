@@ -6,7 +6,7 @@ class SpellCountListManager {
     load(offenseDamageListManager) {
         if (offenseDamageListManager instanceof OffenseDamageListManager) {
             this.clear();
-            const offenseDamageList = offenseDamageListManager.offenseDamageList;
+            const offenseDamageList = offenseDamageListManager.getOffenseDamageList();
             let matchSpell = null;
             let sameSpellCounter = 0;
 

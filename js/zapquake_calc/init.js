@@ -121,36 +121,7 @@ function loadEquipment(equipment) {
 
 function loadDefense(defense) {
   if (defense instanceof Defense) {
-    const defenseID = defense.defenseID;
-    const name = defense.name;
-    const imagePath = defense.getImagePath();
-    const currentLevelPos = defense.currentLevelPos;
-    const maxLevelPos = defense.maxLevelPos;
-    const minLevelPos = 0;
-    const hp = defense.getCurrentHP();
-
-    // Update Value on defenseDiv
-    const defenseDiv = createDefenseDiv();
-    defenseDiv.setAttribute("data-title", defenseID);
-    defenseDiv.querySelector(".image").setAttribute('src', imagePath);
-    defenseDiv.querySelector(".name").textContent = `${name} `;
-    defenseDiv.querySelector(".hp").textContent = hp;
-    const levelSpan = defenseDiv.querySelector(".level");
-    levelSpan.textContent = defense.getCurrentLevel();
-    if (defense.isMaxLevel()) {
-      levelSpan.className = 'level maxed-text';
-    }
-    const rangeInput = defenseDiv.querySelector(".range");
-    rangeInput.setAttribute('min', minLevelPos);
-    rangeInput.setAttribute('max', maxLevelPos);
-    rangeInput.setAttribute('value', currentLevelPos);
-    const button = defenseDiv.querySelector(".show-more-button");
-    button.setAttribute('data-bs-target', `#showMore-${defenseID}`);
-    button.setAttribute('aria-controls', `showMore-${defenseID}`);
-    const showMoreDiv = defenseDiv.querySelector(".spell-display");
-    showMoreDiv.id = `showMore-${defenseID}`;
-
-    defensesSection.appendChild(defenseDiv);
+    defensesSection.appendChild(createDefenseDiv(defense));
   } else {
     throw new Error(`Invalid defense: ${defense}`);
   }

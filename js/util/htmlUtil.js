@@ -28,6 +28,10 @@ function getDataDonated(dataDiv) {
     return getDataBoolean(dataDiv, "data-donated");
 }
 
+function getDataDefenseStatus(dataDiv) {
+    return getDataBoolean(dataDiv, "data-defense-status");
+}
+
 function getDataString(dataDiv, attribute) {
     return dataDiv.getAttribute(attribute);
 }
@@ -40,12 +44,20 @@ function setDataDonated(dataDiv, value) {
     return setDataString(dataDiv, "data-donated", value);
 }
 
+function setDataDefenseStatus(dataDiv, value) {
+    return setDataString(dataDiv, "data-defense-status", value);
+}
+
 function clearDataTitle(dataDiv) {
     return setDataString(dataDiv, "data-title", "");
 }
 
 function clearDataDonated(dataDiv) {
     return setDataString(dataDiv, "data-donated", "");
+}
+
+function clearDataDefenseStatus(dataDiv) {
+    return setDataString(dataDiv, "data-defense-status", "");
 }
 
 function setDataString(dataDiv, attribute, value) {

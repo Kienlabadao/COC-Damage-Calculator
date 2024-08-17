@@ -4,17 +4,20 @@ class ModifierListManager {
         this.modifierList = [];
     }
 
-    loadModifier(modifierList) {
-        if (Array.isArray(modifierList)) {
-            for (const modifier of modifierList) {
-                if (modifier instanceof Modifier) {
-                    this.add(modifier);        
-                } else {
-                    throw new Error(`Invalid modifier: ${modifier}`);
-                }               
-            }
-        } else {
-            throw new Error(`Invalid modifierList: ${modifierList}`);
+    load() {
+        for (const modifierID of Object.keys(getAllModifiers())) {       
+            this.add(new Modifier(modifierID, null, false));
+        }
+    }
+
+    loadKey(type) {
+        for (const modifierID of Object.keys(getAllModifiers())) {
+            const key = LocalStorageUtils.getObjectKey(type, "offense", modifierID);
+            const useModifierKey = LocalStorageUtils.getUseModifierKey(type, modifierID);
+            const modifier = new Modifier(modifierID, null, LocalStorageUtils.loadBoolean(useModifierKey, false));
+            
+            modifier.currentLevelPos = LocalStorageUtils.loadNumber(key, modifier.currentLevelPos);          
+            this.add(modifier);
         }
     }
 
@@ -45,6 +48,10 @@ class ModifierListManager {
             }
         }
         return troopModifierListManager;
+    }
+
+    getModifierList() {
+        return this.modifierList;
     }
 
     getHighestModifier() {

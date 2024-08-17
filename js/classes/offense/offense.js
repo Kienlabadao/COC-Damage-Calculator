@@ -1,9 +1,10 @@
 class Offense {
+
     constructor(offenseID, type) {
         this.type = type;
         this.offenseID = offenseID;
-        this.setOffenseJSON();       
-        
+        this.setOffenseJSON();
+        this.damageType = this.offenseJSON["damage_type"];  
     }
 
     setOffenseJSON() {
@@ -41,5 +42,9 @@ class Offense {
             default:
                 throw new Error("Invalid type: " + this.type);
         }  
+    }
+
+    isDamageTypeEQ() {
+        return this.damageType === "earthquake";
     }
 }

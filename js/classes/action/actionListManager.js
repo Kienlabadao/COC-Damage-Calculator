@@ -17,6 +17,10 @@ class ActionListManager {
         return offenseDamage !== undefined ? offenseDamage : null;
     }
 
+    getActionList() {
+        return this.actionList;
+    }
+
     getLength() {
         return this.actionList.length;
     }

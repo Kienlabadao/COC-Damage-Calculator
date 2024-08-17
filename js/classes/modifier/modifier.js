@@ -1,4 +1,4 @@
-class Modifier extends Offense {
+class Modifier {
 
     static LEVEL_POS = 0;
     static MODIFY_POS = 1;
@@ -6,7 +6,8 @@ class Modifier extends Offense {
     static REPAIR = 1;
 
     constructor(offenseID, currentLevelPos, isActive = false) {
-        super(offenseID, "modifier");
+        this.offenseID = offenseID;
+        this.setOffenseJSON();
         this.setSortedModifyList();
         this.affectList = this.offenseJSON["affects"];
         this.maxLevelPos = this.modifyList.length - 1;
@@ -33,7 +34,7 @@ class Modifier extends Offense {
     getCurrentModify() {
         return this.getModify(this.currentLevelPos);
     }
-
+    
     isMaxLevel() {
         return this.getMaxLevel() === this.getCurrentLevel();
     }
@@ -83,6 +84,13 @@ class Modifier extends Offense {
 
     clone() {
         return new Modifier(this.offenseID, this.currentLevelPos, this.isActive);
+    }
+
+    setOffenseJSON() {
+        this.offenseJSON = getModifier(this.offenseID);
+        if (this.offenseJSON === undefined) {
+            throw new Error("Invalid offenseID: " + newOffenseID);
+        }
     }
 
     setSortedModifyList() {

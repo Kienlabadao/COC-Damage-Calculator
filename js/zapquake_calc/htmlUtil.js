@@ -104,7 +104,7 @@ function createSpellDiv(spell, amount) {
         let donatedIconDiv;
         if (isDonated) {
             donatedIconDiv = document.createElement('div');
-            donatedIconDiv.className = 'donate-card-img';
+            donatedIconDiv.className = 'small-overlay-top-right';
 
             const donateIcon = document.createElement('img');
             donateIcon.className = 'image';
@@ -152,144 +152,158 @@ function createSpellDiv(spell, amount) {
     }
 }
 
-function createDefenseDiv() {
-    const defenseDiv = document.createElement('div');
-    defenseDiv.className = 'defense col-xxl-3 col-lg-4 col-md-6';
+function createDefenseDiv(defense) {
+    if (defense instanceof Defense) {
+        const defenseID = defense.defenseID;
+        const name = defense.name;
+        const imagePath = defense.getImagePath();
+        const currentLevelPos = defense.currentLevelPos;
+        const maxLevelPos = defense.maxLevelPos;
+        const minLevelPos = 0;
+        const hp = defense.getCurrentHP();
 
-    // Create the nested structure inside the main container
-    const borderDiv = document.createElement('div');
-    borderDiv.className = 'p-3 col-12 h-100 rounded-border shadow card-background';
+        const defenseDiv = document.createElement('div');
+        defenseDiv.className = 'defense';
+        defenseDiv.setAttribute("data-title", defenseID);
 
-    const titleDiv = document.createElement('div');
-    titleDiv.className = 'd-flex align-items-center';
+        // Create the nested structure inside the main container
+        const borderDiv = document.createElement('div');
+        borderDiv.className = 'p-3 col-12 h-100 rounded-border shadow card-background';
+        defenseDiv.appendChild(borderDiv);
 
-    const imgDiv = document.createElement('div');
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'd-flex align-items-center';
+        borderDiv.appendChild(titleDiv);
 
-    const img = document.createElement('img');
-    img.className = 'image';
-    //img.setAttribute('width', '60');
-    img.setAttribute('height', '80');
+        const imgDiv = document.createElement('div');
+        titleDiv.appendChild(imgDiv);
 
-    const textDiv = document.createElement('div');
-    textDiv.className = 'ms-3';
+        const img = document.createElement('img');
+        img.className = 'image';
+        img.setAttribute('height', '80');
+        img.setAttribute('src', imagePath);
+        imgDiv.appendChild(img);
 
-    const nameDiv = document.createElement('div');
-    nameDiv.className = 'h5';
+        const textDiv = document.createElement('div');
+        textDiv.className = 'ms-3';
+        titleDiv.appendChild(textDiv);
 
-    const nameSpan = document.createElement('span');
-    nameSpan.className = 'name';
+        const nameDiv = document.createElement('div');
+        nameDiv.className = 'h5';
+        nameDiv.textContent = `${name} `;
+        textDiv.appendChild(nameDiv);
 
-    const statDiv = document.createElement('div');
-    statDiv.className = "d-flex flex-wrap";
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'name';
+        nameDiv.appendChild(nameSpan);
 
-    const hpDiv = document.createElement('div');
-    hpDiv.className = 'fw-bold fs-5 me-4 stat-tag mb-2';
+        const statDiv = document.createElement('div');
+        statDiv.className = "d-flex flex-wrap";
+        textDiv.appendChild(statDiv);
 
-    const hpIcon = document.createElement('span');
-    hpIcon.className = 'me-2';
-    hpIcon.textContent = "❤️";
-    hpDiv.appendChild(hpIcon);
+        const hpDiv = document.createElement('div');
+        hpDiv.className = 'fw-bold fs-5 me-4 stat-tag mb-2';
+        statDiv.appendChild(hpDiv);
 
-    const hpNumber = document.createElement('span');
-    hpNumber.className = 'hp';
-    hpDiv.appendChild(hpNumber);
-    
-    const levelDiv = document.createElement('div');
-    levelDiv.className = 'fw-bold fs-5 stat-tag mb-2';
+        const hpIcon = document.createElement('span');
+        hpIcon.className = 'me-2';
+        hpIcon.textContent = "❤️";
+        hpDiv.appendChild(hpIcon);
 
-    const i = document.createElement('i');
-    i.className = 'fa-solid fa-chart-simple me-2';
-    levelDiv.appendChild(i);
-    
-    const levelNumberSpan = document.createElement('span');
-    levelNumberSpan.className = 'level';
-    levelDiv.appendChild(levelNumberSpan);
+        const hpNumber = document.createElement('span');
+        hpNumber.className = 'hp';
+        hpNumber.textContent = hp;
+        hpDiv.appendChild(hpNumber);
+        
+        const levelDiv = document.createElement('div');
+        levelDiv.className = 'fw-bold fs-5 stat-tag mb-2';
+        statDiv.appendChild(levelDiv);
 
-    const rangeInput = document.createElement('input');
-    rangeInput.setAttribute('type', 'range');
-    rangeInput.className = 'range w-100';
-    rangeInput.setAttribute('oninput', 'updateDefense(this)');
+        const i = document.createElement('i');
+        i.className = 'fa-solid fa-chart-simple me-2';
+        levelDiv.appendChild(i);
+        
+        const levelNumberSpan = document.createElement('span');
+        levelNumberSpan.className = 'level';
+        levelNumberSpan.textContent = defense.getCurrentLevel();
+        if (defense.isMaxLevel()) {
+            levelNumberSpan.className = 'level maxed-text';
+        }
+        levelDiv.appendChild(levelNumberSpan);
 
-    const resultDiv = document.createElement('div');
-    resultDiv.className = 'my-3';
+        const rangeInput = document.createElement('input');
+        rangeInput.setAttribute('type', 'range');
+        rangeInput.className = 'range w-100';
+        rangeInput.setAttribute('min', minLevelPos);
+        rangeInput.setAttribute('max', maxLevelPos);
+        rangeInput.setAttribute('value', currentLevelPos);
+        rangeInput.setAttribute('oninput', 'updateDefense(this)');
+        borderDiv.appendChild(rangeInput);
 
-    const equipmentDiv = document.createElement('div');
-    equipmentDiv.className = 'equipment-div my-3 d-none';
+        const resultDiv = document.createElement('div');
+        resultDiv.className = 'my-3';
+        borderDiv.appendChild(resultDiv);
 
-    const equipmentTitle = document.createElement('h5');
-    equipmentTitle.textContent = "Heroes Equipment used:";
+        const equipmentDiv = document.createElement('div');
+        equipmentDiv.className = 'equipment-div my-3 d-none';
+        resultDiv.appendChild(equipmentDiv);
 
-    const equipmentList = document.createElement('div');
-    equipmentList.className = 'equipment-list d-flex justify-content-center align-items-center flex-wrap';
+        const equipmentTitle = document.createElement('h5');
+        equipmentTitle.textContent = "Heroes Equipment used:";
+        equipmentDiv.appendChild(equipmentTitle);
 
-    const statusDiv = document.createElement('div');
-    statusDiv.className = 'status-div d-flex align-items-center my-3 d-none';
+        const equipmentList = document.createElement('div');
+        equipmentList.className = 'equipment-list d-flex justify-content-center align-items-center flex-wrap';
+        equipmentDiv.appendChild(equipmentList);
 
-    const statusImg = document.createElement('img');
-    statusImg.className = 'status-img me-4';
-    statusImg.setAttribute('width', '80');
+        const statusDiv = document.createElement('div');
+        statusDiv.className = 'status-div d-flex align-items-center my-3 d-none';
+        resultDiv.appendChild(statusDiv);
 
-    const statusText = document.createElement('div');
-    statusText.className = 'status-text fw-bold';
-    
-    const spellDiv = document.createElement('div');
-    spellDiv.className = 'spell-div my-3';
+        const statusImg = document.createElement('img');
+        statusImg.className = 'status-img me-4';
+        statusImg.setAttribute('width', '80');
+        statusDiv.appendChild(statusImg);
 
-    const spellTitle = document.createElement('h5');
-    spellTitle.textContent = "Spell needed:";
+        const statusText = document.createElement('div');
+        statusText.className = 'status-text fw-bold';
+        statusDiv.appendChild(statusText);
+        
+        const spellDiv = document.createElement('div');
+        spellDiv.className = 'spell-div my-3';
+        resultDiv.appendChild(spellDiv);
 
-    const spellList = document.createElement('div');
-    spellList.className = 'spell-main-display d-flex justify-content-center align-items-center';
+        const spellTitle = document.createElement('h5');
+        spellTitle.textContent = "Spell needed:";
+        spellDiv.appendChild(spellTitle);
 
-    const buttonDiv = document.createElement('div');
-    buttonDiv.className = 'collapse-btn text-center my-3';
+        const spellList = document.createElement('div');
+        spellList.className = 'spell-main-display d-flex justify-content-center align-items-center';
+        spellDiv.appendChild(spellList);
 
-    const button = document.createElement('button');
-    button.className = 'show-more-button btn btn-secondary fw-bold';
-    button.setAttribute('type', 'button');
-    button.setAttribute('data-bs-toggle', 'collapse');
-    button.setAttribute('aria-expanded', 'false');
-    button.textContent = 'Show More';
-    button.setAttribute('onclick', "toggleCollapseText(this)");
+        const buttonDiv = document.createElement('div');
+        buttonDiv.className = 'collapse-btn text-center my-3';
+        spellDiv.appendChild(buttonDiv);
 
-    const showMoreDiv = document.createElement('div');
-    showMoreDiv.className = 'spell-display collapse';
+        const button = document.createElement('button');
+        button.className = 'show-more-button btn btn-secondary fw-bold';
+        button.setAttribute('type', 'button');
+        button.setAttribute('data-bs-toggle', 'collapse');
+        button.setAttribute('data-bs-target', `#showMore-${defenseID}`);
+        button.setAttribute('aria-controls', `showMore-${defenseID}`);
+        button.setAttribute('aria-expanded', 'false');
+        button.textContent = 'Show More';
+        button.setAttribute('onclick', "toggleCollapseText(this)");
+        buttonDiv.appendChild(button);
 
-    // Append the created elements to their respective parents
-    buttonDiv.appendChild(button);
+        const showMoreDiv = document.createElement('div');
+        showMoreDiv.className = 'spell-display collapse';
+        showMoreDiv.id = `showMore-${defenseID}`;
+        spellDiv.appendChild(showMoreDiv);
 
-    equipmentDiv.appendChild(equipmentTitle);
-    equipmentDiv.appendChild(equipmentList);
-
-    statusDiv.appendChild(statusImg);
-    statusDiv.appendChild(statusText);
-
-    spellDiv.appendChild(spellTitle);
-    spellDiv.appendChild(spellList);
-    spellDiv.appendChild(buttonDiv);
-    spellDiv.appendChild(showMoreDiv);
-
-    resultDiv.appendChild(equipmentDiv);
-    resultDiv.appendChild(statusDiv);
-    resultDiv.appendChild(spellDiv);
-
-    imgDiv.appendChild(img);
-
-    nameDiv.appendChild(nameSpan);
-
-    statDiv.appendChild(hpDiv);
-    statDiv.appendChild(levelDiv);
-
-    textDiv.appendChild(nameDiv);
-    textDiv.appendChild(statDiv);
-
-    titleDiv.appendChild(imgDiv);
-    titleDiv.appendChild(textDiv);
-
-    borderDiv.appendChild(titleDiv);
-    borderDiv.appendChild(rangeInput);
-    borderDiv.appendChild(resultDiv);
-
-    defenseDiv.appendChild(borderDiv);
-    return defenseDiv;
+        // Append the created elements to their respective parents
+        return defenseDiv;
+    } else {
+        throw new Error(`Invalid defense: ${defense}`);
+    }
 }

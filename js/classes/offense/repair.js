@@ -30,12 +30,16 @@ class Repair extends Offense {
         return this.getRepair(this.currentLevelPos);
     }
 
+    calcModify(modify = 0) {
+        return this.getCurrentRepair() * modify / 100;
+    }
+
     calcRepair(modify = 0) {
-        return this.getCurrentRepair() + (this.getCurrentRepair() * modify / 100);  
+        return this.getCurrentRepair() + this.calcModify(modify);  
     }
 
     calcRemainingHP(hp, modify = 0) {
-        return hp + this.calcDamage(modify);
+        return hp + this.calcRepair(modify);
     }
 
     isMaxLevel() {

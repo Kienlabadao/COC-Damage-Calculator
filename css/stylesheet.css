@@ -94,7 +94,7 @@ main {
 
 .image-container img {
     display: block;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 .overlay {
@@ -138,7 +138,7 @@ main {
     font-weight: bold;
 }
 
-.offense {
+.offense, .modifier-card {
     width: 230px;
     padding: 20px;
     border-radius: 20px;
@@ -156,9 +156,9 @@ main {
 }
 
 .card-container-no-count {
-    height: 52px;
-    width: 52px;
-    border-radius: 5px;
+    height: 50px;
+    width: 50px;
+    border-radius: 7px;
 }
 
 .card-container img {
@@ -205,6 +205,10 @@ main {
     background-color: rgb(191, 0, 255);
 }
 
+.raged-text {
+    color: rgb(213, 87, 255);
+}
+
 .death {
     background: hsl(0, 0%, 35%);
 }
@@ -227,14 +231,14 @@ main {
     background-color: hsl(49, 12%, 37%);
 }
 
-.donate-card-img {
+.small-overlay-top-right {
     position: absolute;
     bottom: 30px;
     left: 5px;
     z-index: 1;
 }
 
-.donate-card-img img {
+.small-overlay-top-right img {
     border-radius: 2px;
 }
 
@@ -267,6 +271,10 @@ main {
     color: hsl(41, 100%, 34%);
 }
 
+.destroyed, .immune-text, .reduced-text {
+    color: hsl(0, 100%, 50%);
+}
+
 /* Icon */
 .fa-solid.fa-moon {
     color: hsl(0, 0%, 25%);
@@ -284,7 +292,7 @@ main {
     color: hsl(43, 100%, 50%);     
 }
 
-.fa-solid.fa-chart-simple {
+.fa-solid.fa-chart-simple, .full-hp {
     color: hsl(121, 100%, 59%);
 }
 
@@ -313,6 +321,8 @@ main {
     width: 15px;
     border-radius: 50%;
     background-color: hsl(0, 0%, 100%);
+    border: 2px solid hsl(215, 14%, 34%);
+    box-shadow: -407px 0 0 400px hsl(215, 14%, 34%);
 }
 
 .range::-moz-range-thumb {
@@ -320,6 +330,8 @@ main {
     width: 15px;
     border-radius: 50%;
     background-color: hsl(0, 0%, 100%);
+    border: 2px solid hsl(215, 14%, 34%);
+    box-shadow: -407px 0 0 400px hsl(215, 14%, 34%);
 }
 
 .range::-moz-range-track {
@@ -343,10 +355,13 @@ main {
     width: 15px;
     border-radius: 50%;
     background-color: hsl(0, 0%, 100%);
+    border: 2px solid hsl(215, 14%, 34%);
+    box-shadow: -407px 0 0 400px hsl(215, 14%, 34%);
 }
 
 .range::-ms-fill-lower {
     border-radius: 16px;
+    background: hsl(215, 14%, 34%);
 }
 
 .range::-ms-fill-upper {
@@ -404,8 +419,24 @@ table {
     white-space: nowrap;
 }
 
-thead {
+thead tr {
     border-bottom: 3px solid;
+    border-color: hsl(0, 0%, 100%);
+}
+
+thead th {
+    border-left: 2px solid;
+    border-right: 2px solid;
+    border-color: hsl(0, 0%, 100%);
+}
+
+thead th:first-child {
+    border-left: none;
+    border-color: hsl(0, 0%, 100%);
+}
+
+thead th:last-child {
+    border-right: none;
     border-color: hsl(0, 0%, 100%);
 }
 
