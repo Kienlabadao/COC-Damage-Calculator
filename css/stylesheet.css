@@ -406,6 +406,12 @@ main {
     color: hsl(0, 0%, 100%);
 }
 
+/* Checkbox */
+input[type="checkbox"]:checked {
+    background-color: hsl(215, 14%, 34%);
+    border-color: hsl(215, 14%, 34%);
+}
+
 /* Table */
 .table-container {
     overflow-x: auto;

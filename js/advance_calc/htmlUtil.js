@@ -213,8 +213,25 @@ function createDefenseDiv(defense) {
             rowHeading.appendChild(th);
         });       
 
+        thead.appendChild(createActionDefenseHeader(defense));
+
+        const tbody = document.createElement('tbody');
+        tbody.className = "action-display";
+        table.appendChild(tbody);
+
+        return defenseDiv;
+    } else {
+        throw new Error(`Invalid defense: ${defense}`);
+    }
+}
+
+function createActionDefenseHeader(defense) {
+    if (defense instanceof Defense) {
+        const imagePath = defense.getImagePath();
+        const hp = defense.getCurrentHP();
+
         const rowData = document.createElement('tr');
-        thead.appendChild(rowData);
+        rowData.className = "actionDefenseHeader";
 
         const defenseIconCell = document.createElement('td');
         rowData.appendChild(defenseIconCell);
@@ -231,7 +248,7 @@ function createDefenseDiv(defense) {
         defenseIconDiv.appendChild(defenseIconImg);
 
         const overlayDiv = document.createElement("div");
-        overlayDiv.className = "overlay overlay-card";
+        overlayDiv.className = "overlay overlay-card not-maxed";
         if (defense.isMaxLevel()) {
             overlayDiv.className = "overlay overlay-card maxed";
         }
@@ -253,11 +270,7 @@ function createDefenseDiv(defense) {
         hpSpan.className = "full-hp";
         hpCell.appendChild(hpSpan);
 
-        const tbody = document.createElement('tbody');
-        tbody.className = "action-display";
-        table.appendChild(tbody);
-
-        return defenseDiv;
+        return rowData;
     } else {
         throw new Error(`Invalid defense: ${defense}`);
     }

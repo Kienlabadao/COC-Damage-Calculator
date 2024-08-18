@@ -46,7 +46,7 @@ footer {
     box-shadow: 0 3px 10px hsl(0, 0%, 80%);
 }
 
-input[type="checkbox"]:checked {
+input[type="checkbox"].checkbox-theme:checked {
     background-color: hsl(215, 14%, 34%);
     border-color: hsl(215, 14%, 34%);
 }

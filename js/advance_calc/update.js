@@ -1,5 +1,7 @@
 function updateDefense(element) {
     const defenseDiv = getParentDiv(element, "defense");
+    const tableHeader = defenseDiv.querySelector("thead");
+    const actionDefenseHeader = tableHeader.querySelector(".actionDefenseHeader");
 
     if (defenseDiv) {
         const levelNumberSpan = defenseDiv.querySelector(".level");
@@ -19,9 +21,16 @@ function updateDefense(element) {
             levelNumberSpan.classList.remove("maxed-text");
         }
         defenseDiv.querySelector(".image").src = imagePath;
-        defenseDiv.querySelector(".hp").textContent = defense.getCurrentHP();   
+        defenseDiv.querySelector(".hp").textContent = defense.getCurrentHP();
+
+        if (actionDefenseHeader) {
+            tableHeader.removeChild(actionDefenseHeader);
+            tableHeader.appendChild(createActionDefenseHeader(defense));
+        }
+        calcDefense(defenseDiv);
+    } else {
+        throw new Error(`Invalid defense div: ${defenseDiv}`);
     }
-    calcDefense(defenseDiv);
 }
 
 function updateOffense(element) {
