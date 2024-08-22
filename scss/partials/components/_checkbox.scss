@@ -1,0 +1,35 @@
+@use "../abstracts" as *;
+
+.checkbox {
+    margin: 0;
+    border: 2px solid var(--checkbox-shadow-color);
+    background-color: var(--checkbox-bg-color);
+    font-size: 1.2rem;
+
+    &:checked{
+        background-color: var(--checkbox-checked-bg-color);
+        border: 0;
+    }
+
+    &:focus, &:hover {
+        outline: 0;
+        border: 0;
+        box-shadow: 0 0 0 0.2rem var(--checkbox-shadow-color);
+    }
+
+    &--card-object {
+        border: 2px solid var(--checkbox-card-obj-shadow-color);
+        background-color: var(--checkbox-card-obj-bg-color);
+
+        &:checked{
+            background-color: var(--checkbox-card-obj-checked-bg-color);
+            border: 0;
+        }
+
+        &:focus, &:hover {
+            outline: 0;
+            border: 0;
+            box-shadow: 0 0 0 0.2rem var(--checkbox-card-obj-shadow-color);
+        }
+    }
+}

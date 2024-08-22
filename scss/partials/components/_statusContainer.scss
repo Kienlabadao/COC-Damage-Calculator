@@ -1,0 +1,18 @@
+.status-container {
+
+    &__img {
+        width: 80px;
+    }
+
+    &__text {
+        font-weight: bold;
+
+        &--success {
+            color: var(--status-success-color);
+        }
+    
+        &--fail {
+            color: var(--status-fail-color);
+        }  
+    }
+}

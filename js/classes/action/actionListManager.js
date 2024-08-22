@@ -13,8 +13,8 @@ class ActionListManager {
     }
 
     get(index) {
-        const offenseDamage = this.actionList[index];
-        return offenseDamage !== undefined ? offenseDamage : null;
+        const damageLog = this.actionList[index];
+        return damageLog !== undefined ? damageLog : null;
     }
 
     getActionList() {

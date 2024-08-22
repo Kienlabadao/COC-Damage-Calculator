@@ -1,11 +1,12 @@
-class OffenseDamage {
+class DamageLog {
 
-    constructor(offense, modifier, isImmune, damage, remainingHP) {
+    constructor(offense, modifier, defense, damage, isImmune, remainingHP) {
         this.offense = offense;
         this.modifier = modifier;
-        this.isImmune = isImmune;
-        this.damage = damage;
-        this.remainingHP = remainingHP;
+        this.defense = defense;
+        this._damage = damage;
+        this._isImmune = isImmune;
+        this._remainingHP = remainingHP;
     }
 
     set offense(newOffense) {
@@ -24,28 +25,12 @@ class OffenseDamage {
         }
     }
 
-    set isImmune(newIsImmune) {
-        if (typeof newIsImmune === "boolean") {
-            this._isImmune = newIsImmune;
+    set defense(newDefense) {
+        if (newDefense instanceof Defense) {
+            this._defense = newDefense;
         } else {
-            throw new Error(`Invalid isImmune: ${newIsImmune}`)
+            throw new Error(`Invalid defense: ${newDefense}`)
         }        
-    }
-
-    set damage(newDamage) {
-        if (typeof newDamage === "number") {
-            this._damage = newDamage;
-        } else {
-            throw new Error(`Invalid damage: ${newDamage}`)
-        }        
-    }
-
-    set remainingHP(newRemainingHP) {
-        if (typeof newRemainingHP === "number") {
-            this._remainingHP = newRemainingHP;
-        } else {
-            throw new Error(`Invalid remainingHP: ${newRemainingHP}`)
-        }     
     }
 
     get offense() {
@@ -54,6 +39,10 @@ class OffenseDamage {
 
     get modifier() {
         return this._modifier;
+    }
+
+    get defense() {
+        return this._defense;
     }
 
     get isImmune() {

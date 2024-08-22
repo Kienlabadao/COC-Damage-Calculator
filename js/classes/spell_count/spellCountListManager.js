@@ -3,16 +3,16 @@ class SpellCountListManager {
         this.spellCountList = [];
     }
 
-    load(offenseDamageListManager) {
-        if (offenseDamageListManager instanceof OffenseDamageListManager) {
+    load(damageLogListManager) {
+        if (damageLogListManager instanceof DamageLogListManager) {
             this.clear();
-            const offenseDamageList = offenseDamageListManager.getOffenseDamageList();
+            const damageLogList = damageLogListManager.getDamageLogList();
             let matchSpell = null;
             let sameSpellCounter = 0;
 
-            for (const [index, offenseDamage] of offenseDamageList.entries()) {
-                const isLastItem = index === offenseDamageList.length - 1;
-                const spell = offenseDamage.offense;
+            for (const [index, damageLog] of damageLogList.entries()) {
+                const isLastItem = index === damageLogList.length - 1;
+                const spell = damageLog.offense;
 
                 if (spell instanceof Spell) {
                     if (!spell.compare(matchSpell)) {
@@ -36,7 +36,7 @@ class SpellCountListManager {
                 // }
             }
         } else {
-            throw new Error(`Invalid offenseDamageListManager: ${offenseDamageListManager}`);
+            throw new Error(`Invalid damageLogListManager: ${damageLogListManager}`);
         }
     }
 

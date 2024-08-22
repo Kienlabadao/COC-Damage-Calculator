@@ -6,82 +6,66 @@ function calc() {
     });
 }
 
-function calcDirectEquipmentDamage() {
-    let equipmentDamage = 0;
-
-    for (const equipment of offenseListManager.getEquipmentList()) {
-        if (!equipment.isDamageTypeEQ()) {
-            equipmentDamage += equipment.getCurrentDamage();
-        }
-    }
-    return equipmentDamage;
-}
-
 function canEquipmentDestroy(defense) {
     if (defense instanceof Defense) {
-        const directEquipmentDamage = calcDirectEquipmentDamage();
-        const maxHP = defense.getCurrentHP();
-        let hp = maxHP - directEquipmentDamage;
-        let eqCount = 0;
+        const clonedDefense = defense.clone();
         
         for (const equipment of offenseListManager.getEquipmentList()) {
-            if (equipment.isDamageTypeEQ() && !defense.isImmune(equipment)) {
-                hp = equipment.calcRemainingHP(hp, maxHP, eqCount);
-                eqCount++;
-            }
+            equipment.calcRemainingHP(clonedDefense);
         }
-        return hp <= 0;        
+        return clonedDefense.isDestroyed();        
     } else {
         throw new Error(`Invalid defense: ${defense}`);
     }
 }
 
 function calcDefense(defenseDiv) {
-    const defenseID = getDataTitle(defenseDiv);
+    const defenseID = HTMLUtil.getDataID(defenseDiv);
     const defense = defenseListManager.getDefense(defenseID);
+    
     if (defense === null) {
         throw new Error(`Invalid defenseID: ${defenseID}`);
     }
 
-    const showMoreButton = defenseDiv.querySelector(".show-more-button");
+    const showMoreButton = defenseDiv.querySelector(".show-more-btn");
     showMoreButton.textContent = "Show More";
-    const collapseDiv = defenseDiv.querySelector(".collapse");
+    const collapseDiv = defenseDiv.querySelector(`#showMore-${defenseID}`);
     const collapse = new bootstrap.Collapse(collapseDiv, {
         toggle: false
     })
     collapse.hide();
     if (!canEquipmentDestroy(defense)) {
         const spellDiv = defenseDiv.querySelector(".spell-div");
-        showDiv(spellDiv);
+        HTMLUtil.showDiv(spellDiv);
         const statusDiv = defenseDiv.querySelector(".status-div");
-        hideDiv(statusDiv);
+        HTMLUtil.hideDiv(statusDiv);
         const collapseBtn = defenseDiv.querySelector(".collapse-btn");
-        hideDiv(collapseBtn);
+        HTMLUtil.hideDiv(collapseBtn);
 
         const spellCountLists = getSpellCountLists(defense);
 
         if (spellCountLists.length > 0) {
-            const spellMainDisplayDiv = removeAllChilds(defenseDiv.querySelector(".spell-main-display"));
-            const spellDisplayDiv = removeAllChilds(defenseDiv.querySelector(".spell-display"));
+            const spellMainDisplayDiv = HTMLUtil.removeAllChilds(defenseDiv.querySelector(".spell-main-display"));
+            const spellDisplayDiv = HTMLUtil.removeAllChilds(defenseDiv.querySelector(".spell-display"));
 
             let isMainDisplay = true;
             for (const spellCountListManager of spellCountLists) {
-                const nodeArray = createSpellNodeArray(spellCountListManager);
+                const nodeArray = ZapquakeHTMLUtil.createSpellNodeArray(spellCountListManager);
                 
                 if (isMainDisplay) {
-                    appendAllChilds(spellMainDisplayDiv, nodeArray);
+                    HTMLUtil.appendAllChilds(spellMainDisplayDiv, nodeArray);
                     isMainDisplay = false;
                 } else {
                     const spellsContainerDiv = document.createElement('div');
-                    spellsContainerDiv.className = "d-flex justify-content-center align-items-center";
+                    spellsContainerDiv.className = "d-flex justify-content-center align-items-center gap-2 mt-2";
 
-                    appendAllChilds(spellsContainerDiv, nodeArray);
+                    HTMLUtil.appendAllChilds(spellsContainerDiv, nodeArray);
                     spellDisplayDiv.appendChild(spellsContainerDiv);
                 }
             }
 
             if (spellCountLists.length > 1) {
-                showDiv(collapseBtn);
+                HTMLUtil.showDiv(collapseBtn);
             }
         } else {
             setImpossibleStatus(defenseDiv);
@@ -91,21 +75,20 @@ function calcDefense(defenseDiv) {
     }
 }
 
-// Get a list of each spell composition that needed to destroy a defense
-// Structure inside list: [[Spell1. Spell1 count], [Spell2. Spell2 count], ...]
-// Ex: [[eqSpell. 3], [zapSpell. 5], ...]
 function getSpellCountLists(defense) {
     if (defense instanceof Defense) {
+        const clonedDefense = defense.clone();
         const spellCountLists = [];
 
         for (let maxEQSpellCount = 1; maxEQSpellCount <= maxSpellCount; maxEQSpellCount++) {
-            const offenseDamageListManager = new OffenseDamageListManager();
+            const damageLogListManager = new DamageLogListManager();
             const spellCountListManager = new SpellCountListManager();
 
-            offenseDamageListManager.loadWithOffenseOrderList(defense, getOffenseOrderList(maxEQSpellCount, defense));
-            const offenseDamage = offenseDamageListManager.getLast();
-            if (offenseDamage instanceof OffenseDamage && offenseDamage.remainingHP <= 0) {
-                spellCountListManager.load(offenseDamageListManager);
+            damageLogListManager.loadWithOffenseOrderList(clonedDefense, getOffenseOrderList(maxEQSpellCount, clonedDefense));
+
+            const damageLog = damageLogListManager.getLast();
+            if (damageLog instanceof DamageLog && damageLog.remainingHP <= 0) {
+                spellCountListManager.load(damageLogListManager);
                 spellCountLists.push(spellCountListManager);
 
                 if (spellCountListManager.getLength() === 1) {
@@ -125,6 +108,7 @@ function getSpellCountLists(defense) {
 
 function getOffenseOrderList(maxEQSpellCount, defense) {
     if (defense instanceof Defense) {
+        const clonedDefense = defense.clone();
         const offenseOrderList = [];
         const eqBoots = offenseListManager.getEquipment(eqBootsKey);
         const eqSpell = offenseListManager.getSpell(eqSpellKey, false);
@@ -142,7 +126,7 @@ function getOffenseOrderList(maxEQSpellCount, defense) {
             case eqBootsKey:
                 offenseOrderList.push(eqBoots);
 
-                if (!defense.isImmune(eqSpell) && !eqSpell.isMinLevel()) {
+                if (!clonedDefense.isImmune(eqSpell) && !eqSpell.isMinLevel()) {
                     for (let eqSpellCount = 1; eqSpellCount <= maxEQSpellCount; eqSpellCount++) {
                         offenseOrderList.push(eqSpell);
                         spellCount++;
@@ -150,7 +134,7 @@ function getOffenseOrderList(maxEQSpellCount, defense) {
                 }           
                 break;
             case eqSpellKey:
-                if (!defense.isImmune(eqSpell) && !eqSpell.isMinLevel()) {
+                if (!clonedDefense.isImmune(eqSpell) && !eqSpell.isMinLevel()) {
                     for (let eqSpellCount = 1; eqSpellCount <= maxEQSpellCount; eqSpellCount++) {
                         offenseOrderList.push(eqSpell);
                         spellCount++;
@@ -181,29 +165,29 @@ function getOffenseOrderList(maxEQSpellCount, defense) {
         return offenseOrderList;
     } else {
         throw new Error(`Invalid defense: ${defense}`);   
-    }
-    
+    }   
 }
 
 function setDestroyedStatus(defenseDiv) {
-    let spellDiv = defenseDiv.querySelector(".spell-div");
-    hideDiv(spellDiv);
-    let statusDiv = defenseDiv.querySelector(".status-div");
-    showDiv(statusDiv);
-    let statusImg = defenseDiv.querySelector(".status-img");
+    const spellDiv = defenseDiv.querySelector(".spell-div");
+    HTMLUtil.hideDiv(spellDiv);
+
+    const statusDiv = defenseDiv.querySelector(".status-div");
+    HTMLUtil.showDiv(statusDiv);
+    const statusImg = statusDiv.querySelector(".image");
     statusImg.setAttribute('src', "/images/other/champion_king.webp");
-    let statusText = defenseDiv.querySelector(".status-text");
+    const statusText = statusDiv.querySelector(".info");
     statusText.textContent = "That heroes equipment setup is enough to destroy this defense without any spells needed. Huzzah! 🎉";
 }
 
 function setImpossibleStatus(defenseDiv) {
-    let spellDiv = defenseDiv.querySelector(".spell-div");
-    hideDiv(spellDiv);
+    const spellDiv = defenseDiv.querySelector(".spell-div");
+    HTMLUtil.hideDiv(spellDiv);
 
-    let statusDiv = defenseDiv.querySelector(".status-div");
-    showDiv(statusDiv);
-    let statusImg = defenseDiv.querySelector(".status-img");
+    const statusDiv = defenseDiv.querySelector(".status-div");
+    HTMLUtil.showDiv(statusDiv);
+    const statusImg = statusDiv.querySelector(".image");
     statusImg.setAttribute('src', "/images/other/raged-barbarian.png");
-    let statusText = defenseDiv.querySelector(".status-text");
+    const statusText = statusDiv.querySelector(".info");
     statusText.textContent = "It's impossible to destroy this defense with setup. Womp womp! 😔";
 }

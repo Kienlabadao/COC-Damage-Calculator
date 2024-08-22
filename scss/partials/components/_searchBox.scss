@@ -1,0 +1,31 @@
+@use "../abstracts" as *;
+
+.search-box {
+    border-radius: 20px;
+    position: relative;
+
+    .fa-search {
+        position: absolute;
+        top:20px;
+        left: 20px;
+        color: $white;
+        font-size: 1rem;
+    }
+
+    .search-box__input {
+        height: 55px;
+        text-indent: 33px;
+        border-radius: 10px;
+        border: none;
+        color: $white;
+        background-color: var(--search-box-input-color);
+
+        &::placeholder {
+            color: $white;
+        }
+
+        &:focus {
+            background-color: var(--search-box-input-color);
+        }
+    }
+}

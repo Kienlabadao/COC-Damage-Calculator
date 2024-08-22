@@ -5,7 +5,9 @@ const themeStyleSheet = document.getElementById("theme");
 let isDarkMode = LocalStorageUtils.loadBoolean("isDarkMode", false);
 
 if (isDarkMode) {
-    themeStyleSheet.setAttribute('href', darkStyleSheet);
+    document.documentElement.setAttribute('data-bs-theme', "dark");
+    //themeStyleSheet.setAttribute('href', darkStyleSheet);
 } else {
-    themeStyleSheet.setAttribute('href', lightStyleSheet);
+    document.documentElement.setAttribute('data-bs-theme', "light");
+    //themeStyleSheet.setAttribute('href', lightStyleSheet);
 }

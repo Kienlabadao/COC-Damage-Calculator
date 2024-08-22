@@ -5,9 +5,6 @@ class Spell extends Offense {
         this.isDonated = isDonated;
         this.maxLevelPos = this.getDamageList().length - 1;
         this.currentLevelPos = currentLevelPos;
-        if (this.isDamageTypeEQ()) {
-            this.eqCount = 0;
-        }
     }
 
     getLevel(levelPos) {
@@ -38,23 +35,46 @@ class Spell extends Offense {
         }
     }
 
-    calcDamage(maxHP) {
-        switch (this.damageType) {
-            case "direct":
-                return this.getCurrentDamage();
-            case "earthquake":
-                return this.calcBaseEQDamage(maxHP) * (1 / (2 * this.eqCount + 1));            
-        }      
+    calcDamage(defense) {
+        if (defense instanceof Defense) {
+            if (defense.isImmune(this)) {
+                return 0;
+            }
+
+            const maxHP = defense.getCurrentMaxHP();
+            const eqCount = defense.eqCount;
+
+            switch (this.damageType) {
+                case "direct":
+                    return Util.round2Places(this.getCurrentDamage());
+                case "earthquake":
+                    return Util.round2Places(this.calcBaseEQDamage(maxHP) * (1 / (2 * eqCount + 1)));            
+            }  
+        } else {
+            throw new Error(`Invalid defense: ${defense}`);
+        }       
     }
  
-    calcRemainingHP(hp, maxHP) {
-        switch (this.damageType) {
-            case "direct":
-                return hp - this.calcDamage();
-            case "earthquake":
-                return hp - this.calcDamage(maxHP);               
-        }  
-        
+    calcRemainingHP(defense) {
+        if (defense instanceof Defense) {
+            if (defense.isImmune(this)) {
+                return;
+            }
+
+            const hp = defense.remainingHP;
+
+            switch (this.damageType) {
+                case "direct":
+                    defense.remainingHP = Util.round2Places(hp - this.calcDamage(defense));
+                    return;
+                case "earthquake":
+                    defense.remainingHP = Util.round2Places(hp - this.calcDamage(defense));
+                    defense.eqCount++;
+                    return;               
+            }  
+        } else {
+            throw new Error(`Invalid defense: ${defense}`);
+        }     
     }
 
     isMaxLevel() {
@@ -104,31 +124,11 @@ class Spell extends Offense {
         }
     }
 
-    set eqCount(newEqCount) {
-        if (this.isDamageTypeEQ()) {
-            if (typeof newEqCount === "number" && newEqCount >= 0) {
-                this._eqCount = newEqCount;
-            } else {
-                throw new Error(`Invalid eqCount: ${eqCount}`);
-            }
-        } else {
-            throw new Error(`Equipment isn't EQ type: ${this.offenseID}`);
-        }
-    }
-
     get isDonated() {
         return this._isDonated;
     }
 
     get currentLevelPos() {
         return this._currentLevelPos;
-    }
-
-    get eqCount() {
-        if (this.isDamageTypeEQ()) {
-            return this._eqCount;
-        } else {
-            throw new Error(`Equipment isn't EQ type: ${this.offenseID}`);
-        }
     }
 }

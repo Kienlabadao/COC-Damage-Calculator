@@ -7,47 +7,49 @@ function calc() {
 }
 
 function calcDefense(defenseDiv) {
-    const defenseID = getDataTitle(defenseDiv);
+    const defenseID = HTMLUtil.getDataID(defenseDiv);
     const defense = defenseListManager.getDefense(defenseID);
     if (defense === null) {
         throw new Error(`Invalid defenseID: ${defenseID}`);
     }
 
-    const showMoreButton = defenseDiv.querySelector(".show-more-button");
+    const showMoreButton = defenseDiv.querySelector(".show-more-btn");
     showMoreButton.textContent = "Show";
-    const collapseDiv = defenseDiv.querySelector(".collapse");
+    const collapseDiv = defenseDiv.querySelector(`#showMore-${defenseID}`);
     const collapse = new bootstrap.Collapse(collapseDiv, {
         toggle: false
     })
     collapse.hide();
-    const actionDisplay = defenseDiv.querySelector(".action-display");
-    removeAllChilds(actionDisplay);
-    const offenseDamageList = getOffenseDamageList(defense);
+    const damageLogDisplay = defenseDiv.querySelector(".damage-log-display");
+    HTMLUtil.removeAllChilds(damageLogDisplay);
+    const damageLogList = getDamageLogList(defense);
 
-    for (const offenseDamage of offenseDamageList.getOffenseDamageList()) {
-        const actionRow = createActionTableRow(offenseDamage, defense);
+    let orderCount = 0;
+    for (const damageLog of damageLogList.getDamageLogList()) {
+        orderCount++;
+        const damageLogRow = AdvanceHTMLUtil.createDamageLogRow(damageLog, orderCount);       
         
-        actionDisplay.appendChild(actionRow);
+        damageLogDisplay.appendChild(damageLogRow);
     }
 
-    const defenseImg = defenseDiv.querySelector(".image");
+    const defenseImg = defenseDiv.querySelector(".image--main");
     const defenseHP = defenseDiv.querySelector(".hp");
-    const maxHP = defense.getCurrentHP();
+    const maxHP = defense.getCurrentMaxHP();
     let remainingHP = maxHP;
-    if (!offenseDamageList.isEmpty()) {
-        remainingHP = offenseDamageList.getLast().remainingHP;
+    if (!damageLogList.isEmpty()) {
+        remainingHP = damageLogList.getLast().remainingHP;
     }
 
-    defenseHP.classList.remove("full-hp");
-    defenseHP.classList.remove("destroyed");
+    defenseHP.classList.remove("text--hp-full");
+    defenseHP.classList.remove("text--destroyed");
     defenseHP.textContent = remainingHP;
-    setDataDefenseStatus(defenseDiv, true);
+    HTMLUtil.setDataDefenseStatus(defenseDiv, true);
     if (remainingHP === maxHP) {
-        defenseHP.classList.add("full-hp"); 
+        defenseHP.classList.add("text--hp-full"); 
         defenseImg.src = defense.getImagePath();    
     } else if (remainingHP <= 0) {
-        defenseHP.classList.add("destroyed");
-        setDataDefenseStatus(defenseDiv, false);
+        defenseHP.classList.add("text--destroyed");
+        HTMLUtil.setDataDefenseStatus(defenseDiv, false);
         defenseImg.src = defense.getDestroyedImagePath();
     } else {
         defenseImg.src = defense.getImagePath();
@@ -55,14 +57,13 @@ function calcDefense(defenseDiv) {
     toggleDefenseDivVisibility();
 }
 
-// Get a list of each spell composition that needed to destroy a defense
-// Structure inside list: [[Spell1. Spell1 count], [Spell2. Spell2 count], ...]
-// Ex: [[eqSpell. 3], [zapSpell. 5], ...]
-function getOffenseDamageList(defense) {
+function getDamageLogList(defense) {
     if (defense instanceof Defense) {
-        const offenseDamageListManager = new OffenseDamageListManager();
-        offenseDamageListManager.loadWithActionList(defense, actionListManager);
-        return offenseDamageListManager; 
+        const clonedDefense = defense.clone();
+
+        const damageLogListManager = new DamageLogListManager();
+        damageLogListManager.loadWithActionList(clonedDefense, actionListManager);
+        return damageLogListManager; 
     } else {
         throw new Error(`Invalid defense: ${defense}`);
     }

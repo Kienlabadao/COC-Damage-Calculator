@@ -1,0 +1,16 @@
+@use "../abstracts/" as *;
+
+.dropdown {
+    color: $white;
+    border: none;
+
+    &#earthquakeOrder {
+        width: 25%;
+    }
+
+    @include respondToBreakpoint(md) {
+        &#earthquakeOrder {
+            width: 100%;
+        }
+    }
+}

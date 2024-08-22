@@ -1,9 +1,9 @@
 function updateDefense(element) {
-    const defenseDiv = getParentDiv(element, "defense");
+    const defenseDiv = HTMLUtil.getParentDiv(element, "defense");
 
     if (defenseDiv) {
         const levelNumberSpan = defenseDiv.querySelector(".level");
-        const defenseID = getDataTitle(defenseDiv);
+        const defenseID = HTMLUtil.getDataID(defenseDiv);
         const defense = defenseListManager.getDefense(defenseID);
         const key = LocalStorageUtils.getObjectKey(type, "defense", defenseID);
        
@@ -19,21 +19,21 @@ function updateDefense(element) {
             levelNumberSpan.classList.remove("maxed-text");
         }
         defenseDiv.querySelector(".image").src = imagePath;
-        defenseDiv.querySelector(".hp").textContent = defense.getCurrentHP();   
+        defenseDiv.querySelector(".hp").textContent = defense.getCurrentMaxHP();   
     }
     calcDefense(defenseDiv);
 }
 
 function updateOffense(element) {
-    const offenseDiv = getParentDiv(element, "offense");
+    const offenseDiv = HTMLUtil.getParentDiv(element, "offense");
     
     if (offenseDiv) {
         const overlayDiv = offenseDiv.querySelector(".overlay");
-        const offenseID = getDataTitle(offenseDiv);
+        const offenseID = HTMLUtil.getDataID(offenseDiv);
         let offense = null;
         let key = null;
         if (offenseDiv.classList.contains("spell")) {
-            const isDonated = getDataDonated(offenseDiv);
+            const isDonated = HTMLUtil.getDataDonated(offenseDiv);
 
             offense = offenseListManager.getSpell(offenseID, isDonated);
             key = isDonated ? LocalStorageUtils.getObjectKeyDonated(type, "offense", offenseID) : LocalStorageUtils.getObjectKey(type, "offense", offenseID);
@@ -53,11 +53,11 @@ function updateOffense(element) {
         }
         
         if (offense.isMaxLevel()) {            
-            addMaxedClass(overlayDiv);
+            HTMLUtil.addMaxedClass(overlayDiv);
         } else {
-            addNotMaxedClass(overlayDiv);
+            HTMLUtil.addNotMaxedClass(overlayDiv);
         }
-        offenseDiv.querySelector(".level-number").textContent = offense.getCurrentLevel();
+        offenseDiv.querySelector(".level").textContent = offense.getCurrentLevel();
     }
     calc();
 }
@@ -74,13 +74,13 @@ function toggleUseDonatedZapSpell() {
     offenseDivs = offensesSection.querySelectorAll(".offense");
 
     offenseDivs.forEach((offenseDiv) => {
-        const spellID = getDataTitle(offenseDiv);
+        const spellID = HTMLUtil.getDataID(offenseDiv);
         if (spellID === "lightning_spell") {
-            if (getDataDonated(offenseDiv)) {
+            if (HTMLUtil.getDataDonated(offenseDiv)) {
                 if (useDonatedZap) {
-                    showDiv(offenseDiv);            
+                    HTMLUtil.showDiv(offenseDiv);            
                 } else {
-                    hideDiv(offenseDiv);
+                    HTMLUtil.hideDiv(offenseDiv);
                 }                
                 return;
             }
@@ -89,19 +89,19 @@ function toggleUseDonatedZapSpell() {
 }
 
 function updateDonatedCount(element) {
-    const warningDiv = document.getElementById("input-warning");
+    const warningDiv = document.getElementById("inputWarning");
     const inputNumber = Number.parseInt(element.value);
 
     if (Number.isNaN(inputNumber)) {
-        showDiv(warningDiv);
+        HTMLUtil.showDiv(warningDiv);
     } else {
         if (inputNumber < 0 || inputNumber > 3) {
-            showDiv(warningDiv);
+            HTMLUtil.showDiv(warningDiv);
         } else {
             donatedZapSpellCount = inputNumber;
 
             LocalStorageUtils.saveNumber(donatedZapSpellCountKey, donatedZapSpellCount);
-            hideDiv(warningDiv);
+            HTMLUtil.hideDiv(warningDiv);
             calc();
         }       
     }
@@ -118,7 +118,7 @@ function updateEquipmentUsed() {
 
     for (const offense of offenseListManager.getEquipmentList()) {
         if (!offense.isMinLevel()) {
-            equipmentDivList.push(createEquipmentDiv(offense));
+            equipmentDivList.push(ZapquakeHTMLUtil.createEquipmentDiv(offense));
         }
     }
 
@@ -128,25 +128,25 @@ function updateEquipmentUsed() {
         defenseDivs.forEach((defenseDiv) => {        
             const equipmentListDiv = defenseDiv.querySelector(".equipment-list");
             const equipmentDiv = defenseDiv.querySelector(".equipment-div");
-            const defense = defenseListManager.getDefense(getDataTitle(defenseDiv));
+            const defense = defenseListManager.getDefense(HTMLUtil.getDataID(defenseDiv));
 
-            removeAllChilds(equipmentListDiv)
+            HTMLUtil.removeAllChilds(equipmentListDiv)
             for (const equipmentDiv of equipmentDivList) {
                 const equipmentNode = equipmentDiv.cloneNode(true);
-                const equipment = offenseListManager.getEquipment(getDataTitle(equipmentNode));
+                const equipment = offenseListManager.getEquipment(HTMLUtil.getDataID(equipmentNode));
 
                 if (defense.isImmune(equipment)) {
-                    equipmentNode.classList.add("immune");
+                    equipmentNode.classList.add("overlay--immune");
                 }
                 equipmentListDiv.appendChild(equipmentNode);
             }
-            showDiv(equipmentDiv);
+            HTMLUtil.showDiv(equipmentDiv);
         });
     } else {
         defenseDivs = defensesSection.querySelectorAll(".defense");
 
         defenseDivs.forEach((defenseDiv) => {
-            hideDiv(defenseDiv.querySelector(".equipment-div"));
+            HTMLUtil.hideDiv(defenseDiv.querySelector(".equipment-div"));
         });
     }
 }

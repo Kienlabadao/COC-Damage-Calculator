@@ -26,20 +26,46 @@ class Repair extends Offense {
         return this.repairList[levelPos][Repair.REPAIR_POS];
     }
 
-    getCurrentRepair() {
+    getCurrentDamage() {
         return this.getRepair(this.currentLevelPos);
     }
 
-    calcModify(modify = 0) {
-        return this.getCurrentRepair() * modify / 100;
+    calcModifiedDamage(modify = 0) {
+        return this.getCurrentDamage() * modify / 100;
     }
 
-    calcRepair(modify = 0) {
-        return this.getCurrentRepair() + this.calcModify(modify);  
+    calcDamage(defense, modify = 0) {
+        if (defense instanceof Defense) {
+            if (defense.isImmune(this)) {
+                return 0;
+            }
+            
+            const maxHP = defense.getCurrentMaxHP();
+            const hp = defense.remainingHP;
+            const repair = Util.round2Places(this.getCurrentDamage() + this.calcModifiedDamage(modify));
+
+            if (Util.round2Places(hp + repair) > maxHP) {
+                return Util.round2Places(maxHP - hp);
+            } else {
+                return repair;
+            }         
+        } else {
+            throw new Error(`Invalid defense: ${defense}`);
+        } 
     }
 
-    calcRemainingHP(hp, modify = 0) {
-        return hp + this.calcRepair(modify);
+    calcRemainingHP(defense, modify = 0) {
+        if (defense instanceof Defense) {
+            if (defense.isImmune(this)) {
+                return;
+            }
+
+            const hp = defense.remainingHP;
+
+            defense.remainingHP = Util.round2Places(hp + this.calcDamage(defense, modify));
+        } else {
+            throw new Error(`Invalid defense: ${defense}`);
+        }
     }
 
     isMaxLevel() {

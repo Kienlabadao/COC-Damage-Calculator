@@ -1,5 +1,5 @@
 function toggleCollapseText(element) { 
-    if (getDataBoolean(element, "aria-expanded")) {
+    if (HTMLUtil.getDataBoolean(element, "aria-expanded")) {
         switch (element.textContent) {
             case "Show More":
                 element.textContent = "Show Less"

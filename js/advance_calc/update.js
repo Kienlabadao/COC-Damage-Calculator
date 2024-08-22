@@ -1,11 +1,11 @@
 function updateDefense(element) {
-    const defenseDiv = getParentDiv(element, "defense");
+    const defenseDiv = HTMLUtil.getParentDiv(element, "defense");
     const tableHeader = defenseDiv.querySelector("thead");
-    const actionDefenseHeader = tableHeader.querySelector(".actionDefenseHeader");
+    const damageLogDefenseHeader = tableHeader.querySelector(".damageLogDefenseHeader");
 
     if (defenseDiv) {
         const levelNumberSpan = defenseDiv.querySelector(".level");
-        const defenseID = getDataTitle(defenseDiv);
+        const defenseID = HTMLUtil.getDataID(defenseDiv);
         const defense = defenseListManager.getDefense(defenseID);
         const key = LocalStorageUtils.getObjectKey(type, "defense", defenseID);
        
@@ -16,16 +16,16 @@ function updateDefense(element) {
         
         levelNumberSpan.textContent = defense.getCurrentLevel();
         if (defense.isMaxLevel()) {
-            levelNumberSpan.classList.add("maxed-text");
+            levelNumberSpan.classList.add("text--level-maxed");
         } else {
-            levelNumberSpan.classList.remove("maxed-text");
+            levelNumberSpan.classList.remove("text--level-maxed");
         }
-        defenseDiv.querySelector(".image").src = imagePath;
-        defenseDiv.querySelector(".hp").textContent = defense.getCurrentHP();
+        defenseDiv.querySelector(".image--main").src = imagePath;
+        defenseDiv.querySelector(".hp").textContent = defense.getCurrentMaxHP();
 
-        if (actionDefenseHeader) {
-            tableHeader.removeChild(actionDefenseHeader);
-            tableHeader.appendChild(createActionDefenseHeader(defense));
+        if (damageLogDefenseHeader) {
+            HTMLUtil.removeChild(tableHeader, ".damageLogDefenseHeader");
+            tableHeader.appendChild(AdvanceHTMLUtil.createDamageLogDefenseHeader(defense));
         }
         calcDefense(defenseDiv);
     } else {
@@ -34,11 +34,11 @@ function updateDefense(element) {
 }
 
 function updateOffense(element) {
-    const offenseDiv = getParentDiv(element, "offense");
+    const offenseDiv = HTMLUtil.getParentDiv(element, "offense");
     
     if (offenseDiv) {
         const overlayDiv = offenseDiv.querySelector(".overlay");
-        const offenseID = getDataTitle(offenseDiv);
+        const offenseID = HTMLUtil.getDataID(offenseDiv);
         const offense = offenseListManager.getOffense(offenseID);
         const key = LocalStorageUtils.getObjectKey(type, "offense", offenseID);       
         const currentLevelPos = Number.parseInt(element.value);
@@ -46,21 +46,21 @@ function updateOffense(element) {
         offense.currentLevelPos = currentLevelPos;
         LocalStorageUtils.saveNumber(key, currentLevelPos);        
         if (offense.isMaxLevel()) {
-            addMaxedClass(overlayDiv);
+            HTMLUtil.addMaxedClass(overlayDiv);
         } else {
-            addNotMaxedClass(overlayDiv);
+            HTMLUtil.addNotMaxedClass(overlayDiv);
         }
-        offenseDiv.querySelector(".level-number").textContent = offense.getCurrentLevel();
+        offenseDiv.querySelector(".level").textContent = offense.getCurrentLevel();
         offenseDiv.querySelector(".image").src = offense.getImagePath();
     }
 }
 
 function updateModifier(element) {
-    const modifierDiv = getParentDiv(element, "modifier");
+    const modifierDiv = HTMLUtil.getParentDiv(element, "modifier");
     
     if (modifierDiv) {
         const overlayDiv = modifierDiv.querySelector(".overlay");
-        const modifierID = getDataTitle(modifierDiv);
+        const modifierID = HTMLUtil.getDataID(modifierDiv);
         const modifier = modifierListManager.getModifier(modifierID);
         const key = LocalStorageUtils.getObjectKey(type, "offense", modifierID);       
         const currentLevelPos = Number.parseInt(element.value);
@@ -68,19 +68,19 @@ function updateModifier(element) {
         modifier.currentLevelPos = currentLevelPos;
         LocalStorageUtils.saveNumber(key, currentLevelPos);
         if (modifier.isMaxLevel()) {
-            addMaxedClass(overlayDiv);
+            HTMLUtil.addMaxedClass(overlayDiv);
         } else {
-            addNotMaxedClass(overlayDiv);
+            HTMLUtil.addNotMaxedClass(overlayDiv);
         }
-        modifierDiv.querySelector(".level-number").textContent = modifier.getCurrentLevel();
+        modifierDiv.querySelector(".level").textContent = modifier.getCurrentLevel();
         modifierDiv.querySelector(".image").src = modifier.getImagePath();
     }
     updateOverlay();
 }
 
 function toggleUseModifer(element) {
-    const modifierDiv = getParentDiv(element, "modifier");
-    const modifierID = getDataTitle(modifierDiv);
+    const modifierDiv = HTMLUtil.getParentDiv(element, "modifier");
+    const modifierID = HTMLUtil.getDataID(modifierDiv);
     const useModifier = element.checked;
     const useModifierKey = LocalStorageUtils.getUseModifierKey(type, modifierID);
     const modifier = modifierListManager.getModifier(modifierID);
@@ -122,56 +122,51 @@ function updateOverlay() {
 }
 
 function updateTroopDivOverlay(troopDiv) {
-    const troopID = getDataTitle(troopDiv);
+    const troopID = HTMLUtil.getDataID(troopDiv);
     const troop = offenseListManager.getTroop(troopID);
     const troopModifierListManager = modifierListManager.getActiveTroopModifierListManager();
-    const overlayDiv = troopDiv.querySelector(".overlay-top-left");
-    removeAllChilds(overlayDiv);
-    clearDataTitle(overlayDiv);
+    const objectContainer = troopDiv.querySelector(".object-container");
+    HTMLUtil.removeChild(objectContainer, ".modifier");
 
     if (useTroopDeathDamage && troop.canDealDeathDamage()) {
-        const overlayImage = createOverlayImage(deathDamageImage);
-        overlayImage.className = 'overlay-image death';
-        setDataTitle(overlayDiv, "death_damage");
+        const modifierOverlay = HTMLUtil.createModifierOverlay(deathDamageImage, HTMLUtil.OVERLAY_NORMAL, HTMLUtil.MODIFIER_DEATH);
+        HTMLUtil.setDataID(modifierOverlay, "death_damage");
 
-        overlayDiv.appendChild(overlayImage);
+        objectContainer.appendChild(modifierOverlay);
     } else if (!troopModifierListManager.isEmpty()) {
         const modifier = troopModifierListManager.getHighestModifier();
 
-        const overlayImage = createOverlayImage(modifier.getImagePath());
-        overlayImage.className = 'overlay-image raged';
-        setDataTitle(overlayDiv, modifier.offenseID);
+        const modifierOverlay = HTMLUtil.createModifierOverlay(modifier.getImagePath(), HTMLUtil.OVERLAY_NORMAL, HTMLUtil.MODIFIER_RAGED);
+        HTMLUtil.setDataID(modifierOverlay, modifier.offenseID);
 
-        overlayDiv.appendChild(overlayImage);
+        objectContainer.appendChild(modifierOverlay);
     }
 }
 
 function updateRepairDivOverlay(repairDiv) {
     const repairModifierListManager = modifierListManager.getActiveRepairModifierListManager();
-    const overlayDiv = repairDiv.querySelector(".overlay-top-left");
-    removeAllChilds(overlayDiv);
-    clearDataTitle(overlayDiv);
+    const objectContainer = repairDiv.querySelector(".object-container");
+    HTMLUtil.removeChild(objectContainer, ".modifier");
 
     if (!repairModifierListManager.isEmpty()) {
         const modifier = repairModifierListManager.getHighestModifier();
 
-        const overlayImage = createOverlayImage(modifier.getImagePath());
-        overlayImage.className = 'overlay-image raged';
-        setDataTitle(overlayDiv, modifier.offenseID);
+        const modifierOverlay = HTMLUtil.createModifierOverlay(modifier.getImagePath(), HTMLUtil.OVERLAY_NORMAL, HTMLUtil.MODIFIER_RAGED);
+        HTMLUtil.setDataID(modifierOverlay, modifier.offenseID);
 
-        overlayDiv.appendChild(overlayImage);
+        objectContainer.appendChild(modifierOverlay);
     }
 }
 
 function addAction(element) {
     const amount = Number.parseInt(element.value);
-    const offenseDiv = getParentDiv(element, "offense");
-    const offenseID = getDataTitle(offenseDiv);
+    const offenseDiv = HTMLUtil.getParentDiv(element, "offense");
+    const offenseID = HTMLUtil.getDataID(offenseDiv);
     const offense = offenseListManager.getOffense(offenseID);
     const modifierOverlayDiv = offenseDiv.querySelector(".modifier");
 
     if (modifierOverlayDiv !== null) {
-        const modifierID = getDataTitle(modifierOverlayDiv);
+        const modifierID = HTMLUtil.getDataID(modifierOverlayDiv);
 
         if (modifierID.length !== 0 && modifierID !== "death") {
             const modifier = modifierListManager.getModifier(modifierID);
@@ -207,11 +202,11 @@ function addActionList(amount, offense, modifier = null) {
 }
 
 function updateActionListDiv() {
-    removeAllChilds(actionListDiv);
+    HTMLUtil.removeAllChilds(actionListDiv);
     
     let count = 0;
     for (const action of actionListManager.actionList) {
-        actionListDiv.appendChild(createActionDiv(action, ++count));
+        actionListDiv.appendChild(AdvanceHTMLUtil.createActionDiv(action, ++count));
     }
     
     if (actionListManager.isEmpty()) {
@@ -225,8 +220,8 @@ function hideActionList() {
     const showActionListButton = document.getElementById("showActionListButton");
     const showActionList = document.getElementById("showActionList");
 
-    hideDiv(showActionListButton);
-    hideDiv(showActionList);
+    HTMLUtil.hideDiv(showActionListButton);
+    HTMLUtil.hideDiv(showActionList);
 }
 
 function showActionList() {
@@ -240,8 +235,8 @@ function showActionList() {
     })
     collapse.show();
 
-    showDiv(showActionListButton);
-    showDiv(showActionList);
+    HTMLUtil.showDiv(showActionListButton);
+    HTMLUtil.showDiv(showActionList);
 }
 
 function toggleDefenseDivVisibility() {
@@ -249,17 +244,17 @@ function toggleDefenseDivVisibility() {
     
     if (hideDestroyedDefenses) {
         defensesDiv.forEach((defenseDiv) => {
-            const isDestroyed = !getDataDefenseStatus(defenseDiv);
+            const isDestroyed = !HTMLUtil.getDataDefenseStatus(defenseDiv);
 
             if (isDestroyed) {
-                hideDiv(defenseDiv);               
+                HTMLUtil.hideDiv(defenseDiv);               
             } else {
-                showDiv(defenseDiv);
+                HTMLUtil.showDiv(defenseDiv);
             }
         });
     } else {
         defensesDiv.forEach((defenseDiv) => {
-            showDiv(defenseDiv);
+            HTMLUtil.showDiv(defenseDiv);
         });   
     }
     searchDefenses(searchDefenseBox);

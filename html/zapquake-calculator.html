@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" class="h-100">
+<html lang="en" class="h-100" data-bs-theme="light">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zapquake Calculator | COC Damage Calculator</title>
-    
+
     <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
@@ -17,23 +17,21 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="/css/stylesheet.css" rel="stylesheet">
-    <link id="theme" rel="stylesheet">
-    <link href="/css/responsive.css" rel="stylesheet">
     <script src="/js/util/localStorageUtils.js"></script>
-    <script src="/js/util/loadTheme.js"></script>   
+    <script src="/js/util/loadTheme.js"></script>
     <script src="https://kit.fontawesome.com/e1acb8aa00.js" crossorigin="anonymous"></script>
 </head>
 
 <body class="d-flex flex-column h-100">
-    <nav class="navbar navbar-expand-lg navbar-bg fixed-top" data-bs-theme="light" id="navbar">
+    <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
         <div class="container-fluid justify-content-start mx-lg-5 px-sm-5 fw-bold">
             <a class="navbar-brand d-flex align-items-center" href="/html/">
-                <div class="brand-logo me-3 d-flex justify-content-center align-items-center">
+                <div class="brand__logo me-3 d-flex justify-content-center align-items-center">
                     <img src="/images/other/logo.webp" alt="Logo">
-                </div>               
-                <div class="brand-text navbar-text">
-                    <div class="text-orange">Damage</div>
-                    <div class="text-warning">Calculator</div>
+                </div>
+                <div class="brand__text">
+                    <div class="brand__text--orange">Damage</div>
+                    <div class="brand__text--yellow">Calculator</div>
                 </div>
             </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -60,12 +58,12 @@
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-            </button>    
-            <button id="toggleDarkMode" class="btn" onclick="toggleDarkMode()">
+            </button>
+            <button id="toggleTheme" class="btn btn--toggle-theme" onclick="toggleTheme()">
                 <i class="fa-solid fa-sun fa-2x d-none" id="lightModeIcon"></i>
                 <i class="fa-solid fa-moon fa-2x" id="darkModeIcon"></i>
             </button>
-            <a href="/html/setting.html" class="setting btn border-0 d-none d-sm-block">
+            <a href="/html/setting.html" class="btn btn--setting d-none d-sm-block">
                 <i class="fa-solid fa-gear fa-2x"></i>
             </a>
         </div>
@@ -73,168 +71,245 @@
 
     <main class="container-fluid pb-5">
         <header class="text-center">
-            <h1 class="brand-text">
-                <span class="text-primary mt-3 d-inline-block">Zap<span class="text-brown">Quake</span></span>               
-                <span class="text-warning mt-3 d-inline-block">Calculator</span>
+            <h1 class="brand__text">
+                <span class="brand__text--blue d-inline-block mt-3">Zap<span
+                        class="brand__text--brown">Quake</span></span>
+                <span class="brand__text--yellow d-inline-block mt-3">Calculator</span>
             </h1>
         </header>
         <section class="main-container mx-auto mt-5">
-            <section id="offenses" class="p-4 rounded-border shadow card-background">
+            <section id="offenses" class="p-4 shadow card-custom card-custom__main">
                 <h2 class="text-center">Select Offense Level</h2>
                 <hr>
+                <!-- Spells -->
                 <div>
                     <h3>Spell</h3>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="useDonatedLightning"
+                    <div class="d-flex align-items-center">
+                        <input class="form-check-input checkbox me-1" type="checkbox" id="useDonatedLightning"
                             oninput="useDonatedZapSpell(this)">
-                        <label class="form-check-label h5" for="useDonatedLightning">Use donated lightning spell</label>
+                        <label class="h5 mb-0" for="useDonatedLightning">Use donated lightning spell</label>
                     </div>
                     <div class="row row-cols-6 justify-content-evenly gap-3 mt-4">
-                        <div class="offense spell text-center" data-title="lightning_spell" data-donated="false">
+                        <div class="col offense spell card-custom card-custom__object text-center"
+                            data-id="lightning_spell" data-donated="false">
                             <h5>Lightning Spell</h5>
-                            <div class="image-container">
-                                <img class="image" height="90">
-                                <div class="overlay">
-                                    <span class="level-number"></span>
-                                </div>
+                            <div class="object-container">
+                                <img class="image object-container__img">
+                                <div class="level overlay overlay--bottom-left overlay__number"></div>
                             </div>
-                            <div class="offense-range">
-                                <input type="range" class="range" min="1" oninput="updateOffense(this)">
+                            <div class="mt-2">
+                                <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                         </div>
-                        <div class="offense spell text-center d-none" data-title="lightning_spell"
-                            data-donated="true">
+                        <div class="col offense spell card-custom card-custom__object text-center d-none"
+                            data-id="lightning_spell" data-donated="true">
                             <h5>Lightning Spell (Donated)</h5>
-                            <div class="image-container">
-                                <img class="image" height="90">
-                                <div class="overlay-top-right">
-                                    <img class="image" src="/images/other/donate.webp" width="25">
-                                </div>
-                                <div class="overlay">
-                                    <span class="level-number"></span>
+                            <div class="object-container">
+                                <img class="image object-container__img">
+                                <div class="level overlay overlay--bottom-left overlay__number"></div>
+                                <div class="overlay overlay--top-left overlay__img">
+                                    <img src="/images/other/donate.webp">
                                 </div>
                             </div>
-                            <div class="offense-range">
-                                <input type="range" class="range" min="1" oninput="updateOffense(this)">
+                            <div class="mt-2">
+                                <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                             <div class="donate-count">
-                                <label for="donateCount" class="form-label"><strong>Number of spell in clan
-                                        castle:</strong></label>
+                                <label for="donateCount" class="form-label">
+                                    <strong>Number of spell in clan castle:</strong>
+                                </label>
                                 <div class="d-flex justify-content-center">
-                                    <input type="number" min="0" max="3" value="0" class="form-control count-box bg-secondary" id="donateCount" oninput="updateDonatedCount(this)">
+                                    <input type="number" min="0" max="3" value="0"
+                                        class="form-control input-box bg-secondary" id="donateCount"
+                                        oninput="updateDonatedCount(this)">
                                 </div>
-                                <div id="input-warning" class="h5 status-fail d-none mt-2">Input must be a number between 0
-                                    and 3!</div>
+                                <div class="status-container d-none mt-2">
+                                    <div id="inputWarning" class="status-container__text--fail">Input must be a number
+                                        between 0 and 3!</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="offense spell text-center" data-title="earthquake_spell" data-donated="false">
+                        <div class="col offense spell card-custom card-custom__object text-center"
+                            data-id="earthquake_spell" data-donated="false">
                             <h5>Earthquake Spell</h5>
-                            <div class="image-container">
-                                <img class="image earthquake-spell-bg" height="90">
-                                <div class="overlay">
-                                    <span class="level-number"></span>
-                                </div>
+                            <div class="object-container">
+                                <img class="image object-container__img">
+                                <div class="level overlay overlay--bottom-left overlay__number"></div>
                             </div>
-                            <div class="offense-range">
-                                <input type="range" class="range" min="1" oninput="updateOffense(this)">
+                            <div class="mt-2">
+                                <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                         </div>
                     </div>
                 </div>
                 <hr>
+                <!-- Equipments -->
                 <div class="mt-4">
                     <h3>Heroes Equipment</h3>
-                    <div>
-                        <label class="h5" for="earthquakeOrder">Earthquake order:</label><br>
-                        <select class="form-select bg-secondary" id="earthquakeOrder" aria-label="earthquakeOrder"
-                            onchange="updateEQOrder(this)">
+                    <div class="d-flex align-items-center flex-wrap gap-3">
+                        <label class="h5 mb-0" for="earthquakeOrder">Earthquake order:</label><br>
+                        <select class="form-select dropdown bg-secondary" id="earthquakeOrder"
+                            aria-label="earthquakeOrder" onchange="updateEQOrder(this)">
                             <option value="earthquake_spell">Earthquake Spell first</option>
                             <option value="earthquake_boots">Earthquake Boots first</option>
                         </select>
                     </div>
                     <div class="row row-cols-6 justify-content-evenly gap-3 mt-4">
-                        <div class="col offense equipment text-center" data-title="earthquake_boots">
+                        <div class="col offense equipment card-custom card-custom__object text-center"
+                            data-id="earthquake_boots">
                             <h5>Earthquake Boots</h5>
-                            <div class="image-container">
-                                <img class="image" height="90">
-                                <div class="overlay overlay-equipment">
-                                    <span class="level-number"></span>
+                            <div class="object-container">
+                                <img class="image object-container__img">
+                                <div
+                                    class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed">
                                 </div>
                             </div>
-                            <div class="offense-range">
-                                <input type="range" class="range" min="0" oninput="updateOffense(this)">
+                            <div class="mt-2">
+                                <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                         </div>
-                        <div class="col offense equipment text-center" data-title="spiky_ball">
+                        <div class="col offense equipment card-custom card-custom__object text-center"
+                            data-id="spiky_ball">
                             <h5>Spiky Ball</h5>
-                            <div class="image-container epic-rarity">
-                                <img class="image" height="90">
-                                <div class="overlay overlay-equipment">
-                                    <span class="level-number"></span>
+                            <div class="object-container object-container--epic">
+                                <img class="image object-container__img">
+                                <div
+                                    class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed">
                                 </div>
                             </div>
-                            <div class="offense-range">
-                                <input type="range" class="range" min="0" oninput="updateOffense(this)">
+                            <div class="mt-2">
+                                <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                         </div>
-                        <div class="col offense equipment text-center" data-title="giant_arrow">
+                        <div class="col offense equipment card-custom card-custom__object text-center"
+                            data-id="giant_arrow">
                             <h5>Giant Arrow</h5>
-                            <div class="image-container">
-                                <img class="image" height="90">
-                                <div class="overlay overlay-equipment">
-                                    <span class="level-number"></span>
+                            <div class="object-container">
+                                <img class="image object-container__img">
+                                <div
+                                    class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed">
                                 </div>
                             </div>
-                            <div class="offense-range">
-                                <input type="range" class="range" min="0" oninput="updateOffense(this)">
+                            <div class="mt-2">
+                                <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                         </div>
-                        <div class="col offense equipment text-center" data-title="fireball">
+                        <div class="col offense equipment card-custom card-custom__object text-center"
+                            data-id="fireball">
                             <h5>Fireball</h5>
-                            <div class="image-container epic-rarity">
-                                <img class="image" height="90">
-                                <div class="overlay overlay-equipment">
-                                    <span class="level-number"></span>
+                            <div class="object-container object-container--epic">
+                                <img class="image object-container__img">
+                                <div
+                                    class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed">
                                 </div>
                             </div>
-                            <div class="offense-range">
-                                <input type="range" class="range" min="0" oninput="updateOffense(this)">
+                            <div class="mt-2">
+                                <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                         </div>
-                        <div class="col offense equipment text-center" data-title="seeking_shield">
+                        <div class="col offense equipment card-custom card-custom__object text-center"
+                            data-id="seeking_shield">
                             <h5>Seeking Shield</h5>
-                            <div class="image-container">
-                                <img class="image" height="90">
-                                <div class="overlay overlay-equipment">
-                                    <span class="level-number"></span>
+                            <div class="object-container">
+                                <img class="image object-container__img">
+                                <div
+                                    class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed">
                                 </div>
                             </div>
-                            <div class="offense-range">
-                                <input type="range" class="range" min="0" oninput="updateOffense(this)">
+                            <div class="mt-2">
+                                <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                         </div>
                     </div>
                 </div>
                 <hr>
+                <!-- Instructions -->
                 <div class="mt-4">
                     <h3>Instruction</h3>
-                    <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#instruction" aria-expanded="false" aria-controls="instruction" onclick="toggleCollapseText(this)">Show</button>
+                    <button class="btn btn-secondary" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#instruction" aria-expanded="false" aria-controls="instruction"
+                        onclick="toggleCollapseText(this)">Show</button>
                     <div class="collapse mt-3" id="instruction">
                         <div>
-                            Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                            Some placeholder content for the collapse component. This panel is hidden by default but
+                            revealed when the user activates the relevant trigger.
                         </div>
                     </div>
                 </div>
             </section>
 
             <section class="mt-4 mb-3">
-                <div class="form rounded-border shadow">
+                <div class="search-box shadow">
                     <i class="fa fa-search"></i>
-                    <input type="text" class="form-control form-input text-box" placeholder="Search a defense" onkeyup="searchDefenses(this)">
+                    <input type="text" class="form-control search-box__input" placeholder="Search a defense"
+                        onkeyup="searchDefenses(this)">
                 </div>
             </section>
 
             <section id="defenses" class="row row-cols-xxl-4 row-cols-lg-3 row-cols-md-2 gy-3 my-3">
+                <!-- <div class="defense" data-id="cannon">
+                    <div class="card-custom card-custom__main shadow p-3">
+                        <div class="d-flex align-items-center">
+                            <div>
+                                <img class="image--main" src="/images/defense/cannon/21.webp">
+                            </div>
+                            <div class="ms-3">
+                                <div class="h5"><span class="name">Cannon</span></div>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <div class="card-custom card-custom__stat">
+                                        <span>❤️</span>
+                                        <span class="hp text">2250</span>
+                                    </div>
+                                    <div class="card-custom card-custom__stat">
+                                        <i class="fa-solid fa-chart-simple me-1"></i>
+                                        <span class="level text text--level-maxed">21</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="range" class="slider mt-3" min="0" max="20" value="20" oninput="updateDefense(this)">
+                        <div class="my-3">
+                            <div class="equipment-div">
+                                <h5>Heroes Equipment used:</h5>
+                                <div class="equipment-list d-flex justify-content-center align-items-center flex-wrap gap-1">
+                                    <div class="object-container object-container--tall object-container--epic text-center" data-id="earthquake_boots">
+                                        <div class="overlay overlay__number overlay__number--spell-count">
+                                            <span class="level">x1</span>
+                                        </div>
+                                        <img class="image" height="50" src="/images/offense/equipments/earthquake_boots.webp">
+                                    </div>
+                                    <div class="object-container object-container--tall object-container--epic text-center" data-id="earthquake_boots">
+                                        <div class="overlay overlay__number overlay__number--level-maxed">
+                                            <span class="level">18-12</span>
+                                        </div>
+                                        <img class="image" height="50" src="/images/offense/equipments/earthquake_boots.webp">
+                                    </div>
+                                    <div class="object-container object-container--tall object-container--epic text-center" data-id="earthquake_boots">
+                                        <div class="overlay overlay__number overlay__number--level-maxed">
+                                            <span class="level">18-12</span>
+                                        </div>
+                                        <img class="image" height="50" src="/images/offense/equipments/earthquake_boots.webp">
+                                    </div>
+                                    <div class="object-container object-container--tall object-container--epic text-center" data-id="earthquake_boots">
+                                        <div class="overlay overlay__number overlay__number--level-maxed">
+                                            <span class="level">18-12</span>
+                                        </div>
+                                        <img class="image" height="50" src="/images/offense/equipments/earthquake_boots.webp">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="status-div d-flex align-items-center my-3 d-none"><img class="status-img me-4" width="80">
+                                <div class="status-text fw-bold"></div>
+                            </div>
+                            <div class="spell-div my-3">
+                                <h5>Spell needed:</h5>
+                                <div class="spell-main-display d-flex justify-content-center align-items-center"></div>
+                                <div class="collapse-btn text-center my-3"><button class="btn btn-secondary fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#showMore-cannon" aria-controls="showMore-cannon" aria-expanded="false" onclick="toggleCollapseText(this)">Show More</button></div>
+                                <div class="spell-display collapse" id="showMore-cannon"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
             </section>
         </section>
     </main>
@@ -244,19 +319,24 @@
         <h4>Made by Kienlabadao</h4>
     </footer>
 
-    <button type="button" id="scrollUpBtn" class="btn btn-secondary position-fixed d-none" onclick="scrollUp()">
+    <button type="button" id="scrollUpBtn" class="btn btn__scroll btn__scroll--up btn-secondary position-fixed d-none"
+        onclick="scrollUp()">
         <i class="fa-solid fa-arrow-up fa-2x"></i>
     </button>
-    <button type="button" id="scrollDownBtn" class="btn btn-secondary position-fixed d-none" onclick="scrollDown()">
+    <button type="button" id="scrollDownBtn"
+        class="btn btn__scroll btn__scroll--down btn-secondary position-fixed d-none" onclick="scrollDown()">
         <i class="fa-solid fa-arrow-down fa-2x"></i>
     </button>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <script src="/js/util/init.js"></script>
-    <script src="/js/util/htmlUtil.js"></script> 
+    <script src="/js/util/util.js"></script>
+    <script src="/js/util/htmlUtil.js"></script>
     <script src="/js/util/scrollManager.js"></script>
     <script src="/js/util/toggleCollapseText.js"></script>
-    <script src="/js/util/toggleDarkMode.js"></script>
+    <script src="/js/util/toggleTheme.js"></script>
 
     <script src="/js/classes/offense/offense.js"></script>
     <script src="/js/classes/offense/spell.js"></script>
@@ -268,11 +348,11 @@
     <script src="/js/classes/defense/defenseListManager.js"></script>
     <script src="/js/classes/spell_count/spellCount.js"></script>
     <script src="/js/classes/spell_count/spellCountListManager.js"></script>
-    <script src="/js/classes/offense_damage/offenseDamage.js"></script>
-    <script src="/js/classes/offense_damage/offenseDamageListManager.js"></script>
-       
+    <script src="/js/classes/damage_log/damageLog.js"></script>
+    <script src="/js/classes/damage_log/damageLogListManager.js"></script>
+
     <script src="/js/zapquake_calc/calculate.js"></script>
-    <script src="/js/zapquake_calc/htmlUtil.js"></script> 
+    <script src="/js/zapquake_calc/htmlUtil.js"></script>
     <script src="/js/zapquake_calc/searchDefenses.js"></script>
     <script src="/js/zapquake_calc/update.js"></script>
     <script src="/js/zapquake_calc/init.js"></script>

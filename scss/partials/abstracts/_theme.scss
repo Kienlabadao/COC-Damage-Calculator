@@ -1,0 +1,50 @@
+@use "./colors" as *;
+@use "./componentColors" as *;
+
+:root {
+    --bg-color: #{$solitude};
+    --text-color: #{$dark-gray};
+    --navbar-bg-color: #{$white};
+    --brand-text-shadow-color: #{$brand-text-shadow-light-values};
+    --card-main-color: #{$white};
+    --card-object-bg-color: #{$solitude};
+    --card-object-shadow-color: #{$card-object-shadow-light-values};
+    --search-box-input-color: #{$medium-gray};
+    --checkbox-bg-color: #{$white};
+    --checkbox-checked-bg-color: #{$medium-gray};
+    --checkbox-shadow-color: #{transparentize($medium-gray, 0.5)};
+    --checkbox-card-obj-bg-color: #{$solitude};
+    --checkbox-card-obj-checked-bg-color: #{$medium-gray};
+    --checkbox-card-obj-shadow-color: #{transparentize($medium-gray, 0.5)};
+    --range-theme-color: #{$medium-gray};
+    --gear-icon-color: #{lighten($black, 25)};
+    --gear-icon-hover-color: #{lighten($black, 60)};
+    --status-success-color: #{darken($light-green, 15)};
+    --status-fail-color: #{darken($light-red, 15)};
+    --text-warning-color: #{darken($yellow, 10)};
+    --footer-color: #{$white};
+}
+
+[data-bs-theme="dark"] {
+    --bg-color: #{$medium-gray};
+    --text-color: #{$white};
+    --navbar-bg-color: #{$dark-gray};
+    --brand-text-shadow-color: #{$brand-text-shadow-dark-values};
+    --card-main-color: #{$dark-gray};
+    --card-object-bg-color: #{$medium-gray};
+    --card-object-shadow-color: #{$card-object-shadow-dark-values};
+    --search-box-input-color: #{$medium-gray};
+    --checkbox-bg-color: #{$dark-gray};
+    --checkbox-checked-bg-color: #{$light-gray};
+    --checkbox-shadow-color: #{transparentize($solitude, 0.5)};
+    --checkbox-card-obj-bg-color: #{$medium-gray};
+    --checkbox-card-obj-checked-bg-color: #{$dark-gray};
+    --checkbox-card-obj-shadow-color: #{transparentize($solitude, 0.8)};
+    --range-theme-color: #{$dark-gray};
+    --gear-icon-color: #{$white};
+    --gear-icon-hover-color: #{darken($white, 20)};
+    --status-success-color: #{$light-green};
+    --status-fail-color: #{$light-red};
+    --text-warning-color: #{$yellow};
+    --footer-color: #{$dark-gray};
+}

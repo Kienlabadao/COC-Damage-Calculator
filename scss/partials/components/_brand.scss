@@ -1,0 +1,37 @@
+@use "../abstracts" as *;
+    
+.brand__text {  
+    font-family: SupercellMagic;   
+    text-shadow: var(--brand-text-shadow-color);
+
+    &--orange {
+        color: $orange;
+    }
+
+    &--yellow {
+        color: $yellow;
+    }
+
+    &--blue {
+        color: $blue;
+    }
+
+    &--brown {
+        color: $brown;
+    }
+
+    &--no-shadow {
+        text-shadow: none;
+    }
+}
+
+.brand__logo {
+    background-color: $purple;
+    border-radius: 10px;
+    padding: 5px;
+    
+    img {
+        width: 30px;
+    }
+}
+

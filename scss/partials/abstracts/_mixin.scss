@@ -1,0 +1,61 @@
+@use "./breakpoint" as *;
+
+@mixin respondToWidth($breakpoint) {
+    @media only screen and (max-width: #{$breakpoint}px) { @content; }
+}
+
+@mixin respondToHeight($breakpoint) {
+    @media only screen and (max-height: #{$breakpoint}px) { @content; }
+}
+
+@mixin respondToBreakpoint($breakpoint) {
+    // 576px
+    @if $breakpoint == sm {
+        @include respondToWidth($breakpoint-sm) { @content; }
+    }
+    // 768px
+    @else if $breakpoint == md {
+        @include respondToWidth($breakpoint-md) { @content; }
+    }
+    // 992px
+    @else if $breakpoint == lg {
+        @include respondToWidth($breakpoint-lg) { @content; }
+    }
+    // 1200px
+    @else if $breakpoint == xl {
+        @include respondToWidth($breakpoint-xl) { @content; }
+    }
+    // 1400px
+    @else if $breakpoint == xxl {
+        @include respondToWidth($breakpoint-xxl) { @content; }
+    }
+    @else {
+        @error "Invalid breakpoint: #{$breakpoint}";
+    }
+}
+
+@mixin backgroundAndTextColor($background-color, $text-color) {
+    background-color: $background-color;
+    color: $text-color;
+}
+
+@mixin widthHeight($width, $height) {
+    width: $width;
+    height: $height;
+}
+
+@mixin flexAlignCenter {
+    display: flex;
+    align-items: center;
+}
+
+@mixin flexJustifyCenter {
+    display: flex;
+    justify-content: center;  
+}
+
+@mixin flexCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;   
+}

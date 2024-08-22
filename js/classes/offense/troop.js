@@ -51,23 +51,41 @@ class Troop extends Offense {
         }
     }
 
-    calcModify(modify = 0) {
+    calcModifiedDamage(modify = 0) {
         return this.getCurrentDamage() * modify / 100;
     }
 
-    calcDamage(modify = 0) {
-        switch (this.damageMode) {
-            case Troop.DAMAGE:
-                return this.getCurrentDamage() + this.calcModify(modify);
-            case Troop.DEATH_DAMAGE:
-                return this.getDeathDamage(this.currentLevelPos);
-            default:
-                throw new Error();
-        }
+    calcDamage(defense, modify = 0) {
+        if (defense instanceof Defense) {
+            if (defense.isImmune(this)) {
+                return 0;
+            }
+
+            switch (this.damageMode) {
+                case Troop.DAMAGE:
+                    return Util.round2Places(this.getCurrentDamage() + this.calcModifiedDamage(modify));
+                case Troop.DEATH_DAMAGE:
+                    return Util.round2Places(this.getDeathDamage(this.currentLevelPos));
+                default:
+                    throw new Error();
+            } 
+        } else {
+            throw new Error(`Invalid defense: ${defense}`);
+        }  
     }
 
-    calcRemainingHP(hp, modify = 0) {
-        return hp - this.calcDamage(modify);
+    calcRemainingHP(defense, modify = 0) {
+        if (defense instanceof Defense) {
+            if (defense.isImmune(this)) {
+                return;
+            }
+
+            const hp = defense.remainingHP;
+
+            defense.remainingHP = Util.round2Places(hp - this.calcDamage(defense, modify));
+        } else {
+            throw new Error(`Invalid defense: ${defense}`);
+        }
     }
 
     isMaxLevel() {

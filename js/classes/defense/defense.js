@@ -1,5 +1,5 @@
 class Defense {
-    constructor(defenseID, currentLevelPos) {
+    constructor(defenseID, currentLevelPos, remainingHP, eqCount) {
         this.defenseID = defenseID;
         this.defenseJSON = getDefense(defenseID);
         this.name = this.defenseJSON["name"];
@@ -7,6 +7,16 @@ class Defense {
         this.setImmuneList();
         this.maxLevelPos = this.hpList.length - 1;
         this.currentLevelPos = currentLevelPos;
+
+        if (remainingHP !== undefined) {
+            this.remainingHP = remainingHP;       
+        }
+
+        if (eqCount !== undefined) {
+            this.eqCount = eqCount;
+        } else {
+            this.eqCount = 0;
+        }
     }
 
     getLevel(levelPos) {
@@ -21,16 +31,12 @@ class Defense {
         return this.getLevel(this.currentLevelPos);
     }
 
-    getHP(levelPos) {
+    getMaxHP(levelPos) {
         return this.hpList[levelPos];
     }
 
-    getMaxHP() {
-        return this.getHP(this.maxLevelPos);
-    }
-
-    getCurrentHP() {
-        return this.getHP(this.currentLevelPos);
+    getCurrentMaxHP() {
+        return this.getMaxHP(this.currentLevelPos);
     }
 
     isMaxLevel() {
@@ -48,6 +54,10 @@ class Defense {
         } else {
             throw new Error(`Invalid offense: ${checkOffense}`);
         }
+    }
+
+    isDestroyed() {
+        return this.remainingHP <= 0;
     }
 
     getImagePath() {
@@ -81,6 +91,14 @@ class Defense {
         }
     }
 
+    resetRemainingHP() {
+        this.remainingHP = this.getCurrentMaxHP();
+    }
+
+    clone() {
+        return new Defense(this.defenseID, this.currentLevelPos, this.remainingHP, this.eqCount);
+    }
+
     set defenseID(newDefenseID) {
         if (getDefense(newDefenseID) !== undefined) {
             this._defenseID = newDefenseID;
@@ -97,11 +115,29 @@ class Defense {
             
             if (this.hpList[newCurrentLevelPos] !== undefined) {
                 this._currentLevelPos = newCurrentLevelPos;
+                this.resetRemainingHP();
             } else {
                 throw new Error(`Invalid currentLevelPos: ${newCurrentLevelPos}. DefenseID: ${this.defenseID}`);
             }
         } else {
             this._currentLevelPos = this.maxLevelPos;
+            this.resetRemainingHP();
+        }
+    }
+
+    set remainingHP(newRemainingHP) {
+        if (typeof newRemainingHP === "number" && newRemainingHP <= this.getCurrentMaxHP()) {
+            this._remainingHP = newRemainingHP;
+        } else {
+            throw new Error(`Invalid remainingHP: ${newRemainingHP}. DefenseID: ${this.defenseID}. Defense maxHP: ${this.getCurrentMaxHP()}`);
+        }
+    }
+
+    set eqCount(newEQCount) {
+        if (typeof newEQCount === "number" && newEQCount >= 0) {
+            this._eqCount = newEQCount;
+        } else {
+            throw new Error(`Invalid eqCount: ${newEQCount}`);
         }
     }
 
@@ -111,5 +147,13 @@ class Defense {
 
     get currentLevelPos() {
         return this._currentLevelPos;
+    }
+
+    get remainingHP() {
+        return this._remainingHP;
+    }
+
+    get eqCount() {
+        return this._eqCount;
     }
 }

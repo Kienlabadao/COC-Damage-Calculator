@@ -1,0 +1,12 @@
+@use "../abstracts/" as *;
+
+$input-box-text-color: $white;
+
+.input-box {
+    color: $input-box-text-color;
+    border: none;
+    
+    &:focus {
+        color: $input-box-text-color;
+    }
+}

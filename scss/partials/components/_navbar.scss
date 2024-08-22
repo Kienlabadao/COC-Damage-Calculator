@@ -1,0 +1,31 @@
+@use "../abstracts" as *;
+
+.navbar {
+    font-size: 1.2em;
+    text-align: center;
+    background-color: var(--navbar-bg-color);
+
+    & .brand__text {
+        text-align: start;
+        font-size: 0.7em;
+        text-shadow: none;
+    }
+
+    @include respondToBreakpoint(lg) {
+        .navbar-brand {
+            order: 1;
+        }
+    
+        .navbar-toggler, .btn--setting, .btn--toggle-theme {
+            order: 2;
+        }
+    
+        .navbar-collapse {
+            order: 3;
+        }
+    
+        .dropdown-menu {
+            text-align: center;
+        }
+    }
+}
