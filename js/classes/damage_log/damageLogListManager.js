@@ -1,9 +1,10 @@
 class DamageLogListManager {
 
-    static DECIMAL_PLACE = 2;
+    // Store list of damage logs
+    // For more details about what does damage log do, check damage log class
 
     constructor() {
-        this.damageLogList = [];
+        this._damageLogList = [];
     }
 
     add(newDamageLog) {
@@ -14,44 +15,13 @@ class DamageLogListManager {
         }
     }
 
-    loadWithOffenseOrderList(defense, offenseOrderList) {
-        if (defense instanceof Defense && Array.isArray(offenseOrderList)) {
-            const clonedDefense = defense.clone();
-            
-            for (const offense of offenseOrderList) {
-                if (offense instanceof Offense) {
-                    if (offense.isMinLevel()) {
-                        continue;
-                    }
-                    
-                    const isImmune = clonedDefense.isImmune(offense);
-                    const damage = offense.calcDamage(clonedDefense);
-                    offense.calcRemainingHP(clonedDefense);              
-                    const remainingHP = clonedDefense.remainingHP;
-
-                    this.add(new DamageLog(offense, null, clonedDefense.clone(), damage, isImmune, remainingHP));
-
-                    if (clonedDefense.isDestroyed()) {
-                        return;
-                    }
-                } else {
-                    throw new Error(`Invalid offense in offenseOrderList: ${offense}`);
-                }
-            }
-        } else {
-            if (!(defense instanceof Defense)) {
-                throw new Error(`Invalid defense: ${defense}`);
-            } else {
-                throw new Error(`Invalid offenseOrderList: ${offenseOrderList}`);
-            }          
-        }
-    }
-
+    // Load damage log content based on the defense that it attacks, and offense order in action list
+    // It loads until either action list run out, or the defense is destroyed
     loadWithActionList(defense, actionListManager) {
         if (defense instanceof Defense && actionListManager instanceof ActionListManager) {
             const clonedDefense = defense.clone();
 
-            for (const action of actionListManager.getActionList()) {
+            for (const action of actionListManager.actionList) {
                 const offense = action.offense;
                 const modifier = action.modifier;
 
@@ -80,17 +50,16 @@ class DamageLogListManager {
         }
     }
 
+    // Get damage log based on its index in the list
     get(index) {
         const damageLog = this.damageLogList[index];
         return damageLog !== undefined ? damageLog : null;
     }
 
+    // Get the last damage log in the list 
+    // Mainly to check if defense is destroyed
     getLast() {
         return this.get(this.getLength() - 1);
-    }
-
-    getDamageLogList() {
-        return this.damageLogList;
     }
     
     getLength() {
@@ -101,7 +70,13 @@ class DamageLogListManager {
         return this.getLength() == 0;
     }
 
+    // Empty damage log list
     clear() {
         this.damageLogList.length = 0;
+    }
+
+    // Getter
+    get damageLogList() {
+        return this._damageLogList;
     }
 }

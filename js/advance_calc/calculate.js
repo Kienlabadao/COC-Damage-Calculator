@@ -1,6 +1,4 @@
 function calc() {
-    defenseDivs = defensesSection.querySelectorAll(".defense");
-
     defenseDivs.forEach((defenseDiv) => {   
         calcDefense(defenseDiv);
     });
@@ -13,19 +11,15 @@ function calcDefense(defenseDiv) {
         throw new Error(`Invalid defenseID: ${defenseID}`);
     }
 
-    const showMoreButton = defenseDiv.querySelector(".show-more-btn");
-    showMoreButton.textContent = "Show";
-    const collapseDiv = defenseDiv.querySelector(`#showMore-${defenseID}`);
-    const collapse = new bootstrap.Collapse(collapseDiv, {
-        toggle: false
-    })
-    collapse.hide();
+    toggleCollapseBtnText(defenseDiv.querySelector(".show-more-btn"), false);
+    HTMLUtil.toggleBSCollapse(defenseDiv.querySelector(`#showMore-${defenseID}`), false);
+
     const damageLogDisplay = defenseDiv.querySelector(".damage-log-display");
     HTMLUtil.removeAllChilds(damageLogDisplay);
     const damageLogList = getDamageLogList(defense);
 
     let orderCount = 0;
-    for (const damageLog of damageLogList.getDamageLogList()) {
+    for (const damageLog of damageLogList.damageLogList) {
         orderCount++;
         const damageLogRow = AdvanceHTMLUtil.createDamageLogRow(damageLog, orderCount);       
         

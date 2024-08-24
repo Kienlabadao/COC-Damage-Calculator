@@ -151,6 +151,9 @@ main {
 .card-custom__main .image--main {
   height: 80px;
 }
+.card-custom__main .status-container__text {
+  font-size: 1rem;
+}
 .card-custom__object {
   width: 230px;
   padding: 20px;
@@ -332,7 +335,7 @@ main {
   color: hsl(0, 0%, 100%);
 }
 .overlay__number--spell-count {
-  background-color: hsla(0, 0%, 0%, 0);
+  background-color: hsl(216, 94%, 66%);
   color: hsl(0, 0%, 100%);
 }
 .overlay__number--level-maxed {
@@ -382,7 +385,6 @@ main {
 }
 
 .search-box {
-  border-radius: 20px;
   position: relative;
 }
 .search-box .fa-search {
@@ -394,7 +396,7 @@ main {
 }
 .search-box .search-box__input {
   height: 55px;
-  text-indent: 33px;
+  padding-left: 50px;
   border-radius: 10px;
   border: none;
   color: hsl(0, 0%, 100%);
@@ -538,6 +540,7 @@ main {
 
 .btn {
   border: none;
+  font-weight: bold;
 }
 .btn--reddit {
   color: hsl(0, 0%, 100%);

@@ -1,72 +1,88 @@
 class SpellCountListManager {
+
+    // Store list of spell counts, together they are a spell composition that able to destroy certain defense
+    // For more details about what does spell count do, check spell count class
+
     constructor() {
-        this.spellCountList = [];
+        this._spellCountList = [];
     }
 
+    // Load spell count content based on the damage log
     load(damageLogListManager) {
         if (damageLogListManager instanceof DamageLogListManager) {
-            this.clear();
-            const damageLogList = damageLogListManager.getDamageLogList();
-            let matchSpell = null;
-            let sameSpellCounter = 0;
+            const damageLogList = damageLogListManager.damageLogList;
 
-            for (const [index, damageLog] of damageLogList.entries()) {
-                const isLastItem = index === damageLogList.length - 1;
-                const spell = damageLog.offense;
+            while (true) {
+                let isFoundNewSpell = false;
+                let sameSpellCount = 0;
+                let keySpell = null;
+                
+                for (const damageLog of damageLogList) {
+                    const spell = damageLog.offense;
 
-                if (spell instanceof Spell) {
-                    if (!spell.compare(matchSpell)) {
-                        if (matchSpell !== null) {
-                            this.add(new SpellCount(matchSpell, sameSpellCounter));
-                            sameSpellCounter = 1;
+                    if (spell instanceof Spell) {
+                        // If a new spell (not in the list) is found, check if it matches the key spell. If it does then increment the counter
+                        if (isFoundNewSpell) {
+                            if (keySpell.compare(spell)) {
+                                sameSpellCount++;
+                            }
                         } else {
-                            sameSpellCounter++;
-                        }
-                        matchSpell = spell;
-                    } else {
-                        sameSpellCounter++;
-                    }
+                            // If no new spell is found, continue to iterate through the list until the list runs out or a new spell is found.
+                            if (!this.contain(spell)) {
+                                keySpell = spell;
+                                sameSpellCount++;
 
-                    if (isLastItem) {
-                        this.add(new SpellCount(matchSpell, sameSpellCounter));
-                    }
-                } 
-                // else {
-                //     throw new Error(`Invalid spell: ${spell}`);
-                // }
+                                isFoundNewSpell = true;
+                            }
+                        }
+                    }                  
+                }
+
+                // Add new spell count if new spell is found, else the damage log is processed
+                if (isFoundNewSpell) {
+                    this.add(new SpellCount(keySpell, sameSpellCount));
+                } else {
+                    break;
+                }
             }
         } else {
             throw new Error(`Invalid damageLogListManager: ${damageLogListManager}`);
         }
     }
 
-    getTotalSpellCount() {
-        let totalSpellCount = 0;
-
-        for (const spellCount of this.spellCountList) {
-            totalSpellCount += spellCount.count;
-        }
-        return totalSpellCount;
-    }
-
-    concat(newSpellCountListManager) {
-        if (newSpellCountListManager instanceof SpellCountListManager) {
-            if (!newSpellCountListManager.isEmpty()) {
-                this.spellCountList.push(...newSpellCountListManager.spellCountList);
-            }           
+    // Add new spell count and check for unique
+    add(newSpellCount) {
+        if (newSpellCount instanceof SpellCount) {
+            if (!this.contain(newSpellCount.spell)) {
+                this.spellCountList.push(newSpellCount);
+            } else {
+                throw new Error(`SpellCount already exist: ${newSpellCount}`);
+            }  
         } else {
-            throw new Error(`Invalid spellCountListManager: ${newSpellCountListManager}`);
+            throw new Error(`Invalid newSpellCount: ${newSpellCount}`);
         }
     }
 
-    getLength() {
-        return this.spellCountList.length;
+    // Check if spell count already exist in the list
+    contain(keySpell) {
+        return this.getSpellCount(keySpell) !== null;
     }
 
-    isEmpty() {
-        return this.getLength() == 0;
+    // Get spell count based on its spell
+    getSpellCount(keySpell) {
+        if (keySpell instanceof Spell) {
+            for (const spellCount of this.spellCountList) {
+                if (spellCount.spell.compare(keySpell)) {
+                    return spellCount;
+                }
+            }
+            return null;
+        } else {
+            throw new Error(`Invalid keySpell: ${keySpell}`);
+        }
     }
 
+    // Get list of donated spells in spell count list
     getDonatedSpell() {
         const donatedSpellListManager = new SpellCountListManager;
 
@@ -77,12 +93,39 @@ class SpellCountListManager {
         }
         return donatedSpellListManager;
     }
+    
+    // Get the total amount of spells in all spell counts
+    getTotalSpellCount() {
+        let totalSpellCount = 0;
 
-    add(newSpellCount) {
-        this.spellCountList.push(newSpellCount);
+        for (const spellCount of this.spellCountList) {
+            totalSpellCount += spellCount.count;
+        }
+        return totalSpellCount;
     }
 
+    // Get the amount of unique spells in all spell counts 
+    getLength() {
+        return this.spellCountList.length;
+    }
+
+    isEmpty() {
+        return this.getLength() == 0;
+    }
+
+    // Reverse the spell count list
+    // Use this function to flip the order of spell shown (I prefer eq spell to be on the right side (last) of the list)
+    reverse() {
+        this.spellCountList.reverse();
+    }
+
+    // Empty spell count list
     clear() {
         this.spellCountList.length = 0;
+    }
+
+    // Getter
+    get spellCountList() {
+        return this._spellCountList;
     }
 }

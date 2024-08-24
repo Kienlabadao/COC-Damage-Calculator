@@ -1,32 +1,16 @@
 class Spell extends Offense {
 
-    constructor(offenseID, isDonated, currentLevelPos) {
-        super(offenseID, "spell");
+    // Variant of offense
+    // Store additional data for spell including if it came from donation
+    // Note: All damage related number is rounded up to 2 decimal places
+
+    constructor(offenseID, currentLevelPos, isDonated = false) {
+        super(offenseID, "spell", currentLevelPos);
         this.isDonated = isDonated;
-        this.maxLevelPos = this.getDamageList().length - 1;
-        this.currentLevelPos = currentLevelPos;
     }
 
-    getLevel(levelPos) {
-        return String(levelPos);
-    }
-
-    getMaxLevel() {
-        return this.getLevel(this.maxLevelPos);
-    }
-
-    getCurrentLevel() {
-        return this.getLevel(this.currentLevelPos);
-    }
-
-    getDamage(levelPos) {
-        return this.getDamageList()[levelPos];
-    }
-
-    getCurrentDamage() {
-        return this.getDamage(this.currentLevelPos);
-    }
-
+    // Calculate base damage for eq damage type spell
+    // EQ damage deal % damage based on target max hp
     calcBaseEQDamage(maxHP) {
         if (this.isDamageTypeEQ()) {
             return maxHP * this.getCurrentDamage() / 100;
@@ -35,6 +19,8 @@ class Spell extends Offense {
         }
     }
 
+    // Calculate how many damages does this spell do to defense
+    // For eq damage type spell, also include reduced damage as eq type damage deal less damage the more its target got hit by eq type damage
     calcDamage(defense) {
         if (defense instanceof Defense) {
             if (defense.isImmune(this)) {
@@ -46,15 +32,17 @@ class Spell extends Offense {
 
             switch (this.damageType) {
                 case "direct":
-                    return Util.round2Places(this.getCurrentDamage());
+                    return NumberUtil.round2Places(this.getCurrentDamage());
                 case "earthquake":
-                    return Util.round2Places(this.calcBaseEQDamage(maxHP) * (1 / (2 * eqCount + 1)));            
+                    return NumberUtil.round2Places(this.calcBaseEQDamage(maxHP) * (1 / (2 * eqCount + 1)));            
             }  
         } else {
             throw new Error(`Invalid defense: ${defense}`);
         }       
     }
- 
+
+    // Calculate and update defense remaining HP after getting hit by spell
+    // Also increase building eq count if offense deal eq type damage
     calcRemainingHP(defense) {
         if (defense instanceof Defense) {
             if (defense.isImmune(this)) {
@@ -62,13 +50,12 @@ class Spell extends Offense {
             }
 
             const hp = defense.remainingHP;
-
             switch (this.damageType) {
                 case "direct":
-                    defense.remainingHP = Util.round2Places(hp - this.calcDamage(defense));
+                    defense.remainingHP = NumberUtil.round2Places(hp - this.calcDamage(defense));
                     return;
                 case "earthquake":
-                    defense.remainingHP = Util.round2Places(hp - this.calcDamage(defense));
+                    defense.remainingHP = NumberUtil.round2Places(hp - this.calcDamage(defense));
                     defense.eqCount++;
                     return;               
             }  
@@ -77,58 +64,31 @@ class Spell extends Offense {
         }     
     }
 
-    isMaxLevel() {
-        return this.getMaxLevel() === this.getCurrentLevel();
-    }
-
-    isMinLevel() {
-        return this.getLevel(0) === this.getCurrentLevel();
-    }
-
+    // Compare spell on its ID
     compare(compareSpell) {
         if (compareSpell instanceof Spell) {
             return this.offenseID === compareSpell.offenseID && this.isDonated === compareSpell.isDonated;
         }
         return false;
     }
-
-    getDamageList() {
-        return this.offenseJSON["damage"]; 
-    }
     
+    // Get equipment's image path in the project folder
     getImagePath() {
         return `/images/offense/spells/${this.offenseID}.webp`;
     }
 
+    // Get a new equipment with same datas
     clone() {
-        return new Spell(this.offenseID, this.isDonated, this.currentLevelPos);
+        return new Spell(this.offenseID, this.currentLevelPos, this.isDonated);
     }
 
+    // Setter
     set isDonated(isDonated) {
         return this._isDonated = isDonated === true;
     }
 
-    set currentLevelPos(newCurrentLevelPos) {
-        if (newCurrentLevelPos !== null) {
-            if (typeof newCurrentLevelPos !== "number") {
-                throw new Error(`Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`);
-            }
-            
-            if (this.getDamageList()[newCurrentLevelPos] !== undefined) {
-                this._currentLevelPos = newCurrentLevelPos;
-            } else {
-                throw new Error(`Invalid currentLevelPos: ${newCurrentLevelPos}. OffenseID: ${this.offenseID}`);
-            }
-        } else {
-            this._currentLevelPos = this.maxLevelPos;
-        }
-    }
-
+    // Getter
     get isDonated() {
         return this._isDonated;
-    }
-
-    get currentLevelPos() {
-        return this._currentLevelPos;
     }
 }

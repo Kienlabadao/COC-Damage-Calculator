@@ -81,7 +81,7 @@
         }
 
         &--spell-count {
-            @include backgroundAndTextColor($transparent, $white);
+            @include backgroundAndTextColor($light-blue, $white);
         }
 
         &--level-maxed {

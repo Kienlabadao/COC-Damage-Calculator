@@ -1,13 +1,10 @@
-const lightStyleSheet = "/css/light.css";
-const darkStyleSheet = "/css/dark.css";
+// This script is placed at the head tag so it can be load asap to prevent flashing
+// ToggleTheme script responsible for toggle theme when user change theme, and do other stuff (changing theme icon)
 
-const themeStyleSheet = document.getElementById("theme");
 let isDarkMode = LocalStorageUtils.loadBoolean("isDarkMode", false);
 
 if (isDarkMode) {
     document.documentElement.setAttribute('data-bs-theme', "dark");
-    //themeStyleSheet.setAttribute('href', darkStyleSheet);
 } else {
     document.documentElement.setAttribute('data-bs-theme', "light");
-    //themeStyleSheet.setAttribute('href', lightStyleSheet);
 }

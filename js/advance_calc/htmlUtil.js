@@ -1,5 +1,7 @@
 class AdvanceHTMLUtil {
 
+    // Store all convenient functions related to html that is used by advance calculator page only
+    
     static OVERLAY_NORMAL = 0;
     static OVERLAY_SMALL = 1;
     static OVERLAY_RESPONSIVE = 2;
@@ -61,7 +63,6 @@ class AdvanceHTMLUtil {
             HTMLUtil.setDataID(defenseDiv, defenseID);
             HTMLUtil.setDataDefenseStatus(defenseDiv, true);
     
-            // Create the nested structure inside the main container
             const borderDiv = document.createElement("div");
             borderDiv.className = "card-custom card-custom__main shadow p-3";
             defenseDiv.appendChild(borderDiv);
@@ -120,7 +121,7 @@ class AdvanceHTMLUtil {
             levelNumberSpan.className = "level text";
             levelNumberSpan.textContent = defense.getCurrentLevel();
             if (defense.isMaxLevel()) {
-                levelNumberSpan.classList.add("text--level-maxed");
+                HTMLUtil.addTextMaxedClass(levelNumberSpan);
             }
             levelDiv.appendChild(levelNumberSpan);
     
@@ -147,14 +148,14 @@ class AdvanceHTMLUtil {
             buttonDiv.appendChild(actionTitle);
     
             const button = document.createElement("button");
-            button.className = "show-more-btn btn btn-secondary fw-bold collapsed";
+            button.className = "show-more-btn btn btn-secondary collapsed";
             button.setAttribute("type", "button");
             button.setAttribute("data-bs-toggle", "collapse");
             button.setAttribute("data-bs-target", `#showMore-${defenseID}`);
             button.setAttribute("aria-controls", `showMore-${defenseID}`);
             button.setAttribute("aria-expanded", "false");
             button.textContent = "Show";
-            button.setAttribute("onclick", "toggleCollapseText(this)");
+            button.setAttribute("onclick", "toggleHTMLCollapseBtnText(this)");
             buttonDiv.appendChild(button);
     
             const showMoreDiv = document.createElement("div");
@@ -234,7 +235,7 @@ class AdvanceHTMLUtil {
     }
     
     static createDamageLogRow(damageLog, orderCount) {
-        if (damageLog instanceof DamageLog && typeof orderCount === "number") {
+        if (damageLog instanceof DamageLog && NumberUtil.isNumber(orderCount)) {
             const offense = damageLog.offense;
             const defense = damageLog.defense;
             const modifier = damageLog.modifier;
@@ -319,7 +320,7 @@ class AdvanceHTMLUtil {
             damageDiv.appendChild(damageAmount);
     
             if (!isImmune && offense.isDamageTypeEQ() && eqCount > 0) {
-                const reducedDamage = Util.round2Places(offense.calcBaseEQDamage(maxHP) - damage);
+                const reducedDamage = NumberUtil.round2Places(offense.calcBaseEQDamage(maxHP) - damage);
     
                 const differentDiv = document.createElement("div");
                 differentDiv.className = "d-flex align-items-center justify-content-center text text--damage-reduced";
@@ -338,7 +339,7 @@ class AdvanceHTMLUtil {
                 surfixSpan.textContent = ")";
                 differentDiv.appendChild(surfixSpan);
             } else if (modifier !== null && damage > 0) {
-                const modifiedDamage = Util.round2Places(offense.calcModifiedDamage(modifier.getCurrentModify()));
+                const modifiedDamage = NumberUtil.round2Places(offense.calcModifiedDamage(modifier.getCurrentModify()));
     
                 const differentDiv = document.createElement("div");
                 differentDiv.className = "d-flex align-items-center justify-content-center text text--raged";

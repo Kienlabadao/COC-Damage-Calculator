@@ -1,3 +1,30 @@
+function toggleHideDestroyedDefenses(element) {
+    hideDestroyedDefenses = element.checked;
+    LocalStorageUtils.saveBoolean(hideDestroyedDefensesKey, hideDestroyedDefenses);
+    toggleDefenseDivVisibility();
+}
+
+function toggleDefenseDivVisibility() {
+    const defensesDiv = defensesSection.querySelectorAll('.defense');
+    
+    if (hideDestroyedDefenses) {
+        defensesDiv.forEach((defenseDiv) => {
+            const isDestroyed = !HTMLUtil.getDataDefenseStatus(defenseDiv);
+
+            if (isDestroyed) {
+                HTMLUtil.hideDiv(defenseDiv);               
+            } else {
+                HTMLUtil.showDiv(defenseDiv);
+            }
+        });
+    } else {
+        defensesDiv.forEach((defenseDiv) => {
+            HTMLUtil.showDiv(defenseDiv);
+        });   
+    }
+    searchDefenses(searchDefenseBox);
+}
+
 function searchDefenses(element) {
     const searchString = element.value.trim().toLowerCase();
     const defensesDiv = defensesSection.querySelectorAll('.defense');
@@ -7,8 +34,12 @@ function searchDefenses(element) {
 
         if (!hideDestroyedDefenses || !isDestroyed) {
             const defenseID = HTMLUtil.getDataID(defenseDiv);
-
-            if (getDefense(defenseID)["name"].toLowerCase().includes(searchString)) {
+            const defense = defenseListManager.getDefense(defenseID);    
+            if (defense === null) {
+                throw new Error(`Invalid defenseID: ${defenseID}`);
+            }
+    
+            if (defense.name.toLowerCase().includes(searchString)) {
                 HTMLUtil.showDiv(defenseDiv);               
             } else {
                 HTMLUtil.hideDiv(defenseDiv);

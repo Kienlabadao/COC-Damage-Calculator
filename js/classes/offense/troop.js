@@ -1,36 +1,20 @@
 class Troop extends Offense {
 
-    static LEVEL_POS = 0;
-    static DAMAGE_POS = 1;
+    // Variant of offense
+    // Store additional data for troop including its troop type, other damage list (like death damage, if have), and its current damage mode
+    // Note: All damage related number is rounded up to 2 decimal places
+
     static DAMAGE = 1;
     static DEATH_DAMAGE = 2;
 
-    constructor(offenseID, currentLevelPos) {
-        super(offenseID, "troop");
-        this.setSortedDamageList();
+    constructor(offenseID, currentLevelPos, damageMode = Troop.DAMAGE) {
+        super(offenseID, "troop", currentLevelPos);
         this.setSortedDeathDamageList();
-        this.troopType = this.offenseJSON["troop_type"];
-        this.maxLevelPos = this.damageList.length - 1;
-        this.currentLevelPos = currentLevelPos;
-        this.damageMode = Troop.DAMAGE;
+        this._troopType = this.offenseJSON["troop_type"];
+        this.damageMode = damageMode;
     }
 
-    getLevel(levelPos) {
-        return this.damageList[levelPos][Troop.LEVEL_POS];
-    }
-
-    getMaxLevel() {
-        return this.getLevel(this.maxLevelPos);
-    }
-
-    getCurrentLevel() {
-        return this.getLevel(this.currentLevelPos);
-    }
-
-    getDamage(levelPos) {
-        return this.damageList[levelPos][Troop.DAMAGE_POS];
-    }
-
+    // Get base death damage for troop if it can deal death damage
     getDeathDamage(levelPos) {
         if (this.canDealDeathDamage()) {
             return this.deathDamageList[levelPos][Troop.DAMAGE_POS];
@@ -40,6 +24,7 @@ class Troop extends Offense {
         }       
     }
 
+    // Get base damage for troop depend on its damage mode
     getCurrentDamage() {
         switch (this.damageMode) {
             case Troop.DAMAGE:
@@ -51,10 +36,12 @@ class Troop extends Offense {
         }
     }
 
+    // Get damage after modify for troop
     calcModifiedDamage(modify = 0) {
         return this.getCurrentDamage() * modify / 100;
     }
 
+    // Calculate how many damages does this troop do to defense depend on its damage mode
     calcDamage(defense, modify = 0) {
         if (defense instanceof Defense) {
             if (defense.isImmune(this)) {
@@ -63,9 +50,9 @@ class Troop extends Offense {
 
             switch (this.damageMode) {
                 case Troop.DAMAGE:
-                    return Util.round2Places(this.getCurrentDamage() + this.calcModifiedDamage(modify));
+                    return NumberUtil.round2Places(this.getCurrentDamage() + this.calcModifiedDamage(modify));
                 case Troop.DEATH_DAMAGE:
-                    return Util.round2Places(this.getDeathDamage(this.currentLevelPos));
+                    return NumberUtil.round2Places(this.getDeathDamage(this.currentLevelPos));
                 default:
                     throw new Error();
             } 
@@ -74,6 +61,7 @@ class Troop extends Offense {
         }  
     }
 
+    // Calculate and update defense remaining HP after getting hit by troop
     calcRemainingHP(defense, modify = 0) {
         if (defense instanceof Defense) {
             if (defense.isImmune(this)) {
@@ -81,25 +69,18 @@ class Troop extends Offense {
             }
 
             const hp = defense.remainingHP;
-
-            defense.remainingHP = Util.round2Places(hp - this.calcDamage(defense, modify));
+            defense.remainingHP = NumberUtil.round2Places(hp - this.calcDamage(defense, modify));
         } else {
             throw new Error(`Invalid defense: ${defense}`);
         }
     }
 
-    isMaxLevel() {
-        return this.getMaxLevel() === this.getCurrentLevel();
-    }
-
-    isMinLevel() {
-        return this.getLevel(0) === this.getCurrentLevel();
-    }
-
+    // Check if troop can deal death damage
     canDealDeathDamage() {
-        return this.offenseJSON["death_damage"] !== undefined;
+        return this.deathDamageList !== null;
     }
 
+    // Compare troop on its ID
     compare(compareTroop) {
         if (compareTroop instanceof Troop) {
             return this.offenseID === compareTroop.offenseID;
@@ -107,6 +88,7 @@ class Troop extends Offense {
         return false;
     }
 
+    // Get troop's image path in the project folder
     getImagePath() {
         switch(this.troopType) {
             case "normal":
@@ -116,40 +98,21 @@ class Troop extends Offense {
         }       
     }
 
+    // Get a new troop with same datas
     clone() {
-        const clonedRepair = new Troop(this.offenseID, this.currentLevelPos);
-        clonedRepair.damageMode = this.damageMode;
-        return clonedRepair;
+        return new Troop(this.offenseID, this.currentLevelPos, this.damageMode);
     }
 
-    setSortedDamageList() {
-        this.damageList = Object.entries(this.offenseJSON["damage"]).sort(([, valueA], [, valueB]) => valueA - valueB);
-    }
-
+    // Get sorted ascending order of death damage list as json object is sorted by keys not values
     setSortedDeathDamageList() {
         if (this.canDealDeathDamage()) {
-            this.deathDamageList = Object.entries(this.offenseJSON["death_damage"]).sort(([, valueA], [, valueB]) => valueA - valueB);
+            this._deathDamageList = Object.entries(this.offenseJSON["death_damage"]).sort(([, valueA], [, valueB]) => valueA - valueB);
         } else {
-            this.deathDamageList = null;
+            this._deathDamageList = null;
         }
     }
 
-    set currentLevelPos(newCurrentLevelPos) {
-        if (newCurrentLevelPos !== null) {
-            if (typeof newCurrentLevelPos !== "number") {
-                throw new Error(`Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`);
-            }
-
-            if (this.damageList[newCurrentLevelPos] !== undefined) {
-                this._currentLevelPos = newCurrentLevelPos;
-            } else {
-                throw new Error(`Invalid currentLevelPos: ${newCurrentLevelPos}. OffenseID: ${this.offenseID}`);
-            }
-        } else {
-            this._currentLevelPos = this.maxLevelPos;
-        }
-    }
-
+    // Setter
     set damageMode(newDamageMode) {
         switch(newDamageMode) {
             case Troop.DAMAGE:
@@ -167,8 +130,13 @@ class Troop extends Offense {
         }
     }
 
-    get currentLevelPos() {
-        return this._currentLevelPos;
+    // Getter
+    get deathDamageList() {
+        return this._deathDamageList;
+    }
+
+    get troopType() {
+        return this._troopType;
     }
 
     get damageMode() {

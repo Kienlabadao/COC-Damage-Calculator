@@ -1,81 +1,100 @@
+// Update defense's stat, image, and recalculate when user change the level of defense
 function updateDefense(element) {
     const defenseDiv = HTMLUtil.getParentDiv(element, "defense");
+    const currentLevelPos = Number.parseInt(element.value);
+    if (defenseDiv) {
+        updateDefense(defenseDiv, currentLevelPos);
+    } else {
+        throw new Error(`Invalid defenseDiv: ${defenseDiv}`);
+    }
+    calcDefense(defenseDiv);
+}
+
+function updateDefenseLevel(defenseDiv, currentLevelPos) {
+    const levelNumberSpan = defenseDiv.querySelector(".level");
+    const defenseID = HTMLUtil.getDataID(defenseDiv);
+    const defense = defenseListManager.getDefense(defenseID);
+    const key = LocalStorageUtils.getObjectKey(type, "defense", defenseID);
+        
+    defense.currentLevelPos = currentLevelPos;
+    LocalStorageUtils.saveNumber(key, currentLevelPos);
+    const imagePath = defense.getImagePath();
+    
+    levelNumberSpan.textContent = defense.getCurrentLevel();
+    if (defense.isMaxLevel()) {
+        HTMLUtil.addTextMaxedClass(levelNumberSpan);
+    } else {
+        HTMLUtil.removeTextMaxedClass(levelNumberSpan);
+    }
+    defenseDiv.querySelector(".image--main").src = imagePath;
+    defenseDiv.querySelector(".hp").textContent = defense.getCurrentMaxHP();
+
     const tableHeader = defenseDiv.querySelector("thead");
     const damageLogDefenseHeader = tableHeader.querySelector(".damageLogDefenseHeader");
-
-    if (defenseDiv) {
-        const levelNumberSpan = defenseDiv.querySelector(".level");
-        const defenseID = HTMLUtil.getDataID(defenseDiv);
-        const defense = defenseListManager.getDefense(defenseID);
-        const key = LocalStorageUtils.getObjectKey(type, "defense", defenseID);
-       
-        const currentLevelPos = Number.parseInt(element.value);       
-        defense.currentLevelPos = currentLevelPos;
-        LocalStorageUtils.saveNumber(key, currentLevelPos);
-        const imagePath = defense.getImagePath();
-        
-        levelNumberSpan.textContent = defense.getCurrentLevel();
-        if (defense.isMaxLevel()) {
-            levelNumberSpan.classList.add("text--level-maxed");
-        } else {
-            levelNumberSpan.classList.remove("text--level-maxed");
-        }
-        defenseDiv.querySelector(".image--main").src = imagePath;
-        defenseDiv.querySelector(".hp").textContent = defense.getCurrentMaxHP();
-
-        if (damageLogDefenseHeader) {
-            HTMLUtil.removeChild(tableHeader, ".damageLogDefenseHeader");
-            tableHeader.appendChild(AdvanceHTMLUtil.createDamageLogDefenseHeader(defense));
-        }
-        calcDefense(defenseDiv);
-    } else {
-        throw new Error(`Invalid defense div: ${defenseDiv}`);
+    if (damageLogDefenseHeader) {
+        HTMLUtil.removeChild(tableHeader, ".damageLogDefenseHeader");
+        tableHeader.appendChild(AdvanceHTMLUtil.createDamageLogDefenseHeader(defense));
     }
 }
 
+// Update offense's stat and image when user change the level of offense
 function updateOffense(element) {
     const offenseDiv = HTMLUtil.getParentDiv(element, "offense");
+    const currentLevelPos = Number.parseInt(element.value);    
     
     if (offenseDiv) {
-        const overlayDiv = offenseDiv.querySelector(".overlay");
-        const offenseID = HTMLUtil.getDataID(offenseDiv);
-        const offense = offenseListManager.getOffense(offenseID);
-        const key = LocalStorageUtils.getObjectKey(type, "offense", offenseID);       
-        const currentLevelPos = Number.parseInt(element.value);
-
-        offense.currentLevelPos = currentLevelPos;
-        LocalStorageUtils.saveNumber(key, currentLevelPos);        
-        if (offense.isMaxLevel()) {
-            HTMLUtil.addMaxedClass(overlayDiv);
-        } else {
-            HTMLUtil.addNotMaxedClass(overlayDiv);
-        }
-        offenseDiv.querySelector(".level").textContent = offense.getCurrentLevel();
-        offenseDiv.querySelector(".image").src = offense.getImagePath();
-    }
+        updateOffenseLevel(offenseDiv, currentLevelPos)
+    } else {
+        throw new Error(`Invalid offenseDiv: ${offenseDiv}`);
+    }       
+    calc();
 }
 
+function updateOffenseLevel(offenseDiv, currentLevelPos) {
+    const offenseID = HTMLUtil.getDataID(offenseDiv);
+    const offense = offenseListManager.getOffense(offenseID);
+    const key = LocalStorageUtils.getObjectKey(type, "offense", offenseID);       
+
+    offense.currentLevelPos = currentLevelPos;
+    LocalStorageUtils.saveNumber(key, currentLevelPos);   
+    const overlayDiv = offenseDiv.querySelector(".overlay");     
+    if (offense.isMaxLevel()) {
+        HTMLUtil.addLevelOverlayMaxedClass(overlayDiv);
+    } else {
+        HTMLUtil.removeLevelOverlayMaxedClass(overlayDiv);
+    }
+    offenseDiv.querySelector(".level").textContent = offense.getCurrentLevel();
+    offenseDiv.querySelector(".image").src = offense.getImagePath();
+}
+
+// Update offense's stat, image, and update related offense overlay when user change the level of offense
 function updateModifier(element) {
     const modifierDiv = HTMLUtil.getParentDiv(element, "modifier");
+    const currentLevelPos = Number.parseInt(element.value);
     
     if (modifierDiv) {
-        const overlayDiv = modifierDiv.querySelector(".overlay");
-        const modifierID = HTMLUtil.getDataID(modifierDiv);
-        const modifier = modifierListManager.getModifier(modifierID);
-        const key = LocalStorageUtils.getObjectKey(type, "offense", modifierID);       
-        const currentLevelPos = Number.parseInt(element.value);
-
-        modifier.currentLevelPos = currentLevelPos;
-        LocalStorageUtils.saveNumber(key, currentLevelPos);
-        if (modifier.isMaxLevel()) {
-            HTMLUtil.addMaxedClass(overlayDiv);
-        } else {
-            HTMLUtil.addNotMaxedClass(overlayDiv);
-        }
-        modifierDiv.querySelector(".level").textContent = modifier.getCurrentLevel();
-        modifierDiv.querySelector(".image").src = modifier.getImagePath();
+        updateModifierLevel(modifierDiv, currentLevelPos);
+    } else {
+        throw new Error(`Invalid modifierDiv: ${modifierDiv}`);
     }
     updateOverlay();
+}
+
+function updateModifierLevel(modifierDiv, currentLevelPos) {
+    const modifierID = HTMLUtil.getDataID(modifierDiv);
+    const modifier = modifierListManager.getModifier(modifierID);
+    const key = LocalStorageUtils.getObjectKey(type, "offense", modifierID);       
+
+    modifier.currentLevelPos = currentLevelPos;
+    LocalStorageUtils.saveNumber(key, currentLevelPos);
+    const overlayDiv = modifierDiv.querySelector(".overlay");
+    if (modifier.isMaxLevel()) {
+        HTMLUtil.addLevelOverlayMaxedClass(overlayDiv);
+    } else {
+        HTMLUtil.removeLevelOverlayMaxedClass(overlayDiv);
+    }
+    modifierDiv.querySelector(".level").textContent = modifier.getCurrentLevel();
+    modifierDiv.querySelector(".image").src = modifier.getImagePath();
 }
 
 function toggleUseModifer(element) {
@@ -89,12 +108,6 @@ function toggleUseModifer(element) {
     modifier.isActive = useModifier;
 
     updateOverlay();
-}
-
-function toggleHideDestroyedDefenses(element) {
-    hideDestroyedDefenses = element.checked;
-    LocalStorageUtils.saveBoolean(hideDestroyedDefensesKey, hideDestroyedDefenses);
-    toggleDefenseDivVisibility();
 }
 
 function toggleUseTroopDeathDamage(element) {
@@ -124,7 +137,7 @@ function updateOverlay() {
 function updateTroopDivOverlay(troopDiv) {
     const troopID = HTMLUtil.getDataID(troopDiv);
     const troop = offenseListManager.getTroop(troopID);
-    const troopModifierListManager = modifierListManager.getActiveTroopModifierListManager();
+    const troopModifierListManager = modifierListManager.getActiveModifierListManager(Modifier.TROOP);
     const objectContainer = troopDiv.querySelector(".object-container");
     HTMLUtil.removeChild(objectContainer, ".modifier");
 
@@ -137,14 +150,14 @@ function updateTroopDivOverlay(troopDiv) {
         const modifier = troopModifierListManager.getHighestModifier();
 
         const modifierOverlay = HTMLUtil.createModifierOverlay(modifier.getImagePath(), HTMLUtil.OVERLAY_NORMAL, HTMLUtil.MODIFIER_RAGED);
-        HTMLUtil.setDataID(modifierOverlay, modifier.offenseID);
+        HTMLUtil.setDataID(modifierOverlay, modifier.modifierID);
 
         objectContainer.appendChild(modifierOverlay);
     }
 }
 
 function updateRepairDivOverlay(repairDiv) {
-    const repairModifierListManager = modifierListManager.getActiveRepairModifierListManager();
+    const repairModifierListManager = modifierListManager.getActiveModifierListManager(Modifier.REPAIR);
     const objectContainer = repairDiv.querySelector(".object-container");
     HTMLUtil.removeChild(objectContainer, ".modifier");
 
@@ -152,110 +165,8 @@ function updateRepairDivOverlay(repairDiv) {
         const modifier = repairModifierListManager.getHighestModifier();
 
         const modifierOverlay = HTMLUtil.createModifierOverlay(modifier.getImagePath(), HTMLUtil.OVERLAY_NORMAL, HTMLUtil.MODIFIER_RAGED);
-        HTMLUtil.setDataID(modifierOverlay, modifier.offenseID);
+        HTMLUtil.setDataID(modifierOverlay, modifier.modifierID);
 
         objectContainer.appendChild(modifierOverlay);
     }
-}
-
-function addAction(element) {
-    const amount = Number.parseInt(element.value);
-    const offenseDiv = HTMLUtil.getParentDiv(element, "offense");
-    const offenseID = HTMLUtil.getDataID(offenseDiv);
-    const offense = offenseListManager.getOffense(offenseID);
-    const modifierOverlayDiv = offenseDiv.querySelector(".modifier");
-
-    if (modifierOverlayDiv !== null) {
-        const modifierID = HTMLUtil.getDataID(modifierOverlayDiv);
-
-        if (modifierID.length !== 0 && modifierID !== "death") {
-            const modifier = modifierListManager.getModifier(modifierID);
-    
-            addActionList(amount, offense, modifier);     
-        } else {
-            addActionList(amount, offense);        
-        }
-    } else {
-        addActionList(amount, offense);
-    }
-    updateActionListDiv();
-    calc();
-}
-
-function removeAction(element) {
-    const amount = element.value;
-
-    if (amount === "all") {
-        actionListManager.clear();
-        hideActionList();
-    } else {
-        actionListManager.removeCount(Number.parseInt(amount));
-        updateActionListDiv();
-    }
-    calc();
-}
-
-function addActionList(amount, offense, modifier = null) {
-    for (let count = 0; count < amount; count++) {
-        actionListManager.add(new Action(offense.clone(), modifier !== null ? modifier.clone() : null));
-    }
-}
-
-function updateActionListDiv() {
-    HTMLUtil.removeAllChilds(actionListDiv);
-    
-    let count = 0;
-    for (const action of actionListManager.actionList) {
-        actionListDiv.appendChild(AdvanceHTMLUtil.createActionDiv(action, ++count));
-    }
-    
-    if (actionListManager.isEmpty()) {
-        hideActionList();
-    } else {
-        showActionList();
-    }
-}
-
-function hideActionList() {
-    const showActionListButton = document.getElementById("showActionListButton");
-    const showActionList = document.getElementById("showActionList");
-
-    HTMLUtil.hideDiv(showActionListButton);
-    HTMLUtil.hideDiv(showActionList);
-}
-
-function showActionList() {
-    const showActionListButton = document.getElementById("showActionListButton");
-    const button = showActionListButton.querySelector("button");
-    button.textContent = "Hide";
-    const showActionList = document.getElementById("showActionList");
-
-    const collapse = new bootstrap.Collapse(showActionList, {
-        toggle: false
-    })
-    collapse.show();
-
-    HTMLUtil.showDiv(showActionListButton);
-    HTMLUtil.showDiv(showActionList);
-}
-
-function toggleDefenseDivVisibility() {
-    const defensesDiv = defensesSection.querySelectorAll('.defense');
-    
-    if (hideDestroyedDefenses) {
-        defensesDiv.forEach((defenseDiv) => {
-            const isDestroyed = !HTMLUtil.getDataDefenseStatus(defenseDiv);
-
-            if (isDestroyed) {
-                HTMLUtil.hideDiv(defenseDiv);               
-            } else {
-                HTMLUtil.showDiv(defenseDiv);
-            }
-        });
-    } else {
-        defensesDiv.forEach((defenseDiv) => {
-            HTMLUtil.showDiv(defenseDiv);
-        });   
-    }
-    searchDefenses(searchDefenseBox);
 }

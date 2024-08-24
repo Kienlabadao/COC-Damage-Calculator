@@ -3,8 +3,9 @@ let offenseJSON = null;
 let modifierJSON = null;
 let otherJSON = null;
 
+// Load json file
+// If success, fire init event for calculator page to start its init function
 const initEvent = new Event("init");
-
 async function fetchJSON() {
     try {
         const response1 = await fetch('/json/defense.json');
@@ -30,6 +31,7 @@ async function fetchJSON() {
     }
 }
 
+// Get object from json
 function getDefense(defenseID) {
     return defenseJSON["defense"][defenseID];
 }

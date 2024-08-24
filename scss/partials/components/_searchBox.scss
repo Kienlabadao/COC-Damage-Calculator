@@ -1,7 +1,6 @@
 @use "../abstracts" as *;
 
 .search-box {
-    border-radius: 20px;
     position: relative;
 
     .fa-search {
@@ -14,7 +13,7 @@
 
     .search-box__input {
         height: 55px;
-        text-indent: 33px;
+        padding-left: 50px;
         border-radius: 10px;
         border: none;
         color: $white;

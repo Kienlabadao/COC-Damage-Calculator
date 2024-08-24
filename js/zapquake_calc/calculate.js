@@ -1,11 +1,11 @@
+// Calculate spell composition for all defenses
 function calc() {
-    defenseDivs = defensesSection.querySelectorAll(".defense");
-
     defenseDivs.forEach((defenseDiv) => {   
         calcDefense(defenseDiv);
     });
 }
 
+// Check if the equipment composition chosen by user can destroy a defense without any spells needed
 function canEquipmentDestroy(defense) {
     if (defense instanceof Defense) {
         const clonedDefense = defense.clone();
@@ -19,31 +19,24 @@ function canEquipmentDestroy(defense) {
     }
 }
 
+// Calculate spell composition for defense
 function calcDefense(defenseDiv) {
     const defenseID = HTMLUtil.getDataID(defenseDiv);
-    const defense = defenseListManager.getDefense(defenseID);
-    
+    const defense = defenseListManager.getDefense(defenseID);    
     if (defense === null) {
         throw new Error(`Invalid defenseID: ${defenseID}`);
     }
 
-    const showMoreButton = defenseDiv.querySelector(".show-more-btn");
-    showMoreButton.textContent = "Show More";
-    const collapseDiv = defenseDiv.querySelector(`#showMore-${defenseID}`);
-    const collapse = new bootstrap.Collapse(collapseDiv, {
-        toggle: false
-    })
-    collapse.hide();
+    toggleCollapseBtnText(defenseDiv.querySelector(".show-more-btn"), false);
+    HTMLUtil.toggleBSCollapse(defenseDiv.querySelector(`#showMore-${defenseID}`), false);
+
     if (!canEquipmentDestroy(defense)) {
-        const spellDiv = defenseDiv.querySelector(".spell-div");
-        HTMLUtil.showDiv(spellDiv);
-        const statusDiv = defenseDiv.querySelector(".status-div");
-        HTMLUtil.hideDiv(statusDiv);
+        HTMLUtil.showDiv(defenseDiv.querySelector(".spell-div"));
+        HTMLUtil.hideDiv(defenseDiv.querySelector(".status-div"));
         const collapseBtn = defenseDiv.querySelector(".collapse-btn");
         HTMLUtil.hideDiv(collapseBtn);
 
         const spellCountLists = getSpellCountLists(defense);
-
         if (spellCountLists.length > 0) {
             const spellMainDisplayDiv = HTMLUtil.removeAllChilds(defenseDiv.querySelector(".spell-main-display"));
             const spellDisplayDiv = HTMLUtil.removeAllChilds(defenseDiv.querySelector(".spell-display"));
@@ -56,11 +49,7 @@ function calcDefense(defenseDiv) {
                     HTMLUtil.appendAllChilds(spellMainDisplayDiv, nodeArray);
                     isMainDisplay = false;
                 } else {
-                    const spellsContainerDiv = document.createElement('div');
-                    spellsContainerDiv.className = "d-flex justify-content-center align-items-center gap-2 mt-2";
-
-                    HTMLUtil.appendAllChilds(spellsContainerDiv, nodeArray);
-                    spellDisplayDiv.appendChild(spellsContainerDiv);
+                    spellDisplayDiv.appendChild(ZapquakeHTMLUtil.createSpellsContainerDiv(nodeArray));
                 }
             }
 
@@ -75,6 +64,7 @@ function calcDefense(defenseDiv) {
     }
 }
 
+// Get list of possible spell compositions that can destroy a defense based on user choices
 function getSpellCountLists(defense) {
     if (defense instanceof Defense) {
         const clonedDefense = defense.clone();
@@ -82,19 +72,25 @@ function getSpellCountLists(defense) {
 
         for (let maxEQSpellCount = 1; maxEQSpellCount <= maxSpellCount; maxEQSpellCount++) {
             const damageLogListManager = new DamageLogListManager();
+            damageLogListManager.loadWithActionList(clonedDefense, createActionList(maxEQSpellCount, clonedDefense));
+
             const spellCountListManager = new SpellCountListManager();
-
-            damageLogListManager.loadWithOffenseOrderList(clonedDefense, getOffenseOrderList(maxEQSpellCount, clonedDefense));
-
             const damageLog = damageLogListManager.getLast();
-            if (damageLog instanceof DamageLog && damageLog.remainingHP <= 0) {
+            
+            if (!damageLogListManager.isEmpty() && damageLog.defense.isDestroyed()) {
                 spellCountListManager.load(damageLogListManager);
+                spellCountListManager.reverse();
                 spellCountLists.push(spellCountListManager);
 
+                // Check if there is only 1 spell type needed to destroy this defense
+                // If true then either user only select 1 spell type, this defense immune to all spells that user select except 1, or only eq spell are needed to destroy it
+                // Either way, return the list as there is no point continuing
                 if (spellCountListManager.getLength() === 1) {
                     break;
                 }
             } else {
+                // This spell composition cannot destroy this defense
+                // Unless there is already a composition that able to destroy this defense, go to the next composition
                 if (spellCountLists.length !== 0) {
                     break;
                 }            
@@ -106,29 +102,34 @@ function getSpellCountLists(defense) {
     }
 }
 
-function getOffenseOrderList(maxEQSpellCount, defense) {
+// Create action execution order to later record its damage dealt on the defense
+function createActionList(maxEQSpellCount, defense) {
     if (defense instanceof Defense) {
         const clonedDefense = defense.clone();
-        const offenseOrderList = [];
+        const actionListManager = new ActionListManager();
         const eqBoots = offenseListManager.getEquipment(eqBootsKey);
         const eqSpell = offenseListManager.getSpell(eqSpellKey, false);
         const donatedZapSpell = offenseListManager.getSpell(zapSpellKey, true);
         const zapSpell = offenseListManager.getSpell(zapSpellKey, false);
         let spellCount = 0;
 
+        // Add equipment that doesn't deal eq damage into the order list
         for (const equipment of offenseListManager.getEquipmentList()) {
             if (!equipment.isDamageTypeEQ()) {
-                offenseOrderList.push(equipment);
+                actionListManager.add(new Action(equipment, null));
             }
         }
 
+        // Based on user's eq order choice, add eq damage offense in the correct order
+        // This matter because eq deal less damage the more its target got hit by eq type offense
+        // Note: While damage log does check if defense immune to eq type offense, defense immune to eq spell still need to be checked here as this affect the number of remaining spells for later spell (lightning spell)
         switch (eqOrder) {
             case eqBootsKey:
-                offenseOrderList.push(eqBoots);
+                actionListManager.add(new Action(eqBoots, null));
 
                 if (!clonedDefense.isImmune(eqSpell) && !eqSpell.isMinLevel()) {
                     for (let eqSpellCount = 1; eqSpellCount <= maxEQSpellCount; eqSpellCount++) {
-                        offenseOrderList.push(eqSpell);
+                        actionListManager.add(new Action(eqSpell, null));
                         spellCount++;
                     }       
                 }           
@@ -136,58 +137,66 @@ function getOffenseOrderList(maxEQSpellCount, defense) {
             case eqSpellKey:
                 if (!clonedDefense.isImmune(eqSpell) && !eqSpell.isMinLevel()) {
                     for (let eqSpellCount = 1; eqSpellCount <= maxEQSpellCount; eqSpellCount++) {
-                        offenseOrderList.push(eqSpell);
+                        actionListManager.add(new Action(eqSpell, null));
                         spellCount++;
                     }
                 }
 
-                offenseOrderList.push(eqBoots);
+                actionListManager.add(new Action(eqBoots, null));
                 break;
             default:
                 throw new Error(`Invalid eqOrder: ${eqOrder}`);
         }
         
+        // If user choose to use donated lightning spells, add the correct amount of them into the order list
         if (useDonatedZap) {
             for (let zapSpellCount = 1; zapSpellCount <= donatedZapSpellCount; zapSpellCount++) {
                 if (spellCount < maxSpellCount) {
-                    offenseOrderList.push(donatedZapSpell);
+                    actionListManager.add(new Action(donatedZapSpell, null));
                     spellCount++;
                 } else {
                     break;
                 }
             }
         }
-
+        
+        // Add the remaining lightning spell into the order list
         while (spellCount < maxSpellCount) {
-            offenseOrderList.push(zapSpell);
+            actionListManager.add(new Action(zapSpell, null));
             spellCount++;
         }
-        return offenseOrderList;
+        return actionListManager;
     } else {
         throw new Error(`Invalid defense: ${defense}`);   
     }   
 }
 
+// Set destroyed status if equipment composition chosen by user can destroy a defense without any spells needed
 function setDestroyedStatus(defenseDiv) {
     const spellDiv = defenseDiv.querySelector(".spell-div");
     HTMLUtil.hideDiv(spellDiv);
 
     const statusDiv = defenseDiv.querySelector(".status-div");
     HTMLUtil.showDiv(statusDiv);
+
     const statusImg = statusDiv.querySelector(".image");
     statusImg.setAttribute('src', "/images/other/champion_king.webp");
+
     const statusText = statusDiv.querySelector(".info");
     statusText.textContent = "That heroes equipment setup is enough to destroy this defense without any spells needed. Huzzah! 🎉";
 }
 
+// Set impossible status if it's impossible to destroy a defense based on user choices
 function setImpossibleStatus(defenseDiv) {
     const spellDiv = defenseDiv.querySelector(".spell-div");
     HTMLUtil.hideDiv(spellDiv);
 
     const statusDiv = defenseDiv.querySelector(".status-div");
     HTMLUtil.showDiv(statusDiv);
+
     const statusImg = statusDiv.querySelector(".image");
     statusImg.setAttribute('src', "/images/other/raged-barbarian.png");
+
     const statusText = statusDiv.querySelector(".info");
     statusText.textContent = "It's impossible to destroy this defense with setup. Womp womp! 😔";
 }

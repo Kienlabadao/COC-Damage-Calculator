@@ -1,20 +1,46 @@
 class HTMLUtil {
 
+    // Store all convenient functions related to html that can be used in all pages
+
     static OVERLAY_NORMAL = 0;
     static OVERLAY_SMALL = 1;
     static OVERLAY_RESPONSIVE = 2;
+    static OVERLAY_TALL = 3;
 
     static MODIFIER_RAGED = 0;
     static MODIFIER_DEATH = 1;
+    static MODIFIER_DONATED = 2;
 
-    static addMaxedClass(overlayDiv) {
+    // Add/remove max class for overlay div
+    static addLevelOverlayMaxedClass(overlayDiv) {
         overlayDiv.classList.add("overlay__number--level-maxed");
     }
     
-    static addNotMaxedClass(overlayDiv) {
+    static removeLevelOverlayMaxedClass(overlayDiv) {
         overlayDiv.classList.remove("overlay__number--level-maxed");
     }
     
+    // Add/remove max class for text
+    static addTextMaxedClass(textDiv) {
+        textDiv.classList.add("text--level-maxed");
+    }
+    
+    static removeTextMaxedClass(textDiv) {
+        textDiv.classList.remove("text--level-maxed");
+    }
+
+    // Set status text fail/success for status text div
+    static setStatusTextSuccess(statusText) {
+        statusText.classList.remove("status-container__text--fail");
+        statusText.classList.add("status-container__text--success");
+    }
+    
+    static setStatusTextFailed(statusText) {
+        statusText.classList.remove("status-container__text--success");
+        statusText.classList.add("status-container__text--fail");     
+    }
+
+    // Set div visibility
     static showDiv(div) {
         div.classList.remove("d-none");
     }
@@ -23,6 +49,7 @@ class HTMLUtil {
         div.classList.add("d-none");
     }
     
+    // Get specific atrribute from div
     static getDataID(dataDiv) {
         return HTMLUtil.getDataString(dataDiv, "data-id");
     }
@@ -35,10 +62,12 @@ class HTMLUtil {
         return HTMLUtil.getDataBoolean(dataDiv, "data-defense-status");
     }
     
+    // Get atrribute from div
     static getDataString(dataDiv, attribute) {
         return dataDiv.getAttribute(attribute);
     }
     
+    // Set specific atrribute from div with value
     static setDataID(dataDiv, value) {
         return HTMLUtil.setDataString(dataDiv, "data-id", value);
     }
@@ -51,6 +80,7 @@ class HTMLUtil {
         return HTMLUtil.setDataString(dataDiv, "data-defense-status", value);
     }
     
+    // Clear (empty) specific atrribute from div
     static clearDataID(dataDiv) {
         return HTMLUtil.setDataString(dataDiv, "data-id", "");
     }
@@ -63,10 +93,12 @@ class HTMLUtil {
         return HTMLUtil.setDataString(dataDiv, "data-defense-status", "");
     }
     
+    // Set atrribute from div with value
     static setDataString(dataDiv, attribute, value) {
         return dataDiv.setAttribute(attribute, value);
     }
     
+    // Get boolean type atrribute from div
     static getDataBoolean(dataDiv, attribute) {
         const boolean = dataDiv.getAttribute(attribute);
         if (boolean === "true" || boolean === "false") {
@@ -76,6 +108,8 @@ class HTMLUtil {
         }
     }
     
+    // Remove child div query from selector string from parent div
+    // Unlike the main one which throw error if child div not found, this one return boolean instead
     static removeChild(parentDiv, selectorString) {
         const removeDiv = parentDiv.querySelector(selectorString);
     
@@ -86,6 +120,7 @@ class HTMLUtil {
         return false;
     }
     
+    // Remove alls child div from parent div
     static removeAllChilds(div) {
         while (div.firstChild) {
             div.removeChild(div.firstChild);
@@ -93,6 +128,7 @@ class HTMLUtil {
         return div;
     }
     
+    // Add alls child div inside an array into parent div
     static appendAllChilds(div, nodeArray) {
         if (Array.isArray(nodeArray)) {
             for (const node of nodeArray) {
@@ -103,6 +139,7 @@ class HTMLUtil {
         }   
     }
     
+    // Get parent div from child div that contain certain class
     static getParentDiv(childDiv, parentDivClass) {
         do {
             if(childDiv.classList.contains(parentDivClass)){
@@ -114,6 +151,24 @@ class HTMLUtil {
         return childDiv;
     }
 
+    // Toggle Bootstrap's collapse
+    static toggleBSCollapse(collapseDiv, state) {
+        if (typeof state === "boolean") {
+            const collapse = new bootstrap.Collapse(collapseDiv, {
+                toggle: false
+            });
+
+            if (state) {
+                collapse.show();
+            } else {
+                collapse.hide();
+            }
+        } else {
+            throw new Error(`Invalid state: ${state}`);
+        }
+    }
+
+    // Create modifier overlay for main overlay
     static createModifierOverlay(imagePath, overlayType = HTMLUtil.OVERLAY_NORMAL, modifierType) {
         const modifierOverlay = document.createElement("div");
         modifierOverlay.className = "modifier overlay overlay--top-left overlay__img";
@@ -137,7 +192,9 @@ class HTMLUtil {
                 break;
             case HTMLUtil.MODIFIER_DEATH:
                 modifierOverlay.classList.add("overlay__img--death");          
-                break;   
+                break;
+            case HTMLUtil.MODIFIER_DONATED:
+                break;
             default:
                 throw new Error(`Invalid modifierType: ${modifierType}`);
         }
@@ -149,6 +206,7 @@ class HTMLUtil {
         return modifierOverlay;
     }
     
+    // Create level overlay for main overlay
     static createLevelOverlay(object, overlayType = HTMLUtil.OVERLAY_NORMAL) {
         if (object instanceof Defense || object instanceof Offense) {
             const levelOverlay = document.createElement("div");
@@ -162,6 +220,9 @@ class HTMLUtil {
                     break; 
                 case HTMLUtil.OVERLAY_RESPONSIVE:
                     levelOverlay.classList.add("overlay--responsive");                
+                    break;
+                case HTMLUtil.OVERLAY_TALL:
+                    levelOverlay.classList.remove("overlay--bottom-left");                
                     break;     
                 default:
                     throw new Error(`Invalid overlayType: ${overlayType}`);
@@ -177,6 +238,21 @@ class HTMLUtil {
         }
     }
 
+    // Create spell overlay for main overlay
+    static createSpellCountOverlay(spellCount) {
+        if (NumberUtil.isNumber(spellCount)) {
+            const spellCountOverlay = document.createElement("div");
+
+            spellCountOverlay.className = "spell-count overlay overlay__number overlay__number--spell-count";
+            spellCountOverlay.textContent = `x${spellCount}`;
+        
+            return spellCountOverlay;
+        } else {
+            throw new Error(`Invalid spellCount: ${spellCount}`);
+        }
+    }
+
+    // Create order overlay for main overlay
     static createOrderOverlay(orderNumber, overlayType = HTMLUtil.OVERLAY_NORMAL) {
         const orderOverlay = document.createElement("div");
         orderOverlay.className = "modifier overlay overlay--top-right overlay__number overlay__number--order";

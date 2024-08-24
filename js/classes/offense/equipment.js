@@ -1,45 +1,26 @@
 class Equipment extends Offense {
 
-    static LEVEL_POS = 0;
-    static DAMAGE_POS = 1;
+    // Variant of offense
+    // Store additional data for equipment including its rarity
+    // Note: All damage related number is rounded up to 2 decimal places
 
     constructor(offenseID, currentLevelPos) {
-        super(offenseID, "equipment");
-        this.setSortedDamageList();
-        this.rarity = this.offenseJSON["rarity"];
-        this.damageType = this.offenseJSON["damage_type"];
-        this.maxLevelPos = this.damageList.length - 1;
-        this.currentLevelPos = currentLevelPos;
+        super(offenseID, "equipment", currentLevelPos);
+        this._rarity = this.offenseJSON["rarity"];
     }
 
-    getLevel(levelPos) {
-        return this.damageList[levelPos][Equipment.LEVEL_POS];
-    }
-
-    getMaxLevel() {
-        return this.getLevel(this.maxLevelPos);
-    }
-
-    getCurrentLevel() {
-        return this.getLevel(this.currentLevelPos);
-    }
-
-    getDamage(levelPos) {
-        return this.damageList[levelPos][Equipment.DAMAGE_POS];
-    }
-
-    getCurrentDamage() {
-        return this.getDamage(this.currentLevelPos);
-    }
-
+    // Calculate base damage for eq damage type equipment
+    // EQ damage deal % damage based on target max hp
     calcBaseEQDamage(maxHP) {
         if (this.isDamageTypeEQ()) {
-            return maxHP * this.getCurrentDamage() / 100;
+            return NumberUtil.round2Places(maxHP * this.getCurrentDamage() / 100);
         } else {
             throw new Error(`Spell isn't EQ type: ${this.offenseID}`);
         }
     }
 
+    // Calculate how many damages does this equipment do to defense
+    // For eq damage type equipment, also include reduced damage as eq type damage deal less damage the more its target got hit by eq type damage
     calcDamage(defense) {
         if (defense instanceof Defense) {
             if (defense.isImmune(this)) {
@@ -51,15 +32,17 @@ class Equipment extends Offense {
 
             switch (this.damageType) {
                 case "direct":
-                    return Util.round2Places(this.getCurrentDamage());
+                    return NumberUtil.round2Places(this.getCurrentDamage());
                 case "earthquake":
-                    return Util.round2Places(this.calcBaseEQDamage(maxHP) * (1 / (2 * eqCount + 1)));            
+                    return NumberUtil.round2Places(this.calcBaseEQDamage(maxHP) * (1 / (2 * eqCount + 1)));            
             }  
         } else {
             throw new Error(`Invalid defense: ${defense}`);
         }    
     }
  
+    // Calculate and update defense remaining HP after getting hit by equipment
+    // Also increase building eq count if equipment deal eq type damage
     calcRemainingHP(defense) {
         if (defense instanceof Defense) {
             if (defense.isImmune(this)) {
@@ -67,13 +50,12 @@ class Equipment extends Offense {
             }
 
             const hp = defense.remainingHP;
-
             switch (this.damageType) {
                 case "direct":
-                    defense.remainingHP = Util.round2Places(hp - this.calcDamage(defense));
+                    defense.remainingHP = NumberUtil.round2Places(hp - this.calcDamage(defense));
                     return;
                 case "earthquake":                  
-                    defense.remainingHP = Util.round2Places(hp - this.calcDamage(defense));
+                    defense.remainingHP = NumberUtil.round2Places(hp - this.calcDamage(defense));
                     defense.eqCount++;
                     return;             
             }  
@@ -82,58 +64,31 @@ class Equipment extends Offense {
         }
     }
 
-    isMaxLevel() {
-        return this.getMaxLevel() === this.getCurrentLevel();
-    }
-
-    isMinLevel() {
-        return this.getLevel(0) === this.getCurrentLevel();
-    }
-
+    // Check if equipment rarity is epic
     isRarityEpic() {
         return this.rarity === "epic";
     }
 
+    // Compare equipment on its ID
     compare(compareEquipment) {
         if (compareEquipment instanceof Equipment) {
             return this.offenseID === compareEquipment.offenseID;
         }
         return false;
     }
-
-    getDamageList() {
-        return this.offenseJSON["damage"]; 
-    }
     
+    // Get equipment's image path in the project folder
     getImagePath() {
         return `/images/offense/equipments/${this.offenseID}.webp`;
     }
 
+    // Get a new equipment with same datas
     clone() {
         return new Equipment(this.offenseID, this.currentLevelPos);
     }
 
-    setSortedDamageList() {
-        this.damageList = Object.entries(this.offenseJSON["damage"]).sort(([, valueA], [, valueB]) => valueA - valueB);
+    // Getter
+    get rarity() {
+        return this._rarity;
     }
-
-    set currentLevelPos(newCurrentLevelPos) {
-        if (newCurrentLevelPos !== null) {
-            if (typeof newCurrentLevelPos !== "number") {
-                throw new Error(`Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`);
-            }
-
-            if (this.damageList[newCurrentLevelPos] !== undefined) {
-                this._currentLevelPos = newCurrentLevelPos;
-            } else {
-                throw new Error(`Invalid currentLevelPos: ${newCurrentLevelPos}. OffenseID: ${this.offenseID}`);
-            }
-        } else {
-            this._currentLevelPos = this.maxLevelPos;
-        }
-    }
-
-    get currentLevelPos() {
-        return this._currentLevelPos;
-    }
- }
+}

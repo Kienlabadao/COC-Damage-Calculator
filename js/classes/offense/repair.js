@@ -1,39 +1,22 @@
 class Repair extends Offense {
 
-    static LEVEL_POS = 0;
-    static REPAIR_POS = 1;
+    // Variant of offense
+    // Store additional data for repair (currently there is none)
+    // Note: All damage related number is rounded up to 2 decimal places
+
+    // DISCLAIMER: Yes, I know letting repair extend offense is weird, but if it were in it own class, then it would make implementing other thing like action, damage log list much much harder (since offense and repait will be 2 different type)
+    // And since the purpose of this website is to only calculate damage, let's say that for that only purpose, repair is an offense type that deal reversed damage 😉
 
     constructor(offenseID, currentLevelPos) {
-        super(offenseID, "repair");
-        this.setSortedRepairList();
-        this.maxLevelPos = this.repairList.length - 1;
-        this.currentLevelPos = currentLevelPos;
+        super(offenseID, "repair", currentLevelPos);
     }
 
-    getLevel(levelPos) {
-        return this.repairList[levelPos][Repair.LEVEL_POS];
-    }
-
-    getMaxLevel() {
-        return this.getLevel(this.maxLevelPos);
-    }
-
-    getCurrentLevel() {
-        return this.getLevel(this.currentLevelPos);
-    }
-
-    getRepair(levelPos) {
-        return this.repairList[levelPos][Repair.REPAIR_POS];
-    }
-
-    getCurrentDamage() {
-        return this.getRepair(this.currentLevelPos);
-    }
-
+    // Get damage after modify for repair
     calcModifiedDamage(modify = 0) {
         return this.getCurrentDamage() * modify / 100;
     }
 
+    // Calculate how many damages (repairs) does this repair do to defense
     calcDamage(defense, modify = 0) {
         if (defense instanceof Defense) {
             if (defense.isImmune(this)) {
@@ -42,10 +25,10 @@ class Repair extends Offense {
             
             const maxHP = defense.getCurrentMaxHP();
             const hp = defense.remainingHP;
-            const repair = Util.round2Places(this.getCurrentDamage() + this.calcModifiedDamage(modify));
+            const repair = NumberUtil.round2Places(this.getCurrentDamage() + this.calcModifiedDamage(modify));
 
-            if (Util.round2Places(hp + repair) > maxHP) {
-                return Util.round2Places(maxHP - hp);
+            if (NumberUtil.round2Places(hp + repair) > maxHP) {
+                return NumberUtil.round2Places(maxHP - hp);
             } else {
                 return repair;
             }         
@@ -54,6 +37,7 @@ class Repair extends Offense {
         } 
     }
 
+    // Calculate and update defense remaining HP after getting hit (repaired) by troop
     calcRemainingHP(defense, modify = 0) {
         if (defense instanceof Defense) {
             if (defense.isImmune(this)) {
@@ -61,21 +45,13 @@ class Repair extends Offense {
             }
 
             const hp = defense.remainingHP;
-
-            defense.remainingHP = Util.round2Places(hp + this.calcDamage(defense, modify));
+            defense.remainingHP = NumberUtil.round2Places(hp + this.calcDamage(defense, modify));
         } else {
             throw new Error(`Invalid defense: ${defense}`);
         }
     }
 
-    isMaxLevel() {
-        return this.getMaxLevel() === this.getCurrentLevel();
-    }
-
-    isMinLevel() {
-        return this.getLevel(0) === this.getCurrentLevel();
-    }
-
+    // Compare repair on its ID
     compare(compareRepair) {
         if (compareRepair instanceof Repair) {
             return this.offenseID === compareRepair.offenseID;
@@ -83,34 +59,13 @@ class Repair extends Offense {
         return false;
     }
 
+    // Get repair's image path in the project folder
     getImagePath() {
         return `/images/offense/repairs/${this.offenseID}/${this.getCurrentLevel()}.webp`;    
     }
 
+    // Get a new repair with same datas
     clone() {
         return new Repair(this.offenseID, this.currentLevelPos);
     }
-
-    setSortedRepairList() {
-        this.repairList = Object.entries(this.offenseJSON["repair"]).sort(([, valueA], [, valueB]) => valueA - valueB);
-    }
-
-    set currentLevelPos(newCurrentLevelPos) {
-        if (newCurrentLevelPos !== null) {
-            if (typeof newCurrentLevelPos !== "number") {
-                throw new Error(`Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`);
-            }
-            if (this.repairList[newCurrentLevelPos] !== undefined) {
-                this._currentLevelPos = newCurrentLevelPos;
-            } else {
-                throw new Error(`Invalid currentLevelPos: ${newCurrentLevelPos}. OffenseID: ${this.offenseID}`);
-            }
-        } else {
-            this._currentLevelPos = this.maxLevelPos;
-        }
-    }
-
-    get currentLevelPos() {
-        return this._currentLevelPos;
-    }
- }
+}

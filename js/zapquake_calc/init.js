@@ -1,3 +1,4 @@
+// Enable this to stop defense div from generating for testing
 const devMode = false;
 const type = "simple";
 
@@ -11,11 +12,14 @@ const useDonatedZapSpellKey = "useDonatedZapSpell";
 const eqOrderKey = LocalStorageUtils.getEQOrderKey(type);
 
 const defensesSection = document.getElementById("defenses");
+let defenseDivs = [];
 const offensesSection = document.getElementById("offenses");
 const spellDivs = offensesSection.querySelectorAll(".offense.spell");
 const equipmentDivs = offensesSection.querySelectorAll(".offense.equipment");
-const eqOrderDiv = document.getElementById("earthquakeOrder");
+const eqOrderDropdown = document.getElementById("earthquakeOrder");
 const useDonatedZapSpellCheckbox = document.getElementById("useDonatedLightning");
+const donateCountInputBox = document.getElementById("donateCount");
+const warningDiv = document.getElementById("inputWarning");
 
 let maxSpellCount = 0;
 let donatedZapSpellCount = LocalStorageUtils.loadNumber(donatedZapSpellCountKey, 0);
@@ -25,19 +29,19 @@ let useDonatedZap = LocalStorageUtils.loadBoolean(useDonatedZapSpellKey, false);
 const offenseListManager = new OffenseListManager();
 const defenseListManager = new DefenseListManager();
 
+// Load the page when JSON is loaded successfully
 document.addEventListener('init', () => {
-  console.log(localStorage);
   maxSpellCount = getMaxSpellCount();
-
   offenseListManager.loadKey(type);
   offenseListManager.addDonatedSpell(zapSpellKey, type);
   defenseListManager.loadKey(type);
 
   if (!devMode) {
-    for (const defense of defenseListManager.getDefenseList()) {
+    for (const defense of defenseListManager.defenseList) {
       loadDefense(defense);
     }
   }
+  defenseDivs = defensesSection.querySelectorAll(".defense");
   for (const spell of offenseListManager.getSpellList()) {
     loadSpell(spell);
   }
@@ -46,20 +50,20 @@ document.addEventListener('init', () => {
   }
   updateEquipmentUsed();
 
-  for (let option of eqOrderDiv.options) {
+  for (let option of eqOrderDropdown.options) {
     if (option.value === eqOrder) {
        option.selected = true;
        break;
     } 
   }
-  const donateCount = document.getElementById("donateCount");
-  donateCount.value = donatedZapSpellCount;
+  donateCountInputBox.value = donatedZapSpellCount;
   useDonatedZapSpellCheckbox.checked = useDonatedZap;
   toggleUseDonatedZapSpell();
 
   calc();
 });
 
+// Load spell div with saved data
 function loadSpell(spell) {
   if (spell instanceof Spell) {
     const spellID = spell.offenseID;
@@ -82,9 +86,9 @@ function loadSpell(spell) {
         levelSlider.value = currentLevelPos;
 
         if (spell.isMaxLevel()) {            
-          HTMLUtil.addMaxedClass(levelOverlayDiv);
+          HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);
         } else {
-          HTMLUtil.addNotMaxedClass(levelOverlayDiv);
+          HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
         }
       }
     });  
@@ -93,6 +97,7 @@ function loadSpell(spell) {
   }
 }
 
+// Load equipment div with saved data
 function loadEquipment(equipment) {
   if (equipment instanceof Equipment) {
     const equipmentID = equipment.offenseID;
@@ -114,9 +119,9 @@ function loadEquipment(equipment) {
         levelSlider.value = currentLevelPos;
         
         if (equipment.isMaxLevel()) {            
-          HTMLUtil.addMaxedClass(levelOverlayDiv);
+          HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);
         } else {
-          HTMLUtil.addNotMaxedClass(levelOverlayDiv);
+          HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
         }
       }
     });
@@ -125,6 +130,7 @@ function loadEquipment(equipment) {
   }
 }
 
+// Load defense div with saved data
 function loadDefense(defense) {
   if (defense instanceof Defense) {
     defensesSection.appendChild(ZapquakeHTMLUtil.createDefenseDiv(defense));

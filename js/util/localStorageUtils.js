@@ -1,5 +1,8 @@
 class LocalStorageUtils {
 
+    // Store useful util function for managing local storage
+    
+    // Format local storage key
     static getObjectKey(type, objectType, objectID) {
         return `${type}_${objectType}_${objectID}_pos`;
     }
@@ -20,10 +23,13 @@ class LocalStorageUtils {
         return `${type}_use_${modifierID}`;
     }
 
+    // Get item from local storage
     static getKey(key) {
         return localStorage.getItem(key);
     }
 
+    // Get item with certain deta type from local storage
+    // This will make sure that content inside local storage have the correct deta type, else it return null
     static getNumber(key) {
         const number = Number.parseInt(LocalStorageUtils.getKey(key));
 
@@ -46,10 +52,13 @@ class LocalStorageUtils {
         }
     }
 
+    // Get item with certain deta type from local storage
+    // This will make sure that content inside local storage have the correct deta type, else it will update local storage with default value and return it
+    // It also will check if defaultValue have the correct deta type
     static loadNumber(key, defaultValue) {
         const number = Number.parseInt(LocalStorageUtils.getKey(key)); 
         if (Number.isNaN(number)) {
-            if (typeof defaultValue === "number") {
+            if (NumberUtil.isNumber(defaultValue)) {
                 localStorage.setItem(key, defaultValue);
                 return defaultValue;
             } else {
@@ -74,6 +83,8 @@ class LocalStorageUtils {
         }
     }
 
+    // Same as loadString, except it will also check if content is included in string array
+    // Used to dropdown
     static loadStringInRange(key, checkStringList, defaultValue) {
         if (Array.isArray(checkStringList)) {
             const string = LocalStorageUtils.getKey(key);
@@ -106,8 +117,9 @@ class LocalStorageUtils {
         }
     }
 
+    // Save item inside local storage, and check if item match data type
     static saveNumber(key, number) {
-        if (typeof number === "number") {
+        if (NumberUtil.isNumber(number)) {
             localStorage.setItem(key, number);
         } else {
             throw new Error(`Invalid number: ${number}`);

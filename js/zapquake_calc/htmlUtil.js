@@ -1,189 +1,146 @@
 class ZapquakeHTMLUtil {
 
+    // Store all convenient functions related to html that is used by zapquake calculator page only
+
+    // Create row for spell composition from spell node converted from spell count list
+    static createSpellsContainerDiv(nodeArray) {
+        if (Array.isArray(nodeArray)) {
+            const columnDiv = document.createElement('div');
+            columnDiv.className = "col";
+
+            const spellsContainerDiv = document.createElement('div');
+            spellsContainerDiv.className = "row gy-2 gx-1 align-items-center";
+            columnDiv.appendChild(spellsContainerDiv);
+
+            HTMLUtil.appendAllChilds(spellsContainerDiv, nodeArray);
+            return columnDiv;
+        } else {
+            throw new Error(`Invalid nodeArray: ${nodeArray}`);
+        }
+    }
+    
+    // Convert spell count list into spell node
     static createSpellNodeArray(spellCountListManager) {
         if (spellCountListManager instanceof SpellCountListManager) {
             const nodeArray = [];
-            const amountDiv = document.createElement("div");
-            const normalDiv = document.createElement("div");
-    
-            for (const spellCount of spellCountListManager.spellCountList) {
-                nodeArray.push(ZapquakeHTMLUtil.createSpellDiv(spellCount.spell, spellCount.count));
-            } 
             
-            nodeArray.reverse();        
-            normalDiv.className = "fs-5 fw-bold";
-            normalDiv.textContent = "(" + spellCountListManager.getTotalSpellCount() + "/" + maxSpellCount + ")";
-            amountDiv.appendChild(normalDiv);
+            const spellList = document.createElement("div");
+            spellList.className = "col-9 col-sm-8 d-flex justify-content-end gap-2";
+            for (const spellCount of spellCountListManager.spellCountList) {
+                spellList.appendChild(ZapquakeHTMLUtil.createSpellDiv(spellCount.spell, spellCount.count));
+            }
+            nodeArray.push(spellList);
+                
+            const spellCountDiv = document.createElement("div");
+            spellCountDiv.className = "col-3 col-sm-4";
+
+            const spellCountRow = document.createElement("div");
+            spellCountRow.className = "row row-cols-1";
+            spellCountDiv.appendChild(spellCountRow);
+
+            const normalCpellCount = document.createElement("span");
+            normalCpellCount.className = "col fs-5 fw-bold";
+            normalCpellCount.textContent = `(${spellCountListManager.getTotalSpellCount()}/${maxSpellCount})`;
+            spellCountRow.appendChild(normalCpellCount);
     
             const donatedSpellList = spellCountListManager.getDonatedSpell();
             if (!donatedSpellList.isEmpty()) {
-                const donateDiv = document.createElement("div");
-                donateDiv.className = "d-flex align-items-center";      
+                const donateSpellCount = document.createElement("div");
+                donateSpellCount.className = "col d-flex align-items-center";
+                spellCountRow.appendChild(donateSpellCount);
     
-                const donateAmountDiv = document.createElement("span");
-                donateAmountDiv.className = "fs-5 fw-bold me-1 mb-1px";
-                donateAmountDiv.textContent = "+" + donatedSpellList.getTotalSpellCount();
+                const donateAmountDiv = document.createElement("div");
+                donateAmountDiv.className = "fs-5 fw-bold";
+                donateAmountDiv.textContent = `+${donatedSpellList.getTotalSpellCount()}`;
+                donateSpellCount.appendChild(donateAmountDiv);
     
                 const donateIcon = document.createElement("img");
                 donateIcon.className = "image";
                 donateIcon.setAttribute("height", "18");
-                donateIcon.setAttribute("src", "/images/other/donate.webp");
-    
-                donateDiv.appendChild(donateAmountDiv);
-                donateDiv.appendChild(donateIcon);
-                amountDiv.appendChild(donateDiv);
+                donateIcon.setAttribute("src", "/images/other/donate.webp");              
+                donateSpellCount.appendChild(donateIcon);                
             }
-            nodeArray.push(amountDiv);
+            nodeArray.push(spellCountDiv);
             return nodeArray;
         } else {
             throw new Error(`Invalid spellCountListManager: ${spellCountListManager}`);
         }
     }
     
-    static createEquipmentDiv(equipment) {
-        if (equipment instanceof Equipment) {
-            const equipmentID = equipment.offenseID;
-            const level = equipment.getCurrentLevel();
-            const isMaxLevel = equipment.isMaxLevel();
-            const imagePath = equipment.getImagePath();
-    
-            // Create div
-            const objectContainer = document.createElement("div");
-            objectContainer.className = "object-container object-container--tall text-center";
-            if (equipment.isRarityEpic()) {
-                objectContainer.classList.add("object-container--epic");
-            }
-            objectContainer.setAttribute("data-id", equipmentID);
-            
-            const objectContainerHeader = document.createElement("div");
-            objectContainerHeader.className = "object-container__header";
-            objectContainer.appendChild(objectContainerHeader);          
-
-            const levelOverlay = document.createElement("div");
-            levelOverlay.className = "overlay overlay__number";
-            if (isMaxLevel) {            
-                levelOverlay.classList.add("overlay__number--level-maxed");
-            }
-            levelOverlay.textContent = level;
-            objectContainerHeader.appendChild(levelOverlay);
-    
-            const img = document.createElement("img");
-            img.className = "image";
-            img.setAttribute("src", imagePath);
-            objectContainer.appendChild(img);
-    
-            return objectContainer;
-        } else {
-            throw new Error(`Invalid equipment: ${equipment}`);
-        }
-    }
-    
-    static createSpellDiv(spell, amount) {
+    // Create a html card of a spell
+    static createSpellDiv(spell, spellCount) {
         if (spell instanceof Spell) {
             const spellID = spell.equipmentID;
-            const level = spell.getCurrentLevel();
             const isDonated = spell.isDonated;
-            const isMaxLevel = spell.isMaxLevel();
             const imagePath = spell.getImagePath();
     
-            // Create div
-            const objectContainer = document.createElement("div");
-            objectContainer.className = "object-container object-container--tall text-center";
-            objectContainer.setAttribute("data-id", spellID);
+            const spellContainer = document.createElement("div");
+            spellContainer.className = "object-container object-container--tall text-center";
+            if (spell.offenseID === eqSpellKey) {
+                spellContainer.classList.add("object-container--earthquake");
+            }
+            spellContainer.setAttribute("data-id", spellID);
             
             const objectContainerHeader = document.createElement("div");
             objectContainerHeader.className = "object-container__header";
-            objectContainer.appendChild(objectContainerHeader);   
+            spellContainer.appendChild(objectContainerHeader);   
 
-            const spellCountOverlay = document.createElement("span");
-            spellCountOverlay.className = "overlay overlay__number overlay__number--spell-count";
-            spellCountOverlay.textContent = `x${amount}`;
-            objectContainerHeader.appendChild(spellCountOverlay);  
+            objectContainerHeader.appendChild(HTMLUtil.createSpellCountOverlay(spellCount));  
 
-            const levelOverlay = document.createElement("div");
-            levelOverlay.className = "level overlay overlay--small overlay--bottom-left overlay__number";
-            if (isMaxLevel) {            
-                levelOverlay.classList.add("overlay__number--level-maxed");
-            }
-            levelOverlay.textContent = level;
-            objectContainer.appendChild(levelOverlay);
+            spellContainer.appendChild(HTMLUtil.createLevelOverlay(spell, HTMLUtil.OVERLAY_SMALL));
     
             const img = document.createElement("img");
             img.className = "image";
             img.setAttribute("src", imagePath);
-            objectContainer.appendChild(img);
+            spellContainer.appendChild(img);
 
             if (isDonated) {
-                const modifierOverlay = document.createElement("div");
-                modifierOverlay.className = "modifier overlay overlay--small overlay--top-left overlay__img";
-                objectContainer.appendChild(modifierOverlay);
-
-                const modifierImg = document.createElement("img");
-                modifierImg.setAttribute("src", donateImage);
-                modifierOverlay.appendChild(modifierImg);
+                spellContainer.appendChild(HTMLUtil.createModifierOverlay(donateImage, HTMLUtil.OVERLAY_SMALL, HTMLUtil.MODIFIER_DONATED));
             }
 
-            return objectContainer;
-            // Create div
-            // const imageContainerDiv = document.createElement("div");
-            // imageContainerDiv.className = "object-container card-custom-container text-center m-1";
-            // imageContainerDiv.setAttribute("data-id", spellID);
-    
-            // const amountDiv = document.createElement("span");
-            // amountDiv.className = "level text-light";
-            // amountDiv.textContent = "x" + amount;
-    
-            // let donatedIconDiv;
-            // if (isDonated) {
-            //     donatedIconDiv = document.createElement("div");
-            //     donatedIconDiv.className = "small-overlay-top-right";
-    
-            //     const donateIcon = document.createElement("img");
-            //     donateIcon.className = "image";
-            //     donateIcon.setAttribute("height", "18");
-            //     donateIcon.setAttribute("src", "/images/other/donate.webp");
-    
-            //     donatedIconDiv.appendChild(donateIcon);
-            // }
-    
-            // const image = document.createElement("img");
-            // let classString = "image";
-            // if (spellID === eqSpellKey) {
-            //     classString += "";
-            // }
-            // img.className = classString;
-            // img.setAttribute("height", "50");
-            // img.setAttribute("src", imagePath);
-    
-            // const levelNumberDiv = document.createElement("div");
-            // let numberDivClass = "overlay overlay-card-custom";
-            // if (isMaxLevel) {            
-            //     numberDivClass += " maxed";
-            // } else {
-            //     numberDivClass += " not-maxed";
-            // }
-            // levelNumberDiv.className = numberDivClass;
-    
-            // const levelNumberSpan = document.createElement("span");
-            // levelNumberSpan.className = "level";
-            // levelNumberSpan.textContent = level;    
-    
-            // // Append the level number span to the overlay div
-            // levelNumberDiv.appendChild(levelNumberSpan);
-    
-            // imageContainerDiv.appendChild(amountDiv);
-            // if (isDonated) {
-            //     imageContainerDiv.appendChild(donatedIconDiv);
-            // }
-            // imageContainerDiv.appendChild(img);
-            // imageContainerDiv.appendChild(levelNumberDiv);
-    
-            // return imageContainerDiv;
+            return spellContainer;
         } else {
             throw new Error(`Invalid spell: ${spell}`);
         }
     }
+
+    // Create a html card of a equipment
+    static createEquipmentDiv(equipment, defense) {
+        if (equipment instanceof Equipment && defense instanceof Defense) {
+            const equipmentID = equipment.offenseID;
+            const imagePath = equipment.getImagePath();
     
+            const equipmentContainer = document.createElement("div");
+            equipmentContainer.className = "object-container object-container--tall text-center";
+            if (defense.isImmune(equipment)) {
+                equipmentContainer.classList.add("object-container--immune");
+            } else if (equipment.isRarityEpic()) {
+                equipmentContainer.classList.add("object-container--epic");
+            }
+            equipmentContainer.setAttribute("data-id", equipmentID);
+            
+            const objectContainerHeader = document.createElement("div");
+            objectContainerHeader.className = "object-container__header";
+            equipmentContainer.appendChild(objectContainerHeader);          
+
+            objectContainerHeader.appendChild(HTMLUtil.createLevelOverlay(equipment, HTMLUtil.OVERLAY_TALL));
+    
+            const img = document.createElement("img");
+            img.className = "image";
+            img.setAttribute("src", imagePath);
+            equipmentContainer.appendChild(img);
+    
+            return equipmentContainer;
+        } else {
+            if (!(equipment instanceof Equipment)) {
+                throw new Error(`Invalid equipment: ${equipment}`);
+            } else {
+                throw new Error(`Invalid defense: ${defense}`);
+            }
+        }
+    }
+    
+    // Create a defense div to be added to the page
     static createDefenseDiv(defense) {
         if (defense instanceof Defense) {
             const defenseID = defense.defenseID;
@@ -199,7 +156,6 @@ class ZapquakeHTMLUtil {
             HTMLUtil.setDataID(defenseDiv, defenseID);
             HTMLUtil.setDataDefenseStatus(defenseDiv, true);
     
-            // Create the nested structure inside the main container
             const borderDiv = document.createElement("div");
             borderDiv.className = "card-custom card-custom__main shadow p-3";
             defenseDiv.appendChild(borderDiv);
@@ -208,21 +164,21 @@ class ZapquakeHTMLUtil {
             titleDiv.className = "d-flex align-items-center";
             borderDiv.appendChild(titleDiv);
     
-            const imgDiv = document.createElement("div");
-            titleDiv.appendChild(imgDiv);
+            const mainImgDiv = document.createElement("div");
+            titleDiv.appendChild(mainImgDiv);
     
-            const img = document.createElement("img");
-            img.className = "image--main";
-            img.src = imagePath;
-            imgDiv.appendChild(img);
+            const mainImg = document.createElement("img");
+            mainImg.className = "image--main";
+            mainImg.src = imagePath;
+            mainImgDiv.appendChild(mainImg);
     
-            const textDiv = document.createElement("div");
-            textDiv.className = "ms-3";
-            titleDiv.appendChild(textDiv);
+            const infoDiv = document.createElement("div");
+            infoDiv.className = "ms-3";
+            titleDiv.appendChild(infoDiv);
     
             const nameDiv = document.createElement("div");
             nameDiv.className = "h5";
-            textDiv.appendChild(nameDiv);
+            infoDiv.appendChild(nameDiv);
     
             const nameSpan = document.createElement("span");
             nameSpan.className = "name";
@@ -231,7 +187,7 @@ class ZapquakeHTMLUtil {
     
             const statDiv = document.createElement("div");
             statDiv.className = "d-flex flex-wrap gap-2";
-            textDiv.appendChild(statDiv);
+            infoDiv.appendChild(statDiv);
     
             const hpDiv = document.createElement("div");
             hpDiv.className = "card-custom card-custom__stat";
@@ -250,42 +206,42 @@ class ZapquakeHTMLUtil {
             levelDiv.className = "card-custom card-custom__stat";
             statDiv.appendChild(levelDiv);
     
-            const i = document.createElement("i");
-            i.className = "fa-solid fa-chart-simple me-1";
-            levelDiv.appendChild(i);
+            const levelIcon = document.createElement("i");
+            levelIcon.className = "fa-solid fa-chart-simple me-1";
+            levelDiv.appendChild(levelIcon);
             
-            const levelNumberSpan = document.createElement("span");
-            levelNumberSpan.className = "level text";
-            levelNumberSpan.textContent = defense.getCurrentLevel();
+            const levelNumber = document.createElement("span");
+            levelNumber.className = "level text";
+            levelNumber.textContent = defense.getCurrentLevel();
             if (defense.isMaxLevel()) {
-                levelNumberSpan.classList.add("text--level-maxed");
+                HTMLUtil.addTextMaxedClass(levelNumber);
             }
-            levelDiv.appendChild(levelNumberSpan);
+            levelDiv.appendChild(levelNumber);
     
-            const rangeInput = document.createElement("input");
-            rangeInput.setAttribute("type", "range");
-            rangeInput.className = "slider mt-3";
-            rangeInput.setAttribute("min", minLevelPos);
-            rangeInput.setAttribute("max", maxLevelPos);
-            rangeInput.setAttribute("value", currentLevelPos);
-            rangeInput.setAttribute("oninput", "updateDefense(this)");
-            borderDiv.appendChild(rangeInput);
+            const slider = document.createElement("input");
+            slider.setAttribute("type", "range");
+            slider.className = "slider mt-3";
+            slider.setAttribute("min", minLevelPos);
+            slider.setAttribute("max", maxLevelPos);
+            slider.setAttribute("value", currentLevelPos);
+            slider.setAttribute("oninput", "updateDefense(this)");
+            borderDiv.appendChild(slider);
     
             const resultDiv = document.createElement("div");
             resultDiv.className = "my-3";
             borderDiv.appendChild(resultDiv);
     
-            const equipmentDiv = document.createElement("div");
-            equipmentDiv.className = "equipment-div";
-            resultDiv.appendChild(equipmentDiv);
+            const equipmentUsedDiv = document.createElement("div");
+            equipmentUsedDiv.className = "equipment-div";
+            resultDiv.appendChild(equipmentUsedDiv);
     
-            const equipmentTitle = document.createElement("h5");
-            equipmentTitle.textContent = "Heroes Equipment used:";
-            equipmentDiv.appendChild(equipmentTitle);
+            const equipmentUsedTitle = document.createElement("h5");
+            equipmentUsedTitle.textContent = "Heroes Equipment used:";
+            equipmentUsedDiv.appendChild(equipmentUsedTitle);
     
-            const equipmentList = document.createElement("div");
-            equipmentList.className = "equipment-list d-flex justify-content-center align-items-center flex-wrap gap-2";
-            equipmentDiv.appendChild(equipmentList);
+            const equipmentUsedList = document.createElement("div");
+            equipmentUsedList.className = "equipment-list d-flex justify-content-center align-items-center flex-wrap gap-2";
+            equipmentUsedDiv.appendChild(equipmentUsedList);
     
             const statusDiv = document.createElement("div");
             statusDiv.className = "status-div status-container d-flex align-items-center my-3 d-none";
@@ -300,39 +256,38 @@ class ZapquakeHTMLUtil {
             statusText.className = "info status-container__text";
             statusDiv.appendChild(statusText);
             
-            const spellDiv = document.createElement("div");
-            spellDiv.className = "spell-div my-3";
-            resultDiv.appendChild(spellDiv);
+            const spellNeededDiv = document.createElement("div");
+            spellNeededDiv.className = "spell-div container-fluid mt-3";
+            resultDiv.appendChild(spellNeededDiv);
     
-            const spellTitle = document.createElement("h5");
-            spellTitle.textContent = "Spell needed:";
-            spellDiv.appendChild(spellTitle);
+            const spellNeededTitle = document.createElement("h5");
+            spellNeededTitle.textContent = "Spell needed:";
+            spellNeededDiv.appendChild(spellNeededTitle);
     
-            const spellList = document.createElement("div");
-            spellList.className = "spell-main-display d-flex justify-content-center align-items-center gap-1";
-            spellDiv.appendChild(spellList);
+            const mainSpellNeededList = document.createElement("div");
+            mainSpellNeededList.className = "spell-main-display row gy-2 gx-1 align-items-center";
+            spellNeededDiv.appendChild(mainSpellNeededList);
     
             const buttonDiv = document.createElement("div");
             buttonDiv.className = "collapse-btn text-center my-3";
-            spellDiv.appendChild(buttonDiv);
+            spellNeededDiv.appendChild(buttonDiv);
     
             const button = document.createElement("button");
-            button.className = "show-more-btn btn btn-secondary fw-bold";
+            button.className = "show-more-btn btn btn-secondary";
             button.setAttribute("type", "button");
             button.setAttribute("data-bs-toggle", "collapse");
             button.setAttribute("data-bs-target", `#showMore-${defenseID}`);
             button.setAttribute("aria-controls", `showMore-${defenseID}`);
             button.setAttribute("aria-expanded", "false");
             button.textContent = "Show More";
-            button.setAttribute("onclick", "toggleCollapseText(this)");
+            button.setAttribute("onclick", "toggleHTMLCollapseBtnText(this)");
             buttonDiv.appendChild(button);
     
-            const showMoreDiv = document.createElement("div");
-            showMoreDiv.className = "spell-display collapse";
-            showMoreDiv.id = `showMore-${defenseID}`;
-            spellDiv.appendChild(showMoreDiv);
-    
-            // Append the created elements to their respective parents
+            const spellNeededList = document.createElement("div");
+            spellNeededList.className = "spell-display row row-cols-1 gy-2 gx-0 collapse";
+            spellNeededList.id = `showMore-${defenseID}`;
+            spellNeededDiv.appendChild(spellNeededList);
+
             return defenseDiv;
         } else {
             throw new Error(`Invalid defense: ${defense}`);

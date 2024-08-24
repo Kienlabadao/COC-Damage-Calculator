@@ -1,7 +1,10 @@
 class ActionListManager {
 
+    // Store list of actions
+    // For more details about what does action do, check action class
+
     constructor() {
-        this.actionList = [];
+        this._actionList = [];
     }
 
     add(newAction) {
@@ -12,13 +15,10 @@ class ActionListManager {
         }
     }
 
+    // Get action based on its index in the list
     get(index) {
         const damageLog = this.actionList[index];
         return damageLog !== undefined ? damageLog : null;
-    }
-
-    getActionList() {
-        return this.actionList;
     }
 
     getLength() {
@@ -29,6 +29,31 @@ class ActionListManager {
         return this.getLength() == 0;
     }
 
+    // Remove a action based on its index in the list
+    removeItemAtIndex(index) {
+        if (NumberUtil.isNumber(index) && !isNaN(index)) {         
+            if (index < 0 || index >= this.getLength()) {
+                throw new Error("Index out of range.");
+            }
+        
+            const newActionList = [];
+            let count = 0;
+            let isRemoved = false;
+            for (const action in this.actionList) {
+                count++;
+                if (count !== index) {
+                    newActionList.push(action);
+                    isRemoved = true;
+                }
+            }
+            this._actionList = newActionList;
+            return isRemoved;
+        } else {
+            throw new Error(`Invalid index: ${index}`);
+        }
+    }
+
+    // Remove the last n amount of actions in the list
     removeCount(amount) {
         const maxAmount = Number.parseInt(amount);
         if (!Number.isNaN(maxAmount)) {           
@@ -40,7 +65,13 @@ class ActionListManager {
         }
     }
 
+    // Empty action list
     clear() {
         this.actionList.length = 0;
+    }
+
+    // Getter
+    get actionList() {
+        return this._actionList;
     }
 }

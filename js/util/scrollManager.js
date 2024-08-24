@@ -5,39 +5,46 @@ const html = document.documentElement;
 
 const minScroll = 1000;
 
+// Get the max height of the page
+function getMaxHeight() {
+    return Math.max(
+        body.scrollHeight, body.offsetHeight,
+        html.clientHeight, html.scrollHeight, html.offsetHeight
+    );
+}
+
+// Start checking scroll when user scroll on the page
 window.addEventListener('scroll', () => {
     checkScroll();
 });
 
+// Show and hide scroll up/down btn based on user scroll pos
 function checkScroll() {
-    const maxHeight = Math.max(
-        body.scrollHeight, body.offsetHeight,
-        html.clientHeight, html.scrollHeight, html.offsetHeight
-      );
+    const maxHeight = getMaxHeight();
     const maxScroll = maxHeight - 1000;
+    const scrollPos = document.documentElement.scrollTop;
 
-    if (document.documentElement.scrollTop > minScroll) {
-        scrollUpBtn.classList.remove("d-none");
+    if (scrollPos > minScroll) {
+        HTMLUtil.showDiv(scrollUpBtn);
     } else {
-        scrollUpBtn.classList.add("d-none");
+        HTMLUtil.hideDiv(scrollUpBtn);
     }
 
-    if (document.documentElement.scrollTop < maxScroll) {
-        scrollDownBtn.classList.remove("d-none");
+    if (scrollPos < maxScroll) {
+        HTMLUtil.showDiv(scrollDownBtn);
     } else {
-        scrollDownBtn.classList.add("d-none");
+        HTMLUtil.hideDiv(scrollDownBtn);
     }
 }
 
+// Scroll to the top of the page when user click scroll up button
 function scrollUp() {
     document.documentElement.scrollTop = 0;
 }
 
+// Scroll to the top of the page when user click scroll down button
 function scrollDown() {
-    const maxHeight = Math.max(
-        body.scrollHeight, body.offsetHeight,
-        html.clientHeight, html.scrollHeight, html.offsetHeight
-      );
+    const maxHeight = getMaxHeight();
     document.documentElement.scrollTop = maxHeight;
 }
 

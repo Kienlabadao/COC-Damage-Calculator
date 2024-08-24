@@ -1,3 +1,4 @@
+// Enable this to stop defense div from generating for testing
 const devMode = false;
 const type = "advance";
 
@@ -10,12 +11,13 @@ const rageSpellTowerKey = "rage_spell_tower";
 const hideDestroyedDefensesKey = "hideDestroyedDefenses";
 
 const defensesSection = document.getElementById("defenses");
+let defenseDivs = [];
 const offensesSection = document.getElementById("offenses");
 const spellDivs = offensesSection.querySelectorAll(".offense.spell");
 const equipmentDivs = offensesSection.querySelectorAll(".offense.equipment");
 const troopDivs = offensesSection.querySelectorAll(".offense.troop");
 const repairDivs = offensesSection.querySelectorAll(".offense.repair");
-const modifierDivs = offensesSection.querySelectorAll(".modifier");
+const modifierDivs = offensesSection.querySelectorAll(".modifier.modifier-obj");
 const actionListDiv = document.getElementById("actionList");
 const useTroopDeathDamageCheckbox = document.getElementById("useTroopDeathDamage");
 const hideDestroyedDefensesCheckbox = document.getElementById("hideDestroyedDefenses");
@@ -29,19 +31,18 @@ const modifierListManager = new ModifierListManager();
 const defenseListManager = new DefenseListManager();
 const actionListManager = new ActionListManager();
 
+// Load the page when JSON is loaded successfully
 document.addEventListener('init', () => {
-  console.log(localStorage);
-
   offenseListManager.loadKey(type);
   modifierListManager.loadKey(type);
   defenseListManager.loadKey(type);
-  console.log(defenseListManager);
 
   if (!devMode) {
-    for (const defense of defenseListManager.getDefenseList()) {
+    for (const defense of defenseListManager.defenseList) {
       loadDefense(defense);
     }
   }
+  defenseDivs = defensesSection.querySelectorAll(".defense");
   for (const spell of offenseListManager.getSpellList()) {
     loadSpell(spell);
   }
@@ -54,7 +55,7 @@ document.addEventListener('init', () => {
   for (const repair of offenseListManager.getRepairList()) {
     loadRepair(repair);
   }
-  for (const modifier of modifierListManager.getModifierList()) {
+  for (const modifier of modifierListManager.modifierList) {
     loadModifier(modifier);
   }
 
@@ -87,9 +88,9 @@ function loadSpell(spell) {
         levelSlider.value = currentLevelPos;
 
         if (spell.isMaxLevel()) {            
-          HTMLUtil.addMaxedClass(levelOverlayDiv);
+          HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);
         } else {
-          HTMLUtil.addNotMaxedClass(levelOverlayDiv);
+          HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
         }
       }
     });  
@@ -98,6 +99,7 @@ function loadSpell(spell) {
   }
 }
 
+// Load equipment div with saved data
 function loadEquipment(equipment) {
   if (equipment instanceof Equipment) {
     const equipmentID = equipment.offenseID;
@@ -119,9 +121,9 @@ function loadEquipment(equipment) {
         levelSlider.value = currentLevelPos;
         
         if (equipment.isMaxLevel()) {            
-          HTMLUtil.addMaxedClass(levelOverlayDiv);
+          HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);
         } else {
-          HTMLUtil.addNotMaxedClass(levelOverlayDiv);
+          HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
         }
       }
     });
@@ -130,6 +132,7 @@ function loadEquipment(equipment) {
   }
 }
 
+// Load troop div with saved data
 function loadTroop(troop) {
   if (troop instanceof Troop) {
     const troopID = troop.offenseID;
@@ -151,9 +154,9 @@ function loadTroop(troop) {
         levelSlider.value = currentLevelPos;
         
         if (troop.isMaxLevel()) {            
-          HTMLUtil.addMaxedClass(levelOverlayDiv);
+          HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);
         } else {
-          HTMLUtil.addNotMaxedClass(levelOverlayDiv);
+          HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
         }
       }
     });
@@ -162,9 +165,10 @@ function loadTroop(troop) {
   }
 }
 
+// Load modifier div with saved data
 function loadModifier(modifier) {
   if (modifier instanceof Modifier) {
-    const modifierID = modifier.offenseID;
+    const modifierID = modifier.modifierID;
     const imagePath = modifier.getImagePath();
     const currentLevelPos = modifier.currentLevelPos;
     const maxLevelPos = modifier.maxLevelPos;
@@ -187,9 +191,9 @@ function loadModifier(modifier) {
           levelSlider.value = currentLevelPos;
 
           if (modifier.isMaxLevel()) {
-            HTMLUtil.addMaxedClass(levelOverlayDiv);
+            HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);
           } else {
-            HTMLUtil.addNotMaxedClass(levelOverlayDiv);
+            HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
           }
         }
       }
@@ -199,6 +203,7 @@ function loadModifier(modifier) {
   }
 }
 
+// Load repair div with saved data
 function loadRepair(repair) {
   if (repair instanceof Repair) {
     const repairID = repair.offenseID;
@@ -220,9 +225,9 @@ function loadRepair(repair) {
         levelSlider.value = currentLevelPos;
         
         if (repair.isMaxLevel()) {            
-          HTMLUtil.addMaxedClass(levelOverlayDiv);
+          HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);
         } else {
-          HTMLUtil.addNotMaxedClass(levelOverlayDiv);
+          HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
         }
       }
     });
@@ -231,6 +236,7 @@ function loadRepair(repair) {
   }
 }
 
+// Load defense div with saved data
 function loadDefense(defense) {
   if (defense instanceof Defense) {
     defensesSection.appendChild(AdvanceHTMLUtil.createDefenseDiv(defense));

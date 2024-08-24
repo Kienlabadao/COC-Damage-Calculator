@@ -83,13 +83,19 @@
                 <hr>
                 <!-- Spells -->
                 <div>
-                    <h3>Spell</h3>
-                    <div class="d-flex align-items-center">
-                        <input class="form-check-input checkbox me-1" type="checkbox" id="useDonatedLightning"
-                            oninput="useDonatedZapSpell(this)">
-                        <label class="h5 mb-0" for="useDonatedLightning">Use donated lightning spell</label>
-                    </div>
-                    <div class="row row-cols-6 justify-content-evenly gap-3 mt-4">
+                    <h3 class="text-center">Spell</h3>
+                    <div>
+                        <h3 class="mb-0">Setting:</h3>
+                        <div class="d-flex flex-wrap gap-2 my-2">
+                            <button class="btn btn-secondary" type="button" value="max" onclick="setAllSpellsLevel(this)">Set All Spells to Max Level</button>
+                            <button class="btn btn-secondary" type="button" value="min" onclick="setAllSpellsLevel(this)">Set All Spells to Min Level</button>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <input class="form-check-input checkbox me-1" type="checkbox" id="useDonatedLightning" oninput="useDonatedZapSpell(this)">
+                            <label class="h5 mb-0" for="useDonatedLightning">Use donated lightning spell</label>
+                        </div>
+                    </div>                  
+                    <div class="row row-cols-6 justify-content-evenly gap-3 mt-5">
                         <div class="col offense spell card-custom card-custom__object text-center"
                             data-id="lightning_spell" data-donated="false">
                             <h5>Lightning Spell</h5>
@@ -123,9 +129,8 @@
                                         class="form-control input-box bg-secondary" id="donateCount"
                                         oninput="updateDonatedCount(this)">
                                 </div>
-                                <div class="status-container d-none mt-2">
-                                    <div id="inputWarning" class="status-container__text--fail">Input must be a number
-                                        between 0 and 3!</div>
+                                <div id="inputWarning" class="status-container d-none mt-2">
+                                    <div class="status-container__text status-container__text--fail">Input must be a number between 0 and 3!</div>
                                 </div>
                             </div>
                         </div>
@@ -145,16 +150,23 @@
                 <hr>
                 <!-- Equipments -->
                 <div class="mt-4">
-                    <h3>Heroes Equipment</h3>
-                    <div class="d-flex align-items-center flex-wrap gap-3">
-                        <label class="h5 mb-0" for="earthquakeOrder">Earthquake order:</label><br>
-                        <select class="form-select dropdown bg-secondary" id="earthquakeOrder"
-                            aria-label="earthquakeOrder" onchange="updateEQOrder(this)">
-                            <option value="earthquake_spell">Earthquake Spell first</option>
-                            <option value="earthquake_boots">Earthquake Boots first</option>
-                        </select>
+                    <h3 class="text-center">Hero Equipment</h3>
+                    <div>
+                        <h3 class="mb-0">Setting:</h3>
+                        <div class="d-flex flex-wrap gap-2 my-2">
+                            <button class="btn btn-secondary" type="button" value="max" onclick="setAllEquipmentsLevel(this)">Set All Equipments to Max Level</button>
+                            <button class="btn btn-secondary" type="button" value="min" onclick="setAllEquipmentsLevel(this)">Set All Equipments to Min Level</button>
+                        </div>
+                        <div class="d-flex align-items-center flex-wrap gap-3">
+                            <label class="h5 mb-0" for="earthquakeOrder">Earthquake order:</label><br>
+                            <select class="form-select dropdown bg-secondary" id="earthquakeOrder"
+                                aria-label="earthquakeOrder" onchange="updateEQOrder(this)">
+                                <option value="earthquake_spell">Earthquake Spell first</option>
+                                <option value="earthquake_boots">Earthquake Boots first</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="row row-cols-6 justify-content-evenly gap-3 mt-4">
+                    <div class="row row-cols-6 justify-content-evenly gap-3 mt-5">
                         <div class="col offense equipment card-custom card-custom__object text-center"
                             data-id="earthquake_boots">
                             <h5>Earthquake Boots</h5>
@@ -228,7 +240,7 @@
                     <h3>Instruction</h3>
                     <button class="btn btn-secondary" type="button" data-bs-toggle="collapse"
                         data-bs-target="#instruction" aria-expanded="false" aria-controls="instruction"
-                        onclick="toggleCollapseText(this)">Show</button>
+                        onclick="toggleHTMLCollapseBtnText(this)">Show</button>
                     <div class="collapse mt-3" id="instruction">
                         <div>
                             Some placeholder content for the collapse component. This panel is hidden by default but
@@ -238,79 +250,19 @@
                 </div>
             </section>
 
-            <section class="mt-4 mb-3">
+            <section class="card-custom card-custom__main shadow p-4 my-5">
+                <h2 class="text-center">Defense List</h2><hr>
                 <div class="search-box shadow">
                     <i class="fa fa-search"></i>
-                    <input type="text" class="form-control search-box__input" placeholder="Search a defense"
-                        onkeyup="searchDefenses(this)">
+                    <input type="text" class="form-control search-box__input" placeholder="Search a defense" onkeyup="searchDefenses(this)" id="searchDefense">
+                </div>
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                    <button class="btn btn-secondary" type="button" value="max" onclick="setAllDefensesLevel(this)">Set All Defenses to Max Level</button>
+                    <button class="btn btn-secondary" type="button" value="min" onclick="setAllDefensesLevel(this)">Set All Defenses to Min Level</button>
                 </div>
             </section>
 
-            <section id="defenses" class="row row-cols-xxl-4 row-cols-lg-3 row-cols-md-2 gy-3 my-3">
-                <!-- <div class="defense" data-id="cannon">
-                    <div class="card-custom card-custom__main shadow p-3">
-                        <div class="d-flex align-items-center">
-                            <div>
-                                <img class="image--main" src="/images/defense/cannon/21.webp">
-                            </div>
-                            <div class="ms-3">
-                                <div class="h5"><span class="name">Cannon</span></div>
-                                <div class="d-flex flex-wrap gap-2">
-                                    <div class="card-custom card-custom__stat">
-                                        <span>❤️</span>
-                                        <span class="hp text">2250</span>
-                                    </div>
-                                    <div class="card-custom card-custom__stat">
-                                        <i class="fa-solid fa-chart-simple me-1"></i>
-                                        <span class="level text text--level-maxed">21</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <input type="range" class="slider mt-3" min="0" max="20" value="20" oninput="updateDefense(this)">
-                        <div class="my-3">
-                            <div class="equipment-div">
-                                <h5>Heroes Equipment used:</h5>
-                                <div class="equipment-list d-flex justify-content-center align-items-center flex-wrap gap-1">
-                                    <div class="object-container object-container--tall object-container--epic text-center" data-id="earthquake_boots">
-                                        <div class="overlay overlay__number overlay__number--spell-count">
-                                            <span class="level">x1</span>
-                                        </div>
-                                        <img class="image" height="50" src="/images/offense/equipments/earthquake_boots.webp">
-                                    </div>
-                                    <div class="object-container object-container--tall object-container--epic text-center" data-id="earthquake_boots">
-                                        <div class="overlay overlay__number overlay__number--level-maxed">
-                                            <span class="level">18-12</span>
-                                        </div>
-                                        <img class="image" height="50" src="/images/offense/equipments/earthquake_boots.webp">
-                                    </div>
-                                    <div class="object-container object-container--tall object-container--epic text-center" data-id="earthquake_boots">
-                                        <div class="overlay overlay__number overlay__number--level-maxed">
-                                            <span class="level">18-12</span>
-                                        </div>
-                                        <img class="image" height="50" src="/images/offense/equipments/earthquake_boots.webp">
-                                    </div>
-                                    <div class="object-container object-container--tall object-container--epic text-center" data-id="earthquake_boots">
-                                        <div class="overlay overlay__number overlay__number--level-maxed">
-                                            <span class="level">18-12</span>
-                                        </div>
-                                        <img class="image" height="50" src="/images/offense/equipments/earthquake_boots.webp">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="status-div d-flex align-items-center my-3 d-none"><img class="status-img me-4" width="80">
-                                <div class="status-text fw-bold"></div>
-                            </div>
-                            <div class="spell-div my-3">
-                                <h5>Spell needed:</h5>
-                                <div class="spell-main-display d-flex justify-content-center align-items-center"></div>
-                                <div class="collapse-btn text-center my-3"><button class="btn btn-secondary fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#showMore-cannon" aria-controls="showMore-cannon" aria-expanded="false" onclick="toggleCollapseText(this)">Show More</button></div>
-                                <div class="spell-display collapse" id="showMore-cannon"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-            </section>
+            <section id="defenses" class="row row-cols-md-2 row-cols-xl-3 row-cols-xxl-4 gy-3 my-3"></section>
         </section>
     </main>
 
@@ -328,14 +280,13 @@
         <i class="fa-solid fa-arrow-down fa-2x"></i>
     </button>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="/js/util/init.js"></script>
-    <script src="/js/util/util.js"></script>
+    <script src="/js/util/numberUtil.js"></script>
     <script src="/js/util/htmlUtil.js"></script>
     <script src="/js/util/scrollManager.js"></script>
-    <script src="/js/util/toggleCollapseText.js"></script>
+    <script src="/js/util/setAllObjectsLevel.js"></script>
+    <script src="/js/util/toggleCollapseBtnText.js"></script>
     <script src="/js/util/toggleTheme.js"></script>
 
     <script src="/js/classes/offense/offense.js"></script>
@@ -344,8 +295,12 @@
     <script src="/js/classes/offense/troop.js"></script>
     <script src="/js/classes/offense/repair.js"></script>
     <script src="/js/classes/offense/offenseListManager.js"></script>
+    <script src="/js/classes/modifier/modifier.js"></script>
+    <script src="/js/classes/modifier/modifierListManager.js"></script>
     <script src="/js/classes/defense/defense.js"></script>
     <script src="/js/classes/defense/defenseListManager.js"></script>
+    <script src="/js/classes/action/action.js"></script>
+    <script src="/js/classes/action/actionListManager.js"></script>
     <script src="/js/classes/spell_count/spellCount.js"></script>
     <script src="/js/classes/spell_count/spellCountListManager.js"></script>
     <script src="/js/classes/damage_log/damageLog.js"></script>
@@ -354,6 +309,7 @@
     <script src="/js/zapquake_calc/calculate.js"></script>
     <script src="/js/zapquake_calc/htmlUtil.js"></script>
     <script src="/js/zapquake_calc/searchDefenses.js"></script>
+    <script src="/js/zapquake_calc/setAllObjectsLevel.js"></script>
     <script src="/js/zapquake_calc/update.js"></script>
     <script src="/js/zapquake_calc/init.js"></script>
 

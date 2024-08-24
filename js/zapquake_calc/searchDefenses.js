@@ -1,11 +1,15 @@
+// Show & hide defense div if its name match player search input
 function searchDefenses(element) {
     const searchString = element.value.trim().toLowerCase();
-    const defensesDiv = defensesSection.querySelectorAll('.defense');
 
-    defensesDiv.forEach((defenseDiv) => {
+    defenseDivs.forEach((defenseDiv) => {
         const defenseID = HTMLUtil.getDataID(defenseDiv);
+        const defense = defenseListManager.getDefense(defenseID);    
+        if (defense === null) {
+            throw new Error(`Invalid defenseID: ${defenseID}`);
+        }
 
-        if (getDefense(defenseID)["name"].toLowerCase().includes(searchString)) {
+        if (defense.name.toLowerCase().includes(searchString)) {
             HTMLUtil.showDiv(defenseDiv);
         } else {
             HTMLUtil.hideDiv(defenseDiv);

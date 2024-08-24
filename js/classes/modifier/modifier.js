@@ -1,20 +1,27 @@
 class Modifier {
 
+    // Store modifier related datas including its level, modfify, type of offense that it affects, and if it's being activated (enabled by user)
+    // Note: Variable that end with Pos (Ex. currentLevelPos) hold its current position in the json file
+    // getCurrentLevel() will get its actual level
+
     static LEVEL_POS = 0;
     static MODIFY_POS = 1;
+
     static TROOP = 0;
     static REPAIR = 1;
 
-    constructor(offenseID, currentLevelPos, isActive = false) {
-        this.offenseID = offenseID;
-        this.setOffenseJSON();
+    constructor(modifierID, currentLevelPos, isActive = false) {
+        this._modifierID = modifierID;
+        this.setModifierJSON();
         this.setSortedModifyList();
-        this.affectList = this.offenseJSON["affects"];
-        this.maxLevelPos = this.modifyList.length - 1;
+        this._affectList = this.modifierJSON["affects"];
+        this._maxLevelPos = this.modifyList.length - 1;
+        this._minLevelPos = 1;
         this.currentLevelPos = currentLevelPos;
         this.isActive = isActive;
     }
 
+    // Convert the level's position in the json file to its actual level 
     getLevel(levelPos) {
         return this.modifyList[levelPos][Modifier.LEVEL_POS];
     }
@@ -43,6 +50,7 @@ class Modifier {
         return this.getLevel(0) === this.getCurrentLevel();
     }
 
+    // Check if modifier can affect this type of offense
     isAffected(type) {
         switch (type) {
             case Modifier.TROOP:
@@ -54,13 +62,15 @@ class Modifier {
         }
     }
 
+    // Compare modifier on its ID
     compare(compareModfier) {
         if (compareModfier instanceof Modifier) {
-            return this.offenseID === compareModfier.offenseID;
+            return this.modifierID === compareModfier.modifierID;
         }
         return false;
     }
 
+    // Compare modifier on its current modify (needed as modifier with higher modify will override the other one)
     compareModify(compareModfier) {
         if (compareModfier instanceof Modifier) {
             const modify = this.getCurrentModify();
@@ -78,35 +88,40 @@ class Modifier {
         }       
     }
 
+    // Get modifier's image path in the project folder
     getImagePath() {
-        return `/images/offense/modifiers/${this.offenseID}.webp`;
+        return `/images/modifiers/${this.modifierID}.webp`;
     }
 
+    // Get a new modifier with same datas
     clone() {
-        return new Modifier(this.offenseID, this.currentLevelPos, this.isActive);
+        return new Modifier(this.modifierID, this.currentLevelPos, this.isActive);
     }
 
-    setOffenseJSON() {
-        this.offenseJSON = getModifier(this.offenseID);
-        if (this.offenseJSON === undefined) {
-            throw new Error("Invalid offenseID: " + newOffenseID);
+    // Get modifier data in json
+    setModifierJSON() {
+        this._modifierJSON = getModifier(this.modifierID);
+        if (this.modifierJSON === undefined) {
+            throw new Error(`modifierID doesn't exist in JSON: ${this.modifierID}`);
         }
     }
 
+    // Get sorted ascending order of modifier list as json object is sorted by keys not values
     setSortedModifyList() {
-        this.modifyList = Object.entries(this.offenseJSON["modify"]).sort(([, valueA], [, valueB]) => valueA - valueB);
+        this._modifyList = Object.entries(this.modifierJSON["modify"]).sort(([, valueA], [, valueB]) => valueA - valueB);
     }
 
+    // Setter
     set currentLevelPos(newCurrentLevelPos) {
         if (newCurrentLevelPos !== null) {
-            if (typeof newCurrentLevelPos !== "number") {
+            if (!NumberUtil.isNumber(newCurrentLevelPos)) {
                 throw new Error(`Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`);
             }
 
             if (this.modifyList[newCurrentLevelPos] !== undefined) {
                 this._currentLevelPos = newCurrentLevelPos;
             } else {
-                throw new Error(`Invalid currentLevelPos: ${newCurrentLevelPos}. OffenseID: ${this.offenseID}`);
+                throw new Error(`Invalid currentLevelPos: ${newCurrentLevelPos}. OffenseID: ${this.modifierID}`);
             }
         } else {
             this._currentLevelPos = this.maxLevelPos;
@@ -119,6 +134,31 @@ class Modifier {
         } else {
             throw new Error(`Invalid isActive: ${newIsActive}`)
         }
+    }
+
+    // Getter
+    get modifierID() {
+        return this._modifierID;
+    }
+
+    get modifierJSON() {
+        return this._modifierJSON;
+    }
+
+    get modifyList() {
+        return this._modifyList;
+    }
+
+    get affectList() {
+        return this._affectList;
+    }
+
+    get maxLevelPos() {
+        return this._maxLevelPos;
+    }
+
+    get minLevelPos() {
+        return this._minLevelPos;
     }
 
     get currentLevelPos() {

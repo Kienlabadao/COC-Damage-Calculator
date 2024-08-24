@@ -1,95 +1,107 @@
+// Update defense's stat, image, and recalculate when user change the level of defense
 function updateDefense(element) {
     const defenseDiv = HTMLUtil.getParentDiv(element, "defense");
-
+    const currentLevelPos = Number.parseInt(element.value);
     if (defenseDiv) {
-        const levelNumberSpan = defenseDiv.querySelector(".level");
-        const defenseID = HTMLUtil.getDataID(defenseDiv);
-        const defense = defenseListManager.getDefense(defenseID);
-        const key = LocalStorageUtils.getObjectKey(type, "defense", defenseID);
-       
-        const currentLevelPos = Number.parseInt(element.value);       
-        defense.currentLevelPos = currentLevelPos;
-        LocalStorageUtils.saveNumber(key, currentLevelPos);
-        const imagePath = defense.getImagePath();
-        
-        levelNumberSpan.textContent = defense.getCurrentLevel();
-        if (defense.isMaxLevel()) {
-            levelNumberSpan.classList.add("maxed-text");
-        } else {
-            levelNumberSpan.classList.remove("maxed-text");
-        }
-        defenseDiv.querySelector(".image").src = imagePath;
-        defenseDiv.querySelector(".hp").textContent = defense.getCurrentMaxHP();   
+        updateDefenseLevel(defenseDiv, currentLevelPos);           
+    } else {
+        throw new Error(`Invalid defenseDiv: ${defenseDiv}`);
     }
     calcDefense(defenseDiv);
 }
 
+function updateDefenseLevel(defenseDiv, currentLevelPos) {
+    const levelNumberSpan = defenseDiv.querySelector(".level");
+    const defenseID = HTMLUtil.getDataID(defenseDiv);
+    const defense = defenseListManager.getDefense(defenseID);
+    const key = LocalStorageUtils.getObjectKey(type, "defense", defenseID);   
+        
+    defense.currentLevelPos = currentLevelPos;
+    LocalStorageUtils.saveNumber(key, currentLevelPos);
+    const imagePath = defense.getImagePath();
+    const maxHP = defense.getCurrentMaxHP();   
+
+    levelNumberSpan.textContent = defense.getCurrentLevel();
+    if (defense.isMaxLevel()) {
+        HTMLUtil.addTextMaxedClass(levelNumberSpan);
+    } else {
+        HTMLUtil.removeTextMaxedClass(levelNumberSpan);
+    }
+    defenseDiv.querySelector(".image--main").src = imagePath;
+    defenseDiv.querySelector(".hp").textContent = maxHP;
+}
+
+// Update offense's stat, image, and recalculate every defenses when user change the level of offense
 function updateOffense(element) {
     const offenseDiv = HTMLUtil.getParentDiv(element, "offense");
+    const currentLevelPos = Number.parseInt(element.value);    
     
     if (offenseDiv) {
-        const overlayDiv = offenseDiv.querySelector(".overlay");
-        const offenseID = HTMLUtil.getDataID(offenseDiv);
-        let offense = null;
-        let key = null;
-        if (offenseDiv.classList.contains("spell")) {
-            const isDonated = HTMLUtil.getDataDonated(offenseDiv);
-
-            offense = offenseListManager.getSpell(offenseID, isDonated);
-            key = isDonated ? LocalStorageUtils.getObjectKeyDonated(type, "offense", offenseID) : LocalStorageUtils.getObjectKey(type, "offense", offenseID);
-        } else if (offenseDiv.classList.contains("equipment")) {
-            offense = offenseListManager.getEquipment(offenseID);
-            key = LocalStorageUtils.getObjectKey(type, "offense", offenseID);
-        } else {
-            throw new Error(`ERROR: Div did not contain appropriate type: ${offenseDiv.classList}`);
-        }
-       
-        const currentLevelPos = Number.parseInt(element.value);       
-        offense.currentLevelPos = currentLevelPos;
-        LocalStorageUtils.saveNumber(key, currentLevelPos);
-
-        if (offenseDiv.classList.contains("equipment")) {
-            updateEquipmentUsed();
-        }
-        
-        if (offense.isMaxLevel()) {            
-            HTMLUtil.addMaxedClass(overlayDiv);
-        } else {
-            HTMLUtil.addNotMaxedClass(overlayDiv);
-        }
-        offenseDiv.querySelector(".level").textContent = offense.getCurrentLevel();
-    }
+        updateOffenseLevel(offenseDiv, currentLevelPos)
+    } else {
+        throw new Error(`Invalid offenseDiv: ${offenseDiv}`);
+    }      
     calc();
 }
 
+function updateOffenseLevel(offenseDiv, currentLevelPos) {
+    const offenseID = HTMLUtil.getDataID(offenseDiv);
+    let offense = null;
+    let key = null;
+    if (Offense.isOffenseDivType(offenseDiv, Offense.SPELL)) {
+        const isDonated = HTMLUtil.getDataDonated(offenseDiv);
+
+        offense = offenseListManager.getSpell(offenseID, isDonated);
+        key = isDonated ? LocalStorageUtils.getObjectKeyDonated(type, "offense", offenseID) : LocalStorageUtils.getObjectKey(type, "offense", offenseID);
+    } else if (Offense.isOffenseDivType(offenseDiv, Offense.EQUIPMENT)) {
+        offense = offenseListManager.getEquipment(offenseID);
+        key = LocalStorageUtils.getObjectKey(type, "offense", offenseID);
+    } else {
+        throw new Error(`ERROR: Div did not contain appropriate type: ${offenseDiv.classList}`);
+    }
+         
+    offense.currentLevelPos = currentLevelPos;
+    LocalStorageUtils.saveNumber(key, currentLevelPos);
+
+    if (Offense.isOffenseDivType(offenseDiv, Offense.EQUIPMENT)) {
+        updateEquipmentUsed();
+    }
+    
+    const overlayDiv = offenseDiv.querySelector(".overlay");
+    if (offense.isMaxLevel()) {            
+        HTMLUtil.addLevelOverlayMaxedClass(overlayDiv);
+    } else {
+        HTMLUtil.removeLevelOverlayMaxedClass(overlayDiv);
+    }
+    offenseDiv.querySelector(".level").textContent = offense.getCurrentLevel();
+}
+
+// Update, toggle donated lightning spell div, and recalculate when user interact with use donated spell checkbox
 function useDonatedZapSpell(element) {
     useDonatedZap = element.checked;
     LocalStorageUtils.saveBoolean(useDonatedZapSpellKey, useDonatedZap);
 
-    toggleUseDonatedZapSpell(element);
+    toggleUseDonatedZapSpell();
     calc();  
 }
 
+// Toggle donated lightning spell div visibility
 function toggleUseDonatedZapSpell() {
-    offenseDivs = offensesSection.querySelectorAll(".offense");
-
-    offenseDivs.forEach((offenseDiv) => {
-        const spellID = HTMLUtil.getDataID(offenseDiv);
-        if (spellID === "lightning_spell") {
-            if (HTMLUtil.getDataDonated(offenseDiv)) {
-                if (useDonatedZap) {
-                    HTMLUtil.showDiv(offenseDiv);            
-                } else {
-                    HTMLUtil.hideDiv(offenseDiv);
-                }                
-                return;
-            }
+    spellDivs.forEach((spellDIv) => {
+        const spellID = HTMLUtil.getDataID(spellDIv);
+        if (spellID === zapSpellKey && HTMLUtil.getDataDonated(spellDIv)) {
+            if (useDonatedZap) {
+                HTMLUtil.showDiv(spellDIv);            
+            } else {
+                HTMLUtil.hideDiv(spellDIv);
+            }                
+            return;
         }
     });
 }
 
+// Check user input, warn user if invalid input or out of range. Otherwise, update the number of donated lightning spells used and recalculate
 function updateDonatedCount(element) {
-    const warningDiv = document.getElementById("inputWarning");
     const inputNumber = Number.parseInt(element.value);
 
     if (Number.isNaN(inputNumber)) {
@@ -107,46 +119,37 @@ function updateDonatedCount(element) {
     }
 }
 
+// Update, save user choice, and recalculate when user choose in eq order dropdown
 function updateEQOrder(element) {
     eqOrder = element.value;
     LocalStorageUtils.saveString(eqOrderKey, eqOrder);
     calc();
 }
 
+// Update list of used equipments for every defense divs
 function updateEquipmentUsed() {
-    const equipmentDivList = [];
+    defenseDivs.forEach((defenseDiv) => {        
+        const equipmentListDiv = defenseDiv.querySelector(".equipment-list");
+        const equipmentDiv = defenseDiv.querySelector(".equipment-div");
+        const defense = defenseListManager.getDefense(HTMLUtil.getDataID(defenseDiv));
 
-    for (const offense of offenseListManager.getEquipmentList()) {
-        if (!offense.isMinLevel()) {
-            equipmentDivList.push(ZapquakeHTMLUtil.createEquipmentDiv(offense));
-        }
-    }
-
-    if (equipmentDivList.length > 0) {
-        defenseDivs = defensesSection.querySelectorAll(".defense");
-
-        defenseDivs.forEach((defenseDiv) => {        
-            const equipmentListDiv = defenseDiv.querySelector(".equipment-list");
-            const equipmentDiv = defenseDiv.querySelector(".equipment-div");
-            const defense = defenseListManager.getDefense(HTMLUtil.getDataID(defenseDiv));
-
-            HTMLUtil.removeAllChilds(equipmentListDiv)
-            for (const equipmentDiv of equipmentDivList) {
-                const equipmentNode = equipmentDiv.cloneNode(true);
-                const equipment = offenseListManager.getEquipment(HTMLUtil.getDataID(equipmentNode));
-
-                if (defense.isImmune(equipment)) {
-                    equipmentNode.classList.add("overlay--immune");
-                }
-                equipmentListDiv.appendChild(equipmentNode);
+        const equipmentDivList = [];
+        for (const equipment of offenseListManager.getEquipmentList()) {
+            if (!equipment.isMinLevel()) {
+                equipmentDivList.push(ZapquakeHTMLUtil.createEquipmentDiv(equipment, defense));
             }
+        }
+        
+        if (equipmentDivList.length > 0) {           
+            HTMLUtil.removeAllChilds(equipmentListDiv);
+            HTMLUtil.appendAllChilds(equipmentListDiv, equipmentDivList);
             HTMLUtil.showDiv(equipmentDiv);
-        });
-    } else {
-        defenseDivs = defensesSection.querySelectorAll(".defense");
-
-        defenseDivs.forEach((defenseDiv) => {
-            HTMLUtil.hideDiv(defenseDiv.querySelector(".equipment-div"));
-        });
-    }
+        } else {
+            // List will alway empty, so hide all equipment divs and stop
+            defenseDivs.forEach((defenseDiv) => {
+                HTMLUtil.hideDiv(defenseDiv.querySelector(".equipment-div"));
+            });
+            return;
+        }
+    });
 }

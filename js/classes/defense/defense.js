@@ -1,17 +1,27 @@
 class Defense {
+
+    // Store defense related datas including its level, hp, its immunes, and how many times it got hit by eq type offense (used for damage calculation)
+    // Note: Variable that end with Pos (Ex. currentLevelPos) hold its current position in the json file
+    // getCurrentLevel() will get its actual level
+
     constructor(defenseID, currentLevelPos, remainingHP, eqCount) {
-        this.defenseID = defenseID;
-        this.defenseJSON = getDefense(defenseID);
-        this.name = this.defenseJSON["name"];
-        this.hpList = this.defenseJSON["hp"];
+        this._defenseID = defenseID;
+        this.setDefenseJSON();
+        this._name = this.defenseJSON["name"];
+        this._hpList = this.defenseJSON["hp"];
         this.setImmuneList();
-        this.maxLevelPos = this.hpList.length - 1;
+        this._maxLevelPos = this.hpList.length - 1;
+        this._minLevelPos = 0;
         this.currentLevelPos = currentLevelPos;
 
+        // If remainingHP is not defined, it will be set to max HP in its current level
         if (remainingHP !== undefined) {
             this.remainingHP = remainingHP;       
+        } else {
+            this.resetRemainingHP();
         }
 
+        // If remainingHP is not defined, it will be set to default 0
         if (eqCount !== undefined) {
             this.eqCount = eqCount;
         } else {
@@ -19,6 +29,7 @@ class Defense {
         }
     }
 
+    // Convert the level's position in the json file to its actual level 
     getLevel(levelPos) {
         return levelPos + 1;
     }
@@ -43,6 +54,7 @@ class Defense {
         return this.getMaxLevel() === this.getCurrentLevel();
     }
 
+    // Check if defense immune to this offense (store in json file)
     isImmune(checkOffense) {
         if (checkOffense instanceof Offense) {
             for (const offense of this.immuneList)  {
@@ -60,6 +72,7 @@ class Defense {
         return this.remainingHP <= 0;
     }
 
+    // Get defense's image path in the project folder
     getImagePath() {
         const heroList = ["grand_warden_altar", "archer_queen", "royal_champion"];
 
@@ -70,6 +83,7 @@ class Defense {
         }
     }
 
+    // Get defense destroyed state's image path in the project folder
     getDestroyedImagePath() {
         switch (this.defenseID) {
             case "archer_queen":
@@ -81,8 +95,35 @@ class Defense {
         }
     }
 
+    // Reset defense's remaining HP back to its max HP in its current level
+    resetRemainingHP() {
+        this.remainingHP = this.getCurrentMaxHP();
+    }
+
+    // Compare modifier on its ID
+    compare(compareDefense) {
+        if (compareDefense instanceof Defense) {
+            return this.defenseID === compareDefense.defenseID;
+        }
+        return false;
+    }
+
+    // Get a new defense with same datas
+    clone() {
+        return new Defense(this.defenseID, this.currentLevelPos, this.remainingHP, this.eqCount);
+    }
+
+    // Get defense data in json
+    setDefenseJSON() {
+        this._defenseJSON = getDefense(this.defenseID);
+        if (this.defenseJSON  === undefined) {
+            throw new Error(`defenseID doesn't exist in JSON: ${this.defenseID}`);
+        }
+    }
+
+    // Load defense immune list
     setImmuneList() {
-        this.immuneList = [];
+        this._immuneList = [];
         const offenseListManager = new OffenseListManager();
         offenseListManager.load();
 
@@ -91,25 +132,10 @@ class Defense {
         }
     }
 
-    resetRemainingHP() {
-        this.remainingHP = this.getCurrentMaxHP();
-    }
-
-    clone() {
-        return new Defense(this.defenseID, this.currentLevelPos, this.remainingHP, this.eqCount);
-    }
-
-    set defenseID(newDefenseID) {
-        if (getDefense(newDefenseID) !== undefined) {
-            this._defenseID = newDefenseID;
-        } else {
-            throw new Error("Invalid defenseID: " + newDefenseID);
-        }
-    }
-
+    // Setter
     set currentLevelPos(newCurrentLevelPos) {
         if (newCurrentLevelPos !== null) {
-            if (typeof newCurrentLevelPos !== "number") {
+            if (!NumberUtil.isNumber(newCurrentLevelPos)) {
                 throw new Error(`Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`);
             }
             
@@ -126,7 +152,8 @@ class Defense {
     }
 
     set remainingHP(newRemainingHP) {
-        if (typeof newRemainingHP === "number" && newRemainingHP <= this.getCurrentMaxHP()) {
+        // Defense remaining HP cannot be more than its max HP in its current level
+        if (NumberUtil.isNumber(newRemainingHP) && newRemainingHP <= this.getCurrentMaxHP()) {
             this._remainingHP = newRemainingHP;
         } else {
             throw new Error(`Invalid remainingHP: ${newRemainingHP}. DefenseID: ${this.defenseID}. Defense maxHP: ${this.getCurrentMaxHP()}`);
@@ -134,17 +161,42 @@ class Defense {
     }
 
     set eqCount(newEQCount) {
-        if (typeof newEQCount === "number" && newEQCount >= 0) {
+        if (NumberUtil.isNumber(newEQCount) && newEQCount >= 0) {
             this._eqCount = newEQCount;
         } else {
             throw new Error(`Invalid eqCount: ${newEQCount}`);
         }
     }
 
+    // Getter
     get defenseID() {
         return this._defenseID;
     }
 
+    get defenseJSON() {
+        return this._defenseJSON;
+    }
+    
+    get name() {
+        return this._name;
+    }
+
+    get hpList() {
+        return this._hpList;
+    }
+
+    get immuneList() {
+        return this._immuneList;
+    }
+
+    get maxLevelPos() {
+        return this._maxLevelPos;
+    }
+
+    get minLevelPos() {
+        return this._minLevelPos;
+    }
+    
     get currentLevelPos() {
         return this._currentLevelPos;
     }
