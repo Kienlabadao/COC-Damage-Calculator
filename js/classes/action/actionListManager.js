@@ -55,8 +55,8 @@ class ActionListManager {
 
     // Remove the last n amount of actions in the list
     removeCount(amount) {
-        if (Number.isNumber(maxAmount)) {           
-            for (let count = 0; count < maxAmount; count++) {
+        if (NumberUtil.isNumber(amount)) {           
+            for (let count = 0; count < amount; count++) {
                 this.actionList.pop();
             }
         } else {
