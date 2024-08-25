@@ -10,7 +10,7 @@ class AdvanceHTMLUtil {
     static MODIFIER_DEATH = 1;
 
     // Create action icon that will be added to the action list
-    static createActionDiv(action, orderNumber = 1) {
+    static createActionDiv(action, orderNumber) {
         if (action instanceof Action) {
             const offense = action.offense;
             const modifier = action.modifier;
@@ -44,7 +44,109 @@ class AdvanceHTMLUtil {
     
             return containerDiv;
         } else {
-            throw new Error(`Invalid action: ${action}`)
+            throw new Error(`Invalid action: ${action}`);
+        }
+    }
+
+    static createActionDetailRow(action, orderNumber, totalAction) {
+        if (action instanceof Action) {
+            const offense = action.offense;
+            const modifier = action.modifier;
+
+            const row = document.createElement("tr");
+
+            const actionCell = document.createElement("td");
+            row.appendChild(actionCell);
+
+            // Create the main container div
+            const actionContainerDiv = document.createElement("div");
+            actionContainerDiv.className = "object-container object-container--responsive";
+            actionCell.appendChild(actionContainerDiv);
+    
+            // Create the main image element
+            const actionMainImage = document.createElement("img");
+            actionMainImage.className = "image object-container__img";
+            actionMainImage.src = offense.getImagePath();
+            actionContainerDiv.appendChild(actionMainImage);
+    
+            if (offense instanceof Troop) {
+                switch (offense.damageMode) {
+                    case Troop.DEATH_DAMAGE:
+                        actionContainerDiv.appendChild(HTMLUtil.createModifierOverlay(deathDamageImage, HTMLUtil.OVERLAY_RESPONSIVE, HTMLUtil.MODIFIER_DEATH));
+                        break;
+                }
+            }
+
+            // Create the order overlay
+            actionContainerDiv.appendChild(HTMLUtil.createOrderOverlay(orderNumber, HTMLUtil.OVERLAY_RESPONSIVE));
+    
+            // Create the level overlay
+            actionContainerDiv.appendChild(HTMLUtil.createLevelOverlay(offense, HTMLUtil.OVERLAY_RESPONSIVE));
+            
+            const modifierCell = document.createElement("td");
+            row.appendChild(modifierCell);
+
+            if (modifier !== null) {
+                // Create the main container div
+                const modifierContainerDiv = document.createElement("div");
+                modifierContainerDiv.className = "object-container object-container--responsive";
+                modifierCell.appendChild(modifierContainerDiv);
+        
+                // Create the main image element
+                const modifierMainImage = document.createElement("img");
+                modifierMainImage.className = "image object-container__img";
+                modifierMainImage.src = modifier.getImagePath();
+                modifierContainerDiv.appendChild(modifierMainImage);
+
+                // Create the level overlay
+                if (modifier.modifierID !== rageSpellTowerKey) {
+                    modifierContainerDiv.appendChild(HTMLUtil.createLevelOverlay(modifier, HTMLUtil.OVERLAY_RESPONSIVE));
+                }             
+            }
+
+            const manageCell = document.createElement("td");
+            row.appendChild(manageCell);
+
+            if (totalAction !== 1 && orderNumber !== 1) {
+                const moveUpBtn = document.createElement("button");
+                moveUpBtn.type = "button";
+                moveUpBtn.classList = "btn btn-success mx-1";
+                moveUpBtn.value = orderNumber;
+                moveUpBtn.setAttribute("onclick", "moveActionUp(this)");
+                manageCell.appendChild(moveUpBtn);
+
+                const moveUpIcon = document.createElement("i");
+                moveUpIcon.classList = "fa-solid fa-arrow-up fa-1x";
+                moveUpBtn.appendChild(moveUpIcon);
+            }                      
+
+            if (totalAction !== 1 && orderNumber !== totalAction) {
+                const moveDownBtn = document.createElement("button");
+                moveDownBtn.type = "button";
+                moveDownBtn.classList = "btn btn-success mx-1";
+                moveDownBtn.value = orderNumber;
+                moveDownBtn.setAttribute("onclick", "moveActionDown(this)");
+                manageCell.appendChild(moveDownBtn);
+
+                const moveDownIcon = document.createElement("i");
+                moveDownIcon.classList = "fa-solid fa-arrow-down fa-1x";
+                moveDownBtn.appendChild(moveDownIcon);
+            }
+
+            const removeBtn = document.createElement("button");
+            removeBtn.type = "button";
+            removeBtn.classList = "btn btn-danger mx-1";
+            removeBtn.value = orderNumber;
+            removeBtn.setAttribute("onclick", "removeActionDetail(this)");
+            manageCell.appendChild(removeBtn);
+
+            const removeIcon = document.createElement("i");
+            removeIcon.classList = "fa-solid fa-trash-can fa-1x";
+            removeBtn.appendChild(removeIcon);
+
+            return row;
+        } else {
+            throw new Error(`Invalid action: ${action}`);
         }
     }
 

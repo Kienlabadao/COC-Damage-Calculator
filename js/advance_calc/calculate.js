@@ -2,6 +2,7 @@ function calc() {
     defenseDivs.forEach((defenseDiv) => {   
         calcDefense(defenseDiv);
     });
+    filterDefenses();
 }
 
 function calcDefense(defenseDiv) {
@@ -48,7 +49,6 @@ function calcDefense(defenseDiv) {
     } else {
         defenseImg.src = defense.getImagePath();
     }
-    toggleDefenseDivVisibility();
 }
 
 function getDamageLogList(defense) {

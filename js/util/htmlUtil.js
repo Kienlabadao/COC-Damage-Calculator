@@ -49,6 +49,10 @@ class HTMLUtil {
         div.classList.add("d-none");
     }
     
+    static isDivHidden(div) {
+        div.classList.contains("d-none");
+    }
+
     // Get specific atrribute from div
     static getDataID(dataDiv) {
         return HTMLUtil.getDataString(dataDiv, "data-id");
@@ -208,7 +212,7 @@ class HTMLUtil {
     
     // Create level overlay for main overlay
     static createLevelOverlay(object, overlayType = HTMLUtil.OVERLAY_NORMAL) {
-        if (object instanceof Defense || object instanceof Offense) {
+        if (object instanceof Defense || object instanceof Offense || object instanceof Modifier) {
             const levelOverlay = document.createElement("div");
             levelOverlay.className = "modifier overlay overlay--bottom-left overlay__number";
         

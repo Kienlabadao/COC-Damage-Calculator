@@ -49,6 +49,9 @@
                             <li><a class="dropdown-item" href="/html/advance-calculator.html">Advance</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/html/changelog.html">Changelog</a>
+                    </li>
                     <li class="nav-item d-sm-none">
                         <a class="nav-link" aria-current="page" href="/html/setting.html">Setting</a>
                     </li>
@@ -242,10 +245,47 @@
                         data-bs-target="#instruction" aria-expanded="false" aria-controls="instruction"
                         onclick="toggleHTMLCollapseBtnText(this)">Show</button>
                     <div class="collapse mt-3" id="instruction">
-                        <div>
-                            Some placeholder content for the collapse component. This panel is hidden by default but
-                            revealed when the user activates the relevant trigger.
-                        </div>
+                        <div>How to use</div>
+                        <ul>
+                            <li>
+                                <div class="fw-bold">Step 1: Select spell level</div>
+                                <ul>
+                                    <li>Select appropriate spell level to your need</li>
+                                    <li>
+                                        <div>You can also toggle use donated lightning spell by:</div>
+                                        <ul>
+                                            <li>Cleck on <strong>"Use donated lightning spell"</strong></li>
+                                            <li>Select its level</li>
+                                            <li>Choose how many of them <strong>(Must be between 0 and 3)</strong></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div class="fw-bold">Step 2: Select equipment level</div>
+                                <ul>
+                                    <li>Select appropriate equipment level to your need</li>
+                                    <li>
+                                        <div>You can also choose which earthquake type offense will be used first if you use both of them. This is important as earthquake deal less damage the more its target get hit by earthquake type.</div>
+                                        <ul>
+                                            <li>For more complicated earthquake order: visit the <a href="/html/advance-calculator.html">Advance Calculator.</a></li>
+                                        </ul> 
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div class="fw-bold">Step 3:</div>
+                                <div></div>
+                            </li>
+                            <li>
+                                <div class="fw-bold">Step 4:</div>
+                                <div></div>
+                            </li>
+                            <li>
+                                <div class="fw-bold">Step 5:</div>
+                                <div></div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </section>
@@ -254,21 +294,48 @@
                 <h2 class="text-center">Defense List</h2><hr>
                 <div class="search-box shadow">
                     <i class="fa fa-search"></i>
-                    <input type="text" class="form-control search-box__input" placeholder="Search a defense" onkeyup="searchDefenses(this)" id="searchDefense">
+                    <input type="text" class="form-control search-box__input" placeholder="Search a defense" onkeyup="filterDefenses()" id="searchDefense">
                 </div>
                 <div class="d-flex flex-wrap gap-2 mt-3">
                     <button class="btn btn-secondary" type="button" value="max" onclick="setAllDefensesLevel(this)">Set All Defenses to Max Level</button>
                     <button class="btn btn-secondary" type="button" value="min" onclick="setAllDefensesLevel(this)">Set All Defenses to Min Level</button>
-                </div>
+                </div><hr>
+                <h5 id="defenseCount" class="mb-0"></h5>
             </section>
 
-            <section id="defenses" class="row row-cols-md-2 row-cols-xl-3 row-cols-xxl-4 gy-3 my-3"></section>
+            <section class="my-3">
+                <div id="defenses" class="row row-cols-md-2 row-cols-xl-3 row-cols-xxl-4 gy-3"></div>
+                <div id="emptySearchStatus" class="row gy-5 align-items-center status-container d-none">
+                    <div class="col-md-4 col-lg-3 d-flex justify-content-center">
+                        <img src="" class="status-container__img status-container__img--empty-search">
+                    </div>                  
+                    <h3 class="col-md-8 col-lg-9 status-container__text mb-0"></h3>
+                </div>
+            </section>
         </section>
     </main>
 
     <footer class="p-5 text-center mt-auto">
-        <h4>Last updated: 5/8/2024 (June 2024 Update)</h4>
+        <h4>Last Updated: 1/9/2024 (June 2024 Update)</h4>
         <h4>Made by Kienlabadao</h4>
+        <div class="d-flex justify-content-center align-items-center flex-wrap gap-2">
+            <div>
+                <a href="https://www.reddit.com/user/Kienlabadao/" target="_blank" class="btn btn--reddit">
+                    <i class="fa-brands fa-reddit-alien"></i> Reddit
+                </a>
+            </div>
+            <div>
+                <a href="https://discord.com/invite/6SDDRw68" target="_blank" class="btn btn-primary">
+                    <i class="fa-brands fa-discord"></i> Discord
+                </a>
+            </div>
+            <div>
+                <a href="https://github.com/Kienlabadao/COC-Damage-Calculator" target="_blank" class="btn btn-primary"><i class="fa-brands fa-github"></i> Source Code</a>
+            </div>
+            <div>
+                <a href="https://buymeacoffee.com/kienlabadao" target="_blank" class="btn btn-success btn--donate">☕ Buy me a coffee</a>
+            </div>
+        </div>
     </footer>
 
     <button type="button" id="scrollUpBtn" class="btn btn__scroll btn__scroll--up btn-secondary position-fixed d-none"

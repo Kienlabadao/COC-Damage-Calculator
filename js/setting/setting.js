@@ -6,6 +6,6 @@ function clearLocalStorage() {
     localStorage.clear();
 
     statusText.textContent = "Local storage cleared successfully! Please refresh your page to apply the change.";
-    showDiv(statusDiv);
-    setStatusTextSuccess(statusText);
+    HTMLUtil.showDiv(statusDiv);
+    HTMLUtil.setStatusTextSuccess(statusText);
 }

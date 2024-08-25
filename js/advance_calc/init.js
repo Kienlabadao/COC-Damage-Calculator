@@ -1,6 +1,7 @@
 // Enable this to stop defense div from generating for testing
 const devMode = false;
 const type = "advance";
+const actionListMaxSize = 30;
 
 const deathDamageImage = "/images/other/death.webp";
 const attackImage = "/images/other/attack.webp";
@@ -9,6 +10,8 @@ const eqIcon = "/images/other/earthquake_icon.webp";
 
 const rageSpellTowerKey = "rage_spell_tower";
 const hideDestroyedDefensesKey = "hideDestroyedDefenses";
+const hideSurvivedDefensesKey = "hideSurvivedDefenses";
+const showActionDetailKey = "showActionDetail";
 
 const defensesSection = document.getElementById("defenses");
 let defenseDivs = [];
@@ -19,12 +22,20 @@ const troopDivs = offensesSection.querySelectorAll(".offense.troop");
 const repairDivs = offensesSection.querySelectorAll(".offense.repair");
 const modifierDivs = offensesSection.querySelectorAll(".modifier.modifier-obj");
 const actionListDiv = document.getElementById("actionList");
+const actionListDetailDiv = document.getElementById("actionListDetail");
 const useTroopDeathDamageCheckbox = document.getElementById("useTroopDeathDamage");
-const hideDestroyedDefensesCheckbox = document.getElementById("hideDestroyedDefenses");
+const hideDestroyedDefensesCheckbox = document.getElementById(hideDestroyedDefensesKey);
+const hideSurvivedDefensesCheckbox = document.getElementById(hideSurvivedDefensesKey);
+const showActionDetailCheckbox = document.getElementById("showDetailActionList");
 const searchDefenseBox = document.getElementById("searchDefense");
+const defenseCountBox = document.getElementById("defenseCount");
+const actionCountBox = document.getElementById("actionCount");
+const statusLimitExceededDiv = document.getElementById("statusLimitExceeded");
 
 let useTroopDeathDamage = LocalStorageUtils.loadBoolean(LocalStorageUtils.getUseTroopDeathDamageKey(type), false);
-let hideDestroyedDefenses = LocalStorageUtils.loadBoolean(hideDestroyedDefensesKey, false);
+let isHideDestroyedDefenses = LocalStorageUtils.loadBoolean(hideDestroyedDefensesKey, false);
+let isHideSurvivedDefenses = LocalStorageUtils.loadBoolean(hideSurvivedDefensesKey, false);
+let showActionDetail = LocalStorageUtils.loadBoolean(showActionDetailKey, false);
 
 const offenseListManager = new OffenseListManager();
 const modifierListManager = new ModifierListManager();
@@ -60,10 +71,15 @@ document.addEventListener('init', () => {
   }
 
   useTroopDeathDamageCheckbox.checked = useTroopDeathDamage;
-  hideDestroyedDefensesCheckbox.checked = hideDestroyedDefenses;
+  hideDestroyedDefensesCheckbox.checked = isHideDestroyedDefenses;
+  hideSurvivedDefensesCheckbox.checked = isHideSurvivedDefenses;
+  showActionDetailCheckbox.checked = showActionDetail;
 
   updateOverlay();
   hideActionList();
+  updateActionCount(actionListManager.getLength());
+  filterDefenses();
+  toggleShowActionListType();
 });
 
 function loadSpell(spell) {

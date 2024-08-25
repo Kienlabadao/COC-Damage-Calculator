@@ -49,12 +49,17 @@
                             <li><a class="dropdown-item fw-bold" href="/html/advance-calculator.html">Advance</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/html/changelog.html">Changelog</a>
+                    </li>
                     <li class="nav-item d-sm-none">
                         <a class="nav-link" aria-current="page" href="/html/setting.html">Setting</a>
                     </li>
                 </ul>
             </div>
-            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <button id="toggleTheme" class="btn btn--toggle-theme" onclick="toggleTheme()">
@@ -76,28 +81,31 @@
         </header>
         <section class="main-container mx-auto mt-5">
             <section id="offenses" class="card-custom card-custom__main shadow p-4 my-5">
-                <h2 class="text-center">Build Action List</h2><hr>
+                <h2 class="text-center">Build Action List</h2>
+                <hr>
                 <!-- Spells -->
                 <div>
                     <h2 class="text-center">Spell</h2>
                     <div>
                         <h3 class="mb-0">Setting:</h3>
                         <div class="d-flex flex-wrap gap-2 my-2">
-                            <button class="btn btn-secondary" type="button" value="max" onclick="setAllSpellsLevel(this)">Set All Spells to Max Level</button>
-                            <button class="btn btn-secondary" type="button" value="min" onclick="setAllSpellsLevel(this)">Set All Spells to Min Level</button>
+                            <button class="btn btn-secondary" type="button" value="max"
+                                onclick="setAllSpellsLevel(this)">Set All Spells to Max Level</button>
+                            <button class="btn btn-secondary" type="button" value="min"
+                                onclick="setAllSpellsLevel(this)">Set All Spells to Min Level</button>
                         </div>
                     </div>
                     <div class="mt-5">
                         <div class="collapse-btn my-3 d-flex align-items-center">
                             <h3 class="mb-0 me-3">List:</h3>
                             <button class="btn btn-secondary" type="button" data-bs-toggle="collapse"
-                                aria-expanded="true" onclick="toggleHTMLCollapseBtnText(this)" data-bs-target="#showSpellList"
-                                aria-controls="showSpellList">Hide</button>
+                                aria-expanded="true" onclick="toggleHTMLCollapseBtnText(this)"
+                                data-bs-target="#showSpellList" aria-controls="showSpellList">Hide</button>
                         </div>
                         <div class="collapse show" id="showSpellList">
                             <div class="row row-cols-6 justify-content-evenly gap-3">
-                                <div class="col offense spell card-custom card-custom__object text-center" data-id="lightning_spell"
-                                    data-donated="false">
+                                <div class="col offense spell card-custom card-custom__object text-center"
+                                    data-id="lightning_spell" data-donated="false">
                                     <h5>Lightning Spell</h5>
                                     <div class="object-container">
                                         <img class="image object-container__img">
@@ -114,8 +122,8 @@
                                             onclick="addAction(this)">Add 5</button>
                                     </div>
                                 </div>
-                                <div class="col offense spell card-custom card-custom__object text-center" data-id="earthquake_spell"
-                                    data-donated="false">
+                                <div class="col offense spell card-custom card-custom__object text-center"
+                                    data-id="earthquake_spell" data-donated="false">
                                     <h5>Earthquake Spell</h5>
                                     <div class="object-container object-container--earthquake">
                                         <img class="image object-container__img">
@@ -134,18 +142,21 @@
                             </div>
                         </div>
                     </div>
-                </div><hr>
+                </div>
+                <hr>
                 <!-- Troops -->
                 <div class="mt-4">
                     <h2 class="text-center">Troop</h2>
                     <div>
                         <h3 class="mb-0">Setting:</h3>
                         <div class="d-flex flex-wrap gap-2 my-2">
-                            <button class="btn btn-secondary" type="button" value="max" onclick="setAllTroopsLevel(this)">Set All Troops to Max Level</button>
-                            <button class="btn btn-secondary" type="button" value="min" onclick="setAllTroopsLevel(this)">Set All Troops to Min Level</button>
+                            <button class="btn btn-secondary" type="button" value="max"
+                                onclick="setAllTroopsLevel(this)">Set All Troops to Max Level</button>
+                            <button class="btn btn-secondary" type="button" value="min"
+                                onclick="setAllTroopsLevel(this)">Set All Troops to Min Level</button>
                         </div>
-                        <div class="d-flex align-items-center">
-                            <input id="useTroopDeathDamage" class="form-check-input checkbox me-1" type="checkbox"
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="useTroopDeathDamage" class="form-check-input checkbox" type="checkbox"
                                 oninput="toggleUseTroopDeathDamage(this)">
                             <label class="h5 mb-0" for="useTroopDeathDamage">Use Troop's Death Damage</label>
                         </div>
@@ -154,11 +165,14 @@
                     <div class="mt-5">
                         <div class="collapse-btn my-3 d-flex align-items-center">
                             <h3 class="mb-0 me-3">List:</h3>
-                            <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" aria-expanded="true" onclick="toggleHTMLCollapseBtnText(this)" data-bs-target="#show-troop" aria-controls="show-troop">Hide</button>
+                            <button class="btn btn-secondary" type="button" data-bs-toggle="collapse"
+                                aria-expanded="true" onclick="toggleHTMLCollapseBtnText(this)"
+                                data-bs-target="#show-troop" aria-controls="show-troop">Hide</button>
                         </div>
                         <div class="collapse show" id="show-troop">
                             <div class="row row-cols-6 justify-content-evenly gap-3">
-                                <div class="col offense troop card-custom card-custom__object text-center" data-id="balloon">
+                                <div class="col offense troop card-custom card-custom__object text-center"
+                                    data-id="balloon">
                                     <h5>Balloon</h5>
                                     <div class="object-container">
                                         <img class="image object-container__img">
@@ -175,7 +189,8 @@
                                             onclick="addAction(this)">Add 5</button>
                                     </div>
                                 </div>
-                                <div class="col offense troop card-custom card-custom__object text-center" data-id="rocket_balloon">
+                                <div class="col offense troop card-custom card-custom__object text-center"
+                                    data-id="rocket_balloon">
                                     <h5>Rocket Balloon</h5>
                                     <div class="object-container">
                                         <img class="image object-container__img">
@@ -195,27 +210,31 @@
                             </div>
                         </div>
                     </div>
-                </div><hr>
+                </div>
+                <hr>
                 <!-- Equipments -->
                 <div class="mt-4">
                     <h2 class="text-center">Hero Equipment</h2>
                     <div>
                         <h3 class="mb-0">Setting:</h3>
                         <div class="d-flex flex-wrap gap-2 my-2">
-                            <button class="btn btn-secondary" type="button" value="max" onclick="setAllEquipmentsLevel(this)">Set All Equipments to Max Level</button>
-                            <button class="btn btn-secondary" type="button" value="min" onclick="setAllEquipmentsLevel(this)">Set All Equipments to Min Level</button>
+                            <button class="btn btn-secondary" type="button" value="max"
+                                onclick="setAllEquipmentsLevel(this)">Set All Equipments to Max Level</button>
+                            <button class="btn btn-secondary" type="button" value="min"
+                                onclick="setAllEquipmentsLevel(this)">Set All Equipments to Min Level</button>
                         </div>
                     </div>
                     <div class="mt-5">
                         <div class="collapse-btn my-3 d-flex align-items-center">
                             <h3 class="mb-0 me-3">List:</h3>
                             <button class="btn btn-secondary" type="button" data-bs-toggle="collapse"
-                                aria-expanded="true" onclick="toggleHTMLCollapseBtnText(this)" data-bs-target="#show-equipment"
-                                aria-controls="show-equipment">Hide</button>
+                                aria-expanded="true" onclick="toggleHTMLCollapseBtnText(this)"
+                                data-bs-target="#show-equipment" aria-controls="show-equipment">Hide</button>
                         </div>
                         <div class="collapse show" id="show-equipment">
                             <div class="row row-cols-6 justify-content-evenly gap-3">
-                                <div class="col offense equipment card-custom card-custom__object text-center" data-id="earthquake_boots">
+                                <div class="col offense equipment card-custom card-custom__object text-center"
+                                    data-id="earthquake_boots">
                                     <h5>Earthquake Boots</h5>
                                     <div class="object-container">
                                         <img class="image object-container__img">
@@ -233,7 +252,8 @@
                                             onclick="addAction(this)">Add 5</button>
                                     </div>
                                 </div>
-                                <div class="col offense equipment card-custom card-custom__object text-center" data-id="spiky_ball">
+                                <div class="col offense equipment card-custom card-custom__object text-center"
+                                    data-id="spiky_ball">
                                     <h5>Spiky Ball</h5>
                                     <div class="object-container object-container--epic">
                                         <img class="image object-container__img">
@@ -251,7 +271,8 @@
                                             onclick="addAction(this)">Add 5</button>
                                     </div>
                                 </div>
-                                <div class="col offense equipment card-custom card-custom__object text-center" data-id="giant_arrow">
+                                <div class="col offense equipment card-custom card-custom__object text-center"
+                                    data-id="giant_arrow">
                                     <h5>Giant Arrow</h5>
                                     <div class="object-container">
                                         <img class="image object-container__img">
@@ -269,7 +290,8 @@
                                             onclick="addAction(this)">Add 5</button>
                                     </div>
                                 </div>
-                                <div class="col offense equipment card-custom card-custom__object text-center" data-id="fireball">
+                                <div class="col offense equipment card-custom card-custom__object text-center"
+                                    data-id="fireball">
                                     <h5>Fireball</h5>
                                     <div class="object-container object-container--epic">
                                         <img class="image object-container__img">
@@ -287,7 +309,8 @@
                                             onclick="addAction(this)">Add 5</button>
                                     </div>
                                 </div>
-                                <div class="col offense equipment card-custom card-custom__object text-center" data-id="seeking_shield">
+                                <div class="col offense equipment card-custom card-custom__object text-center"
+                                    data-id="seeking_shield">
                                     <h5>Seeking Shield</h5>
                                     <div class="object-container">
                                         <img class="image object-container__img">
@@ -308,15 +331,18 @@
                             </div>
                         </div>
                     </div>
-                </div><hr>
+                </div>
+                <hr>
                 <!-- Repairs -->
                 <div class="mt-4">
                     <h2 class="text-center">Defense Repair</h2>
                     <div>
                         <h3 class="mb-0">Setting:</h3>
                         <div class="d-flex flex-wrap gap-2 my-2">
-                            <button class="btn btn-secondary" type="button" value="max" onclick="setAllRepairsLevel(this)">Set All Repairs to Max Level</button>
-                            <button class="btn btn-secondary" type="button" value="min" onclick="setAllRepairsLevel(this)">Set All Repairs to Min Level</button>
+                            <button class="btn btn-secondary" type="button" value="max"
+                                onclick="setAllRepairsLevel(this)">Set All Repairs to Max Level</button>
+                            <button class="btn btn-secondary" type="button" value="min"
+                                onclick="setAllRepairsLevel(this)">Set All Repairs to Min Level</button>
                         </div>
                     </div>
                     <div class="mt-5">
@@ -328,7 +354,8 @@
                         </div>
                         <div class="collapse show" id="show-defense-repair">
                             <div class="row row-cols-6 justify-content-evenly gap-3">
-                                <div class="col offense repair card-custom card-custom__object text-center" data-id="builders_hut">
+                                <div class="col offense repair card-custom card-custom__object text-center"
+                                    data-id="builders_hut">
                                     <h5>Builder Repair</h5>
                                     <div class="object-container">
                                         <img class="image object-container__img">
@@ -348,7 +375,8 @@
                             </div>
                         </div>
                     </div>
-                </div><hr>
+                </div>
+                <hr>
                 <!-- Modifiers -->
                 <div class="mt-4">
                     <h2 class="text-center">Modifier</h2>
@@ -362,13 +390,12 @@
                     <div class="mt-5">
                         <div class="collapse-btn my-3 d-flex align-items-center">
                             <h3 class="mb-0 me-3">List:</h3>
-                            <button class="btn btn-secondary fw-bold" type="button" data-bs-toggle="collapse"
-                                aria-expanded="true" onclick="toggleHTMLCollapseBtnText(this)" data-bs-target="#show-modifier"
-                                aria-controls="show-modifier">Hide</button>
+                            <button class="btn btn-secondary fw-bold" type="button" data-bs-toggle="collapse" aria-expanded="true" onclick="toggleHTMLCollapseBtnText(this)" data-bs-target="#show-modifier" aria-controls="show-modifier">Hide</button>
                         </div>
                         <div class="collapse show" id="show-modifier">
                             <div class="row row-cols-6 justify-content-evenly gap-3">
-                                <div class="col modifier modifier-obj card-custom card-custom__object text-center" data-id="rage_spell">
+                                <div class="col modifier modifier-obj card-custom card-custom__object text-center"
+                                    data-id="rage_spell">
                                     <h5>Rage Spell</h5>
                                     <div class="object-container">
                                         <img class="image object-container__img">
@@ -383,7 +410,8 @@
                                         <label class="h5 mb-0" for="useRageSpell">Enable Modifier</label>
                                     </div>
                                 </div>
-                                <div class="col modifier modifier-obj card-custom card-custom__object text-center" data-id="rage_gem">
+                                <div class="col modifier modifier-obj card-custom card-custom__object text-center"
+                                    data-id="rage_gem">
                                     <h5>Rage Gem</h5>
                                     <div class="object-container">
                                         <img class="image object-container__img">
@@ -398,7 +426,8 @@
                                         <label class="h5 mb-0" for="useRageGem">Enable Modifier</label>
                                     </div>
                                 </div>
-                                <div class="col modifier modifier-obj card-custom card-custom__object text-center" data-id="rage_spell_tower">
+                                <div class="col modifier modifier-obj card-custom card-custom__object text-center"
+                                    data-id="rage_spell_tower">
                                     <h5>Rage Spell Tower</h5>
                                     <div class="object-container">
                                         <img class="image object-container__img">
@@ -412,7 +441,8 @@
                             </div>
                         </div>
                     </div>
-                </div><hr>
+                </div>
+                <hr>
                 <!-- Instructions -->
                 <div class="mt-4">
                     <h2 class="text-center">Instruction</h2>
@@ -429,86 +459,169 @@
             </section>
 
             <section class="card-custom card-custom__main shadow p-4 my-5">
-                <h2 class="text-center">Action List</h2><hr>
-                <div class="d-flex justify-content-center justify-content-sm-start flex-wrap gap-3">
-                    <button type="button" class="btn btn-primary" onclick="">Edit</button>
-                    <button type="button" class="btn btn-danger" value="1" onclick="removeAction(this)">Remove
-                        1</button>
-                    <button type="button" class="btn btn-danger" value="5" onclick="removeAction(this)">Remove
-                        5</button>
-                    <button type="button" class="btn btn-danger" value="all" onclick="removeAction(this)">Remove
-                        All</button>
-                </div>
-                <hr>
-                <div class="collapse-btn my-3" id="showActionListButton">
-                    <button class="btn btn-secondary fw-bold" type="button" data-bs-toggle="collapse"
-                        aria-expanded="true" onclick="toggleHTMLCollapseBtnText(this)" data-bs-target="#showActionList"
-                        aria-controls="showActionList">Hide</button>
-                </div>
-                <div class="collapse show" id="showActionList">
-                    <div id="actionList" class="d-flex justify-content-center justify-content-md-start flex-wrap gap-1">
+                <div>
+                    <h2 class="text-center">Action List</h2>
+                    <div id="statusLimitExceeded" class="status-container text-center d-none">
+                        <h4 class="info status-container__text status-container__text--fail"></h4>
                     </div>
-                    <div id="actionListDetail" class="table-container">
-                        <table class="text-center align-middle fw-bold">
-                            <thead>
-                                <tr>
-                                    <th>Action</th>
-                                    <th>Modifier</th>
-                                    <th>Manage</th>
-                                </tr>
-                            </thead>
-                            <tbody class="action-display">
-                                <tr>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                </div><hr>
+                <div>
+                    <div class="d-flex align-items-center gap-2">
+                        <input id="showDetailActionList" class="form-check-input checkbox" type="checkbox" oninput="toggleShowActionDetail(this)">
+                        <label class="h5 mb-0" for="showDetailActionList">Show Details</label>
+                    </div>
+                    <div class="d-flex justify-content-center justify-content-sm-start flex-wrap gap-3 mt-3">
+                        <button type="button" class="btn btn-danger" value="1" onclick="removeAction(this)">Remove 1</button>
+                        <button type="button" class="btn btn-danger" value="5" onclick="removeAction(this)">Remove 5</button>
+                        <button type="button" class="btn btn-danger" value="all" onclick="removeAction(this)">Remove All</button>
+                    </div>
+                </div><hr>
+                <div>
+                    <h5 id="actionCount" class="mb-0">Action Count: 12/50</h5>
+                </div><hr>
+                <div>
+                    <div class="collapse-btn my-3" id="showActionListButton">
+                        <button class="btn btn-secondary fw-bold" type="button" data-bs-toggle="collapse" aria-expanded="true" onclick="toggleHTMLCollapseBtnText(this)" data-bs-target="#showActionList" aria-controls="showActionList">Hide</button>
+                    </div>
+                    <div class="collapse show" id="showActionList">
+                        <div id="actionList" class="d-flex justify-content-center justify-content-md-start flex-wrap gap-1">
+                        </div>
+                        <div id="actionListDetail" class="table-container">
+                            <table class="text-center align-middle fw-bold">
+                                <thead>
+                                    <tr>
+                                        <th>Action</th>
+                                        <th>Modifier</th>
+                                        <th>Manage</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="action-display">
+                                    <tr>
+                                        <td>
+                                            <div class="object-container object-container--responsive"><img class="image object-container__img" src="/images/offense/repairs/builders_hut/6.webp">
+                                                <div class="modifier overlay overlay--responsive overlay--top-right overlay__number overlay__number--order">1</div>
+                                                <div class="modifier overlay overlay--responsive overlay--bottom-left overlay__number overlay__number--level-maxed">6</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="object-container object-container--responsive"><img class="image object-container__img" src="/images/offense/repairs/builders_hut/6.webp">
+                                                <div class="modifier overlay overlay--responsive overlay--top-right overlay__number overlay__number--order">1</div>
+                                                <div class="modifier overlay overlay--responsive overlay--bottom-left overlay__number overlay__number--level-maxed">6</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-success" onclick="">
+                                                <i class="fa-solid fa-arrow-up fa-1x"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-success" onclick="">
+                                                <i class="fa-solid fa-arrow-down fa-1x"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger" onclick="">
+                                                <i class="fa-solid fa-trash-can fa-1x"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="object-container object-container--responsive"><img class="image object-container__img" src="/images/offense/repairs/builders_hut/6.webp">
+                                                <div class="modifier overlay overlay--responsive overlay--top-right overlay__number overlay__number--order">1</div>
+                                                <div class="modifier overlay overlay--responsive overlay--bottom-left overlay__number overlay__number--level-maxed">6</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="object-container object-container--responsive"><img class="image object-container__img" src="/images/offense/repairs/builders_hut/6.webp">
+                                                <div class="modifier overlay overlay--responsive overlay--top-right overlay__number overlay__number--order">1</div>
+                                                <div class="modifier overlay overlay--responsive overlay--bottom-left overlay__number overlay__number--level-maxed">6</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-success" onclick="">
+                                                <i class="fa-solid fa-arrow-up fa-1x"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-success" onclick="">
+                                                <i class="fa-solid fa-arrow-down fa-1x"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger" onclick="">
+                                                <i class="fa-solid fa-trash-can fa-1x"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <section class="card-custom card-custom__main shadow p-4 my-5">
-                <h2 class="text-center">Defense List</h2><hr>
+                <h2 class="text-center">Defense List</h2>
+                <hr>
                 <div class="search-box shadow">
                     <i class="fa fa-search"></i>
-                    <input type="text" class="form-control search-box__input" placeholder="Search a defense" onkeyup="searchDefenses(this)" id="searchDefense">
-                </div>                
+                    <input type="text" class="form-control search-box__input" placeholder="Search a defense"
+                        onkeyup="filterDefenses()" id="searchDefense">
+                </div>
                 <div class="d-flex flex-wrap row-gap-3 column-gap-5 mt-3">
                     <div class="d-flex align-items-center gap-2">
-                        <input class="form-check-input checkbox checkbox-theme" type="checkbox" id="hideDestroyedDefenses" dir="rtl" oninput="toggleHideDestroyedDefenses(this)">
+                        <input class="form-check-input checkbox checkbox-theme" type="checkbox"
+                            id="hideDestroyedDefenses" dir="rtl" oninput="toggleHideDestroyedDefenses(this)">
                         <label class="h5 mb-0" for="hideDestroyedDefenses">Hide Destroyed Defenses</label>
                     </div>
                     <div class="d-flex align-items-center gap-2">
-                        <input class="form-check-input checkbox checkbox-theme" type="checkbox" id="hideDestroyedDefenses" dir="rtl" oninput="">
-                        <label class="h5 mb-0" for="hideDestroyedDefenses">Hide Survived Defenses</label>
+                        <input class="form-check-input checkbox checkbox-theme" type="checkbox"
+                            id="hideSurvivedDefenses" dir="rtl" oninput="toggleHideSurvivedDefenses(this)">
+                        <label class="h5 mb-0" for="hideSurvivedDefenses">Hide Survived Defenses</label>
                     </div>
                 </div>
                 <div class="d-flex flex-wrap gap-2 mt-3">
-                    <button class="btn btn-secondary" type="button" value="max" onclick="setAllDefensesLevel(this)">Set All Defenses to Max Level</button>
-                    <button class="btn btn-secondary" type="button" value="min" onclick="setAllDefensesLevel(this)">Set All Defenses to Min Level</button>
+                    <button class="btn btn-secondary" type="button" value="max" onclick="setAllDefensesLevel(this)">Set
+                        All Defenses to Max Level</button>
+                    <button class="btn btn-secondary" type="button" value="min" onclick="setAllDefensesLevel(this)">Set
+                        All Defenses to Min Level</button>
                 </div>
+                <hr>
+                <h5 id="defenseCount" class="mb-0"></h5>
             </section>
 
-            <section id="defenses" class="row row-cols-xl-3 row-cols-md-2 row-gap-3 my-5"></section>
+            <section class="my-5">
+                <div id="defenses" class="row row-cols-xl-3 row-cols-md-2 row-gap-3"></div>
+                <div id="emptySearchStatus" class="row gy-5 align-items-center status-container d-none">
+                    <div class="col-md-4 col-lg-3 d-flex justify-content-center">
+                        <img src="" class="status-container__img status-container__img--empty-search">
+                    </div>
+                    <h3 class="col-md-8 col-lg-9 status-container__text mb-0"></h3>
+                </div>
+            </section>
         </section>
     </main>
 
-    <footer class="text-center p-5 mt-auto">
-        <h4>Last updated: 5/8/2024 (June 2024 Update)</h4>
+    <footer class="p-5 text-center mt-auto">
+        <h4>Last Updated: 1/9/2024 (June 2024 Update)</h4>
         <h4>Made by Kienlabadao</h4>
+        <div class="d-flex justify-content-center align-items-center flex-wrap gap-2">
+            <div>
+                <a href="https://www.reddit.com/user/Kienlabadao/" target="_blank" class="btn btn--reddit">
+                    <i class="fa-brands fa-reddit-alien"></i> Reddit
+                </a>
+            </div>
+            <div>
+                <a href="https://discord.com/invite/6SDDRw68" target="_blank" class="btn btn-primary">
+                    <i class="fa-brands fa-discord"></i> Discord
+                </a>
+            </div>
+            <div>
+                <a href="https://github.com/Kienlabadao/COC-Damage-Calculator" target="_blank" class="btn btn-primary"><i class="fa-brands fa-github"></i> Source Code</a>
+            </div>
+            <div>
+                <a href="https://buymeacoffee.com/kienlabadao" target="_blank" class="btn btn-success btn--donate">☕ Buy me a coffee</a>
+            </div>
+        </div>
     </footer>
 
-    <button type="button" id="scrollUpBtn" class="btn btn__scroll btn__scroll--up btn-secondary position-fixed d-none"
-        onclick="scrollUp()">
+    <button type="button" id="scrollUpBtn" class="btn btn__scroll btn__scroll--up btn-secondary position-fixed d-none" onclick="scrollUp()">
         <i class="fa-solid fa-arrow-up fa-2x"></i>
     </button>
-    <button type="button" id="scrollDownBtn"
-        class="btn btn__scroll btn__scroll--down btn-secondary position-fixed d-none" onclick="scrollDown()">
+    <button type="button" id="scrollDownBtn" class="btn btn__scroll btn__scroll--down btn-secondary position-fixed d-none" onclick="scrollDown()">
         <i class="fa-solid fa-arrow-down fa-2x"></i>
     </button>
 

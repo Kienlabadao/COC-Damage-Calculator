@@ -31,20 +31,20 @@ class ActionListManager {
 
     // Remove a action based on its index in the list
     removeItemAtIndex(index) {
-        if (NumberUtil.isNumber(index) && !isNaN(index)) {         
-            if (index < 0 || index >= this.getLength()) {
+        if (NumberUtil.isNumber(index)) {         
+            if (!this.isValidIndex(index)) {
                 throw new Error("Index out of range.");
             }
         
             const newActionList = [];
             let count = 0;
             let isRemoved = false;
-            for (const action in this.actionList) {
-                count++;
+            for (const action of this.actionList) {                
                 if (count !== index) {
                     newActionList.push(action);
                     isRemoved = true;
                 }
+                count++;
             }
             this._actionList = newActionList;
             return isRemoved;
@@ -55,14 +55,33 @@ class ActionListManager {
 
     // Remove the last n amount of actions in the list
     removeCount(amount) {
-        const maxAmount = Number.parseInt(amount);
-        if (!Number.isNaN(maxAmount)) {           
+        if (Number.isNumber(maxAmount)) {           
             for (let count = 0; count < maxAmount; count++) {
                 this.actionList.pop();
             }
         } else {
             throw new Error(`Invalid amount: ${amount}`);       
         }
+    }
+
+    swap(index1, index2) {
+        if (this.getLength() < 2) {
+            throw new Error(`Array length is insufficient to perform swap: ${this.getLength()}`); 
+        }
+    
+        if (!NumberUtil.isNumber(index1) || !this.isValidIndex(index1)) {
+            throw new Error(`Invalid index1: ${index1}`); 
+        }
+
+        if (!NumberUtil.isNumber(index2) || !this.isValidIndex(index2)) {
+            throw new Error(`Invalid index2: ${index2}`); 
+        }
+
+        [this.actionList[index1], this.actionList[index2]] = [this.actionList[index2], this.actionList[index1]];
+    }
+
+    isValidIndex(index) {
+        return index >= 0 && index < this.getLength();
     }
 
     // Empty action list

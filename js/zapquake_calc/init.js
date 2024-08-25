@@ -20,6 +20,8 @@ const eqOrderDropdown = document.getElementById("earthquakeOrder");
 const useDonatedZapSpellCheckbox = document.getElementById("useDonatedLightning");
 const donateCountInputBox = document.getElementById("donateCount");
 const warningDiv = document.getElementById("inputWarning");
+const searchDefenseBox = document.getElementById("searchDefense");
+const defenseCountBox = document.getElementById("defenseCount");
 
 let maxSpellCount = 0;
 let donatedZapSpellCount = LocalStorageUtils.loadNumber(donatedZapSpellCountKey, 0);
@@ -61,6 +63,7 @@ document.addEventListener('init', () => {
   toggleUseDonatedZapSpell();
 
   calc();
+  filterDefenses();
 });
 
 // Load spell div with saved data

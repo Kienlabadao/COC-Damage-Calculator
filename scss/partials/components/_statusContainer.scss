@@ -2,6 +2,10 @@
 
     &__img {
         width: 80px;
+
+        &--empty-search {
+            width: 200px;
+        }
     }
 
     &__text {

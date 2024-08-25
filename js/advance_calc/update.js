@@ -8,6 +8,7 @@ function updateDefense(element) {
         throw new Error(`Invalid defenseDiv: ${defenseDiv}`);
     }
     calcDefense(defenseDiv);
+    filterDefenses();
 }
 
 function updateDefenseLevel(defenseDiv, currentLevelPos) {

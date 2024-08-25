@@ -9,10 +9,6 @@
         .image--main {
             height: 80px;
         }
-
-        .status-container__text {
-            font-size: 1rem;
-        }
     }
 
     &__object {
@@ -23,6 +19,10 @@
         box-shadow: var(--card-object-shadow-color);
         font-size: 1rem;
 
+        .status-container__text {
+            font-size: 1rem;
+        }
+        
         & .slider {
             width: 100%;
         }

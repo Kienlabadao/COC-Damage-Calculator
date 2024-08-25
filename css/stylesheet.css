@@ -151,15 +151,15 @@ main {
 .card-custom__main .image--main {
   height: 80px;
 }
-.card-custom__main .status-container__text {
-  font-size: 1rem;
-}
 .card-custom__object {
   width: 230px;
   padding: 20px;
   border-radius: 20px;
   background-color: var(--card-object-bg-color);
   box-shadow: var(--card-object-shadow-color);
+  font-size: 1rem;
+}
+.card-custom__object .status-container__text {
   font-size: 1rem;
 }
 .card-custom__object .slider {
@@ -226,6 +226,9 @@ main {
 
 .status-container__img {
   width: 80px;
+}
+.status-container__img--empty-search {
+  width: 200px;
 }
 .status-container__text {
   font-weight: bold;
