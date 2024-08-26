@@ -64,6 +64,7 @@ class ActionListManager {
         }
     }
 
+    // Swap the position of 2 actions in the list based on its pos
     swap(index1, index2) {
         if (this.getLength() < 2) {
             throw new Error(`Array length is insufficient to perform swap: ${this.getLength()}`); 

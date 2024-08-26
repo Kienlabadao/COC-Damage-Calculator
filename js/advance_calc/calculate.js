@@ -1,3 +1,4 @@
+// Calculate damage log for all defenses
 function calc() {
     defenseDivs.forEach((defenseDiv) => {   
         calcDefense(defenseDiv);
@@ -5,6 +6,7 @@ function calc() {
     filterDefenses();
 }
 
+// Calculate damage log for defense
 function calcDefense(defenseDiv) {
     const defenseID = HTMLUtil.getDataID(defenseDiv);
     const defense = defenseListManager.getDefense(defenseID);
@@ -15,10 +17,12 @@ function calcDefense(defenseDiv) {
     toggleCollapseBtnText(defenseDiv.querySelector(".show-more-btn"), false);
     HTMLUtil.toggleBSCollapse(defenseDiv.querySelector(`#showMore-${defenseID}`), false);
 
+    // Create damage log list for defense
     const damageLogDisplay = defenseDiv.querySelector(".damage-log-display");
     HTMLUtil.removeAllChilds(damageLogDisplay);
     const damageLogList = getDamageLogList(defense);
 
+    // Add each damage log into the row of detail section of defense
     let orderCount = 0;
     for (const damageLog of damageLogList.damageLogList) {
         orderCount++;
@@ -27,6 +31,7 @@ function calcDefense(defenseDiv) {
         damageLogDisplay.appendChild(damageLogRow);
     }
 
+    // Update image and hp of defense div
     const defenseImg = defenseDiv.querySelector(".image--main");
     const defenseHP = defenseDiv.querySelector(".hp");
     const maxHP = defense.getCurrentMaxHP();
@@ -51,6 +56,7 @@ function calcDefense(defenseDiv) {
     }
 }
 
+// Create damage log list for defense
 function getDamageLogList(defense) {
     if (defense instanceof Defense) {
         const clonedDefense = defense.clone();

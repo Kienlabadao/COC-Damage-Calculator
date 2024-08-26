@@ -1,3 +1,8 @@
+// Set all type of objects to max/min level
+// Get the max/min level of object, update its slider, and call the appropriate update function (same name for both calculators)
+
+// Offenses
+// Spells
 function setAllSpellsMaxLevel() {
     spellDivs.forEach((spellDiv) => {
         const spellID = HTMLUtil.getDataID(spellDiv);
@@ -26,6 +31,7 @@ function setAllSpellsMinLevel() {
     });
 }
 
+// Troops
 function setAllTroopsMaxLevel() {
     troopDivs.forEach((troopDiv) => {
         const troopID = HTMLUtil.getDataID(troopDiv);
@@ -52,6 +58,7 @@ function setAllTroopsMinLevel() {
     });
 }
 
+// Equipments
 function setAllEquipmentsMaxLevel() {
     equipmentDivs.forEach((equipmentDiv) => {
         const equipmentID = HTMLUtil.getDataID(equipmentDiv);
@@ -78,6 +85,7 @@ function setAllEquipmentsMinLevel() {
     });
 }
 
+// Repairs
 function setAllRepairsMaxLevel() {
     repairDivs.forEach((repairDiv) => {
         const repairID = HTMLUtil.getDataID(repairDiv);
@@ -104,6 +112,7 @@ function setAllRepairsMinLevel() {
     });
 }
 
+// Defenses
 function setAllDefensesMaxLevel() {
     defenseDivs.forEach((defenseDiv) => {
         const defenseID = HTMLUtil.getDataID(defenseDiv);
@@ -130,6 +139,7 @@ function setAllDefensesMinLevel() {
     });
 }
 
+// Modifiers
 function setAllModifiersMaxLevel() {
     modifierDivs.forEach((modifierDiv) => {
         const modifierID = HTMLUtil.getDataID(modifierDiv);

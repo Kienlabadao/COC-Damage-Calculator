@@ -3,6 +3,7 @@ const emptySearchStatusImg = emptySearchStatusDiv.querySelector(".status-contain
 const emptySearchStatusText = emptySearchStatusDiv.querySelector(".status-container__text");
 const emptySearchImgPath = "/images/other/confused.webp";
 
+// Get list of available defenses, filter it, then update appropriate div
 function filterDefenses() {
     let defenseNodes = Array.from(defenseDivs);
     const maxDefenseCount = defenseNodes.length;
@@ -17,7 +18,7 @@ function filterDefenses() {
     }
 }
 
-// Show & hide defense div if its name match player search input
+// Get list of visible defenses, filter them based on search string, then return the list of defenses that still visible after filter
 function searchDefenses(defenseNodes) {
     if (Array.isArray(defenseNodes)) {
         const defenseVisibleNodes = [];
@@ -44,6 +45,7 @@ function searchDefenses(defenseNodes) {
     }
 }
 
+// Update defense counter
 function updateDefenseCount(defenseNodes, maxDefenseCount) {
     if (Array.isArray(defenseNodes)) {
         const count = defenseNodes.length;
@@ -58,6 +60,7 @@ function updateDefenseCount(defenseNodes, maxDefenseCount) {
     }
 }
 
+// Toggle empty search status when there is no match found
 function showEmptySearchStatus() {
     HTMLUtil.showDiv(emptySearchStatusDiv);
     emptySearchStatusImg.src = emptySearchImgPath;

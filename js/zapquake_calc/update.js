@@ -1,4 +1,4 @@
-// Update defense's stat, image, and recalculate when user change the level of defense
+// Called when the slider level of defense is changed. Get the caller defense, its level to start update
 function updateDefense(element) {
     const defenseDiv = HTMLUtil.getParentDiv(element, "defense");
     const currentLevelPos = Number.parseInt(element.value);
@@ -10,6 +10,7 @@ function updateDefense(element) {
     calcDefense(defenseDiv);
 }
 
+// Update defense's stat, image, and recalculate when user change the level of defense
 function updateDefenseLevel(defenseDiv, currentLevelPos) {
     const levelNumberSpan = defenseDiv.querySelector(".level");
     const defenseID = HTMLUtil.getDataID(defenseDiv);
@@ -31,7 +32,7 @@ function updateDefenseLevel(defenseDiv, currentLevelPos) {
     defenseDiv.querySelector(".hp").textContent = maxHP;
 }
 
-// Update offense's stat, image, and recalculate every defenses when user change the level of offense
+// Called when the slider level of offense is changed. Get the caller offense, its level to start update
 function updateOffense(element) {
     const offenseDiv = HTMLUtil.getParentDiv(element, "offense");
     const currentLevelPos = Number.parseInt(element.value);    
@@ -44,6 +45,7 @@ function updateOffense(element) {
     calc();
 }
 
+// Update offense's stat, image, and recalculate every defenses when user change the level of offense
 function updateOffenseLevel(offenseDiv, currentLevelPos) {
     const offenseID = HTMLUtil.getDataID(offenseDiv);
     let offense = null;

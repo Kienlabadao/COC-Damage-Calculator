@@ -18,6 +18,11 @@ class AdvanceHTMLUtil {
             // Create the main container div
             const containerDiv = document.createElement("div");
             containerDiv.className = "object-container";
+            if (offense instanceof Spell && offense.offenseID === eqSpellKey) {
+                containerDiv.classList.add("object-container--earthquake");
+            } else if (offense instanceof Equipment && offense.isRarityEpic()) {
+                containerDiv.classList.add("object-container--epic");
+            }
     
             // Create the main image element
             const mainImage = document.createElement("img");
@@ -48,6 +53,7 @@ class AdvanceHTMLUtil {
         }
     }
 
+    // Create action row that will be added to the action detail list
     static createActionDetailRow(action, orderNumber, totalAction) {
         if (action instanceof Action) {
             const offense = action.offense;
@@ -61,6 +67,11 @@ class AdvanceHTMLUtil {
             // Create the main container div
             const actionContainerDiv = document.createElement("div");
             actionContainerDiv.className = "object-container object-container--responsive";
+            if (offense instanceof Spell && offense.offenseID === eqSpellKey) {
+                actionContainerDiv.classList.add("object-container--earthquake");
+            } else if (offense instanceof Equipment && offense.isRarityEpic()) {
+                actionContainerDiv.classList.add("object-container--epic");
+            }
             actionCell.appendChild(actionContainerDiv);
     
             // Create the main image element
@@ -150,6 +161,7 @@ class AdvanceHTMLUtil {
         }
     }
 
+    // Create a defense div to be added to the page
     static createDefenseDiv(defense) {
         if (defense instanceof Defense) {
             const defenseID = defense.defenseID;
@@ -297,6 +309,7 @@ class AdvanceHTMLUtil {
         }
     }
     
+    // Create a damage log defense to be added to the first row of each detail section of defense which show defense and its max HP
     static createDamageLogDefenseHeader(defense) {
         if (defense instanceof Defense) {
             const imagePath = defense.getImagePath();
@@ -336,6 +349,7 @@ class AdvanceHTMLUtil {
         }
     }
     
+    // Create damage log to be added to each row in detail section of defense
     static createDamageLogRow(damageLog, orderCount) {
         if (damageLog instanceof DamageLog && NumberUtil.isNumber(orderCount)) {
             const offense = damageLog.offense;

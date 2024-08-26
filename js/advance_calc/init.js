@@ -8,6 +8,7 @@ const attackImage = "/images/other/attack.webp";
 const repairImage = "/images/other/repair.webp";
 const eqIcon = "/images/other/earthquake_icon.webp";
 
+const eqSpellKey = "earthquake_spell";
 const rageSpellTowerKey = "rage_spell_tower";
 const hideDestroyedDefensesKey = "hideDestroyedDefenses";
 const hideSurvivedDefensesKey = "hideSurvivedDefenses";
@@ -82,6 +83,7 @@ document.addEventListener('init', () => {
   toggleShowActionListType();
 });
 
+// Load spell div with saved data
 function loadSpell(spell) {
   if (spell instanceof Spell) {
     const spellID = spell.offenseID;

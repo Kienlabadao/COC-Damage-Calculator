@@ -3,6 +3,8 @@ const emptySearchStatusImg = emptySearchStatusDiv.querySelector(".status-contain
 const emptySearchStatusText = emptySearchStatusDiv.querySelector(".status-container__text");
 const emptySearchImgPath = "/images/other/confused.webp";
 
+// Called when toggle button is preesed
+// Update filter status and start filter
 function toggleHideDestroyedDefenses(element) {
     isHideDestroyedDefenses = element.checked;
     LocalStorageUtils.saveBoolean(hideDestroyedDefensesKey, isHideDestroyedDefenses);
@@ -15,6 +17,7 @@ function toggleHideSurvivedDefenses(element) {
     filterDefenses();
 }
 
+// Get list of available defenses, filter it, then update appropriate div
 function filterDefenses() {
     let defenseNodes = Array.from(defenseDivs);
     const maxDefenseCount = defenseNodes.length;
@@ -35,6 +38,7 @@ function filterDefenses() {
     }
 }
 
+// Get list of visible defenses, filter them based on if its destroyed or not, then return the list of defenses that still visible after filter
 function hideDestroyedDefenses(defenseNodes) {
     if (Array.isArray(defenseNodes)) {
         const defenseVisibleNodes = [];
@@ -56,6 +60,7 @@ function hideDestroyedDefenses(defenseNodes) {
     }
 }
 
+// Get list of visible defenses, filter them based on if its survived or not, then return the list of defenses that still visible after filter
 function hideSurvivedDefenses(defenseNodes) {
     if (Array.isArray(defenseNodes)) {
         const defenseVisibleNodes = [];
@@ -77,6 +82,7 @@ function hideSurvivedDefenses(defenseNodes) {
     }
 }
 
+// Get list of visible defenses, filter them based on search string, then return the list of defenses that still visible after filter
 function searchDefenses(defenseNodes) {
     if (Array.isArray(defenseNodes)) {
         const defenseVisibleNodes = [];
@@ -103,6 +109,7 @@ function searchDefenses(defenseNodes) {
     }
 }
 
+// Update defense counter
 function updateDefenseCount(defenseNodes, maxDefenseCount) {
     if (Array.isArray(defenseNodes)) {
         const count = defenseNodes.length;
@@ -117,6 +124,7 @@ function updateDefenseCount(defenseNodes, maxDefenseCount) {
     }
 }
 
+// Toggle empty search status when there is no match found
 function showEmptySearchStatus() {
     HTMLUtil.showDiv(emptySearchStatusDiv);
     emptySearchStatusImg.src = emptySearchImgPath;
