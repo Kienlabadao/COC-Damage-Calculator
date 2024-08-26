@@ -94,14 +94,25 @@ class SpellCountListManager {
         return donatedSpellListManager;
     }
     
-    // Get the total amount of spells in all spell counts
-    getTotalSpellCount() {
-        let totalSpellCount = 0;
+    // Get the total amount of spells in all spell counts, can ignore donated spell depend on input
+    getTotalSpellCount(isIgnoreDonatedSpell) {
+        if (typeof isIgnoreDonatedSpell === "boolean") {
+            let totalSpellCount = 0;
 
-        for (const spellCount of this.spellCountList) {
-            totalSpellCount += spellCount.count;
+            for (const spellCount of this.spellCountList) {
+                if (isIgnoreDonatedSpell) {
+                    const spell = spellCount.spell;
+                    if (!spell.isDonated) {
+                        totalSpellCount += spellCount.count;    
+                    }
+                } else {
+                    totalSpellCount += spellCount.count;
+                }              
+            }
+            return totalSpellCount;
+        } else {
+            throw new Error(`Invalid isIgnoreDonatedSpell: ${isIgnoreDonatedSpell}`);
         }
-        return totalSpellCount;
     }
 
     // Get the amount of unique spells in all spell counts 

@@ -38,10 +38,10 @@ class ZapquakeHTMLUtil {
             spellCountRow.className = "row row-cols-1";
             spellCountDiv.appendChild(spellCountRow);
 
-            const normalCpellCount = document.createElement("span");
-            normalCpellCount.className = "col fs-5 fw-bold";
-            normalCpellCount.textContent = `(${spellCountListManager.getTotalSpellCount()}/${maxSpellCount})`;
-            spellCountRow.appendChild(normalCpellCount);
+            const normalSpellCount = document.createElement("span");
+            normalSpellCount.className = "col fs-5 fw-bold";
+            normalSpellCount.textContent = `(${spellCountListManager.getTotalSpellCount(true)}/${maxSpellCount})`;
+            spellCountRow.appendChild(normalSpellCount);
     
             const donatedSpellList = spellCountListManager.getDonatedSpell();
             if (!donatedSpellList.isEmpty()) {
@@ -51,7 +51,7 @@ class ZapquakeHTMLUtil {
     
                 const donateAmountDiv = document.createElement("div");
                 donateAmountDiv.className = "fs-5 fw-bold";
-                donateAmountDiv.textContent = `+${donatedSpellList.getTotalSpellCount()}`;
+                donateAmountDiv.textContent = `+${donatedSpellList.getTotalSpellCount(false)}`;
                 donateSpellCount.appendChild(donateAmountDiv);
     
                 const donateIcon = document.createElement("img");

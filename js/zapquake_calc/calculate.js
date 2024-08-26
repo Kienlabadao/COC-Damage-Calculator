@@ -151,12 +151,7 @@ function createActionList(maxEQSpellCount, defense) {
         // If user choose to use donated lightning spells, add the correct amount of them into the order list
         if (useDonatedZap) {
             for (let zapSpellCount = 1; zapSpellCount <= donatedZapSpellCount; zapSpellCount++) {
-                if (spellCount < maxSpellCount) {
-                    actionListManager.add(new Action(donatedZapSpell, null));
-                    spellCount++;
-                } else {
-                    break;
-                }
+                actionListManager.add(new Action(donatedZapSpell, null));
             }
         }
         
