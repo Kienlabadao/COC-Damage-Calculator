@@ -3,7 +3,7 @@ function updateDefense(element) {
     const defenseDiv = HTMLUtil.getParentDiv(element, "defense");
     const currentLevelPos = Number.parseInt(element.value);
     if (defenseDiv) {
-        updateDefense(defenseDiv, currentLevelPos);
+        updateDefenseLevel(defenseDiv, currentLevelPos);
     } else {
         throw new Error(`Invalid defenseDiv: ${defenseDiv}`);
     }
