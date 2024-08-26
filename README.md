@@ -1,3 +1,6 @@
+<p align="center">
+    <img width="100" src="https://cocdamagecalculator.netlify.app/images/other/logo.webp">
+</p>
 <h1 align="center">Clash of Clans - Damage Calculator</h1>
 <h3 align="center">Your one-stop spot for all damage calculations in Clash of Clans</h3>
 
@@ -14,6 +17,14 @@ This is a convenient website focused on calculating damage in Clash of Clans. It
     - The remaining HP of the defense after each action.
     - The impact of modifiers (e.g., Rage spell, cumulative Earthquake damage).
 
+## Table of Contents
+- [Built With](#built-with)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [Credits](#credits)
+- [License](#license)
+  
 ## Built With
 - **Backend**
   - **JavaScript**
