@@ -14,8 +14,7 @@
     <meta name="msapplication-TileColor" content="#9f00a7">
     <meta name="theme-color" content="#ffffff">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="/css/stylesheet.css" rel="stylesheet">
     <script src="/js/util/localStorageUtils.js"></script>
     <script src="/js/util/loadTheme.js"></script>
@@ -40,10 +39,7 @@
                         <a class="nav-link" aria-current="page" href="/html/">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Calculator
-                        </a>
+                        <a class="nav-link dropdown-toggle active" role="button" data-bs-toggle="dropdown" aria-expanded="false">Calculator</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item fw-bold" href="/html/zapquake-calculator.html">Zapquake</a></li>
                             <li><a class="dropdown-item" href="/html/advance-calculator.html">Advance</a></li>
@@ -57,9 +53,7 @@
                     </li>
                 </ul>
             </div>
-            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <button id="toggleTheme" class="btn btn--toggle-theme" onclick="toggleTheme()">
@@ -75,15 +69,15 @@
     <main class="container-fluid pb-5">
         <header class="text-center">
             <h1 class="brand__text">
-                <span class="brand__text--blue d-inline-block mt-3">Zap<span
-                        class="brand__text--brown">Quake</span></span>
+                <span class="brand__text--blue d-inline-block mt-3">
+                    Zap<span class="brand__text--brown">Quake</span>
+                </span>
                 <span class="brand__text--yellow d-inline-block mt-3">Calculator</span>
             </h1>
         </header>
         <section class="main-container mx-auto mt-5">
             <section id="offenses" class="p-4 shadow card-custom card-custom__main">
-                <h2 class="text-center">Select Offense Level</h2>
-                <hr>
+                <h2 class="text-center">Select Offense Level</h2><hr>
                 <!-- Spells -->
                 <div>
                     <h3 class="text-center">Spell</h3>
@@ -99,8 +93,7 @@
                         </div>
                     </div>                  
                     <div class="row row-cols-6 justify-content-evenly gap-3 mt-5">
-                        <div class="col offense spell card-custom card-custom__object text-center"
-                            data-id="lightning_spell" data-donated="false">
+                        <div class="col offense spell card-custom card-custom__object text-center" data-id="lightning_spell" data-donated="false">
                             <h5>Lightning Spell</h5>
                             <div class="object-container">
                                 <img class="image object-container__img">
@@ -110,8 +103,7 @@
                                 <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                         </div>
-                        <div class="col offense spell card-custom card-custom__object text-center d-none"
-                            data-id="lightning_spell" data-donated="true">
+                        <div class="col offense spell card-custom card-custom__object text-center d-none" data-id="lightning_spell" data-donated="true">
                             <h5>Lightning Spell (Donated)</h5>
                             <div class="object-container">
                                 <img class="image object-container__img">
@@ -128,17 +120,14 @@
                                     <strong>Number of spell in clan castle:</strong>
                                 </label>
                                 <div class="d-flex justify-content-center">
-                                    <input type="number" min="0" max="3" value="0"
-                                        class="form-control input-box bg-secondary" id="donateCount"
-                                        oninput="updateDonatedCount(this)">
+                                    <input type="number" min="0" max="3" value="0" class="form-control input-box bg-secondary" id="donateCount" oninput="updateDonatedCount(this)">
                                 </div>
                                 <div id="inputWarning" class="status-container d-none mt-2">
                                     <div class="status-container__text status-container__text--fail">Input must be a number between 0 and 3!</div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col offense spell card-custom card-custom__object text-center"
-                            data-id="earthquake_spell" data-donated="false">
+                        <div class="col offense spell card-custom card-custom__object text-center" data-id="earthquake_spell" data-donated="false">
                             <h5>Earthquake Spell</h5>
                             <div class="object-container">
                                 <img class="image object-container__img">
@@ -149,8 +138,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <hr>
+                </div><hr>
                 <!-- Equipments -->
                 <div class="mt-4">
                     <h3 class="text-center">Hero Equipment</h3>
@@ -162,88 +150,69 @@
                         </div>
                         <div class="d-flex align-items-center flex-wrap gap-3">
                             <label class="h5 mb-0" for="earthquakeOrder">Earthquake order:</label><br>
-                            <select class="form-select dropdown bg-secondary" id="earthquakeOrder"
-                                aria-label="earthquakeOrder" onchange="updateEQOrder(this)">
+                            <select class="form-select dropdown bg-secondary" id="earthquakeOrder" aria-label="earthquakeOrder" onchange="updateEQOrder(this)">
                                 <option value="earthquake_spell">Earthquake Spell first</option>
                                 <option value="earthquake_boots">Earthquake Boots first</option>
                             </select>
                         </div>
                     </div>
                     <div class="row row-cols-6 justify-content-evenly gap-3 mt-5">
-                        <div class="col offense equipment card-custom card-custom__object text-center"
-                            data-id="earthquake_boots">
+                        <div class="col offense equipment card-custom card-custom__object text-center" data-id="earthquake_boots">
                             <h5>Earthquake Boots</h5>
                             <div class="object-container">
                                 <img class="image object-container__img">
-                                <div
-                                    class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed">
-                                </div>
+                                <div class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed"></div>
                             </div>
                             <div class="mt-2">
                                 <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                         </div>
-                        <div class="col offense equipment card-custom card-custom__object text-center"
-                            data-id="spiky_ball">
+                        <div class="col offense equipment card-custom card-custom__object text-center" data-id="spiky_ball">
                             <h5>Spiky Ball</h5>
                             <div class="object-container object-container--epic">
                                 <img class="image object-container__img">
-                                <div
-                                    class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed">
-                                </div>
+                                <div class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed"></div>
                             </div>
                             <div class="mt-2">
                                 <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                         </div>
-                        <div class="col offense equipment card-custom card-custom__object text-center"
-                            data-id="giant_arrow">
+                        <div class="col offense equipment card-custom card-custom__object text-center" data-id="giant_arrow">
                             <h5>Giant Arrow</h5>
                             <div class="object-container">
                                 <img class="image object-container__img">
-                                <div
-                                    class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed">
-                                </div>
+                                <div class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed"></div>
                             </div>
                             <div class="mt-2">
                                 <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                         </div>
-                        <div class="col offense equipment card-custom card-custom__object text-center"
-                            data-id="fireball">
+                        <div class="col offense equipment card-custom card-custom__object text-center" data-id="fireball">
                             <h5>Fireball</h5>
                             <div class="object-container object-container--epic">
                                 <img class="image object-container__img">
-                                <div
-                                    class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed">
-                                </div>
+                                <div class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed"></div>
                             </div>
                             <div class="mt-2">
                                 <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                         </div>
-                        <div class="col offense equipment card-custom card-custom__object text-center"
-                            data-id="seeking_shield">
+                        <div class="col offense equipment card-custom card-custom__object text-center" data-id="seeking_shield">
                             <h5>Seeking Shield</h5>
                             <div class="object-container">
                                 <img class="image object-container__img">
-                                <div
-                                    class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed">
-                                </div>
+                                <div class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed"></div>
                             </div>
                             <div class="mt-2">
                                 <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                         </div>
                     </div>
-                </div>
-                <hr>
+                </div><hr>
                 <!-- Instructions -->
                 <div class="mt-4">
                     <h3>Instruction</h3>
-                    <button class="btn btn-secondary" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#instruction" aria-expanded="false" aria-controls="instruction"
-                        onclick="toggleHTMLCollapseBtnText(this)">Show</button>
+                    <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#instruction" aria-expanded="false" aria-controls="instruction" onclick="toggleHTMLCollapseBtnText(this)">Show</button>
                     <div class="collapse mt-3" id="instruction">
                         <h4 class="text-decoration-underline">How to use:</h4>
                         <ul>
@@ -288,7 +257,7 @@
                             <li>
                                 <div>All of your options are saved for future use.</div>
                                 <ul>
-                                    <li>You can clear it in <a href="/html/setting.html">Setting</a></li>
+                                    <li>You can clear it in <a href="/html/setting.html">Setting.</a></li>
                                 </ul>
                             </li>
                             <li>While the website is supported on small screens like phones, it's recommended to use a larger screen, such as a monitor or tablet, for the best experience.</li>
@@ -389,5 +358,4 @@
 
     <script src="/js/util/json.js"></script>
 </body>
-
 </html>
