@@ -43,11 +43,11 @@ This is a convenient website focused on calculating damage in Clash of Clans. It
 Instructions on how to use the website are included in the website, as well as comments throughout the source code.
 
 ## Contributing
-Any contributions to the project are appreciated!
+Any contributions to the project are always appreciated!
 
 ## Credits
 - **[Zapquaker](https://zapquaker.netlify.app/)** for inspired me to make this website (and some UI design ideas)
 - **[Clash of Clans Wiki](https://clashofclans.fandom.com/wiki/Clash_of_Clans_Wiki)** for informations, images, and formula.
 
 ## License
-This project is distributed under the MIT License. See LICENSE.md for more information.
+This project is distributed under the MIT License. See `LICENSE.md` for more information.
