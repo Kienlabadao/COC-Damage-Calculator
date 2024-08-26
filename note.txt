@@ -1,7 +1,0 @@
-<div class="collapse-btn my-3">
-    <button class="btn btn-secondary fw-bold" type="button" data-bs-toggle="collapse" aria-expanded="true" onclick="toggleHTMLCollapseBtnText(this)" data-bs-target="#showMore-spell" aria-controls="showMore-spell">Hide</button>
-</div>
-<div class="collapse show" id="showMore-spell">
-    Some placeholder content for the collapse component. This panel is hidden by default but
-        revealed when the user activates the relevant trigger.
-</div>
