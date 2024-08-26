@@ -21,6 +21,7 @@ This is a convenient website focused on calculating damage in Clash of Clans. It
 - [Built With](#built-with)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [Credits](#credits)
 - [License](#license)
@@ -41,6 +42,12 @@ This is a convenient website focused on calculating damage in Clash of Clans. It
 
 ## Usage
 Instructions on how to use the website are included in the website, as well as comments throughout the source code.
+
+## Roadmap
+- Add support for more troops in the advance calculator.
+- Add support for hero in the advance calculator.
+
+These features may or may not be implemented in the future (depending on popular demand 👀). Otherwise, the website is considered complete and will not be actively developed. However, I will update the data whenever there are new updates or balance changes coming to the game.
 
 ## Contributing
 Any contributions to the project are always appreciated!
