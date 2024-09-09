@@ -47,7 +47,7 @@ Instructions on how to use the website are included in the website, as well as c
 - Add support for more troops in the advance calculator.
 - Add support for hero in the advance calculator.
 
-These features may or may not be implemented in the future (depending on popular demand 👀). Otherwise, the website is considered complete and will not be actively developed. However, I will update the data whenever there are new updates or balance changes coming to the game.
+These features may or may not be implemented in the future (depending on popular demand 👀). Otherwise, the website is fully functional and ready to use. As always, I will update the data whenever there are new updates or balance changes coming to the game.
 
 ## Contributing
 Any contributions to the project are always appreciated!
