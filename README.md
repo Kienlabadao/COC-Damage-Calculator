@@ -43,14 +43,15 @@ This is a convenient website focused on calculating damage in Clash of Clans. It
 ## Usage
 Instructions on how to use the website are included in the website, as well as comments throughout the source code.
 
-## Roadmap
+## Future plan
+- Make demonstration video for each calculators.
 - Add support for more troops in the advance calculator.
 - Add support for hero in the advance calculator.
 
-These features may or may not be implemented in the future (depending on popular demand 👀). Otherwise, the website is fully functional and ready to use. As always, I will update the data whenever there are new updates or balance changes coming to the game.
+I will work on them in the future whenever I have free time. Otherwise, the website is fully functional and ready to use. As always, I will update the data whenever there are new updates or balance changes coming to the game.
 
 ## Contributing
-Any contributions to the project are always appreciated!
+Any contributions to the project are always appreciated! A quick note: I’ve done my best to clean up my code as much as I can. However, since I’m not a senior developer, there may be some parts that are messy and confusing, and I'm sorry for that! If you need help understanding anything, feel free to contact me.
 
 ## Credits
 - **[Zapquaker](https://zapquaker.netlify.app/)** for inspired me to make this website (and some UI design ideas)
