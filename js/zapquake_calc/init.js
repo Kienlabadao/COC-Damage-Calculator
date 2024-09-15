@@ -1,5 +1,5 @@
 // Enable this to stop defense div from generating for testing
-const devMode = false;
+const stopGenerateDefenseDiv = false;
 const type = "simple";
 
 const donateImage = "/images/other/donate.webp";
@@ -8,7 +8,6 @@ const eqSpellKey = "earthquake_spell";
 const eqBootsKey = "earthquake_boots";
 const zapSpellKey = "lightning_spell";
 const donatedZapSpellCountKey = "donatedZapSpellCount";
-const useDonatedZapSpellKey = "useDonatedZapSpell";
 const eqOrderKey = LocalStorageUtils.getEQOrderKey(type);
 
 const defensesSection = document.getElementById("defenses");
@@ -26,7 +25,6 @@ const defenseCountBox = document.getElementById("defenseCount");
 let maxSpellCount = 0;
 let donatedZapSpellCount = LocalStorageUtils.loadNumber(donatedZapSpellCountKey, 0);
 let eqOrder = LocalStorageUtils.loadStringInRange(eqOrderKey, [eqSpellKey, eqBootsKey], eqSpellKey);
-let useDonatedZap = LocalStorageUtils.loadBoolean(useDonatedZapSpellKey, false);
 
 const offenseListManager = new OffenseListManager();
 const defenseListManager = new DefenseListManager();
@@ -37,8 +35,8 @@ document.addEventListener('init', () => {
   offenseListManager.loadKey(type);
   offenseListManager.addDonatedSpell(zapSpellKey, type);
   defenseListManager.loadKey(type);
-
-  if (!devMode) {
+  
+  if (!stopGenerateDefenseDiv) {
     for (const defense of defenseListManager.defenseList) {
       loadDefense(defense);
     }
@@ -59,8 +57,10 @@ document.addEventListener('init', () => {
     } 
   }
   donateCountInputBox.value = donatedZapSpellCount;
-  useDonatedZapSpellCheckbox.checked = useDonatedZap;
-  toggleUseDonatedZapSpell();
+
+  const donatedZapSpell = offenseListManager.getSpell(zapSpellKey, true);
+  useDonatedZapSpellCheckbox.checked = donatedZapSpell.isEnabled;
+  toggleDonatedZapSpellDiv(donatedZapSpell.isEnabled);
 
   calc();
   filterDefenses();
@@ -80,13 +80,18 @@ function loadSpell(spell) {
       if (HTMLUtil.getDataID(spellDiv) === spellID && HTMLUtil.getDataDonated(spellDiv) === isDonated) {
         const levelOverlayDiv = spellDiv.querySelector(".level");
         const imgContainer = spellDiv.querySelector(".image");
-        const levelSlider = spellDiv.querySelector(".slider");  
+        const levelSlider = spellDiv.querySelector(".slider");
 
         levelOverlayDiv.textContent = spell.getCurrentLevel();
         imgContainer.src = imagePath;
         levelSlider.min = minLevelPos;
         levelSlider.max = maxLevelPos;
         levelSlider.value = currentLevelPos;
+
+        if (!spell.isDonated) {
+          const useCheckbox = spellDiv.querySelector(".useCheckbox");
+          useCheckbox.checked = spell.isEnabled;
+        }        
 
         if (spell.isMaxLevel()) {            
           HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);
@@ -114,12 +119,14 @@ function loadEquipment(equipment) {
         const levelOverlayDiv = equipmentDiv.querySelector(".level");
         const imgContainer = equipmentDiv.querySelector(".image");
         const levelSlider = equipmentDiv.querySelector(".slider");
+        const useCheckbox = equipmentDiv.querySelector(".useCheckbox");         
   
         levelOverlayDiv.textContent = equipment.getCurrentLevel();
         imgContainer.src = imagePath;
         levelSlider.min = minLevelPos;
         levelSlider.max = maxLevelPos;
         levelSlider.value = currentLevelPos;
+        useCheckbox.checked = equipment.isEnabled;
         
         if (equipment.isMaxLevel()) {            
           HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);

@@ -1,5 +1,5 @@
 // Enable this to stop defense div from generating for testing
-const devMode = false;
+const stopGenerateDefenseDiv = false;
 const type = "advance";
 const actionListMaxSize = 30;
 
@@ -48,8 +48,8 @@ document.addEventListener('init', () => {
   offenseListManager.loadKey(type);
   modifierListManager.loadKey(type);
   defenseListManager.loadKey(type);
-
-  if (!devMode) {
+  console.log(offenseListManager);
+  if (!stopGenerateDefenseDiv) {
     for (const defense of defenseListManager.defenseList) {
       loadDefense(defense);
     }

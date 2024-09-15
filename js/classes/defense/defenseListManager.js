@@ -4,15 +4,12 @@ class DefenseListManager {
     // For more details about what does defense do, check defense class
 
     constructor() {
-        this._defenseList = [];
-    }
-
-    // Load all defenses based on json file
-    // Current level is set to default (max level)
-    load() {
-        for (const defenseID of Object.keys(getAllDefenses())) {
-            this.add(new Defense(defenseID, null));
+        if (DefenseListManager.instance) {
+            return ModifierListManager.instance;
         }
+
+        DefenseListManager.instance = this;
+        this._defenseList = [];
     }
 
     // Load all defenses based on json file

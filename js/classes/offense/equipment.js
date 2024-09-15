@@ -4,8 +4,8 @@ class Equipment extends Offense {
     // Store additional data for equipment including its rarity
     // Note: All damage related number is rounded up to 2 decimal places
 
-    constructor(offenseID, currentLevelPos) {
-        super(offenseID, "equipment", currentLevelPos);
+    constructor(offenseID, currentLevelPos, isEnabled) {
+        super(offenseID, "equipment", currentLevelPos, isEnabled);
         this._rarity = this.offenseJSON["rarity"];
     }
 

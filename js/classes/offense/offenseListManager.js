@@ -4,16 +4,12 @@ class OffenseListManager {
     // For more details about what does offense do, check offense class (and its variants too)
 
     constructor() {
-        this._offenseList = [];
-    }
+        if (OffenseListManager.instance) {
+            return OffenseListManager.instance;
+        }
 
-    // Load all offenses based on json file
-    // Current level is set to default (max level)
-    load() {
-        this.loadSpell(); 
-        this.loadEquipment();
-        this.loadTroop();
-        this.loadRepair();
+        OffenseListManager.instance = this;
+        this._offenseList = []; 
     }
     
     // Load all offenses based on json file
@@ -34,50 +30,22 @@ class OffenseListManager {
     }
 
     // Load all spells based on json file
-    // Current level is set to default (max level)
-    loadSpell() {
-        for (const spellID of Object.keys(getAllSpells())) {
-            this.add(new Spell(spellID, null));
-        }
-    }
-
-    // Load all equipments based on json file
-    // Current level is set to default (max level)
-    loadEquipment() {
-        for (const equipmentID of Object.keys(getAllEquipments())) {         
-            this.add(new Equipment(equipmentID, null));
-        }
-    }
-
-    // Load all troops based on json file
-    // Current level is set to default (max level)
-    loadTroop() {
-        for (const troopID of Object.keys(getAllTroops())) {       
-            this.add(new Troop(troopID, null));
-        }
-    }
-
-    // Load all repairs based on json file
-    // Current level is set to default (max level)
-    loadRepair() {
-        for (const repairID of Object.keys(getAllRepairs())) {       
-            this.add(new Repair(repairID, null));
-        }
-    }
-
-    // Load all spells based on json file
     // Current level is set to user choices (which is stored in localStorage)
     // If there is none (storage reset or first time visit), then it's set to default (max level)
     // Spell donation will also be set to false
     loadSpellWithKey(type) {
         for (const spellID of Object.keys(getAllSpells())) {
-            const spell = new Spell(spellID, null);
-            const key = LocalStorageUtils.getObjectKey(type, "offense", spellID);
-
+            let useOffense;
+            if (type === "simple") {
+                const useOffenseKey = LocalStorageUtils.getUseObjectKey(type, "offense", spellID);
+                useOffense = LocalStorageUtils.loadBoolean(useOffenseKey, false);
+            } else {
+                useOffense = true;
+            }        
+            const spell = new Spell(spellID, null, useOffense);
+            const key = LocalStorageUtils.getObjectKey(type, "offense", spellID);        
             spell.currentLevelPos = LocalStorageUtils.loadNumber(key, spell.currentLevelPos);
-            if (type === "advance") {
-                spell.minLevelPos = 1;
-            }
+
             this.add(spell);
         }
     }
@@ -87,15 +55,17 @@ class OffenseListManager {
     // If there is none (storage reset or first time visit), then it's set to default (0 for zapquake calculator, max level for other)
     loadEquipmentWithKey(type) {
         for (const equipmentID of Object.keys(getAllEquipments())) {
-            const equipment = new Equipment(equipmentID, null);
-            const key = LocalStorageUtils.getObjectKey(type, "offense", equipmentID);
-
+            let useOffense;
             if (type === "simple") {
-                equipment.currentLevelPos = LocalStorageUtils.loadNumber(key, 0);
+                const useOffenseKey = LocalStorageUtils.getUseObjectKey(type, "offense", equipmentID);
+                useOffense = LocalStorageUtils.loadBoolean(useOffenseKey, false);
             } else {
-                equipment.currentLevelPos = LocalStorageUtils.loadNumber(key, equipment.currentLevelPos);
-                equipment.minLevelPos = 1;
-            }           
+                useOffense = true;
+            }
+            const equipment = new Equipment(equipmentID, null, useOffense);
+            const key = LocalStorageUtils.getObjectKey(type, "offense", equipmentID);
+            equipment.currentLevelPos = LocalStorageUtils.loadNumber(key, equipment.currentLevelPos);
+
             this.add(equipment);
         }
     }
@@ -105,16 +75,21 @@ class OffenseListManager {
     // If there is none (storage reset or first time visit), then it's set to default (max level)
     loadTroopWithKey(type) {
         for (const troopID of Object.keys(getAllTroops())) {
-            const troop = new Troop(troopID, null);
+            let useOffense;
+            if (type === "simple") {
+                const useOffenseKey = LocalStorageUtils.getUseObjectKey(type, "offense", troopID);
+                useOffense = LocalStorageUtils.loadBoolean(useOffenseKey, false);
+            } else {
+                useOffense = true;
+            }
+            const troop = new Troop(troopID, null, useOffense);
             const key = LocalStorageUtils.getObjectKey(type, "offense", troopID);
 
             troop.currentLevelPos = LocalStorageUtils.loadNumber(key, troop.currentLevelPos);
             if (useTroopDeathDamage) {
                 troop.damageMode = Troop.DEATH_DAMAGE;
             }
-            if (type === "advance") {
-                troop.minLevelPos = 1;
-            }       
+    
             this.add(troop);
         }
     }
@@ -124,13 +99,18 @@ class OffenseListManager {
     // If there is none (storage reset or first time visit), then it's set to default (max level)
     loadRepairWithKey(type) {
         for (const repairID of Object.keys(getAllRepairs())) {
-            const repair = new Repair(repairID, null);
+            let useOffense;
+            if (type === "simple") {
+                const useOffenseKey = LocalStorageUtils.getUseObjectKey(type, "offense", repairID);
+                useOffense = LocalStorageUtils.loadBoolean(useOffenseKey, false);
+            } else {
+                useOffense = true;
+            }
+            const repair = new Repair(repairID, null, useOffense);
             const key = LocalStorageUtils.getObjectKey(type, "offense", repairID);
 
             repair.currentLevelPos = LocalStorageUtils.loadNumber(key, repair.currentLevelPos);
-            if (type === "advance") {
-                repair.minLevelPos = 1;
-            }         
+      
             this.add(repair);
         }
     }
@@ -249,7 +229,9 @@ class OffenseListManager {
     addDonatedSpell(spellID, type) {
         for (const offenseID of Object.keys(getAllSpells())) {
             if (offenseID === spellID) {
-                const spell = new Spell(spellID, null, true);
+                const useOffenseKey = LocalStorageUtils.getUseObjectKeyDonated(type, "offense", spellID);
+                const useOffense = LocalStorageUtils.loadBoolean(useOffenseKey, false);
+                const spell = new Spell(spellID, null, useOffense, true);
                 spell.currentLevelPos = LocalStorageUtils.loadNumber(LocalStorageUtils.getObjectKeyDonated(type, "offense", spellID), spell.currentLevelPos);
 
                 this.add(spell);

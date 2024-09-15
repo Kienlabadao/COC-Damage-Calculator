@@ -11,7 +11,10 @@ function canEquipmentDestroy(defense) {
         const clonedDefense = defense.clone();
         
         for (const equipment of offenseListManager.getEquipmentList()) {
-            equipment.calcRemainingHP(clonedDefense);
+            if (equipment.isEnabled) {
+                equipment.calcRemainingHP(clonedDefense);
+            }
+            
         }
         return clonedDefense.isDestroyed();        
     } else {
@@ -149,7 +152,7 @@ function createActionList(maxEQSpellCount, defense) {
         }
         
         // If user choose to use donated lightning spells, add the correct amount of them into the order list
-        if (useDonatedZap) {
+        if (donatedZapSpell.isEnabled) {
             for (let zapSpellCount = 1; zapSpellCount <= donatedZapSpellCount; zapSpellCount++) {
                 actionListManager.add(new Action(donatedZapSpell, null));
             }

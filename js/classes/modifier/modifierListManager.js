@@ -4,16 +4,12 @@ class ModifierListManager {
     // For more details about what does modifier do, check modifier class
 
     constructor() {
-        this._modifierList = [];
-    }
-
-    // Load all modifiers based on json file
-    // Current level is set to default (max level)
-    // Activation is set to default (false)
-    load() {
-        for (const modifierID of Object.keys(getAllModifiers())) {       
-            this.add(new Modifier(modifierID, null, false));
+        if (ModifierListManager.instance) {
+            return ModifierListManager.instance;
         }
+
+        ModifierListManager.instance = this;
+        this._modifierList = [];
     }
 
     // Load all modifiers based on json file

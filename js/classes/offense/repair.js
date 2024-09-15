@@ -7,8 +7,8 @@ class Repair extends Offense {
     // DISCLAIMER: Yes, I know letting repair extend offense is weird, but if it were in it own class, then it would make implementing other thing like action, damage log list much much harder (since offense and repait will be 2 different type)
     // And since the purpose of this website is to only calculate damage, let's say that for that only purpose, repair is an offense type that deal reversed damage 😉
 
-    constructor(offenseID, currentLevelPos) {
-        super(offenseID, "repair", currentLevelPos);
+    constructor(offenseID, currentLevelPos, isEnabled) {
+        super(offenseID, "repair", currentLevelPos, isEnabled);
     }
 
     // Get damage after modify for repair

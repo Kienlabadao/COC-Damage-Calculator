@@ -78,17 +78,43 @@ function updateOffenseLevel(offenseDiv, currentLevelPos) {
     offenseDiv.querySelector(".level").textContent = offense.getCurrentLevel();
 }
 
+function toggleUseOffense(element) {
+    const offenseDiv = HTMLUtil.getParentDiv(element, "offense");
+    const offenseID = HTMLUtil.getDataID(offenseDiv);
+    let offense = null;
+    let isDonated = false;
+    if (Offense.isOffenseDivType(offenseDiv, Offense.SPELL)) {
+        isDonated = HTMLUtil.getDataDonated(offenseDiv);
+        offense = offenseListManager.getSpell(offenseID, isDonated);
+    } else {
+        offense = offenseListManager.getOffense(offenseID);
+    }
+
+    useOffense = element.checked;
+    offense.isEnabled = useOffense;
+
+    LocalStorageUtils.saveBoolean(LocalStorageUtils.getUseObjectKey(type, "offense", offenseID), useOffense);
+    if (Offense.isOffenseDivType(offenseDiv, Offense.EQUIPMENT)) {
+        updateEquipmentUsed();
+    }
+
+    calc();   
+}
+
 // Update, toggle donated lightning spell div, and recalculate when user interact with use donated spell checkbox
 function useDonatedZapSpell(element) {
-    useDonatedZap = element.checked;
-    LocalStorageUtils.saveBoolean(useDonatedZapSpellKey, useDonatedZap);
+    const donatedZapSpell = offenseListManager.getSpell(zapSpellKey, true);
 
-    toggleUseDonatedZapSpell();
+    useDonatedZap = element.checked;
+    donatedZapSpell.isEnabled = useDonatedZap;
+    LocalStorageUtils.saveBoolean(LocalStorageUtils.getUseObjectKeyDonated(type, "offense", zapSpellKey), useDonatedZap);
+
+    toggleDonatedZapSpellDiv(useDonatedZap);
     calc();  
 }
 
 // Toggle donated lightning spell div visibility
-function toggleUseDonatedZapSpell() {
+function toggleDonatedZapSpellDiv(useDonatedZap) {
     spellDivs.forEach((spellDIv) => {
         const spellID = HTMLUtil.getDataID(spellDIv);
         if (spellID === zapSpellKey && HTMLUtil.getDataDonated(spellDIv)) {
@@ -137,7 +163,7 @@ function updateEquipmentUsed() {
 
         const equipmentDivList = [];
         for (const equipment of offenseListManager.getEquipmentList()) {
-            if (!equipment.isMinLevel()) {
+            if (equipment.isEnabled) {
                 equipmentDivList.push(ZapquakeHTMLUtil.createEquipmentDiv(equipment, defense));
             }
         }

@@ -4,8 +4,8 @@ class Spell extends Offense {
     // Store additional data for spell including if it came from donation
     // Note: All damage related number is rounded up to 2 decimal places
 
-    constructor(offenseID, currentLevelPos, isDonated = false) {
-        super(offenseID, "spell", currentLevelPos);
+    constructor(offenseID, currentLevelPos, isEnabled, isDonated = false) {
+        super(offenseID, "spell", currentLevelPos, isEnabled);
         this.isDonated = isDonated;
     }
 

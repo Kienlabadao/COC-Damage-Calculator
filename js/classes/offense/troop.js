@@ -7,8 +7,8 @@ class Troop extends Offense {
     static DAMAGE = 1;
     static DEATH_DAMAGE = 2;
 
-    constructor(offenseID, currentLevelPos, damageMode = Troop.DAMAGE) {
-        super(offenseID, "troop", currentLevelPos);
+    constructor(offenseID, currentLevelPos, isEnabled, damageMode = Troop.DAMAGE) {
+        super(offenseID, "troop", currentLevelPos, isEnabled);
         this.setSortedDeathDamageList();
         this._troopType = this.offenseJSON["troop_type"];
         this.damageMode = damageMode;
