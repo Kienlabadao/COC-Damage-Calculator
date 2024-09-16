@@ -17,9 +17,16 @@ class DefenseListManager {
     // If there is none (storage reset or first time visit), then it's set to default (max level)
     loadKey(type) {
         for (const defenseID of Object.keys(getAllDefenses())) {
-            const defense = new Defense(defenseID, null);
-            defense.currentLevelPos = LocalStorageUtils.loadNumber(LocalStorageUtils.getObjectKey(type, "defense", defenseID), defense.currentLevelPos);
+            const defense = new Defense(defenseID, null);            
+            const key = LocalStorageUtils.getObjectKey(type, "defense", defenseID);
 
+            try {
+                defense.currentLevelPos = LocalStorageUtils.loadNumber(key, defense.currentLevelPos);
+            } catch(error) {
+                console.warn(error);
+                console.warn("Invalid level found! Revert to default level.");
+                LocalStorageUtils.saveNumber(key, defense.currentLevelPos);
+            } 
             this.add(defense);
         }
     }

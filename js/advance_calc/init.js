@@ -91,19 +91,21 @@ function loadSpell(spell) {
     const imagePath = spell.getImagePath();
     const currentLevelPos = spell.currentLevelPos;
     const maxLevelPos = spell.maxLevelPos;
-    const minLevelPos = 1;
+    const minLevelPos = 0;
     
     spellDivs.forEach((spellDiv) => {
       if (HTMLUtil.getDataID(spellDiv) === spellID && HTMLUtil.getDataDonated(spellDiv) === isDonated) {
         const levelOverlayDiv = spellDiv.querySelector(".level");
         const imgContainer = spellDiv.querySelector(".image");
         const levelSlider = spellDiv.querySelector(".slider");
+        const damageDiv = spellDiv.querySelector(".damage");
 
         levelOverlayDiv.textContent = spell.getCurrentLevel();
         imgContainer.src = imagePath;
         levelSlider.min = minLevelPos;
         levelSlider.max = maxLevelPos;
         levelSlider.value = currentLevelPos;
+        damageDiv.textContent = spell.getCurrentDamageFormat();
 
         if (spell.isMaxLevel()) {            
           HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);
@@ -124,7 +126,7 @@ function loadEquipment(equipment) {
     const imagePath = equipment.getImagePath();
     const currentLevelPos = equipment.currentLevelPos;
     const maxLevelPos = equipment.maxLevelPos;
-    const minLevelPos = 1;
+    const minLevelPos = 0;
 
     equipmentDivs.forEach((equipmentDiv) => {
       if (HTMLUtil.getDataID(equipmentDiv) === equipmentID) {
@@ -157,7 +159,7 @@ function loadTroop(troop) {
     const imagePath = troop.getImagePath();
     const currentLevelPos = troop.currentLevelPos;
     const maxLevelPos = troop.maxLevelPos;
-    const minLevelPos = 1;
+    const minLevelPos = 0;
 
     troopDivs.forEach((troopDiv) => {
       if (HTMLUtil.getDataID(troopDiv) === troopID) {
@@ -190,7 +192,7 @@ function loadModifier(modifier) {
     const imagePath = modifier.getImagePath();
     const currentLevelPos = modifier.currentLevelPos;
     const maxLevelPos = modifier.maxLevelPos;
-    const minLevelPos = 1;
+    const minLevelPos = 0;
     
     modifierDivs.forEach((modifierDiv) => {
       if (HTMLUtil.getDataID(modifierDiv) === modifierID) {
@@ -228,7 +230,7 @@ function loadRepair(repair) {
     const imagePath = repair.getImagePath();
     const currentLevelPos = repair.currentLevelPos;
     const maxLevelPos = repair.maxLevelPos;
-    const minLevelPos = 1;
+    const minLevelPos = 0;
     
     repairDivs.forEach((repairDiv) => {
       if (HTMLUtil.getDataID(repairDiv) === repairID) {

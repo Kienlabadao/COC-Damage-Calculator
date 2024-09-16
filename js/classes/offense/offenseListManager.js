@@ -43,8 +43,14 @@ class OffenseListManager {
                 useOffense = true;
             }        
             const spell = new Spell(spellID, null, useOffense);
-            const key = LocalStorageUtils.getObjectKey(type, "offense", spellID);        
-            spell.currentLevelPos = LocalStorageUtils.loadNumber(key, spell.currentLevelPos);
+            const key = LocalStorageUtils.getObjectKey(type, "offense", spellID);
+            try {
+                spell.currentLevelPos = LocalStorageUtils.loadNumber(key, spell.currentLevelPos);
+            } catch(error) {
+                console.warn(error);
+                console.warn("Invalid level found! Revert to default level.");
+                LocalStorageUtils.saveNumber(key, spell.currentLevelPos);
+            }
 
             this.add(spell);
         }
@@ -63,8 +69,14 @@ class OffenseListManager {
                 useOffense = true;
             }
             const equipment = new Equipment(equipmentID, null, useOffense);
-            const key = LocalStorageUtils.getObjectKey(type, "offense", equipmentID);
-            equipment.currentLevelPos = LocalStorageUtils.loadNumber(key, equipment.currentLevelPos);
+            const key = LocalStorageUtils.getObjectKey(type, "offense", equipmentID);           
+            try {
+                equipment.currentLevelPos = LocalStorageUtils.loadNumber(key, equipment.currentLevelPos);
+            } catch(error) {
+                console.warn(error);
+                console.warn("Invalid level found! Revert to default level.");
+                LocalStorageUtils.saveNumber(key, equipment.currentLevelPos);
+            }
 
             this.add(equipment);
         }
@@ -84,8 +96,13 @@ class OffenseListManager {
             }
             const troop = new Troop(troopID, null, useOffense);
             const key = LocalStorageUtils.getObjectKey(type, "offense", troopID);
-
-            troop.currentLevelPos = LocalStorageUtils.loadNumber(key, troop.currentLevelPos);
+            try {
+                troop.currentLevelPos = LocalStorageUtils.loadNumber(key, troop.currentLevelPos);
+            } catch(error) {
+                console.warn(error);
+                console.warn("Invalid level found! Revert to default level.");
+                LocalStorageUtils.saveNumber(key, troop.currentLevelPos);
+            }
             if (useTroopDeathDamage) {
                 troop.damageMode = Troop.DEATH_DAMAGE;
             }
@@ -108,8 +125,13 @@ class OffenseListManager {
             }
             const repair = new Repair(repairID, null, useOffense);
             const key = LocalStorageUtils.getObjectKey(type, "offense", repairID);
-
-            repair.currentLevelPos = LocalStorageUtils.loadNumber(key, repair.currentLevelPos);
+            try {
+                repair.currentLevelPos = LocalStorageUtils.loadNumber(key, repair.currentLevelPos);
+            } catch(error) {
+                console.warn(error);
+                console.warn("Invalid level found! Revert to default level.");
+                LocalStorageUtils.saveNumber(key, repair.currentLevelPos);
+            }
       
             this.add(repair);
         }
@@ -232,7 +254,14 @@ class OffenseListManager {
                 const useOffenseKey = LocalStorageUtils.getUseObjectKeyDonated(type, "offense", spellID);
                 const useOffense = LocalStorageUtils.loadBoolean(useOffenseKey, false);
                 const spell = new Spell(spellID, null, useOffense, true);
-                spell.currentLevelPos = LocalStorageUtils.loadNumber(LocalStorageUtils.getObjectKeyDonated(type, "offense", spellID), spell.currentLevelPos);
+                const key = LocalStorageUtils.getObjectKeyDonated(type, "offense", spellID);
+                try {
+                    spell.currentLevelPos = LocalStorageUtils.loadNumber(key, spell.currentLevelPos);
+                } catch(error) {
+                    console.warn(error);
+                    console.warn("Invalid level found! Revert to default level.");
+                    LocalStorageUtils.saveNumber(key, spell.currentLevelPos);
+                }
 
                 this.add(spell);
                 return;

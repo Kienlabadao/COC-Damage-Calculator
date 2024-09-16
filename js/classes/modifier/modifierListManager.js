@@ -4,11 +4,6 @@ class ModifierListManager {
     // For more details about what does modifier do, check modifier class
 
     constructor() {
-        if (ModifierListManager.instance) {
-            return ModifierListManager.instance;
-        }
-
-        ModifierListManager.instance = this;
         this._modifierList = [];
     }
 
@@ -21,7 +16,13 @@ class ModifierListManager {
             const useModifierKey = LocalStorageUtils.getUseModifierKey(type, modifierID);
             const modifier = new Modifier(modifierID, null, LocalStorageUtils.loadBoolean(useModifierKey, false));
             
-            modifier.currentLevelPos = LocalStorageUtils.loadNumber(key, modifier.currentLevelPos);          
+            try {
+                modifier.currentLevelPos = LocalStorageUtils.loadNumber(key, modifier.currentLevelPos); 
+            } catch(error) {
+                console.warn(error);
+                console.warn("Invalid level found! Revert to default level.");
+                LocalStorageUtils.saveNumber(key, modifier.currentLevelPos);
+            }                   
             this.add(modifier);
         }
     }

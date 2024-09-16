@@ -48,6 +48,15 @@ class Offense {
         return this.getDamage(this.currentLevelPos);
     }
 
+    getCurrentDamageFormat() {
+        switch (this.damageType) {
+            case "direct":
+                return `${this.getDamage(this.currentLevelPos)}`;
+            case "earthquake":
+                return `${this.getDamage(this.currentLevelPos)}%`;             
+        }
+    }
+
     isMaxLevel() {
         return this.getMaxLevel() === this.getCurrentLevel();
     }

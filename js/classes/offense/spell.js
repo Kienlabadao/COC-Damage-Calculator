@@ -79,7 +79,7 @@ class Spell extends Offense {
 
     // Get a new equipment with same datas
     clone() {
-        return new Spell(this.offenseID, this.currentLevelPos, this.isDonated);
+        return new Spell(this.offenseID, this.currentLevelPos, this.isEnabled, this.isDonated);
     }
 
     // Setter

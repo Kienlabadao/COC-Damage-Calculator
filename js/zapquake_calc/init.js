@@ -81,12 +81,14 @@ function loadSpell(spell) {
         const levelOverlayDiv = spellDiv.querySelector(".level");
         const imgContainer = spellDiv.querySelector(".image");
         const levelSlider = spellDiv.querySelector(".slider");
+        const damageDiv = spellDiv.querySelector(".damage");
 
         levelOverlayDiv.textContent = spell.getCurrentLevel();
         imgContainer.src = imagePath;
         levelSlider.min = minLevelPos;
         levelSlider.max = maxLevelPos;
         levelSlider.value = currentLevelPos;
+        damageDiv.textContent = spell.getCurrentDamageFormat();
 
         if (!spell.isDonated) {
           const useCheckbox = spellDiv.querySelector(".useCheckbox");
@@ -119,7 +121,8 @@ function loadEquipment(equipment) {
         const levelOverlayDiv = equipmentDiv.querySelector(".level");
         const imgContainer = equipmentDiv.querySelector(".image");
         const levelSlider = equipmentDiv.querySelector(".slider");
-        const useCheckbox = equipmentDiv.querySelector(".useCheckbox");         
+        const useCheckbox = equipmentDiv.querySelector(".useCheckbox");
+        const damageDiv = equipmentDiv.querySelector(".damage");
   
         levelOverlayDiv.textContent = equipment.getCurrentLevel();
         imgContainer.src = imagePath;
@@ -127,6 +130,7 @@ function loadEquipment(equipment) {
         levelSlider.max = maxLevelPos;
         levelSlider.value = currentLevelPos;
         useCheckbox.checked = equipment.isEnabled;
+        damageDiv.textContent = equipment.getCurrentDamageFormat();
         
         if (equipment.isMaxLevel()) {            
           HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);

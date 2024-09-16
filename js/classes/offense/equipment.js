@@ -84,7 +84,7 @@ class Equipment extends Offense {
 
     // Get a new equipment with same datas
     clone() {
-        return new Equipment(this.offenseID, this.currentLevelPos);
+        return new Equipment(this.offenseID, this.currentLevelPos, this.isEnabled);
     }
 
     // Getter

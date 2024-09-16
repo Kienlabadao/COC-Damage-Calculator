@@ -76,6 +76,9 @@ function updateOffenseLevel(offenseDiv, currentLevelPos) {
         HTMLUtil.removeLevelOverlayMaxedClass(overlayDiv);
     }
     offenseDiv.querySelector(".level").textContent = offense.getCurrentLevel();
+
+    const damageDiv = offenseDiv.querySelector(".damage");  
+    damageDiv.textContent = offense.getCurrentDamageFormat();
 }
 
 function toggleUseOffense(element) {

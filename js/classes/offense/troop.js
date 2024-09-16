@@ -100,7 +100,7 @@ class Troop extends Offense {
 
     // Get a new troop with same datas
     clone() {
-        return new Troop(this.offenseID, this.currentLevelPos, this.damageMode);
+        return new Troop(this.offenseID, this.currentLevelPos, this.isEnabled, this.damageMode);
     }
 
     // Get sorted ascending order of death damage list as json object is sorted by keys not values

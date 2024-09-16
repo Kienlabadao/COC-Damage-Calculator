@@ -66,6 +66,6 @@ class Repair extends Offense {
 
     // Get a new repair with same datas
     clone() {
-        return new Repair(this.offenseID, this.currentLevelPos);
+        return new Repair(this.offenseID, this.currentLevelPos, this.isEnabled);
     }
 }
