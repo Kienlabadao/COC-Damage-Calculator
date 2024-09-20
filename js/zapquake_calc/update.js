@@ -47,61 +47,90 @@ function updateOffense(element) {
 
 // Update offense's stat, image, and recalculate every defenses when user change the level of offense
 function updateOffenseLevel(offenseDiv, currentLevelPos) {
-    const offenseID = HTMLUtil.getDataID(offenseDiv);
-    let offense = null;
-    let key = null;
     if (Offense.isOffenseDivType(offenseDiv, Offense.SPELL)) {
-        const isDonated = HTMLUtil.getDataDonated(offenseDiv);
-
-        offense = offenseListManager.getSpell(offenseID, isDonated);
-        key = isDonated ? LocalStorageUtils.getObjectKeyDonated(type, "offense", offenseID) : LocalStorageUtils.getObjectKey(type, "offense", offenseID);
-    } else if (Offense.isOffenseDivType(offenseDiv, Offense.EQUIPMENT)) {
-        offense = offenseListManager.getEquipment(offenseID);
-        key = LocalStorageUtils.getObjectKey(type, "offense", offenseID);
+        updateSpellLevel(offenseDiv, currentLevelPos);
+    } else if (offenseDiv.classList.contains("equipment")) {
+        updateEquipmentLevel(offenseDiv, currentLevelPos);
     } else {
         throw new Error(`ERROR: Div did not contain appropriate type: ${offenseDiv.classList}`);
     }
-         
-    offense.currentLevelPos = currentLevelPos;
+}
+
+function updateSpellLevel(spellDiv, currentLevelPos) {
+    const spellID = HTMLUtil.getDataID(spellDiv);
+    const isDonated = HTMLUtil.getDataDonated(spellDiv);
+    const spell = offenseListManager.getSpell(spellID, isDonated);
+    const key = isDonated ? LocalStorageUtils.getObjectKeyDonated(type, "offense", spellID) : LocalStorageUtils.getObjectKey(type, "offense", spellID);
+
+    spell.currentLevelPos = currentLevelPos;
     LocalStorageUtils.saveNumber(key, currentLevelPos);
 
-    if (Offense.isOffenseDivType(offenseDiv, Offense.EQUIPMENT)) {
-        updateEquipmentUsed();
-    }
-    
-    const overlayDiv = offenseDiv.querySelector(".overlay");
-    if (offense.isMaxLevel()) {            
+    const overlayDiv = spellDiv.querySelector(".overlay");
+    if (spell.isMaxLevel()) {            
         HTMLUtil.addLevelOverlayMaxedClass(overlayDiv);
     } else {
         HTMLUtil.removeLevelOverlayMaxedClass(overlayDiv);
     }
-    offenseDiv.querySelector(".level").textContent = offense.getCurrentLevel();
+    spellDiv.querySelector(".level").textContent = spell.getCurrentLevel();
 
-    const damageDiv = offenseDiv.querySelector(".damage");  
-    damageDiv.textContent = offense.getCurrentDamageFormat();
+    const damageDiv = spellDiv.querySelector(".damage");  
+    damageDiv.textContent = spell.getCurrentDamageFormat();
+}
+
+function updateEquipmentLevel(equipmentDiv, currentLevelPos) {
+    const equipmentID = HTMLUtil.getDataID(equipmentDiv);
+    const equipment = offenseListManager.getEquipmentFromHero(equipmentID);   
+    const key = LocalStorageUtils.getObjectKey(type, "equipment", equipmentID);
+
+    equipment.currentLevelPos = currentLevelPos;
+    LocalStorageUtils.saveNumber(key, currentLevelPos);
+    updateEquipmentUsed();
+
+    const overlayDiv = equipmentDiv.querySelector(".overlay");
+    if (equipment.isMaxLevel()) {            
+        HTMLUtil.addLevelOverlayMaxedClass(overlayDiv);
+    } else {
+        HTMLUtil.removeLevelOverlayMaxedClass(overlayDiv);
+    }
+    equipmentDiv.querySelector(".level").textContent = equipment.getCurrentLevel();
+
+    const damageDiv = equipmentDiv.querySelector(".damage");  
+    damageDiv.textContent = equipment.getCurrentDamageFormat();
 }
 
 function toggleUseOffense(element) {
     const offenseDiv = HTMLUtil.getParentDiv(element, "offense");
-    const offenseID = HTMLUtil.getDataID(offenseDiv);
-    let offense = null;
-    let isDonated = false;
-    if (Offense.isOffenseDivType(offenseDiv, Offense.SPELL)) {
-        isDonated = HTMLUtil.getDataDonated(offenseDiv);
-        offense = offenseListManager.getSpell(offenseID, isDonated);
-    } else {
-        offense = offenseListManager.getOffense(offenseID);
-    }
-
     useOffense = element.checked;
-    offense.isEnabled = useOffense;
 
-    LocalStorageUtils.saveBoolean(LocalStorageUtils.getUseObjectKey(type, "offense", offenseID), useOffense);
-    if (Offense.isOffenseDivType(offenseDiv, Offense.EQUIPMENT)) {
-        updateEquipmentUsed();
+    if (Offense.isOffenseDivType(offenseDiv, Offense.SPELL)) {
+        toggleUseSpell(offenseDiv, useOffense);
+    } else if (offenseDiv.classList.contains("equipment")) {
+        toggleUseEquipment(offenseDiv, useOffense);
+    } else {
+        throw new Error(`ERROR: Div did not contain appropriate type: ${offenseDiv.classList}`);
     }
 
     calc();   
+}
+
+function toggleUseSpell(spellDiv, useSpell) {
+    const spellID = HTMLUtil.getDataID(spellDiv);
+    const isDonated = HTMLUtil.getDataDonated(spellDiv);
+    const spell = offenseListManager.getSpell(spellID, isDonated);
+
+    spell.isEnabled = useSpell;
+
+    LocalStorageUtils.saveBoolean(LocalStorageUtils.getUseObjectKey(type, "offense", spellID), useSpell);
+}
+
+function toggleUseEquipment(equipmentDiv, useEquipment) {
+    const equipmentID = HTMLUtil.getDataID(equipmentDiv);
+    const equipment = offenseListManager.getEquipmentFromHero(equipmentID);  
+
+    equipment.isEnabled = useEquipment;
+
+    LocalStorageUtils.saveBoolean(LocalStorageUtils.getUseObjectKey(type, "equipment", equipmentID), useEquipment);
+    updateEquipmentUsed();
 }
 
 // Update, toggle donated lightning spell div, and recalculate when user interact with use donated spell checkbox
@@ -165,12 +194,17 @@ function updateEquipmentUsed() {
         const defense = defenseListManager.getDefense(HTMLUtil.getDataID(defenseDiv));
 
         const equipmentDivList = [];
-        for (const equipment of offenseListManager.getEquipmentList()) {
-            if (equipment.isEnabled) {
-                equipmentDivList.push(ZapquakeHTMLUtil.createEquipmentDiv(equipment, defense));
+        for (const hero of offenseListManager.getHeroList()) {
+            for (const equipment of hero.equipmentListManager.equipmentList) {
+
+                if (equipment.isEnabled) {
+                    const clonedHero = hero.clone();
+                    clonedHero.activeEquipment = equipment;
+                    equipmentDivList.push(ZapquakeHTMLUtil.createEquipmentDiv(clonedHero, defense));
+                }
             }
         }
-        
+
         if (equipmentDivList.length > 0) {           
             HTMLUtil.removeAllChilds(equipmentListDiv);
             HTMLUtil.appendAllChilds(equipmentListDiv, equipmentDivList);

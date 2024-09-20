@@ -70,7 +70,6 @@ class ZapquakeHTMLUtil {
     // Create a html card of a spell
     static createSpellDiv(spell, spellCount) {
         if (spell instanceof Spell) {
-            const spellID = spell.equipmentID;
             const isDonated = spell.isDonated;
             const imagePath = spell.getImagePath();
     
@@ -79,7 +78,6 @@ class ZapquakeHTMLUtil {
             if (spell.offenseID === eqSpellKey) {
                 spellContainer.classList.add("object-container--earthquake");
             }
-            spellContainer.setAttribute("data-id", spellID);
             
             const objectContainerHeader = document.createElement("div");
             objectContainerHeader.className = "object-container__header";
@@ -105,14 +103,15 @@ class ZapquakeHTMLUtil {
     }
 
     // Create a html card of a equipment
-    static createEquipmentDiv(equipment, defense) {
-        if (equipment instanceof Equipment && defense instanceof Defense) {
+    static createEquipmentDiv(hero, defense) {
+        if (hero instanceof Hero && defense instanceof Defense) {
+            const equipment = hero.activeEquipment;
             const equipmentID = equipment.offenseID;
             const imagePath = equipment.getImagePath();
     
             const equipmentContainer = document.createElement("div");
             equipmentContainer.className = "object-container object-container--tall text-center";
-            if (defense.isImmune(equipment)) {
+            if (defense.isImmune(hero)) {
                 equipmentContainer.classList.add("object-container--immune");
             } else if (equipment.isRarityEpic()) {
                 equipmentContainer.classList.add("object-container--epic");
@@ -132,8 +131,8 @@ class ZapquakeHTMLUtil {
     
             return equipmentContainer;
         } else {
-            if (!(equipment instanceof Equipment)) {
-                throw new Error(`Invalid equipment: ${equipment}`);
+            if (!(hero instanceof Hero)) {
+                throw new Error(`Invalid hero: ${hero}`);
             } else {
                 throw new Error(`Invalid defense: ${defense}`);
             }

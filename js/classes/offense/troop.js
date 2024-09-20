@@ -32,7 +32,7 @@ class Troop extends Offense {
             case Troop.DEATH_DAMAGE:
                 return this.getDeathDamage(this.currentLevelPos);
             default:
-                throw new Error();
+                throw new Error(`Invalid damageMode: ${this.damageMode}`);
         }
     }
 
@@ -54,7 +54,7 @@ class Troop extends Offense {
                 case Troop.DEATH_DAMAGE:
                     return NumberUtil.round2Places(this.getDeathDamage(this.currentLevelPos));
                 default:
-                    throw new Error();
+                    throw new Error(`Invalid damageMode: ${this.damageMode}`);
             } 
         } else {
             throw new Error(`Invalid defense: ${defense}`);

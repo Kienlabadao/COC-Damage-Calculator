@@ -4,7 +4,9 @@
             "name": "Rage Vial",
             "user": "barbarian_king",
             "rarity": "common",
-            "equipment_type": "support",
+            "equipment_type": [
+                "support"
+            ],
             "damage_type": null,
             "dps_boost": {
                 "1": 17,
@@ -250,7 +252,7 @@
             "user": "archer_queen",
             "rarity": "common",
             "equipment_type": [
-                "active"
+                "attack"
             ],
             "damage_type": "direct",
             "dps_boost": null,
@@ -366,7 +368,7 @@
         },
         "life_gem": {
             "name": "Life Gem",
-            "user": "Grand Warden",
+            "user": "grand_warden",
             "rarity": "common",
             "equipment_type": [
                 "support"
@@ -396,7 +398,7 @@
         },
         "rage_gem": {
             "name": "Rage Gem",
-            "user": "Grand Warden",
+            "user": "grand_warden",
             "rarity": "common",
             "equipment_type": [
                 "support"
@@ -426,7 +428,7 @@
         },
         "fireball": {
             "name": "Fireball",
-            "user": "Grand Warden",
+            "user": "grand_warden",
             "rarity": "epic",
             "equipment_type": [
                 "support",
@@ -494,7 +496,7 @@
         },
         "royal_gem": {
             "name": "Royal Gem",
-            "user": "Royal Champion",
+            "user": "royal_champion",
             "rarity": "common",
             "equipment_type": [
                 "support"
@@ -524,7 +526,7 @@
         },
         "seeking_shield": {
             "name": "Seeking Shield",
-            "user": "Royal Champion",
+            "user": "royal_champion",
             "rarity": "common",
             "equipment_type": [
                 "damage"
@@ -554,7 +556,7 @@
         },
         "haste_vial": {
             "name": "Haste Vial",
-            "user": "Royal Champion",
+            "user": "royal_champion",
             "rarity": "common",
             "equipment_type": [
                 "support"
@@ -584,11 +586,11 @@
         },
         "rocket_spear": {
             "name": "Rocket Spear",
-            "user": "Royal Champion",
+            "user": "royal_champion",
             "rarity": "epic",
             "equipment_type": [
                 "support",
-                "active"
+                "attack"
             ],
             "damage_type": "direct",
             "dps_boost": {

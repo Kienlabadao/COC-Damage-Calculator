@@ -80,7 +80,7 @@
                 <div>
                     <h2 class="text-center">Spell</h2>
                     <div>
-                        <h3 class="mb-0">Setting:</h3>
+                        <h3 class="mb-0">Setting</h3>
                         <div class="d-flex flex-wrap gap-2 my-2">
                             <button class="btn btn-secondary" type="button" value="max" onclick="setAllSpellsLevel(this)">Set All Spells to Max Level</button>
                             <button class="btn btn-secondary" type="button" value="min" onclick="setAllSpellsLevel(this)">Set All Spells to Min Level</button>
@@ -88,7 +88,7 @@
                     </div>
                     <div class="mt-5">
                         <div class="collapse-btn my-3 d-flex align-items-center">
-                            <h3 class="mb-0 me-3">List:</h3>
+                            <h3 class="mb-0 me-3">List</h3>
                             <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" aria-expanded="true" onclick="toggleHTMLCollapseBtnText(this)" data-bs-target="#showSpellList" aria-controls="showSpellList">Hide</button>
                         </div>
                         <div class="collapse show" id="showSpellList">
@@ -137,7 +137,7 @@
                 <div class="mt-4">
                     <h2 class="text-center">Troop</h2>
                     <div>
-                        <h3 class="mb-0">Setting:</h3>
+                        <h3 class="mb-0">Setting</h3>
                         <div class="d-flex flex-wrap gap-2 my-2">
                             <button class="btn btn-secondary" type="button" value="max" onclick="setAllTroopsLevel(this)">Set All Troops to Max Level</button>
                             <button class="btn btn-secondary" type="button" value="min" onclick="setAllTroopsLevel(this)">Set All Troops to Min Level</button>
@@ -150,7 +150,7 @@
                     </div>
                     <div class="mt-5">
                         <div class="collapse-btn my-3 d-flex align-items-center">
-                            <h3 class="mb-0 me-3">List:</h3>
+                            <h3 class="mb-0 me-3">List</h3>
                             <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" aria-expanded="true" onclick="toggleHTMLCollapseBtnText(this)" data-bs-target="#show-troop" aria-controls="show-troop">Hide</button>
                         </div>
                         <div class="collapse show" id="show-troop">
@@ -159,7 +159,7 @@
                                     <h5>Balloon</h5>
                                     <div class="object-container">
                                         <img class="image object-container__img">
-                                        <div class="modifier overlay overlay-top-left overlay__img" data-id=""></div>
+                                        <div class="modifier overlay overlay--top-left overlay__img" data-id=""></div>
                                         <div class="level overlay overlay--bottom-left overlay__number"></div>
                                     </div>
                                     <div class="mt-2">
@@ -178,7 +178,7 @@
                                     <h5>Rocket Balloon</h5>
                                     <div class="object-container">
                                         <img class="image object-container__img">
-                                        <div class="modifier overlay overlay-top-left overlay__img" data-id=""></div>
+                                        <div class="modifier overlay overlay--top-left overlay__img" data-id=""></div>
                                         <div class="level overlay overlay--bottom-left overlay__number"></div>
                                     </div>
                                     <div class="mt-2">
@@ -197,11 +197,157 @@
                         </div>
                     </div>
                 </div><hr>
+                <!-- Hero -->
+                <div class="mt-4">
+                    <h2 class="text-center">Hero</h2>
+                    <div>
+                        <div class="collapse-btn my-3 d-flex align-items-center">
+                            <h3 class="mb-0 me-3">Barbarian King</h3>
+                            <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" aria-expanded="true" onclick="toggleHTMLCollapseBtnText(this)" data-bs-target="#show-barbarian-king" aria-controls="show-barbarian-king">Hide</button>
+                        </div>
+                        <div class="collapse show" id="show-barbarian-king">
+                            <div class="setting-container">
+                                <div class="d-flex flex-wrap gap-2 my-2">
+                                    <button class="btn btn-secondary" type="button" value="max" onclick="">Set All Equipments to Max Level (TODO)</button>
+                                    <button class="btn btn-secondary" type="button" value="min" onclick="">Set All Equipments to Min Level (TODO)</button>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center gy-5 gy-lg-0 mt-3">
+                                <div class="col-lg-4 col-xl-3">
+                                    <div class="row row-cols-1 justify-content-center">
+                                        <div class="col offense hero card-custom card-custom__object text-center" data-id="">
+                                            <h3>Barbarian King</h3>
+                                            <div class="object-container object-container--large">
+                                                <img class="image object-container__img" src="/images/offense/heroes/barbarian_king.webp">
+                                                <div class="modifier overlay overlay--large overlay--top-left overlay__img" data-id=""></div>
+                                                <div class="level overlay overlay--large overlay--bottom-left overlay__number"></div>
+                                            </div>
+                                            <div class="mt-2">
+                                                <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
+                                            </div>
+                                            <div class="d-flex justify-content-md-evenly justify-content-center gap-3">
+                                                <button type="button" class="btn btn-success" value="1" onclick="addAction(this)">Add 1</button>
+                                                <button type="button" class="btn btn-success" value="5" onclick="addAction(this)">Add 5</button>
+                                            </div>
+                                            <div class="d-flex justify-content-center align-items-center mt-2">
+                                                <img src="/images/other/attack.webp" width="20">
+                                                <div class="damage fw-bold mx-1">4100</div>
+                                            </div>
+                                        </div>
+                                    </div>                                   
+                                </div>
+                                <div class="col-lg-8 col-xl-9">
+                                    <div>
+                                        <h3 class="mb-0 me-3">Damage Equipment</h3>
+                                        <div class="row row-cols-6 justify-content-evenly gap-3 mt-3">
+                                            <div class="col offense equipment card-custom card-custom__object text-center" data-id="earthquake_boots">
+                                                <h5>Earthquake Boots</h5>
+                                                <div class="object-container">
+                                                    <img class="image object-container__img">
+                                                    <div class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed"></div>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
+                                                </div>
+                                                <div class="d-flex justify-content-md-evenly justify-content-center gap-3">
+                                                    <button type="button" class="btn btn-success" value="1" onclick="addAction(this)">Add 1</button>
+                                                    <button type="button" class="btn btn-success" value="5" onclick="addAction(this)">Add 5</button>
+                                                </div>
+                                                <div class="d-flex justify-content-center align-items-center mt-2">
+                                                    <img src="/images/other/attack.webp" width="20">
+                                                    <div class="damage fw-bold mx-1">4100</div>
+                                                </div>
+                                            </div>
+                                            <div class="col offense equipment card-custom card-custom__object text-center" data-id="spiky_ball">
+                                                <h5>Spiky Ball</h5>
+                                                <div class="object-container object-container--epic">
+                                                    <img class="image object-container__img">
+                                                    <div class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed"></div>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
+                                                </div>
+                                                <div class="d-flex justify-content-md-evenly justify-content-center gap-3">
+                                                    <button type="button" class="btn btn-success" value="1" onclick="addAction(this)">Add 1</button>
+                                                    <button type="button" class="btn btn-success" value="5" onclick="addAction(this)">Add 5</button>
+                                                </div>
+                                                <div class="d-flex justify-content-center align-items-center mt-2">
+                                                    <img src="/images/other/attack.webp" width="20">
+                                                    <div class="damage fw-bold mx-1">4100</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><hr>
+                                    <div>
+                                        <h3 class="mb-0 me-3">Other Equipment</h3>
+                                        <div class="row row-cols-6 justify-content-evenly gap-3 mt-3">
+                                            <div class="col offense equipment card-custom card-custom__object text-center" data-id="giant_arrow">
+                                                <h5>Giant Arrow</h5>
+                                                <div class="object-container">
+                                                    <img class="image object-container__img">
+                                                    <div class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed"></div>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
+                                                </div>
+                                                <div class="d-flex justify-content-md-evenly justify-content-center gap-3">
+                                                    <button type="button" class="btn btn-success" value="1" onclick="addAction(this)">Add 1</button>
+                                                    <button type="button" class="btn btn-success" value="5" onclick="addAction(this)">Add 5</button>
+                                                </div>
+                                                <div class="d-flex justify-content-center align-items-center mt-2">
+                                                    <img src="/images/other/attack.webp" width="20">
+                                                    <div class="damage fw-bold mx-1">4100</div>
+                                                </div>
+                                            </div>
+                                            <div class="col offense equipment card-custom card-custom__object text-center" data-id="fireball">
+                                                <h5>Fireball</h5>
+                                                <div class="object-container object-container--epic">
+                                                    <img class="image object-container__img">
+                                                    <div class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed"></div>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
+                                                </div>
+                                                <div class="d-flex justify-content-md-evenly justify-content-center gap-3">
+                                                    <button type="button" class="btn btn-success" value="1" onclick="addAction(this)">Add 1</button>
+                                                    <button type="button" class="btn btn-success" value="5" onclick="addAction(this)">Add 5</button>
+                                                </div>
+                                                <div class="d-flex justify-content-center align-items-center mt-2">
+                                                    <img src="/images/other/attack.webp" width="20">
+                                                    <div class="damage fw-bold mx-1">4100</div>
+                                                </div>
+                                            </div>
+                                            <div class="col offense equipment card-custom card-custom__object text-center" data-id="seeking_shield">
+                                                <h5>Seeking Shield</h5>
+                                                <div class="object-container">
+                                                    <img class="image object-container__img">
+                                                    <div class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed"></div>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
+                                                </div>
+                                                <div class="d-flex justify-content-md-evenly justify-content-center gap-3">
+                                                    <button type="button" class="btn btn-success" value="1" onclick="addAction(this)">Add 1</button>
+                                                    <button type="button" class="btn btn-success" value="5" onclick="addAction(this)">Add 5</button>
+                                                </div>
+                                                <div class="d-flex justify-content-center align-items-center mt-2">
+                                                    <img src="/images/other/attack.webp" width="20">
+                                                    <div class="damage fw-bold mx-1">4100</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div><hr>
                 <!-- Equipments -->
                 <div class="mt-4">
                     <h2 class="text-center">Hero Equipment</h2>
                     <div>
-                        <h3 class="mb-0">Setting:</h3>
+                        <h3 class="mb-0">Setting</h3>
                         <div class="d-flex flex-wrap gap-2 my-2">
                             <button class="btn btn-secondary" type="button" value="max" onclick="setAllEquipmentsLevel(this)">Set All Equipments to Max Level</button>
                             <button class="btn btn-secondary" type="button" value="min" onclick="setAllEquipmentsLevel(this)">Set All Equipments to Min Level</button>
@@ -209,7 +355,7 @@
                     </div>
                     <div class="mt-5">
                         <div class="collapse-btn my-3 d-flex align-items-center">
-                            <h3 class="mb-0 me-3">List:</h3>
+                            <h3 class="mb-0 me-3">List</h3>
                             <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" aria-expanded="true" onclick="toggleHTMLCollapseBtnText(this)" data-bs-target="#show-equipment" aria-controls="show-equipment">Hide</button>
                         </div>
                         <div class="collapse show" id="show-equipment">
@@ -312,7 +458,7 @@
                 <div class="mt-4">
                     <h2 class="text-center">Defense Repair</h2>
                     <div>
-                        <h3 class="mb-0">Setting:</h3>
+                        <h3 class="mb-0">Setting</h3>
                         <div class="d-flex flex-wrap gap-2 my-2">
                             <button class="btn btn-secondary" type="button" value="max" onclick="setAllRepairsLevel(this)">Set All Repairs to Max Level</button>
                             <button class="btn btn-secondary" type="button" value="min" onclick="setAllRepairsLevel(this)">Set All Repairs to Min Level</button>
@@ -320,7 +466,7 @@
                     </div>
                     <div class="mt-5">
                         <div class="collapse-btn my-3 d-flex align-items-center">
-                            <h3 class="mb-0 me-3">List:</h3>
+                            <h3 class="mb-0 me-3">List</h3>
                             <button class="btn btn-secondary fw-bold" type="button" data-bs-toggle="collapse" aria-expanded="true" onclick="toggleHTMLCollapseBtnText(this)" data-bs-target="#show-defense-repair" aria-controls="show-defense-repair">Hide</button>
                         </div>
                         <div class="collapse show" id="show-defense-repair">
@@ -353,7 +499,7 @@
                 <div class="mt-4">
                     <h2 class="text-center">Modifier</h2>
                     <div>
-                        <h3 class="mb-0">Setting:</h3>
+                        <h3 class="mb-0">Setting</h3>
                         <div class="d-flex flex-wrap gap-2 my-2">
                             <button class="btn btn-secondary" type="button" value="max" onclick="setAllModifiersLevel(this)">Set All Modifiers to Max Level</button>
                             <button class="btn btn-secondary" type="button" value="min" onclick="setAllModifiersLevel(this)">Set All Modifiers to Min Level</button>
@@ -361,7 +507,7 @@
                     </div>
                     <div class="mt-5">
                         <div class="collapse-btn my-3 d-flex align-items-center">
-                            <h3 class="mb-0 me-3">List:</h3>
+                            <h3 class="mb-0 me-3">List</h3>
                             <button class="btn btn-secondary fw-bold" type="button" data-bs-toggle="collapse" aria-expanded="true" onclick="toggleHTMLCollapseBtnText(this)" data-bs-target="#show-modifier" aria-controls="show-modifier">Hide</button>
                         </div>
                         <div class="collapse show" id="show-modifier">
@@ -673,7 +819,7 @@
     <script src="/js/classes/damage_log/damageLogListManager.js"></script>
 
     <script src="/js/advance_calc/calculate.js"></script>
-    <script src="/js/advance_calc/htmlUtil.js"></script>
+    <script src="/js/advance_calc/advanceHTMLUtil.js"></script>
     <script src="/js/advance_calc/searchDefenses.js"></script>
     <script src="/js/advance_calc/update.js"></script>
     <script src="/js/advance_calc/setAllObjectsLevel.js"></script>

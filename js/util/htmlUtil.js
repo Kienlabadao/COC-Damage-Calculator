@@ -212,7 +212,7 @@ class HTMLUtil {
     
     // Create level overlay for main overlay
     static createLevelOverlay(object, overlayType = HTMLUtil.OVERLAY_NORMAL) {
-        if (object instanceof Defense || object instanceof Offense || object instanceof Modifier) {
+        if (object instanceof Defense || object instanceof Offense || object instanceof Equipment || object instanceof Modifier) {
             const levelOverlay = document.createElement("div");
             levelOverlay.className = "modifier overlay overlay--bottom-left overlay__number";
         

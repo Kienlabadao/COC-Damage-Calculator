@@ -1,6 +1,7 @@
 let defenseJSON = null;
 let offenseJSON = null;
 let modifierJSON = null;
+let equipmentJSON = null;
 let otherJSON = null;
 
 // Load json file
@@ -24,6 +25,10 @@ async function fetchJSON() {
         if (!response4.ok) throw new Error('Failed to fetch data from other.json');
         modifierJSON = await response4.json();
 
+        const response5 = await fetch('/json/equipment.json');
+        if (!response5.ok) throw new Error('Failed to fetch data from other.json');
+        equipmentJSON = await response5.json();
+
         document.dispatchEvent(initEvent);
     } catch (error) {
         console.error('Error:', error);
@@ -36,10 +41,6 @@ function getDefense(defenseID) {
     return defenseJSON["defense"][defenseID];
 }
 
-function getEquipment(equipmentID) {
-    return offenseJSON["offense"]["equipment"][equipmentID];
-}
-
 function getSpell(spellID) {
     return offenseJSON["offense"]["spell"][spellID];
 }
@@ -48,20 +49,28 @@ function getTroop(troopID) {
     return offenseJSON["offense"]["troop"][troopID];
 }
 
-function getModifier(modifierID) {
-    return modifierJSON["modifier"][modifierID];
+function getHero(heroID) {
+    return offenseJSON["offense"]["hero"][heroID];
 }
 
 function getRepair(repairID) {
     return offenseJSON["offense"]["repair"][repairID];
 }
 
+function getModifier(modifierID) {
+    return modifierJSON["modifier"][modifierID];
+}
+
+function getEquipment(equipmentID) {
+    return equipmentJSON["equipment"][equipmentID];
+}
+
 function getAllDefenses() {
     return defenseJSON["defense"];
 }
 
-function getAllEquipments() {
-    return offenseJSON["offense"]["equipment"];
+function getAllHeroes() {
+    return offenseJSON["offense"]["hero"];
 }
 
 function getAllSpells() {
@@ -72,12 +81,16 @@ function getAllTroops() {
     return offenseJSON["offense"]["troop"];
 }
 
+function getAllRepairs() {
+    return offenseJSON["offense"]["repair"];
+}
+
 function getAllModifiers() {
     return modifierJSON["modifier"];
 }
 
-function getAllRepairs() {
-    return offenseJSON["offense"]["repair"];
+function getAllEquipments() {
+    return equipmentJSON["equipment"];
 }
 
 function getMaxSpellCount() {

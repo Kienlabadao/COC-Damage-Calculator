@@ -19,11 +19,11 @@ class OffenseListManager {
         switch (type) {
             case "simple":
                 this.loadSpellWithKey(type); 
-                this.loadEquipmentWithKey(type);
+                this.loadHeroWithKey(type);
                 break;
             default:
                 this.loadSpellWithKey(type); 
-                this.loadEquipmentWithKey(type);
+                this.loadHeroWithKey(type);
                 this.loadTroopWithKey(type);
                 this.loadRepairWithKey(type);
         }
@@ -56,29 +56,34 @@ class OffenseListManager {
         }
     }
 
-    // Load all equipments based on json file
+    // Load all heroes based on json file
     // Current level is set to user choices (which is stored in localStorage)
     // If there is none (storage reset or first time visit), then it's set to default (0 for zapquake calculator, max level for other)
-    loadEquipmentWithKey(type) {
-        for (const equipmentID of Object.keys(getAllEquipments())) {
+    loadHeroWithKey(type) {
+        for (const heroID of Object.keys(getAllHeroes())) {
             let useOffense;
-            if (type === "simple") {
-                const useOffenseKey = LocalStorageUtils.getUseObjectKey(type, "offense", equipmentID);
+            if (type !== "simple") {
+                const useOffenseKey = LocalStorageUtils.getUseObjectKey(type, "offense", heroID);
                 useOffense = LocalStorageUtils.loadBoolean(useOffenseKey, false);
             } else {
                 useOffense = true;
             }
-            const equipment = new Equipment(equipmentID, null, useOffense);
-            const key = LocalStorageUtils.getObjectKey(type, "offense", equipmentID);           
-            try {
-                equipment.currentLevelPos = LocalStorageUtils.loadNumber(key, equipment.currentLevelPos);
-            } catch(error) {
-                console.warn(error);
-                console.warn("Invalid level found! Revert to default level.");
-                LocalStorageUtils.saveNumber(key, equipment.currentLevelPos);
+            const equipmentListManager = new EquipmentListManager();
+            equipmentListManager.loadKey(type, heroID);
+            const hero = new Hero(heroID, null, useOffense, equipmentListManager);           
+            if (type !== "simple") {
+                const key = LocalStorageUtils.getObjectKey(type, "offense", heroID);
+
+                try {
+                    hero.currentLevelPos = LocalStorageUtils.loadNumber(key, hero.currentLevelPos);
+                } catch(error) {
+                    console.warn(error);
+                    console.warn("Invalid level found! Revert to default level.");
+                    LocalStorageUtils.saveNumber(key, hero.currentLevelPos);
+                }
             }
 
-            this.add(equipment);
+            this.add(hero);
         }
     }
 
@@ -148,17 +153,17 @@ class OffenseListManager {
         return null;
     }
 
-    // Get equipment based on its ID
-    getEquipment(equipmentID) {
-        for (const equipment of this.getEquipmentList()) {
-            if (equipment.offenseID === equipmentID) {
-                return equipment;
+    // Get hero based on its ID
+    getHero(heroID) {
+        for (const hero of this.getHeroList()) {
+            if (hero.offenseID === heroID) {
+                return hero;
             }
         }
         return null;
     }
 
-    // Get equipment based on its ID and if it were donated
+    // Get spell based on its ID and if it were donated
     getSpell(spellID, isDonated) {
         for (const spell of this.getSpellList()) {
             if (spell.offenseID === spellID) {
@@ -190,15 +195,15 @@ class OffenseListManager {
         return null;
     }
 
-    // Get a list of all equipments
-    getEquipmentList() {
-        const equipmentList = [];
+    // Get a list of all heroes
+    getHeroList() {
+        const heroList = [];
         for (const offense of this.offenseList) {
-            if (offense instanceof Equipment) {
-                equipmentList.push(offense);
+            if (offense instanceof Hero) {
+                heroList.push(offense);
             }
         }
-        return equipmentList;
+        return heroList;
     }
 
     // Get a list of all spells
@@ -233,6 +238,35 @@ class OffenseListManager {
         }
         return repairList;
     }
+
+    getEquipmentFromHero(equipmentID) {
+        for (const hero of this.getHeroList()) {
+            const equipment = hero.getEquipment(equipmentID);
+            if (equipment !== null) {
+                return equipment;
+            }
+        }
+        throw new Error(`EquipmentID doesn't exist: ${equipmentID}`);
+    }
+
+    // getAllEquipmentsFromHero() {
+    //     let equipmentListManager = null;
+    //     for (const hero of this.getHeroList()) {
+    //         if (equipmentListManager === null) {
+    //             equipmentListManager = hero.equipmentListManager;
+    //         } else {
+    //             for (const equipment of hero.equipmentListManager) {
+
+    //             }
+    //         }
+
+    //         const equipment = hero.getEquipment(equipmentID);
+    //         if (equipment !== null) {
+    //             return equipment;
+    //         }
+    //     }
+    //     throw new Error(`EquipmentID doesn't exist: ${equipmentID}`);
+    // }
 
     // Add new offense and check for unique
     add(newOffense) {

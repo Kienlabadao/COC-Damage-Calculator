@@ -6,6 +6,7 @@ const donateImage = "/images/other/donate.webp";
 
 const eqSpellKey = "earthquake_spell";
 const eqBootsKey = "earthquake_boots";
+const barbKingKey = "barbarian_king";
 const zapSpellKey = "lightning_spell";
 const donatedZapSpellCountKey = "donatedZapSpellCount";
 const eqOrderKey = LocalStorageUtils.getEQOrderKey(type);
@@ -35,7 +36,8 @@ document.addEventListener('init', () => {
   offenseListManager.loadKey(type);
   offenseListManager.addDonatedSpell(zapSpellKey, type);
   defenseListManager.loadKey(type);
-  
+  console.log(offenseListManager);
+  console.log(localStorage);
   if (!stopGenerateDefenseDiv) {
     for (const defense of defenseListManager.defenseList) {
       loadDefense(defense);
@@ -45,8 +47,8 @@ document.addEventListener('init', () => {
   for (const spell of offenseListManager.getSpellList()) {
     loadSpell(spell);
   }
-  for (const equipment of offenseListManager.getEquipmentList()) {
-    loadEquipment(equipment);
+  for (const hero of offenseListManager.getHeroList()) {
+    loadEquipment(hero);
   }
   updateEquipmentUsed();
 
@@ -108,39 +110,41 @@ function loadSpell(spell) {
 }
 
 // Load equipment div with saved data
-function loadEquipment(equipment) {
-  if (equipment instanceof Equipment) {
-    const equipmentID = equipment.offenseID;
-    const imagePath = equipment.getImagePath();
-    const currentLevelPos = equipment.currentLevelPos;
-    const maxLevelPos = equipment.maxLevelPos;
-    const minLevelPos = 0;
+function loadEquipment(hero) {
+  if (hero instanceof Hero) {
+    for (const equipment of hero.equipmentListManager.equipmentList) {
+      const equipmentID = equipment.equipmentID;
+      const imagePath = equipment.getImagePath();
+      const currentLevelPos = equipment.currentLevelPos;
+      const maxLevelPos = equipment.maxLevelPos;
+      const minLevelPos = 0;
+      
+      equipmentDivs.forEach((equipmentDiv) => {
+        if (HTMLUtil.getDataID(equipmentDiv) === equipmentID) {
+          const levelOverlayDiv = equipmentDiv.querySelector(".level");
+          const imgContainer = equipmentDiv.querySelector(".image");
+          const levelSlider = equipmentDiv.querySelector(".slider");
+          const useCheckbox = equipmentDiv.querySelector(".useCheckbox");
+          const damageDiv = equipmentDiv.querySelector(".damage");
 
-    equipmentDivs.forEach((equipmentDiv) => {
-      if (HTMLUtil.getDataID(equipmentDiv) === equipmentID) {
-        const levelOverlayDiv = equipmentDiv.querySelector(".level");
-        const imgContainer = equipmentDiv.querySelector(".image");
-        const levelSlider = equipmentDiv.querySelector(".slider");
-        const useCheckbox = equipmentDiv.querySelector(".useCheckbox");
-        const damageDiv = equipmentDiv.querySelector(".damage");
-  
-        levelOverlayDiv.textContent = equipment.getCurrentLevel();
-        imgContainer.src = imagePath;
-        levelSlider.min = minLevelPos;
-        levelSlider.max = maxLevelPos;
-        levelSlider.value = currentLevelPos;
-        useCheckbox.checked = equipment.isEnabled;
-        damageDiv.textContent = equipment.getCurrentDamageFormat();
-        
-        if (equipment.isMaxLevel()) {            
-          HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);
-        } else {
-          HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
+          levelOverlayDiv.textContent = equipment.getCurrentLevel();
+          imgContainer.src = imagePath;
+          levelSlider.min = minLevelPos;
+          levelSlider.max = maxLevelPos;
+          levelSlider.value = currentLevelPos;
+          useCheckbox.checked = equipment.isEnabled;
+          damageDiv.textContent = equipment.getCurrentDamageFormat();
+          
+          if (equipment.isMaxLevel()) {            
+            HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);
+          } else {
+            HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
+          }
         }
-      }
-    });
+      });
+    }
   } else {
-    throw new Error(`Invalid equipment: ${equipment}`);
+    throw new Error(`Invalid hero: ${hero}`);
   }
 }
 

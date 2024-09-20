@@ -10,11 +10,13 @@ function canEquipmentDestroy(defense) {
     if (defense instanceof Defense) {
         const clonedDefense = defense.clone();
         
-        for (const equipment of offenseListManager.getEquipmentList()) {
-            if (equipment.isEnabled) {
-                equipment.calcRemainingHP(clonedDefense);
+        for (const hero of offenseListManager.getHeroList()) {
+            for (const equipment of hero.equipmentListManager.equipmentList) {
+                if (equipment.isEnabled) {
+                    hero.activeEquipment = equipment;
+                    hero.calcRemainingHP(clonedDefense);
+                }
             }
-            
         }
         return clonedDefense.isDestroyed();        
     } else {
@@ -24,6 +26,7 @@ function canEquipmentDestroy(defense) {
 
 // Calculate spell composition for defense
 function calcDefense(defenseDiv) {
+    console.log(structuredClone(offenseListManager));
     const defenseID = HTMLUtil.getDataID(defenseDiv);
     const defense = defenseListManager.getDefense(defenseID);    
     if (defense === null) {
@@ -79,7 +82,6 @@ function getSpellCountLists(defense) {
 
             const spellCountListManager = new SpellCountListManager();
             const damageLog = damageLogListManager.getLast();
-            
             if (!damageLogListManager.isEmpty() && damageLog.defense.isDestroyed()) {
                 spellCountListManager.load(damageLogListManager);
                 spellCountListManager.reverse();
@@ -110,16 +112,21 @@ function createActionList(maxEQSpellCount, defense) {
     if (defense instanceof Defense) {
         const clonedDefense = defense.clone();
         const actionListManager = new ActionListManager();
-        const eqBoots = offenseListManager.getEquipment(eqBootsKey);
+        const eqBootsKing = offenseListManager.getHero(barbKingKey).clone();
+        const eqBoots = eqBootsKing.getEquipment(eqBootsKey);
         const eqSpell = offenseListManager.getSpell(eqSpellKey, false);
         const donatedZapSpell = offenseListManager.getSpell(zapSpellKey, true);
         const zapSpell = offenseListManager.getSpell(zapSpellKey, false);
         let spellCount = 0;
 
         // Add equipment that doesn't deal eq damage into the order list
-        for (const equipment of offenseListManager.getEquipmentList()) {
-            if (!equipment.isDamageTypeEQ()) {
-                actionListManager.add(new Action(equipment, null));
+        for (const hero of offenseListManager.getHeroList()) {
+            for (const equipment of hero.equipmentListManager.equipmentList) {
+                if (equipment.isEnabled && !equipment.isDamageTypeEQ()) {
+                    const clonedHero = hero.clone();
+                    clonedHero.activeEquipment = equipment;
+                    actionListManager.add(new Action(clonedHero, null));
+                }
             }
         }
 
@@ -128,7 +135,10 @@ function createActionList(maxEQSpellCount, defense) {
         // Note: While damage log does check if defense immune to eq type offense, defense immune to eq spell still need to be checked here as this affect the number of remaining spells for later spell (lightning spell)
         switch (eqOrder) {
             case eqBootsKey:
-                actionListManager.add(new Action(eqBoots, null));
+                if (eqBoots.isEnabled) {
+                    eqBootsKing.activeEquipment = eqBoots;
+                    actionListManager.add(new Action(eqBootsKing, null));
+                }
 
                 if (!clonedDefense.isImmune(eqSpell) && !eqSpell.isMinLevel()) {
                     for (let eqSpellCount = 1; eqSpellCount <= maxEQSpellCount; eqSpellCount++) {
@@ -145,7 +155,10 @@ function createActionList(maxEQSpellCount, defense) {
                     }
                 }
 
-                actionListManager.add(new Action(eqBoots, null));
+                if (eqBoots.isEnabled) {
+                    eqBootsKing.activeEquipment = eqBoots;
+                    actionListManager.add(new Action(eqBootsKing, null));
+                }
                 break;
             default:
                 throw new Error(`Invalid eqOrder: ${eqOrder}`);

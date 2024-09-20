@@ -20,7 +20,6 @@ class DamageLogListManager {
     loadWithActionList(defense, actionListManager) {
         if (defense instanceof Defense && actionListManager instanceof ActionListManager) {
             const clonedDefense = defense.clone();
-
             for (const action of actionListManager.actionList) {
                 const offense = action.offense;
                 const modifier = action.modifier;

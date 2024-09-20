@@ -10,7 +10,7 @@ class Offense {
     static DAMAGE_POS = 1;
 
     static SPELL = "spell";
-    static EQUIPMENT = "equipment";
+    static HERO = "hero";
     static TROOP = "troop";
     static REPAIR = "repair";
 
@@ -79,8 +79,8 @@ class Offense {
                     throw new Error(`Invalid offenseID: ${this.offenseID}`);
                 }
                 break;
-            case Offense.EQUIPMENT:
-                this._offenseJSON = getEquipment(this.offenseID);
+            case Offense.HERO:
+                this._offenseJSON = getHero(this.offenseID);
                 if (this.offenseJSON === undefined) {
                     throw new Error(`Invalid offenseID: ${this.offenseID}`);
                 }

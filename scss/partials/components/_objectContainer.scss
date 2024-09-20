@@ -19,6 +19,14 @@
     }
 }
 
+@mixin object-container--large {
+    .object-container__img {
+        padding: 10px;
+        height: 200px;
+        width: 200px;
+    }
+}
+
 .object-container {
     @include object-container;
 
@@ -42,6 +50,10 @@
 
     &--small {
         @include object-container--small;
+    }
+
+    &--large {
+        @include object-container--large;
     }
 
     &--tall {

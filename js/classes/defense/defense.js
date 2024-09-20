@@ -9,7 +9,8 @@ class Defense {
         this.setDefenseJSON();
         this._name = this.defenseJSON["name"];
         this._hpList = this.defenseJSON["hp"];
-        this.setImmuneList();
+        this.setOffenseImmuneList();
+        this.setEquipmentImmuneList();
         this._maxLevelPos = this.hpList.length - 1;
         this._minLevelPos = 0;
         this.currentLevelPos = currentLevelPos;
@@ -57,10 +58,23 @@ class Defense {
     // Check if defense immune to this offense (store in json file)
     isImmune(checkOffense) {
         if (checkOffense instanceof Offense) {
-            for (const offense of this.immuneList)  {
-                if (offense.offenseID === checkOffense.offenseID) {                    
-                    return true;
+            if (checkOffense instanceof Hero) {
+                const checkEquipment = checkOffense.activeEquipment;
+                if (checkEquipment === null) {
+                    return false;
                 }
+
+                for (const equipment of this.equipmentImmuneList)  {
+                    if (equipment.equipmentID === checkEquipment.equipmentID) {
+                        return true;
+                    }
+                }
+            } else {
+                for (const offense of this.offenseImmuneList)  {
+                    if (offense.offenseID === checkOffense.offenseID) {
+                        return true;
+                    }
+                }                
             }
             return false;
         } else {
@@ -122,12 +136,22 @@ class Defense {
     }
 
     // Load defense immune list
-    setImmuneList() {
-        this._immuneList = [];
+    setOffenseImmuneList() {
+        this._offenseImmuneList = [];
         const offenseListManager = new OffenseListManager();
 
-        for (const offenseID of this.defenseJSON["immune"]) {
-            this.immuneList.push(offenseListManager.getOffense(offenseID));
+        for (const offenseID of this.defenseJSON["offense_immune"]) {
+            this.offenseImmuneList.push(offenseListManager.getOffense(offenseID));
+        }
+    }
+
+    setEquipmentImmuneList() {
+        this._equipmentImmuneList = [];
+        const equipmentListManager = new EquipmentListManager();
+        equipmentListManager.loadAll();
+
+        for (const equipmentID of this.defenseJSON["equipment_immune"]) {
+            this._equipmentImmuneList.push(equipmentListManager.getEquipment(equipmentID));
         }
     }
 
@@ -184,8 +208,12 @@ class Defense {
         return this._hpList;
     }
 
-    get immuneList() {
-        return this._immuneList;
+    get offenseImmuneList() {
+        return this._offenseImmuneList;
+    }
+
+    get equipmentImmuneList() {
+        return this._equipmentImmuneList;
     }
 
     get maxLevelPos() {

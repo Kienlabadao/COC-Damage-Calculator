@@ -69,6 +69,12 @@ main {
   width: 90%;
 }
 
+.setting-container {
+  border: 2px solid hsl(215, 14%, 34%);
+  border-radius: 20px;
+  padding: 10px 20px;
+}
+
 .action-order {
   font-size: 16px;
   font-weight: bold;
@@ -152,7 +158,7 @@ main {
   height: 80px;
 }
 .card-custom__object {
-  width: 230px;
+  width: auto;
   padding: 20px;
   border-radius: 20px;
   background-color: var(--card-object-bg-color);
@@ -207,6 +213,11 @@ main {
 .object-container--small .object-container__img {
   height: 50px;
   width: 50px;
+}
+.object-container--large .object-container__img {
+  padding: 10px;
+  height: 200px;
+  width: 200px;
 }
 .object-container--tall {
   height: 80px;
@@ -385,6 +396,32 @@ main {
 .overlay--small.overlay__img img {
   height: 18px;
   width: 18px;
+}
+.overlay--large {
+  display: flex;
+  align-items: center;
+  font-size: 32px;
+}
+.overlay--large.overlay__number {
+  padding: 3px 5px;
+  height: 40px;
+  min-width: 0;
+}
+.overlay--large.overlay--bottom-left {
+  bottom: 3px;
+  left: 3px;
+}
+.overlay--large.overlay--top-left {
+  top: 3px;
+  left: 3px;
+}
+.overlay--large.overlay--top-right {
+  top: 3px;
+  right: 3px;
+}
+.overlay--large.overlay__img img {
+  height: 40px;
+  width: 40px;
 }
 
 .search-box {
