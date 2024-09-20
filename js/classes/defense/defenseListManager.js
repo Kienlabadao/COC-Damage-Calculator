@@ -4,15 +4,12 @@ class DefenseListManager {
     // For more details about what does defense do, check defense class
 
     constructor() {
-        this._defenseList = [];
-    }
-
-    // Load all defenses based on json file
-    // Current level is set to default (max level)
-    load() {
-        for (const defenseID of Object.keys(getAllDefenses())) {
-            this.add(new Defense(defenseID, null));
+        if (DefenseListManager.instance) {
+            return ModifierListManager.instance;
         }
+
+        DefenseListManager.instance = this;
+        this._defenseList = [];
     }
 
     // Load all defenses based on json file
@@ -20,9 +17,16 @@ class DefenseListManager {
     // If there is none (storage reset or first time visit), then it's set to default (max level)
     loadKey(type) {
         for (const defenseID of Object.keys(getAllDefenses())) {
-            const defense = new Defense(defenseID, null);
-            defense.currentLevelPos = LocalStorageUtils.loadNumber(LocalStorageUtils.getObjectKey(type, "defense", defenseID), defense.currentLevelPos);
+            const defense = new Defense(defenseID, null);            
+            const key = LocalStorageUtils.getObjectKey(type, "defense", defenseID);
 
+            try {
+                defense.currentLevelPos = LocalStorageUtils.loadNumber(key, defense.currentLevelPos);
+            } catch(error) {
+                console.warn(error);
+                console.warn("Invalid level found! Revert to default level.");
+                LocalStorageUtils.saveNumber(key, defense.currentLevelPos);
+            } 
             this.add(defense);
         }
     }

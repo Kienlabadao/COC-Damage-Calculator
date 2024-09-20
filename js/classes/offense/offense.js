@@ -14,15 +14,17 @@ class Offense {
     static TROOP = "troop";
     static REPAIR = "repair";
 
-    constructor(offenseID, type, currentLevelPos) {
+    constructor(offenseID, type, currentLevelPos, isEnabled) {
         this._type = type;
         this._offenseID = offenseID;
         this.setOffenseJSON();
+        this._name = this.offenseJSON["name"];
         this._damageType = this.offenseJSON["damage_type"];
-        this.setSortedDamageList();      
+        this.setSortedDamageList();     
         this._maxLevelPos = this.damageList.length - 1;
         this._minLevelPos = 0;
         this.currentLevelPos = currentLevelPos;
+        this.isEnabled = isEnabled;
     }
 
     // Convert the level's position in the json file to its actual level 
@@ -44,6 +46,15 @@ class Offense {
 
     getCurrentDamage() {
         return this.getDamage(this.currentLevelPos);
+    }
+
+    getCurrentDamageFormat() {
+        switch (this.damageType) {
+            case "direct":
+                return `${this.getDamage(this.currentLevelPos)}`;
+            case "earthquake":
+                return `${this.getDamage(this.currentLevelPos)}%`;             
+        }
     }
 
     isMaxLevel() {
@@ -121,6 +132,14 @@ class Offense {
         }
     }
 
+    set isEnabled(newIsEnabled) {
+        if (typeof newIsEnabled === "boolean") {
+            this._isEnabled = newIsEnabled;
+        } else {
+            throw new Error(`Invalid newIsEnabled: ${newIsEnabled}`);      
+        }
+    }
+
     // Getter
     get type() {
         return this._type;
@@ -152,6 +171,10 @@ class Offense {
 
     get currentLevelPos() {
         return this._currentLevelPos;
+    }
+
+    get isEnabled() {
+        return this._isEnabled;
     }
 
     // Static function

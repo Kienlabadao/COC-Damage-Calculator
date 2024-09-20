@@ -7,8 +7,16 @@ class LocalStorageUtils {
         return `${type}_${objectType}_${objectID}_pos`;
     }
 
+    static getUseObjectKey(type, objectType, objectID) {
+        return `${type}_use_${objectType}_${objectID}`;
+    }
+
     static getObjectKeyDonated(type, objectType, objectID) {
         return `${type}_${objectType}_${objectID}_pos_donated`;
+    }
+
+    static getUseObjectKeyDonated(type, objectType, objectID) {
+        return `${type}_use_${objectType}_${objectID}_donated`;
     }
 
     static getEQOrderKey(type) {
@@ -46,7 +54,7 @@ class LocalStorageUtils {
         const boolean = LocalStorageUtils.getKey(key);
 
         if (boolean !== null && ["true", "false"].includes(boolean)) {
-            return boolean;
+            return boolean === "true";
         } else {
             return null;
         }

@@ -7,8 +7,8 @@ class Troop extends Offense {
     static DAMAGE = 1;
     static DEATH_DAMAGE = 2;
 
-    constructor(offenseID, currentLevelPos, damageMode = Troop.DAMAGE) {
-        super(offenseID, "troop", currentLevelPos);
+    constructor(offenseID, currentLevelPos, isEnabled, damageMode = Troop.DAMAGE) {
+        super(offenseID, "troop", currentLevelPos, isEnabled);
         this.setSortedDeathDamageList();
         this._troopType = this.offenseJSON["troop_type"];
         this.damageMode = damageMode;
@@ -100,7 +100,7 @@ class Troop extends Offense {
 
     // Get a new troop with same datas
     clone() {
-        return new Troop(this.offenseID, this.currentLevelPos, this.damageMode);
+        return new Troop(this.offenseID, this.currentLevelPos, this.isEnabled, this.damageMode);
     }
 
     // Get sorted ascending order of death damage list as json object is sorted by keys not values

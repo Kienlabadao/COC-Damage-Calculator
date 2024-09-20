@@ -68,6 +68,9 @@ function updateOffenseLevel(offenseDiv, currentLevelPos) {
     }
     offenseDiv.querySelector(".level").textContent = offense.getCurrentLevel();
     offenseDiv.querySelector(".image").src = offense.getImagePath();
+
+    const damageDiv = offenseDiv.querySelector(".damage");  
+    damageDiv.textContent = offense.getCurrentDamageFormat();
 }
 
 // Called when the slider level of modifier is changed. Get the caller modifier, its level to start update itself and and related offense overlay

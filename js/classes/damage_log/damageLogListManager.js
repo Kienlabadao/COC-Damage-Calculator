@@ -25,7 +25,7 @@ class DamageLogListManager {
                 const offense = action.offense;
                 const modifier = action.modifier;
 
-                if (offense.isMinLevel()) {
+                if (!offense.isEnabled) {
                     continue;
                 }
 

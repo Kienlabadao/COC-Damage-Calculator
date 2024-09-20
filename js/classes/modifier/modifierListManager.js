@@ -8,15 +8,6 @@ class ModifierListManager {
     }
 
     // Load all modifiers based on json file
-    // Current level is set to default (max level)
-    // Activation is set to default (false)
-    load() {
-        for (const modifierID of Object.keys(getAllModifiers())) {       
-            this.add(new Modifier(modifierID, null, false));
-        }
-    }
-
-    // Load all modifiers based on json file
     // Current level and activation is set to user choices (which is stored in localStorage)
     // If there is none (storage reset or first time visit), then it's set to default (max level and false. respectively)
     loadKey(type) {
@@ -25,7 +16,13 @@ class ModifierListManager {
             const useModifierKey = LocalStorageUtils.getUseModifierKey(type, modifierID);
             const modifier = new Modifier(modifierID, null, LocalStorageUtils.loadBoolean(useModifierKey, false));
             
-            modifier.currentLevelPos = LocalStorageUtils.loadNumber(key, modifier.currentLevelPos);          
+            try {
+                modifier.currentLevelPos = LocalStorageUtils.loadNumber(key, modifier.currentLevelPos); 
+            } catch(error) {
+                console.warn(error);
+                console.warn("Invalid level found! Revert to default level.");
+                LocalStorageUtils.saveNumber(key, modifier.currentLevelPos);
+            }                   
             this.add(modifier);
         }
     }
