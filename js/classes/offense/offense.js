@@ -20,8 +20,9 @@ class Offense {
         this.setOffenseJSON();
         this._name = this.offenseJSON["name"];
         this._damageType = this.offenseJSON["damage_type"];
-        this.setSortedDamageList();     
-        this._maxLevelPos = this.damageList.length - 1;
+        this.setSortedDamageList();
+        this.setLevelList();
+        this._maxLevelPos = this.levelList.length - 1;
         this._minLevelPos = 0;
         this.currentLevelPos = currentLevelPos;
         this.isEnabled = isEnabled;
@@ -29,7 +30,7 @@ class Offense {
 
     // Convert the level's position in the json file to its actual level 
     getLevel(levelPos) {
-        return this.damageList[levelPos][Offense.LEVEL_POS];
+        return this.levelList[levelPos];
     }
 
     getMaxLevel() {
@@ -51,9 +52,9 @@ class Offense {
     getCurrentDamageFormat() {
         switch (this.damageType) {
             case "direct":
-                return `${this.getDamage(this.currentLevelPos)}`;
+                return `${this.getCurrentDamage()}`;
             case "earthquake":
-                return `${this.getDamage(this.currentLevelPos)}%`;             
+                return `❤${this.getCurrentDamage()}%`;             
         }
     }
 
@@ -107,6 +108,10 @@ class Offense {
         this._damageList = Object.entries(this.offenseJSON["damage"]).sort(([, valueA], [, valueB]) => valueA - valueB);
     }
 
+    setLevelList() {
+        this._levelList = ArrayUtil.getKeyArrayInArray(this.damageList);
+    }
+
     // Setter
     set minLevelPos(newMinLevelPos) {
         if (NumberUtil.isNumber(newMinLevelPos) && newMinLevelPos >= 0 && newMinLevelPos <= this.maxLevelPos) {
@@ -122,7 +127,7 @@ class Offense {
                 throw new Error(`Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`);
             }
 
-            if (this.damageList[newCurrentLevelPos] !== undefined) {
+            if (this.levelList[newCurrentLevelPos] !== undefined) {
                 this._currentLevelPos = newCurrentLevelPos;
             } else {
                 throw new Error(`Invalid currentLevelPos: ${newCurrentLevelPos}. OffenseID: ${this.offenseID}`);
@@ -159,6 +164,10 @@ class Offense {
 
     get damageList() {
         return this._damageList;
+    }
+
+    get levelList() {
+        return this._levelList;
     }
 
     get maxLevelPos() {

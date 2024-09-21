@@ -4,14 +4,18 @@ class Defense {
     // Note: Variable that end with Pos (Ex. currentLevelPos) hold its current position in the json file
     // getCurrentLevel() will get its actual level
 
+    static LEVEL_POS = 0;
+    static HP_POS = 1;
+
     constructor(defenseID, currentLevelPos, remainingHP, eqCount) {
         this._defenseID = defenseID;
         this.setDefenseJSON();
         this._name = this.defenseJSON["name"];
-        this._hpList = this.defenseJSON["hp"];
+        this.setSortedHPList();
+        this.setLevelList();
         this.setOffenseImmuneList();
         this.setEquipmentImmuneList();
-        this._maxLevelPos = this.hpList.length - 1;
+        this._maxLevelPos = this.levelList.length - 1;
         this._minLevelPos = 0;
         this.currentLevelPos = currentLevelPos;
 
@@ -44,7 +48,7 @@ class Defense {
     }
 
     getMaxHP(levelPos) {
-        return this.hpList[levelPos];
+        return this.hpList[levelPos][Defense.HP_POS];
     }
 
     getCurrentMaxHP() {
@@ -135,6 +139,14 @@ class Defense {
         }
     }
 
+    setSortedHPList() {
+        this._hpList = Object.entries(this.defenseJSON["hp"]).sort(([, valueA], [, valueB]) => valueA - valueB);
+    }
+
+    setLevelList() {
+        this._levelList = ArrayUtil.getKeyArrayInArray(this.hpList);
+    }
+
     // Load defense immune list
     setOffenseImmuneList() {
         this._offenseImmuneList = [];
@@ -162,7 +174,7 @@ class Defense {
                 throw new Error(`Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`);
             }
             
-            if (this.hpList[newCurrentLevelPos] !== undefined) {
+            if (this.levelList[newCurrentLevelPos] !== undefined) {
                 this._currentLevelPos = newCurrentLevelPos;
                 this.resetRemainingHP();
             } else {
@@ -208,6 +220,10 @@ class Defense {
         return this._hpList;
     }
 
+    get levelList() {
+        return this._levelList;
+    }
+    
     get offenseImmuneList() {
         return this._offenseImmuneList;
     }

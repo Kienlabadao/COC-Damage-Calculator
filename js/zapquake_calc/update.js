@@ -98,22 +98,9 @@ function updateEquipmentLevel(equipmentDiv, currentLevelPos) {
     damageDiv.textContent = equipment.getCurrentDamageFormat();
 }
 
-function toggleUseOffense(element) {
-    const offenseDiv = HTMLUtil.getParentDiv(element, "offense");
-    useOffense = element.checked;
-
-    if (Offense.isOffenseDivType(offenseDiv, Offense.SPELL)) {
-        toggleUseSpell(offenseDiv, useOffense);
-    } else if (offenseDiv.classList.contains("equipment")) {
-        toggleUseEquipment(offenseDiv, useOffense);
-    } else {
-        throw new Error(`ERROR: Div did not contain appropriate type: ${offenseDiv.classList}`);
-    }
-
-    calc();   
-}
-
-function toggleUseSpell(spellDiv, useSpell) {
+function toggleUseSpell(element) {
+    const spellDiv = HTMLUtil.getParentDiv(element, "offense");
+    const useSpell = element.checked;
     const spellID = HTMLUtil.getDataID(spellDiv);
     const isDonated = HTMLUtil.getDataDonated(spellDiv);
     const spell = offenseListManager.getSpell(spellID, isDonated);
@@ -121,9 +108,12 @@ function toggleUseSpell(spellDiv, useSpell) {
     spell.isEnabled = useSpell;
 
     LocalStorageUtils.saveBoolean(LocalStorageUtils.getUseObjectKey(type, "offense", spellID), useSpell);
+    calc();
 }
 
-function toggleUseEquipment(equipmentDiv, useEquipment) {
+function toggleUseEquipment(element) {
+    const equipmentDiv = HTMLUtil.getParentDiv(element, "offense");
+    const useEquipment = element.checked;
     const equipmentID = HTMLUtil.getDataID(equipmentDiv);
     const equipment = offenseListManager.getEquipmentFromHero(equipmentID);  
 
@@ -131,6 +121,7 @@ function toggleUseEquipment(equipmentDiv, useEquipment) {
 
     LocalStorageUtils.saveBoolean(LocalStorageUtils.getUseObjectKey(type, "equipment", equipmentID), useEquipment);
     updateEquipmentUsed();
+    calc();
 }
 
 // Update, toggle donated lightning spell div, and recalculate when user interact with use donated spell checkbox
@@ -199,7 +190,7 @@ function updateEquipmentUsed() {
 
                 if (equipment.isEnabled) {
                     const clonedHero = hero.clone();
-                    clonedHero.activeEquipment = equipment;
+                    clonedHero.setActiveEquipment(equipment.equipmentID);
                     equipmentDivList.push(ZapquakeHTMLUtil.createEquipmentDiv(clonedHero, defense));
                 }
             }

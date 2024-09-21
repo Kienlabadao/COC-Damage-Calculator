@@ -38,7 +38,7 @@ class OffenseListManager {
             let useOffense;
             if (type === "simple") {
                 const useOffenseKey = LocalStorageUtils.getUseObjectKey(type, "offense", spellID);
-                useOffense = LocalStorageUtils.loadBoolean(useOffenseKey, false);
+                useOffense = LocalStorageUtils.loadBoolean(useOffenseKey, true);
             } else {
                 useOffense = true;
             }        
@@ -61,13 +61,7 @@ class OffenseListManager {
     // If there is none (storage reset or first time visit), then it's set to default (0 for zapquake calculator, max level for other)
     loadHeroWithKey(type) {
         for (const heroID of Object.keys(getAllHeroes())) {
-            let useOffense;
-            if (type !== "simple") {
-                const useOffenseKey = LocalStorageUtils.getUseObjectKey(type, "offense", heroID);
-                useOffense = LocalStorageUtils.loadBoolean(useOffenseKey, false);
-            } else {
-                useOffense = true;
-            }
+            const useOffense = true;
             const equipmentListManager = new EquipmentListManager();
             equipmentListManager.loadKey(type, heroID);
             const hero = new Hero(heroID, null, useOffense, equipmentListManager);           
@@ -239,6 +233,16 @@ class OffenseListManager {
         return repairList;
     }
 
+    getHeroFromEquipment(equipmentID) {
+        for (const hero of this.getHeroList()) {
+            const equipment = hero.getEquipment(equipmentID);
+            if (equipment !== null) {
+                return hero;
+            }
+        }
+        throw new Error(`EquipmentID doesn't exist: ${equipmentID}`);
+    }
+
     getEquipmentFromHero(equipmentID) {
         for (const hero of this.getHeroList()) {
             const equipment = hero.getEquipment(equipmentID);
@@ -286,7 +290,7 @@ class OffenseListManager {
         for (const offenseID of Object.keys(getAllSpells())) {
             if (offenseID === spellID) {
                 const useOffenseKey = LocalStorageUtils.getUseObjectKeyDonated(type, "offense", spellID);
-                const useOffense = LocalStorageUtils.loadBoolean(useOffenseKey, false);
+                const useOffense = LocalStorageUtils.loadBoolean(useOffenseKey, true);
                 const spell = new Spell(spellID, null, useOffense, true);
                 const key = LocalStorageUtils.getObjectKeyDonated(type, "offense", spellID);
                 try {

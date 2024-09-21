@@ -309,6 +309,145 @@ class AdvanceHTMLUtil {
         }
     }
     
+    static createEquipmentDiv(equipment) {
+        if (equipment instanceof Equipment) {
+            const equipmentID = equipment.equipmentID;
+            const name = equipment.name;
+            const imagePath = equipment.imagePath;
+
+            const mainDiv = document.createElement("div");
+            mainDiv.className = "col equipment card-custom card-custom__object text-center";
+            mainDiv.setAttribute("data-id", equipmentID);
+        
+            const title = document.createElement("h5");
+            title.textContent = name;
+            mainDiv.appendChild(title);
+        
+            const objectContainer = document.createElement("div");
+            objectContainer.className = "object-container";
+            if (equipment.isRarityEpic()) {
+                objectContainer.classList.add("object-container--epic");
+            }
+            mainDiv.appendChild(objectContainer);
+            
+            const img = document.createElement("img");
+            img.className = "image object-container__img";
+            img.src = imagePath;
+            objectContainer.appendChild(img);
+            
+            const levelOverlay = document.createElement("div");
+            levelOverlay.className = "level overlay overlay--bottom-left overlay__number";
+            objectContainer.appendChild(levelOverlay);
+        
+            const modifierOverlay = document.createElement("div");
+            modifierOverlay.className = "modifier overlay overlay--top-left overlay__img";
+            objectContainer.appendChild(modifierOverlay);
+
+            const sliderDiv = document.createElement("div");
+            sliderDiv.className = "mt-2";
+            mainDiv.appendChild(sliderDiv);
+            
+            const sliderInput = document.createElement("input");
+            sliderInput.type = "range";
+            sliderInput.className = "slider slider--theme";
+            sliderInput.setAttribute("oninput", "updateEquipment(this)");            
+            sliderDiv.appendChild(sliderInput);
+                   
+            const checkboxDiv = document.createElement("div");
+            checkboxDiv.className = "d-flex justify-content-center align-items-center";
+        
+            const checkboxInput = document.createElement("input");
+            checkboxInput.type = "checkbox";
+            checkboxInput.className = "useCheckbox form-check-input checkbox me-1";
+            checkboxInput.id = `use_${equipmentID}`;
+            checkboxInput.setAttribute("oninput", "toggleUseEquipment(this)");
+            
+            const checkboxLabel = document.createElement("label");
+            checkboxLabel.className = "h5 mb-0";
+            checkboxLabel.setAttribute("for", `use_${equipmentID}`);
+            checkboxLabel.textContent = "Use equipment";
+            
+            checkboxDiv.appendChild(checkboxInput);
+            checkboxDiv.appendChild(checkboxLabel);
+            mainDiv.appendChild(checkboxDiv);
+        
+            if (equipment.isEquipmentTypeAttack() || equipment.isEquipmentTypeDamage()) {
+                const collapseDiv = document.createElement("div");
+                collapseDiv.className = "collapse show";
+                collapseDiv.id = `collapse_${equipmentID}`;
+                mainDiv.appendChild(collapseDiv);
+            
+                const buttonContainer = document.createElement("div");
+                buttonContainer.className = "d-flex justify-content-md-evenly justify-content-center gap-3 mt-2";
+                collapseDiv.appendChild(buttonContainer);
+                
+                const button1 = document.createElement("button");
+                button1.type = "button";
+                button1.className = "btn btn-success";
+                button1.value = "1";
+                button1.textContent = "Add 1";
+                button1.setAttribute("onclick", "addAction(this)");
+                buttonContainer.appendChild(button1);
+                
+                const button5 = document.createElement("button");
+                button5.type = "button";
+                button5.className = "btn btn-success";
+                button5.value = "5";
+                button5.textContent = "Add 5";
+                button5.setAttribute("onclick", "addAction(this)");           
+                buttonContainer.appendChild(button5);
+            }
+        
+            const damageDisplayDiv = document.createElement("div");
+            damageDisplayDiv.className = "mt-2";
+            mainDiv.appendChild(damageDisplayDiv);
+
+            if (equipment.isEquipmentTypeAttack() || equipment.isEquipmentTypeDamage()) {
+                const damageRow = document.createElement("div");
+                damageRow.className = "d-flex justify-content-center align-items-center column-gap-1";
+                damageDisplayDiv.appendChild(damageRow);
+
+                const damageLabel = document.createElement("div");
+                damageLabel.className = "fw-bold";
+                damageLabel.textContent = "DPH:";
+                damageRow.appendChild(damageLabel);
+
+                const damageImg = document.createElement("img");
+                damageImg.src = "/images/other/attack.webp";
+                damageImg.width = 20;
+                damageRow.appendChild(damageImg);
+
+                const damageValue = document.createElement("div");
+                damageValue.className = "damage fw-bold";
+                damageRow.appendChild(damageValue);
+            }
+
+            if (equipment.isEquipmentTypeSupport()) {
+                const heroBoostRow = document.createElement("div");
+                heroBoostRow.className = "d-flex justify-content-center align-items-center column-gap-1";
+                damageDisplayDiv.appendChild(heroBoostRow);           
+
+                const heroBoostLabel = document.createElement("div");
+                heroBoostLabel.className = "fw-bold";
+                heroBoostLabel.textContent = "Hero Boost:";
+                heroBoostRow.appendChild(heroBoostLabel);
+
+                const heroBoostImg = document.createElement("img");
+                heroBoostImg.src = "/images/other/attack.webp";
+                heroBoostImg.width = 20;
+                heroBoostRow.appendChild(heroBoostImg);
+
+                const heroBoostValue = document.createElement("div");
+                heroBoostValue.className = "dps-boost fw-bold";
+                heroBoostRow.appendChild(heroBoostValue);
+            }
+
+            return mainDiv;
+        } else {
+            throw new Error(`Invalid defense: ${equipment}`);
+        }
+    }
+
     // Create a damage log defense to be added to the first row of each detail section of defense which show defense and its max HP
     static createDamageLogDefenseHeader(defense) {
         if (defense instanceof Defense) {

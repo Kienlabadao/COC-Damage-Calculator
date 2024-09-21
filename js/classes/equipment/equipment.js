@@ -21,7 +21,8 @@ class Equipment {
 
         this.setSortedDamageList();
         this.setDPSBoostList();
-        this._maxLevelPos = this.damageList !== null ? this.damageList.length - 1 : this.dpsBoostList.length - 1;
+        this.setLevelList();
+        this._maxLevelPos = this.levelList.length - 1;
         this._minLevelPos = 0;
         this.currentLevelPos = currentLevelPos;
         this.isEnabled = isEnabled;
@@ -29,7 +30,7 @@ class Equipment {
 
     // Convert the level's position in the json file to its actual level 
     getLevel(levelPos) {
-        return this.damageList[levelPos][Equipment.LEVEL_POS];
+        return this.levelList[levelPos];
     }
 
     getMaxLevel() {
@@ -41,7 +42,7 @@ class Equipment {
     }
 
     getDamage(levelPos) {
-        return this.damageList !== null ? this.damageList[levelPos][Equipment.DAMAGE_POS] : null;
+        return this.damageList !== null ? this.damageList[levelPos][Equipment.DAMAGE_POS] : 0;
     }
 
     getCurrentDamage() {
@@ -51,24 +52,28 @@ class Equipment {
     getCurrentDamageFormat() {
         switch (this.damageType) {
             case "direct":
-                return `${this.getDamage(this.currentLevelPos)}`;
+                return `${this.getCurrentDamage()}`;
             case "earthquake":
-                return `${this.getDamage(this.currentLevelPos)}%`;             
+                return `❤${this.getCurrentDamage()}%`;             
         }
     }
 
     getDPSBoost(levelPos) {
-        return this.dpsBoostList !== null ? this.dpsBoostList[levelPos][Equipment.DAMAGE_POS] : null;
+        return this.dpsBoostList !== null ? this.dpsBoostList[levelPos][Equipment.DAMAGE_POS] : 0;
     }
 
     getCurrentDPSBoost() {
         return this.getDPSBoost(this.currentLevelPos);
     }
 
+    getCurrentDPSBoostFormat() {
+        return `${this.getCurrentDPSBoost()} DPS`;
+    }
+
     // Calculate base damage for eq damage type spell
     // EQ damage deal % damage based on target max hp
     calcBaseEQDamage(maxHP) {
-        if (this.isEquipmentTypeDamage() || this.isEquipmentTypeActive()) {
+        if (this.isEquipmentTypeDamage() || this.isEquipmentTypeAttack()) {
             if (this.isDamageTypeEQ()) {
                 return maxHP * this.getCurrentDamage() / 100;
             } else {
@@ -82,7 +87,7 @@ class Equipment {
     // Calculate how many damages does this spell do to defense
     // For eq damage type spell, also include reduced damage as eq type damage deal less damage the more its target got hit by eq type damage
     calcDamage(defense) {
-        if (this.isEquipmentTypeDamage() || this.isEquipmentTypeActive()) {
+        if (this.isEquipmentTypeDamage() || this.isEquipmentTypeAttack()) {
             if (defense instanceof Defense) {
                 const maxHP = defense.getCurrentMaxHP();
                 const eqCount = defense.eqCount;
@@ -119,9 +124,14 @@ class Equipment {
         return this.equipmentType.includes("damage");
     }
 
-    // Check if equipment type active
-    isEquipmentTypeActive() {
-        return this.equipmentType.includes("active");
+    // Check if equipment type attack
+    isEquipmentTypeAttack() {
+        return this.equipmentType.includes("attack");
+    }
+
+    // Check if equipment type support
+    isEquipmentTypeSupport() {
+        return this.equipmentType.includes("support");
     }
 
     // Check if equipment rarity is epic
@@ -173,6 +183,27 @@ class Equipment {
         }
     }
 
+    setLevelList() {
+        const damageLevelList = this.damageList !== null ? ArrayUtil.getKeyArrayInArray(this.damageList) : null;
+        const dpsBoostLevelList = this.dpsBoostList !== null ? ArrayUtil.getKeyArrayInArray(this.dpsBoostList) : null;
+
+        if (damageLevelList !== null && dpsBoostLevelList !== null) {
+            if (ArrayUtil.compareArrays(damageLevelList, dpsBoostLevelList)) {
+                this._levelList = damageLevelList;
+            } else {
+                throw new Error(`DamageList and dpsBoostList have different length. DamageList: ${damageLevelList}. DpsBoostList: ${dpsBoostLevelList}`);
+            }
+        } else {
+            if (damageLevelList !== null) {
+                this._levelList = damageLevelList;
+            } else if (dpsBoostLevelList !== null) {
+                this._levelList = dpsBoostLevelList;
+            } else {
+                throw new Error(`Equipment doesn't have either damageList or dpsBoostList: ${this}`);
+            }
+        }
+    }
+
     // Setter
     set minLevelPos(newMinLevelPos) {
         if (NumberUtil.isNumber(newMinLevelPos) && newMinLevelPos >= 0 && newMinLevelPos <= this.maxLevelPos) {
@@ -188,7 +219,7 @@ class Equipment {
                 throw new Error(`Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`);
             }
 
-            if (this.damageList[newCurrentLevelPos] !== undefined) {
+            if (this.levelList[newCurrentLevelPos] !== undefined) {
                 this._currentLevelPos = newCurrentLevelPos;
             } else {
                 throw new Error(`Invalid currentLevelPos: ${newCurrentLevelPos}. EquipmentID: ${this.equipmentID}`);
@@ -241,6 +272,10 @@ class Equipment {
 
     get dpsBoostList() {
         return this._dpsBoostList;
+    }
+
+    get levelList() {
+        return this._levelList;
     }
 
     get maxLevelPos() {

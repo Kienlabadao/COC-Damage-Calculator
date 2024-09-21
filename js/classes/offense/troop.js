@@ -107,6 +107,12 @@ class Troop extends Offense {
     setSortedDeathDamageList() {
         if (this.canDealDeathDamage()) {
             this._deathDamageList = Object.entries(this.offenseJSON["death_damage"]).sort(([, valueA], [, valueB]) => valueA - valueB);
+            
+            const damageLevelList = ArrayUtil.getKeyArrayInArray(this.damageList);
+            const deathDamageLevelList = ArrayUtil.getKeyArrayInArray(this.deathDamageList);
+            if (!ArrayUtil.compareArrays(damageLevelList, deathDamageLevelList)) {
+                throw new Error(`DamageList and deathDamageList have different length. DamageList: ${damageLevelList}. DeathDamageList: ${deathDamageLevelList}`);
+            }
         } else {
             this._deathDamageList = null;
         }

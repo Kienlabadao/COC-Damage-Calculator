@@ -14,8 +14,9 @@ class Modifier {
         this._modifierID = modifierID;
         this.setModifierJSON();
         this.setSortedModifyList();
+        this.setLevelList();
         this._affectList = this.modifierJSON["affects"];
-        this._maxLevelPos = this.modifyList.length - 1;
+        this._maxLevelPos = this.levelList.length - 1;
         this._minLevelPos = 1;
         this.currentLevelPos = currentLevelPos;
         this.isActive = isActive;
@@ -23,7 +24,7 @@ class Modifier {
 
     // Convert the level's position in the json file to its actual level 
     getLevel(levelPos) {
-        return this.modifyList[levelPos][Modifier.LEVEL_POS];
+        return this.levelList[levelPos];
     }
 
     getMaxLevel() {
@@ -111,6 +112,10 @@ class Modifier {
         this._modifyList = Object.entries(this.modifierJSON["modify"]).sort(([, valueA], [, valueB]) => valueA - valueB);
     }
 
+    setLevelList() {
+        this._levelList = ArrayUtil.getKeyArrayInArray(this.modifyList);
+    }
+
     // Setter
     set currentLevelPos(newCurrentLevelPos) {
         if (newCurrentLevelPos !== null) {
@@ -118,7 +123,7 @@ class Modifier {
                 throw new Error(`Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`);
             }
 
-            if (this.modifyList[newCurrentLevelPos] !== undefined) {
+            if (this.levelList[newCurrentLevelPos] !== undefined) {
                 this._currentLevelPos = newCurrentLevelPos;
             } else {
                 throw new Error(`Invalid currentLevelPos: ${newCurrentLevelPos}. OffenseID: ${this.modifierID}`);
@@ -147,6 +152,10 @@ class Modifier {
 
     get modifyList() {
         return this._modifyList;
+    }
+
+    get levelList() {
+        return this._levelList;
     }
 
     get affectList() {

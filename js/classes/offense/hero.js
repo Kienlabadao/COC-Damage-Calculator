@@ -11,17 +11,45 @@ class Hero extends Offense {
         super(offenseID, "hero", currentLevelPos, isEnabled);
         this._attackSpeed = this.offenseJSON["attack_speed"];
         this.equipmentListManager = equipmentListManager;
-        this.activeEquipment = null;
+        this._activeEquipment = null;
     }
 
-    // Get base damage for hero depend on its damage mode
-    getCurrentDamage() {
-        return this.getDamage(this.currentLevelPos);
+    getCurrentDamageFormat() {
+        let totalDPS = this.getCurrentDamage();
+
+        for (const equipment of this.equipmentListManager.equipmentList) {
+            if (equipment.isEnabled) {
+                totalDPS += equipment.getCurrentDPSBoost();      
+            }
+        }
+
+        if (this.activeEquipment !== null) {
+            if (this.activeEquipment.isEquipmentTypeDamage()) {
+                return this.activeEquipment.getCurrentDamageFormat();
+            } else if (this.activeEquipment.isEquipmentTypeAttack()) {
+                totalDPS = this.calculateDamageWithDPS(totalDPS);
+                totalDPS += this.activeEquipment.getCurrentDamage()
+                //totalDPS += this.calcModifiedDamage(totalDPS, modify);
+                return `${totalDPS}`;
+            } else {
+                console.warn(`ActiveEquipment can't deal damage: ${this.activeEquipment}`);
+            }
+        } else {
+            return `${this.calculateDamageWithDPS(totalDPS)}`;
+        }
     }
 
     // Get damage after modify for hero
     calcModifiedDamage(totalDPS, modify = 0) {
         return totalDPS * modify / 100;
+    }
+
+    calculateDamageWithDPS(dps) {
+        if (NumberUtil.isNumber(dps)) {
+            return NumberUtil.round2Places(dps * this.attackSpeed);
+        } else {
+            throw new Error(`Invalid dps: ${dps}`);
+        }
     }
 
     // Calculate how many damages does this hero do to defense depend on its damage mode
@@ -32,22 +60,26 @@ class Hero extends Offense {
             }
 
             let totalDPS = this.getCurrentDamage();
+
+            for (const equipment of this.equipmentListManager.equipmentList) {
+                if (equipment.isEnabled) {
+                    totalDPS += equipment.getCurrentDPSBoost();      
+                }
+            }
+
             if (this.activeEquipment !== null) {
                 if (this.activeEquipment.isEquipmentTypeDamage()) {
                     return NumberUtil.round2Places(this.activeEquipment.calcDamage(defense));
-                } else if (this.activeEquipment.isEquipmentTypeActive()) {
-                    for (const equipment of this.equipmentListManager.equipmentList) {
-                        totalDPS += equipment.getCurrentDPSBoost();
-                    }
-
+                } else if (this.activeEquipment.isEquipmentTypeAttack()) {
+                    totalDPS = this.calculateDamageWithDPS(totalDPS);
                     totalDPS += this.activeEquipment.calcDamage(defense);
-                    totalDPS += this.calcModifiedDamage(totalDPS, modify);
-                    return NumberUtil.round2Places(Hero.calculateDamageWithDPS(totalDPS));
+                    //totalDPS += this.calcModifiedDamage(totalDPS, modify)
+                    return totalDPS;
                 } else {
                     console.warn(`ActiveEquipment can't deal damage: ${this.activeEquipment}`);
                 }
             } else {
-                return NumberUtil.round2Places(Hero.calculateDamageWithDPS(totalDPS));
+                return this.calculateDamageWithDPS(totalDPS);
             }
         } else {
             throw new Error(`Invalid defense: ${defense}`);
@@ -63,7 +95,7 @@ class Hero extends Offense {
 
             const hp = defense.remainingHP;
             if (this.activeEquipment !== null) {
-                if (this.activeEquipment.isEquipmentTypeDamage() || this.activeEquipment.isEquipmentTypeActive()) {
+                if (this.activeEquipment.isEquipmentTypeDamage() || this.activeEquipment.isEquipmentTypeAttack()) {
                     defense.remainingHP = NumberUtil.round2Places(hp - this.calcDamage(defense, modify));
 
                     if (this.activeEquipment.isDamageTypeEQ()) {
@@ -99,11 +131,26 @@ class Hero extends Offense {
 
     // Get a new hero with same datas
     clone() {
-        return new Hero(this.offenseID, this.currentLevelPos, this.isEnabled, this.equipmentListManager);
+        return new Hero(this.offenseID, this.currentLevelPos, this.isEnabled, this.equipmentListManager.clone());
     }
 
     setActiveEquipment(equipmentID) {
-        this.activeEquipment = this.getEquipment(equipmentID);
+        if (equipmentID === null) {
+            this._activeEquipment = equipmentID;
+        } else {
+            const equipment = this.getEquipment(equipmentID);
+
+            if (equipment !== null) {
+                if (equipment.isEquipmentTypeDamage() || equipment.isEquipmentTypeAttack()) {
+                    equipment.isEnabled = true;
+                    this._activeEquipment = equipment;
+                } else {
+                    throw new Error(`Eqipment type can't be set as active equipment: ${equipment}`);    
+                }
+            } else {
+                throw new Error(`Invalid equipmentID: ${equipmentID}`);    
+            }          
+        }
     }
 
     // Setter
@@ -112,21 +159,6 @@ class Hero extends Offense {
             this._equipmentListManager = newEquipmentListManager;
         } else {
             throw new Error(`Invalid newEquipmentListManager: ${newEquipmentListManager}`);      
-        }
-    }
-
-    set activeEquipment(newActiveEquipment) {
-        if (newActiveEquipment === null) {
-            this._activeEquipment = newActiveEquipment;
-        } else if (newActiveEquipment instanceof Equipment) {
-            if (newActiveEquipment.isEquipmentTypeDamage() || newActiveEquipment.isEquipmentTypeActive()) {
-                newActiveEquipment.isEnabled = true;
-                this._activeEquipment = newActiveEquipment;
-            } else {
-                throw new Error(`newActiveEquipment eqipment type can't be set as active equipment: ${newActiveEquipment}`);    
-            }
-        } else {
-            throw new Error(`Invalid newActiveEquipment: ${newActiveEquipment}`);      
         }
     }
 
@@ -142,12 +174,4 @@ class Hero extends Offense {
     get activeEquipment() {
         return this._activeEquipment;
     }
-
-    static calculateDamageWithDPS(dps) {
-        if (NumberUtil.isNumber(dps)) {
-            return dps * this.attackSpeed;
-        } else {
-            throw new Error(`Invalid dps: ${dps}`);
-        }
-    }
- }
+}

@@ -79,10 +79,9 @@
             <section id="offenses" class="p-4 shadow card-custom card-custom__main">
                 <h2 class="text-center">Select Offense Level</h2><hr>
                 <!-- Spells -->
-                <div>
+                <div class="mb-5">
                     <h3 class="text-center">Spell</h3>
-                    <div>
-                        <h3 class="mb-0">Setting:</h3>
+                    <div class="setting-container">
                         <div class="d-flex flex-wrap gap-2 my-2">
                             <button class="btn btn-secondary" type="button" value="max" onclick="setAllSpellsLevel(this)">Set All Spells to Max Level</button>
                             <button class="btn btn-secondary" type="button" value="min" onclick="setAllSpellsLevel(this)">Set All Spells to Min Level</button>
@@ -103,12 +102,12 @@
                                 <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                             <div class="d-flex justify-content-center align-items-center mt-2">
-                                <input class="useCheckbox form-check-input checkbox me-1" type="checkbox" id="useLightningSpell" oninput="toggleUseOffense(this)">
+                                <input class="useCheckbox form-check-input checkbox me-1" type="checkbox" id="useLightningSpell" oninput="toggleUseSpell(this)">
                                 <label class="h5 mb-0" for="useLightningSpell">Use spell</label>
                             </div>
-                            <div class="d-flex justify-content-center align-items-center mt-2">
+                            <div class="d-flex justify-content-center align-items-center column-gap-1 mt-2">
                                 <img src="/images/other/attack.webp" width="20">
-                                <div class="damage fw-bold mx-1"></div>
+                                <div class="damage fw-bold"></div>
                             </div>
                         </div>
                         <div class="col offense spell card-custom card-custom__object text-center d-none" data-id="lightning_spell" data-donated="true">
@@ -133,9 +132,9 @@
                                 <div id="inputWarning" class="status-container d-none mt-2">
                                     <div class="status-container__text status-container__text--fail">Input must be a number between 0 and 3!</div>
                                 </div>
-                                <div class="d-flex justify-content-center align-items-center mt-2">
+                                <div class="d-flex justify-content-center align-items-center column-gap-1 mt-2">
                                     <img src="/images/other/attack.webp" width="20">
-                                    <div class="damage fw-bold mx-1"></div>
+                                    <div class="damage fw-bold"></div>
                                 </div>
                             </div>
                         </div>
@@ -149,21 +148,20 @@
                                 <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                             <div class="d-flex justify-content-center align-items-center mt-2">
-                                <input class="useCheckbox form-check-input checkbox me-1" type="checkbox" id="useEarthquakeSpell" oninput="toggleUseOffense(this)">
+                                <input class="useCheckbox form-check-input checkbox me-1" type="checkbox" id="useEarthquakeSpell" oninput="toggleUseSpell(this)">
                                 <label class="h5 mb-0" for="useEarthquakeSpell">Use spell</label>
                             </div>
-                            <div class="d-flex justify-content-center align-items-center mt-2">
+                            <div class="d-flex justify-content-center align-items-center column-gap-1 mt-2">
                                 <img src="/images/other/attack.webp" width="20">
-                                <div class="damage fw-bold mx-1"></div>
+                                <div class="damage fw-bold"></div>
                             </div>
                         </div>
                     </div>
                 </div><hr>
                 <!-- Equipments -->
-                <div class="mt-4">
+                <div class="mb-5">
                     <h3 class="text-center">Hero Equipment</h3>
-                    <div>
-                        <h3 class="mb-0">Setting:</h3>
+                    <div class="setting-container">
                         <div class="d-flex flex-wrap gap-2 my-2">
                             <button class="btn btn-secondary" type="button" value="max" onclick="setAllEquipmentsLevel(this)">Set All Equipments to Max Level</button>
                             <button class="btn btn-secondary" type="button" value="min" onclick="setAllEquipmentsLevel(this)">Set All Equipments to Min Level</button>
@@ -187,12 +185,12 @@
                                 <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                             <div class="d-flex justify-content-center align-items-center mt-2">
-                                <input class="useCheckbox form-check-input checkbox me-1" type="checkbox" id="useEarthquakeBoots" oninput="toggleUseOffense(this)">
+                                <input class="useCheckbox form-check-input checkbox me-1" type="checkbox" id="useEarthquakeBoots" oninput="toggleUseEquipment(this)">
                                 <label class="h5 mb-0" for="useEarthquakeBoots">Use equipment</label>
                             </div>
-                            <div class="d-flex justify-content-center align-items-center mt-2">
+                            <div class="d-flex justify-content-center align-items-center column-gap-1 mt-2">
                                 <img src="/images/other/attack.webp" width="20">
-                                <div class="damage fw-bold mx-1"></div>
+                                <div class="damage fw-bold"></div>
                             </div>
                         </div>
                         <div class="col offense equipment card-custom card-custom__object text-center" data-id="spiky_ball">
@@ -205,12 +203,12 @@
                                 <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                             <div class="d-flex justify-content-center align-items-center mt-2">
-                                <input class="useCheckbox form-check-input checkbox me-1" type="checkbox" id="useSpikyBall" oninput="toggleUseOffense(this)">
+                                <input class="useCheckbox form-check-input checkbox me-1" type="checkbox" id="useSpikyBall" oninput="toggleUseEquipment(this)">
                                 <label class="h5 mb-0" for="useSpikyBall">Use equipment</label>
                             </div>
-                            <div class="d-flex justify-content-center align-items-center mt-2">
+                            <div class="d-flex justify-content-center align-items-center column-gap-1 mt-2">
                                 <img src="/images/other/attack.webp" width="20">
-                                <div class="damage fw-bold mx-1"></div>
+                                <div class="damage fw-bold"></div>
                             </div>
                         </div>
                         <div class="col offense equipment card-custom card-custom__object text-center" data-id="giant_arrow">
@@ -223,12 +221,12 @@
                                 <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                             <div class="d-flex justify-content-center align-items-center mt-2">
-                                <input class="useCheckbox form-check-input checkbox me-1" type="checkbox" id="useGiantArrow" oninput="toggleUseOffense(this)">
+                                <input class="useCheckbox form-check-input checkbox me-1" type="checkbox" id="useGiantArrow" oninput="toggleUseEquipment(this)">
                                 <label class="h5 mb-0" for="useGiantArrow">Use equipment</label>
                             </div>
-                            <div class="d-flex justify-content-center align-items-center mt-2">
+                            <div class="d-flex justify-content-center align-items-center column-gap-1 mt-2">
                                 <img src="/images/other/attack.webp" width="20">
-                                <div class="damage fw-bold mx-1"></div>
+                                <div class="damage fw-bold"></div>
                             </div>
                         </div>
                         <div class="col offense equipment card-custom card-custom__object text-center" data-id="fireball">
@@ -241,12 +239,12 @@
                                 <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                             <div class="d-flex justify-content-center align-items-center mt-2">
-                                <input class="useCheckbox form-check-input checkbox me-1" type="checkbox" id="useFireball" oninput="toggleUseOffense(this)">
+                                <input class="useCheckbox form-check-input checkbox me-1" type="checkbox" id="useFireball" oninput="toggleUseEquipment(this)">
                                 <label class="h5 mb-0" for="useFireball">Use equipment</label>
                             </div>
-                            <div class="d-flex justify-content-center align-items-center mt-2">
+                            <div class="d-flex justify-content-center align-items-center column-gap-1 mt-2">
                                 <img src="/images/other/attack.webp" width="20">
-                                <div class="damage fw-bold mx-1"></div>
+                                <div class="damage fw-bold"></div>
                             </div>
                         </div>
                         <div class="col offense equipment card-custom card-custom__object text-center" data-id="seeking_shield">
@@ -259,18 +257,18 @@
                                 <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                             </div>
                             <div class="d-flex justify-content-center align-items-center mt-2">
-                                <input class="useCheckbox form-check-input checkbox me-1" type="checkbox" id="useSeekingShield" oninput="toggleUseOffense(this)">
+                                <input class="useCheckbox form-check-input checkbox me-1" type="checkbox" id="useSeekingShield" oninput="toggleUseEquipment(this)">
                                 <label class="h5 mb-0" for="useSeekingShield">Use equipment</label>
                             </div>
-                            <div class="d-flex justify-content-center align-items-center mt-2">
+                            <div class="d-flex justify-content-center align-items-center column-gap-1 mt-2">
                                 <img src="/images/other/attack.webp" width="20">
-                                <div class="damage fw-bold mx-1"></div>
+                                <div class="damage fw-bold"></div>
                             </div>
                         </div>
                     </div>
                 </div><hr>
                 <!-- Instructions -->
-                <div class="mt-4">
+                <div>
                     <h3>Instruction</h3>
                     <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#instruction" aria-expanded="false" aria-controls="instruction" onclick="toggleHTMLCollapseBtnText(this)">Show</button>
                     <div class="collapse mt-3" id="instruction">
@@ -332,6 +330,18 @@
                     <i class="fa fa-search"></i>
                     <input type="text" class="form-control search-box__input" placeholder="Search a defense" onkeyup="filterDefenses()" id="searchDefense">
                 </div>
+                <div class="d-flex flex-wrap row-gap-3 column-gap-5 mt-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <input class="form-check-input checkbox checkbox-theme" type="checkbox"
+                            id="hideDestroyedDefenses" dir="rtl" oninput="toggleHideDestroyedDefenses(this)">
+                        <label class="h5 mb-0" for="hideDestroyedDefenses">Hide Impossible to Destroy Defenses</label>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <input class="form-check-input checkbox checkbox-theme" type="checkbox"
+                            id="hideSurvivedDefenses" dir="rtl" oninput="toggleHideSurvivedDefenses(this)">
+                        <label class="h5 mb-0" for="hideSurvivedDefenses">Hide Destroyed Defenses</label>
+                    </div>
+                </div>
                 <div class="d-flex flex-wrap gap-2 mt-3">
                     <button class="btn btn-secondary" type="button" value="max" onclick="setAllDefensesLevel(this)">Set All Defenses to Max Level</button>
                     <button class="btn btn-secondary" type="button" value="min" onclick="setAllDefensesLevel(this)">Set All Defenses to Min Level</button>
@@ -384,8 +394,9 @@
     </button>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="/js/util/init.js"></script>
+    <script src="/js/util/errorPageManager.js"></script>
     <script src="/js/util/numberUtil.js"></script>
+    <script src="/js/util/arrayUtil.js"></script>
     <script src="/js/util/htmlUtil.js"></script>
     <script src="/js/util/scrollManager.js"></script>
     <script src="/js/util/setAllObjectsLevel.js"></script>

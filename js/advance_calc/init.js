@@ -18,7 +18,7 @@ const defensesSection = document.getElementById("defenses");
 let defenseDivs = [];
 const offensesSection = document.getElementById("offenses");
 const spellDivs = offensesSection.querySelectorAll(".offense.spell");
-const equipmentDivs = offensesSection.querySelectorAll(".offense.equipment");
+const heroSections = offensesSection.querySelectorAll(".hero-section");
 const troopDivs = offensesSection.querySelectorAll(".offense.troop");
 const repairDivs = offensesSection.querySelectorAll(".offense.repair");
 const modifierDivs = offensesSection.querySelectorAll(".modifier.modifier-obj");
@@ -48,6 +48,7 @@ document.addEventListener('init', () => {
   offenseListManager.loadKey(type);
   modifierListManager.loadKey(type);
   defenseListManager.loadKey(type);
+  console.log(localStorage);
   console.log(offenseListManager);
   if (!stopGenerateDefenseDiv) {
     for (const defense of defenseListManager.defenseList) {
@@ -58,8 +59,8 @@ document.addEventListener('init', () => {
   for (const spell of offenseListManager.getSpellList()) {
     loadSpell(spell);
   }
-  for (const equipment of offenseListManager.getEquipmentList()) {
-    loadEquipment(equipment);
+  for (const hero of offenseListManager.getHeroList()) {
+    loadHero(hero);
   }
   for (const troop of offenseListManager.getTroopList()) {
     loadTroop(troop);
@@ -119,36 +120,108 @@ function loadSpell(spell) {
   }
 }
 
-// Load equipment div with saved data
-function loadEquipment(equipment) {
-  if (equipment instanceof Equipment) {
-    const equipmentID = equipment.offenseID;
-    const imagePath = equipment.getImagePath();
-    const currentLevelPos = equipment.currentLevelPos;
-    const maxLevelPos = equipment.maxLevelPos;
+// Load hero div with saved data
+function loadHero(hero) {
+  if (hero instanceof Hero) {
+    const heroID = hero.offenseID;
+    const imagePath = hero.getImagePath();
+    const currentLevelPos = hero.currentLevelPos;
+    const maxLevelPos = hero.maxLevelPos;
     const minLevelPos = 0;
+    
+    heroSections.forEach((heroSection) => {
+      if (HTMLUtil.getDataID(heroSection) === heroID) {
+        const heroLevelDiv = heroSection.querySelector(".hero-level");
+        const heroLevelImgContainer = heroLevelDiv.querySelector(".image");
+        const heroLevelLevelOverlayDiv = heroLevelDiv.querySelector(".level");
+        const levelSlider = heroLevelDiv.querySelector(".slider");       
 
-    equipmentDivs.forEach((equipmentDiv) => {
-      if (HTMLUtil.getDataID(equipmentDiv) === equipmentID) {
-        const levelOverlayDiv = equipmentDiv.querySelector(".level");
-        const imgContainer = equipmentDiv.querySelector(".image");
-        const levelSlider = equipmentDiv.querySelector(".slider");
-  
-        levelOverlayDiv.textContent = equipment.getCurrentLevel();
-        imgContainer.src = imagePath;
+        const heroAttackDiv = heroSection.querySelector(".hero-attack");
+        const heroAttackImgContainer = heroAttackDiv.querySelector(".image");
+        const heroAttackLevelOverlayDiv = heroAttackDiv.querySelector(".level");
+        const damageDiv = heroAttackDiv.querySelector(".damage");
+                
+        heroLevelLevelOverlayDiv.textContent = hero.getCurrentLevel();
+        heroAttackLevelOverlayDiv.textContent = hero.getCurrentLevel();
+
+        heroLevelImgContainer.src = imagePath;
+        heroAttackImgContainer.src = imagePath;
+
         levelSlider.min = minLevelPos;
         levelSlider.max = maxLevelPos;
         levelSlider.value = currentLevelPos;
-        
-        if (equipment.isMaxLevel()) {            
-          HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);
+        damageDiv.textContent = hero.getCurrentDamageFormat();
+
+        if (hero.isMaxLevel()) {            
+          HTMLUtil.addLevelOverlayMaxedClass(heroLevelLevelOverlayDiv);
+          HTMLUtil.addLevelOverlayMaxedClass(heroAttackLevelOverlayDiv);
         } else {
-          HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
+          HTMLUtil.removeLevelOverlayMaxedClass(heroLevelLevelOverlayDiv);
+          HTMLUtil.removeLevelOverlayMaxedClass(heroAttackLevelOverlayDiv);
         }
+
+        loadEquipment(hero, heroSection);
       }
     });
   } else {
-    throw new Error(`Invalid equipment: ${equipment}`);
+    throw new Error(`Invalid hero: ${hero}`);
+  }
+}
+
+// Load equipment div with saved data
+function loadEquipment(hero, heroSection) {
+  if (hero instanceof Hero) {
+    const equipmentListManager = hero.equipmentListManager;
+    const activeEquipmentDivs = heroSection.querySelector(".active-equipment");
+    const damageEquipmentDivs = heroSection.querySelector(".damage-equipment");
+    const supportEquipmentDivs = heroSection.querySelector(".support-equipment");
+
+    for (const equipment of equipmentListManager.equipmentList) {
+      const imagePath = equipment.getImagePath();
+      const currentLevelPos = equipment.currentLevelPos;
+      const maxLevelPos = equipment.maxLevelPos;
+      const minLevelPos = 0;
+
+      const equipmentDiv = AdvanceHTMLUtil.createEquipmentDiv(equipment);
+      const levelOverlayDiv = equipmentDiv.querySelector(".level");
+      const imgContainer = equipmentDiv.querySelector(".image");
+      const levelSlider = equipmentDiv.querySelector(".slider");
+      const useCheckbox = equipmentDiv.querySelector(".useCheckbox");
+      
+      levelOverlayDiv.textContent = equipment.getCurrentLevel();
+      imgContainer.src = imagePath;
+      levelSlider.min = minLevelPos;
+      levelSlider.max = maxLevelPos;
+      levelSlider.value = currentLevelPos;
+      useCheckbox.checked = equipment.isEnabled;
+
+      if (equipment.isEquipmentTypeAttack() || equipment.isEquipmentTypeDamage()) {
+        const collapseDiv = equipmentDiv.querySelector(".collapse");
+        if (equipment.isEnabled) {
+          HTMLUtil.toggleBSCollapse(collapseDiv, true);
+        } else {
+          HTMLUtil.toggleBSCollapse(collapseDiv, false);
+        }
+      }
+      
+      if (equipment.isMaxLevel()) {            
+        HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);
+      } else {
+        HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
+      }
+
+      updateEquipmentDamage(hero, equipmentDiv);
+
+      if (equipment.isEquipmentTypeAttack()) {
+        activeEquipmentDivs.appendChild(equipmentDiv);
+      } else if (equipment.isEquipmentTypeDamage()) {
+        damageEquipmentDivs.appendChild(equipmentDiv);
+      } else {
+        supportEquipmentDivs.appendChild(equipmentDiv);
+      }
+    }
+  } else {
+    throw new Error(`Invalid hero: ${hero}`);
   }
 }
 
@@ -166,12 +239,14 @@ function loadTroop(troop) {
         const levelOverlayDiv = troopDiv.querySelector(".level");
         const imgContainer = troopDiv.querySelector(".image");
         const levelSlider = troopDiv.querySelector(".slider");
+        const damageDiv = troopDiv.querySelector(".damage");
   
         levelOverlayDiv.textContent = troop.getCurrentLevel();
         imgContainer.src = imagePath;
         levelSlider.min = minLevelPos;
         levelSlider.max = maxLevelPos;
         levelSlider.value = currentLevelPos;
+        damageDiv.textContent = troop.getCurrentDamageFormat();
         
         if (troop.isMaxLevel()) {            
           HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);

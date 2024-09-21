@@ -106,7 +106,7 @@ class ZapquakeHTMLUtil {
     static createEquipmentDiv(hero, defense) {
         if (hero instanceof Hero && defense instanceof Defense) {
             const equipment = hero.activeEquipment;
-            const equipmentID = equipment.offenseID;
+            const equipmentID = equipment.equipmentID;
             const imagePath = equipment.getImagePath();
     
             const equipmentContainer = document.createElement("div");

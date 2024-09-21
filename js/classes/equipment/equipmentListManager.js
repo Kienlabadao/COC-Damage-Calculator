@@ -78,6 +78,15 @@ class EquipmentListManager {
         return this.getLength() === 0;
     }
 
+    clone() {
+        const clonedEquipmentListManager = new EquipmentListManager();
+
+        for (const equipment of this.equipmentList) {
+            clonedEquipmentListManager.add(equipment.clone());
+        }
+        return clonedEquipmentListManager;
+    }
+
     // Getter
     get equipmentList() {
         return this._equipmentList;

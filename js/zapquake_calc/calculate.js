@@ -13,8 +13,9 @@ function canEquipmentDestroy(defense) {
         for (const hero of offenseListManager.getHeroList()) {
             for (const equipment of hero.equipmentListManager.equipmentList) {
                 if (equipment.isEnabled) {
-                    hero.activeEquipment = equipment;
-                    hero.calcRemainingHP(clonedDefense);
+                    const clonedHero = hero.clone();
+                    clonedHero.setActiveEquipment(equipment.equipmentID);
+                    clonedHero.calcRemainingHP(clonedDefense);
                 }
             }
         }
@@ -26,7 +27,6 @@ function canEquipmentDestroy(defense) {
 
 // Calculate spell composition for defense
 function calcDefense(defenseDiv) {
-    console.log(structuredClone(offenseListManager));
     const defenseID = HTMLUtil.getDataID(defenseDiv);
     const defense = defenseListManager.getDefense(defenseID);    
     if (defense === null) {
@@ -124,7 +124,7 @@ function createActionList(maxEQSpellCount, defense) {
             for (const equipment of hero.equipmentListManager.equipmentList) {
                 if (equipment.isEnabled && !equipment.isDamageTypeEQ()) {
                     const clonedHero = hero.clone();
-                    clonedHero.activeEquipment = equipment;
+                    clonedHero.setActiveEquipment(equipment.equipmentID);
                     actionListManager.add(new Action(clonedHero, null));
                 }
             }
@@ -136,7 +136,7 @@ function createActionList(maxEQSpellCount, defense) {
         switch (eqOrder) {
             case eqBootsKey:
                 if (eqBoots.isEnabled) {
-                    eqBootsKing.activeEquipment = eqBoots;
+                    eqBootsKing.setActiveEquipment(eqBootsKey);
                     actionListManager.add(new Action(eqBootsKing, null));
                 }
 
@@ -156,7 +156,7 @@ function createActionList(maxEQSpellCount, defense) {
                 }
 
                 if (eqBoots.isEnabled) {
-                    eqBootsKing.activeEquipment = eqBoots;
+                    eqBootsKing.setActiveEquipment(eqBootsKey);
                     actionListManager.add(new Action(eqBootsKing, null));
                 }
                 break;

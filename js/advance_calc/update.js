@@ -48,8 +48,7 @@ function updateOffense(element) {
         updateOffenseLevel(offenseDiv, currentLevelPos)
     } else {
         throw new Error(`Invalid offenseDiv: ${offenseDiv}`);
-    }       
-    calc();
+    }
 }
 
 // Update offense's stat and image
@@ -60,17 +59,124 @@ function updateOffenseLevel(offenseDiv, currentLevelPos) {
 
     offense.currentLevelPos = currentLevelPos;
     LocalStorageUtils.saveNumber(key, currentLevelPos);   
-    const overlayDiv = offenseDiv.querySelector(".overlay");     
+    const levelOverlayDiv = offenseDiv.querySelector(".overlay.level");
     if (offense.isMaxLevel()) {
-        HTMLUtil.addLevelOverlayMaxedClass(overlayDiv);
+        HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);
     } else {
-        HTMLUtil.removeLevelOverlayMaxedClass(overlayDiv);
+        HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
     }
-    offenseDiv.querySelector(".level").textContent = offense.getCurrentLevel();
+    levelOverlayDiv.textContent = offense.getCurrentLevel();
     offenseDiv.querySelector(".image").src = offense.getImagePath();
 
-    const damageDiv = offenseDiv.querySelector(".damage");  
-    damageDiv.textContent = offense.getCurrentDamageFormat();
+    if (offense instanceof Hero) {
+        heroSections.forEach((heroSection) => {
+            if (HTMLUtil.getDataID(heroSection) === offense.offenseID) {
+                const heroAttackDiv = heroSection.querySelector(".hero-attack");
+                const heroAttackLevelOverlayDiv = heroAttackDiv.querySelector(".level");
+                const damageDiv = heroAttackDiv.querySelector(".damage");
+
+                if (offense.isMaxLevel()) {
+                    HTMLUtil.addLevelOverlayMaxedClass(heroAttackLevelOverlayDiv);
+                } else {
+                    HTMLUtil.removeLevelOverlayMaxedClass(heroAttackLevelOverlayDiv);
+                }
+                heroAttackLevelOverlayDiv.textContent = offense.getCurrentLevel();
+                damageDiv.textContent = offense.getCurrentDamageFormat();
+
+                updateAllHeroEquipmentsDamage(offense);
+            }
+        });
+    } else {
+        const damageDiv = offenseDiv.querySelector(".damage");  
+        damageDiv.textContent = offense.getCurrentDamageFormat();
+    }
+}
+
+function updateEquipment(element) {
+    const equipmentDiv = HTMLUtil.getParentDiv(element, "equipment");
+    const currentLevelPos = Number.parseInt(element.value);    
+    
+    if (equipmentDiv) {
+        updateEquipmentLevel(equipmentDiv, currentLevelPos)
+    } else {
+        throw new Error(`Invalid equipmentDiv: ${equipmentDiv}`);
+    }
+}
+
+function updateEquipmentLevel(equipmentDiv, currentLevelPos) {
+    const equipmentID = HTMLUtil.getDataID(equipmentDiv);
+    const hero = offenseListManager.getHeroFromEquipment(equipmentID);
+    const equipment = hero.getEquipment(equipmentID);
+    const key = LocalStorageUtils.getObjectKey(type, "equipment", equipmentID);       
+
+    equipment.currentLevelPos = currentLevelPos;
+    LocalStorageUtils.saveNumber(key, currentLevelPos);   
+    const levelOverlayDiv = equipmentDiv.querySelector(".overlay.level");
+    if (equipment.isMaxLevel()) {
+        HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);
+    } else {
+        HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
+    }
+    levelOverlayDiv.textContent = equipment.getCurrentLevel();
+
+    updateHeroDamage(hero);
+}
+
+function updateHeroDamage(hero) {
+    updateHeroNormalAttackDamage(hero);
+    updateAllHeroEquipmentsDamage(hero);
+}
+
+function updateHeroNormalAttackDamage(hero) {
+    if (hero instanceof Hero) {
+        heroSections.forEach((heroSection) => {
+            if (HTMLUtil.getDataID(heroSection) === hero.offenseID) {
+                const heroAttackDiv = heroSection.querySelector(".hero-attack");
+                console.log(hero.getCurrentDamageFormat());
+                const damageDiv = heroAttackDiv.querySelector(".damage");
+
+                damageDiv.textContent = hero.getCurrentDamageFormat();
+            }
+        });
+    } else {
+        throw new Error(`Invalid hero: ${hero}`);
+    }
+}
+
+function updateAllHeroEquipmentsDamage(hero) {
+    if (hero instanceof Hero) {
+        heroSections.forEach((heroSection) => {
+            if (HTMLUtil.getDataID(heroSection) === hero.offenseID) {
+                const equipmentDivs = heroSection.querySelectorAll(".equipment");
+                equipmentDivs.forEach((equipmentDiv) => {
+                    updateEquipmentDamage(hero, equipmentDiv);
+                });
+            }
+        });
+    } else {
+        throw new Error(`Invalid hero: ${hero}`);
+    }
+}
+
+function updateEquipmentDamage(hero, equipmentDiv) {
+    if (hero instanceof Hero) {
+        const clonedHero = hero.clone();
+        const equipmentID = HTMLUtil.getDataID(equipmentDiv);
+        const equipment = clonedHero.getEquipment(equipmentID);
+
+        if (equipment.isEquipmentTypeAttack() || equipment.isEquipmentTypeDamage()) {
+            clonedHero.setActiveEquipment(equipmentID);
+            const damageDiv = equipmentDiv.querySelector(".damage");
+            damageDiv.textContent = clonedHero.getCurrentDamageFormat();
+        }
+
+        if (equipment.isEquipmentTypeSupport()) {
+            const dpsBoostDiv = equipmentDiv.querySelector(".dps-boost");
+            dpsBoostDiv.textContent = equipment.getCurrentDPSBoostFormat();
+        }
+    } else {
+        throw new Error(`Invalid hero: ${hero}`);
+    }
 }
 
 // Called when the slider level of modifier is changed. Get the caller modifier, its level to start update itself and and related offense overlay
@@ -102,6 +208,28 @@ function updateModifierLevel(modifierDiv, currentLevelPos) {
     }
     modifierDiv.querySelector(".level").textContent = modifier.getCurrentLevel();
     modifierDiv.querySelector(".image").src = modifier.getImagePath();
+}
+
+function toggleUseEquipment(element) {
+    const equipmentDiv = HTMLUtil.getParentDiv(element, "equipment");
+    const useEquipment = element.checked;
+    const equipmentID = HTMLUtil.getDataID(equipmentDiv);
+    const hero = offenseListManager.getHeroFromEquipment(equipmentID);
+    const equipment = hero.getEquipment(equipmentID);
+
+    equipment.isEnabled = useEquipment;
+    LocalStorageUtils.saveBoolean(LocalStorageUtils.getUseObjectKey(type, "equipment", equipmentID), useEquipment);
+    
+    if (equipment.isEquipmentTypeAttack() || equipment.isEquipmentTypeDamage()) {
+        const collapseDiv = equipmentDiv.querySelector(".collapse");
+        if (equipment.isEnabled) {
+          HTMLUtil.toggleBSCollapse(collapseDiv, true);
+        } else {
+          HTMLUtil.toggleBSCollapse(collapseDiv, false);
+        }
+    }
+
+    updateHeroDamage(hero);
 }
 
 // Called when the appropriate toggle button is pressed, update and save new value and update related offense overlay

@@ -151,7 +151,7 @@ class HTMLUtil {
             } else {
                 childDiv = childDiv.parentNode;
             }
-        } while (childDiv != null);
+        } while (childDiv !== undefined);
         return childDiv;
     }
 
