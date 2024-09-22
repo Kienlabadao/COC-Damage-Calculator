@@ -29,6 +29,15 @@ class HTMLUtil {
         textDiv.classList.remove("text--level-maxed");
     }
 
+    // Add/remove raged class for text
+    static addTextRagedClass(textDiv) {
+        textDiv.classList.add("text--raged");
+    }
+    
+    static removeTextRagedClass(textDiv) {
+        textDiv.classList.remove("text--raged");
+    }
+
     // Set status text fail/success for status text div
     static setStatusTextSuccess(statusText) {
         statusText.classList.remove("status-container__text--fail");
@@ -145,14 +154,20 @@ class HTMLUtil {
     
     // Get parent div from child div that contain certain class
     static getParentDiv(childDiv, parentDivClass) {
-        do {
-            if(childDiv.classList.contains(parentDivClass)){
-                break;
-            } else {
-                childDiv = childDiv.parentNode;
-            }
-        } while (childDiv !== undefined);
-        return childDiv;
+        try {
+            do {
+                if(childDiv.classList.contains(parentDivClass)){
+                    break;
+                } else {
+                    childDiv = childDiv.parentNode;
+                }
+            } while (childDiv !== undefined);
+            return childDiv;
+        } catch {
+            console.warn(`All parents childDiv doesn't contain parentClass. ChildDiv: ${childDiv}. ParentDivClass: ${parentDivClass}`);
+            
+            return null;
+        }       
     }
 
     // Toggle Bootstrap's collapse

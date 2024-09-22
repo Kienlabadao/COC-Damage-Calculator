@@ -70,7 +70,7 @@ class LocalStorageUtils {
                 localStorage.setItem(key, defaultValue);
                 return defaultValue;
             } else {
-                throw new Error(`Invalid defaultValue: ${defaultValue}`);
+                throw new TypeError(`Invalid defaultValue: ${defaultValue}`);
             }       
         } else {
             return number;
@@ -84,7 +84,7 @@ class LocalStorageUtils {
                 localStorage.setItem(key, defaultValue);
                 return defaultValue;
             } else {
-                throw new Error(`Invalid defaultValue: ${defaultValue}`);
+                throw new TypeError(`Invalid defaultValue: ${defaultValue}`);
             }       
         } else {
             return string;
@@ -101,13 +101,13 @@ class LocalStorageUtils {
                     localStorage.setItem(key, defaultValue);
                     return defaultValue;
                 } else {
-                    throw new Error(`Invalid defaultValue: ${defaultValue}`);
+                    throw new TypeError(`Invalid defaultValue: ${defaultValue}`);
                 }          
             } else {
                 return string;
             }
         } else {
-            throw new Error(`Invalid checkStringList: ${checkStringList}`);
+            throw new TypeError(`Invalid checkStringList: ${checkStringList}`);
         }
     }
 
@@ -118,7 +118,7 @@ class LocalStorageUtils {
                 localStorage.setItem(key, defaultValue);
                 return defaultValue;
             } else {
-                throw new Error(`Invalid defaultValue: ${defaultValue}`);
+                throw new TypeError(`Invalid defaultValue: ${defaultValue}`);
             }       
         } else {
             return boolean === "true";
@@ -130,7 +130,7 @@ class LocalStorageUtils {
         if (NumberUtil.isNumber(number)) {
             localStorage.setItem(key, number);
         } else {
-            throw new Error(`Invalid number: ${number}`);
+            throw new TypeError(`Invalid number: ${number}`);
         }
     }
 
@@ -138,7 +138,7 @@ class LocalStorageUtils {
         if (typeof string === "string") {
             localStorage.setItem(key, string);
         } else {
-            throw new Error(`Invalid string: ${string}`);
+            throw new TypeError(`Invalid string: ${string}`);
         }
     }
 
@@ -146,7 +146,7 @@ class LocalStorageUtils {
         if (typeof boolean === "boolean") {
             localStorage.setItem(key, boolean);
         } else {
-            throw new Error(`Invalid boolean: ${boolean}`);
+            throw new TypeError(`Invalid boolean: ${boolean}`);
         }
     }
 }

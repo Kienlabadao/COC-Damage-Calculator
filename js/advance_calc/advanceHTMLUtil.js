@@ -13,8 +13,9 @@ class AdvanceHTMLUtil {
     static createActionDiv(action, orderNumber) {
         if (action instanceof Action) {
             const offense = action.offense;
-            const modifier = action.modifier;
-    
+            const modifier = offense.activeModifier;
+            console.log(action);
+            console.log(modifier);
             // Create the main container div
             const containerDiv = document.createElement("div");
             containerDiv.className = "object-container";
@@ -49,7 +50,7 @@ class AdvanceHTMLUtil {
     
             return containerDiv;
         } else {
-            throw new Error(`Invalid action: ${action}`);
+            throw new TypeError(`Invalid action: ${action}`);
         }
     }
 
@@ -57,7 +58,7 @@ class AdvanceHTMLUtil {
     static createActionDetailRow(action, orderNumber, totalAction) {
         if (action instanceof Action) {
             const offense = action.offense;
-            const modifier = action.modifier;
+            const modifier = offense.activeModifier;
 
             const row = document.createElement("tr");
 
@@ -157,7 +158,7 @@ class AdvanceHTMLUtil {
 
             return row;
         } else {
-            throw new Error(`Invalid action: ${action}`);
+            throw new TypeError(`Invalid action: ${action}`);
         }
     }
 
@@ -305,7 +306,7 @@ class AdvanceHTMLUtil {
     
             return defenseDiv;
         } else {
-            throw new Error(`Invalid defense: ${defense}`);
+            throw new TypeError(`Invalid defense: ${defense}`);
         }
     }
     
@@ -444,7 +445,7 @@ class AdvanceHTMLUtil {
 
             return mainDiv;
         } else {
-            throw new Error(`Invalid defense: ${equipment}`);
+            throw new TypeError(`Invalid defense: ${equipment}`);
         }
     }
 
@@ -484,7 +485,7 @@ class AdvanceHTMLUtil {
     
             return rowData;
         } else {
-            throw new Error(`Invalid defense: ${defense}`);
+            throw new TypeError(`Invalid defense: ${defense}`);
         }
     }
     
@@ -630,10 +631,14 @@ class AdvanceHTMLUtil {
             return rowData;
         } else {
             if (!(damageLog instanceof DamageLog)) {
-                throw new Error(`Invalid damageLog: ${damageLog}`);
+                throw new TypeError(`Invalid damageLog: ${damageLog}`);
             } else {
-                throw new Error(`Invalid orderCount: ${orderCount}`);
+                throw new TypeError(`Invalid orderCount: ${orderCount}`);
             }           
         }
+    }
+
+    static getAllEquipmentDivsFromHeroSection(heroSection) {
+        return heroSection.querySelectorAll(".equipment");
     }
 }

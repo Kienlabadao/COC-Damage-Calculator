@@ -28,7 +28,7 @@ function searchDefenses(defenseNodes) {
             const defenseID = HTMLUtil.getDataID(defenseNode);
             const defense = defenseListManager.getDefense(defenseID);    
             if (defense === null) {
-                throw new Error(`Invalid defenseID: ${defenseID}`);
+                throw new TypeError(`Invalid defenseID: ${defenseID}`);
             }
 
             if (defense.name.toLowerCase().includes(searchString)) {
@@ -41,7 +41,7 @@ function searchDefenses(defenseNodes) {
 
         return defenseVisibleNodes;
     } else {
-        throw new Error(`Invalid defenseNodes: ${defenseNodes}`);
+        throw new TypeError(`Invalid defenseNodes: ${defenseNodes}`);
     }
 }
 
@@ -56,7 +56,7 @@ function updateDefenseCount(defenseNodes, maxDefenseCount) {
             defenseCountBox.textContent = `Defenses Count: ${count}/${maxDefenseCount}`;
         }
     } else {
-        throw new Error(`Invalid defenseNodes: ${defenseNodes}`);
+        throw new TypeError(`Invalid defenseNodes: ${defenseNodes}`);
     }
 }
 

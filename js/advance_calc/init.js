@@ -48,8 +48,10 @@ document.addEventListener('init', () => {
   offenseListManager.loadKey(type);
   modifierListManager.loadKey(type);
   defenseListManager.loadKey(type);
+  updateActiveModifier();
   console.log(localStorage);
   console.log(offenseListManager);
+  console.log(modifierListManager);
   if (!stopGenerateDefenseDiv) {
     for (const defense of defenseListManager.defenseList) {
       loadDefense(defense);
@@ -77,7 +79,7 @@ document.addEventListener('init', () => {
   hideSurvivedDefensesCheckbox.checked = isHideSurvivedDefenses;
   showActionDetailCheckbox.checked = showActionDetail;
 
-  updateOverlay();
+  updateAllOffensesModifier();
   hideActionList();
   updateActionCount(actionListManager.getLength());
   filterDefenses();
@@ -99,24 +101,24 @@ function loadSpell(spell) {
         const levelOverlayDiv = spellDiv.querySelector(".level");
         const imgContainer = spellDiv.querySelector(".image");
         const levelSlider = spellDiv.querySelector(".slider");
-        const damageDiv = spellDiv.querySelector(".damage");
 
         levelOverlayDiv.textContent = spell.getCurrentLevel();
         imgContainer.src = imagePath;
         levelSlider.min = minLevelPos;
         levelSlider.max = maxLevelPos;
         levelSlider.value = currentLevelPos;
-        damageDiv.textContent = spell.getCurrentDamageFormat();
 
         if (spell.isMaxLevel()) {            
           HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);
         } else {
           HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
         }
+
+        return;
       }
     });  
   } else {
-    throw new Error(`Invalid spell: ${spell}`);
+    throw new TypeError(`Invalid spell: ${spell}`);
   }
 }
 
@@ -139,7 +141,6 @@ function loadHero(hero) {
         const heroAttackDiv = heroSection.querySelector(".hero-attack");
         const heroAttackImgContainer = heroAttackDiv.querySelector(".image");
         const heroAttackLevelOverlayDiv = heroAttackDiv.querySelector(".level");
-        const damageDiv = heroAttackDiv.querySelector(".damage");
                 
         heroLevelLevelOverlayDiv.textContent = hero.getCurrentLevel();
         heroAttackLevelOverlayDiv.textContent = hero.getCurrentLevel();
@@ -150,7 +151,6 @@ function loadHero(hero) {
         levelSlider.min = minLevelPos;
         levelSlider.max = maxLevelPos;
         levelSlider.value = currentLevelPos;
-        damageDiv.textContent = hero.getCurrentDamageFormat();
 
         if (hero.isMaxLevel()) {            
           HTMLUtil.addLevelOverlayMaxedClass(heroLevelLevelOverlayDiv);
@@ -161,10 +161,11 @@ function loadHero(hero) {
         }
 
         loadEquipment(hero, heroSection);
+        return;
       }
     });
   } else {
-    throw new Error(`Invalid hero: ${hero}`);
+    throw new TypeError(`Invalid hero: ${hero}`);
   }
 }
 
@@ -210,8 +211,6 @@ function loadEquipment(hero, heroSection) {
         HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
       }
 
-      updateEquipmentDamage(hero, equipmentDiv);
-
       if (equipment.isEquipmentTypeAttack()) {
         activeEquipmentDivs.appendChild(equipmentDiv);
       } else if (equipment.isEquipmentTypeDamage()) {
@@ -221,7 +220,7 @@ function loadEquipment(hero, heroSection) {
       }
     }
   } else {
-    throw new Error(`Invalid hero: ${hero}`);
+    throw new TypeError(`Invalid hero: ${hero}`);
   }
 }
 
@@ -239,24 +238,59 @@ function loadTroop(troop) {
         const levelOverlayDiv = troopDiv.querySelector(".level");
         const imgContainer = troopDiv.querySelector(".image");
         const levelSlider = troopDiv.querySelector(".slider");
-        const damageDiv = troopDiv.querySelector(".damage");
   
         levelOverlayDiv.textContent = troop.getCurrentLevel();
         imgContainer.src = imagePath;
         levelSlider.min = minLevelPos;
         levelSlider.max = maxLevelPos;
         levelSlider.value = currentLevelPos;
-        damageDiv.textContent = troop.getCurrentDamageFormat();
         
         if (troop.isMaxLevel()) {            
           HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);
         } else {
           HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
         }
+
+        return;
       }
     });
   } else {
-    throw new Error(`Invalid troop: ${troop}`);
+    throw new TypeError(`Invalid troop: ${troop}`);
+  }
+}
+
+// Load repair div with saved data
+function loadRepair(repair) {
+  if (repair instanceof Repair) {
+    const repairID = repair.offenseID;
+    const imagePath = repair.getImagePath();
+    const currentLevelPos = repair.currentLevelPos;
+    const maxLevelPos = repair.maxLevelPos;
+    const minLevelPos = 0;
+    
+    repairDivs.forEach((repairDiv) => {
+      if (HTMLUtil.getDataID(repairDiv) === repairID) {
+        const levelOverlayDiv = repairDiv.querySelector(".level");
+        const imgContainer = repairDiv.querySelector(".image");
+        const levelSlider = repairDiv.querySelector(".slider");
+  
+        levelOverlayDiv.textContent = repair.getCurrentLevel();
+        imgContainer.src = imagePath;
+        levelSlider.min = minLevelPos;
+        levelSlider.max = maxLevelPos;
+        levelSlider.value = currentLevelPos;
+        
+        if (repair.isMaxLevel()) {            
+          HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);
+        } else {
+          HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
+        }
+
+        return;
+      }
+    });
+  } else {
+    throw new TypeError(`Invalid repair: ${repair}`);
   }
 }
 
@@ -291,43 +325,13 @@ function loadModifier(modifier) {
             HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
           }
         }
-      }
-    });
-  } else {
-    throw new Error(`Invalid modifier: ${modifier}`);
-  }
-}
 
-// Load repair div with saved data
-function loadRepair(repair) {
-  if (repair instanceof Repair) {
-    const repairID = repair.offenseID;
-    const imagePath = repair.getImagePath();
-    const currentLevelPos = repair.currentLevelPos;
-    const maxLevelPos = repair.maxLevelPos;
-    const minLevelPos = 0;
-    
-    repairDivs.forEach((repairDiv) => {
-      if (HTMLUtil.getDataID(repairDiv) === repairID) {
-        const levelOverlayDiv = repairDiv.querySelector(".level");
-        const imgContainer = repairDiv.querySelector(".image");
-        const levelSlider = repairDiv.querySelector(".slider");
-  
-        levelOverlayDiv.textContent = repair.getCurrentLevel();
-        imgContainer.src = imagePath;
-        levelSlider.min = minLevelPos;
-        levelSlider.max = maxLevelPos;
-        levelSlider.value = currentLevelPos;
-        
-        if (repair.isMaxLevel()) {            
-          HTMLUtil.addLevelOverlayMaxedClass(levelOverlayDiv);
-        } else {
-          HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
-        }
+        updateModifierModify(modifierDiv);
+        return;
       }
     });
   } else {
-    throw new Error(`Invalid repair: ${repair}`);
+    throw new TypeError(`Invalid modifier: ${modifier}`);
   }
 }
 
@@ -336,6 +340,6 @@ function loadDefense(defense) {
   if (defense instanceof Defense) {
     defensesSection.appendChild(AdvanceHTMLUtil.createDefenseDiv(defense));
   } else {
-    throw new Error(`Invalid defense: ${defense}`);
+    throw new TypeError(`Invalid defense: ${defense}`);
   }
 }

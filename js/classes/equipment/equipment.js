@@ -77,7 +77,7 @@ class Equipment {
             if (this.isDamageTypeEQ()) {
                 return maxHP * this.getCurrentDamage() / 100;
             } else {
-                throw new Error(`Equipment damage isn't EQ type: ${this.equipmentID}`);
+                throw new TypeError(`Equipment damage isn't EQ type: ${this.equipmentID}`);
             }
         } else {
             throw new Error(`Equipment can't deal damage: ${this.equipmentID}`);
@@ -99,7 +99,7 @@ class Equipment {
                         return NumberUtil.round2Places(this.calcBaseEQDamage(maxHP) * (1 / (2 * eqCount + 1)));            
                 }  
             } else {
-                throw new Error(`Invalid defense: ${defense}`);
+                throw new TypeError(`Invalid defense: ${defense}`);
             }
         } else {
             throw new Error(`Equipment can't deal damage: ${this.equipmentID}`);
@@ -161,7 +161,7 @@ class Equipment {
     setEquipmentJSON() {
         this._equipmentJSON = getEquipment(this.equipmentID);
         if (this.equipmentJSON === undefined) {
-            throw new Error(`equipmentID doesn't exist in JSON: ${this.equipmentID}`);
+            throw new ReferenceError(`equipmentID doesn't exist in JSON: ${this.equipmentID}`);
         }
     }
 
@@ -209,20 +209,20 @@ class Equipment {
         if (NumberUtil.isNumber(newMinLevelPos) && newMinLevelPos >= 0 && newMinLevelPos <= this.maxLevelPos) {
             this._minLevelPos = newMinLevelPos;
         } else {
-            throw new Error(`Invalid newMinLevelPos: ${newMinLevelPos}`);      
+            throw new TypeError(`Invalid newMinLevelPos: ${newMinLevelPos}`);      
         }
     }
 
     set currentLevelPos(newCurrentLevelPos) {
         if (newCurrentLevelPos !== null) {
             if (!NumberUtil.isNumber(newCurrentLevelPos)) {
-                throw new Error(`Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`);
+                throw new TypeError(`Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`);
             }
 
             if (this.levelList[newCurrentLevelPos] !== undefined) {
                 this._currentLevelPos = newCurrentLevelPos;
             } else {
-                throw new Error(`Invalid currentLevelPos: ${newCurrentLevelPos}. EquipmentID: ${this.equipmentID}`);
+                throw new TypeError(`Invalid currentLevelPos: ${newCurrentLevelPos}. EquipmentID: ${this.equipmentID}`);
             }
         } else {
             this._currentLevelPos = this.maxLevelPos;
@@ -233,7 +233,7 @@ class Equipment {
         if (typeof newIsEnabled === "boolean") {
             this._isEnabled = newIsEnabled;
         } else {
-            throw new Error(`Invalid newIsEnabled: ${newIsEnabled}`);      
+            throw new TypeError(`Invalid newIsEnabled: ${newIsEnabled}`);      
         }
     }
 

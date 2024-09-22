@@ -10,7 +10,7 @@ function setAllSpellsLevel(element) {
             setAllSpellsMinLevel();
             return;
         default:
-            throw new Error(`Invalid state: ${element.value}`)
+            throw new ReferenceError(`Invalid state: ${element.value}`)
     }
 }
 
@@ -23,7 +23,7 @@ function setAllTroopsLevel(element) {
             setAllTroopsMinLevel();
             return;
         default:
-            throw new Error(`Invalid state: ${element.value}`)
+            throw new ReferenceError(`Invalid state: ${element.value}`)
     }
 }
 
@@ -36,7 +36,7 @@ function setAllEquipmentsLevel(element) {
             setAllEquipmentsMinLevel(element);
             return;
         default:
-            throw new Error(`Invalid state: ${element.value}`)
+            throw new ReferenceError(`Invalid state: ${element.value}`)
     }
 }
 
@@ -49,7 +49,7 @@ function setAllRepairsLevel(element) {
             setAllRepairsMinLevel(element);
             return;
         default:
-            throw new Error(`Invalid state: ${element.value}`)
+            throw new ReferenceError(`Invalid state: ${element.value}`)
     }
 }
 
@@ -64,7 +64,7 @@ function setAllDefensesLevel(element) {
             calc();
             return;
         default:
-            throw new Error(`Invalid state: ${element.value}`)
+            throw new ReferenceError(`Invalid state: ${element.value}`)
     }
 }
 
@@ -72,13 +72,13 @@ function setAllModifiersLevel(element) {
     switch (element.value) {
         case "max":
             setAllModifiersMaxLevel(element);
-            updateOverlay();
+            updateAllOffensesModifier();
             return;
         case "min":
             setAllModifiersMinLevel(element);
-            updateOverlay();
+            updateAllOffensesModifier();
             return;
         default:
-            throw new Error(`Invalid state: ${element.value}`)
+            throw new ReferenceError(`Invalid state: ${element.value}`)
     }
 }

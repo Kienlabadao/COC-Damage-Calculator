@@ -15,7 +15,7 @@ class ZapquakeHTMLUtil {
             HTMLUtil.appendAllChilds(spellsContainerDiv, nodeArray);
             return columnDiv;
         } else {
-            throw new Error(`Invalid nodeArray: ${nodeArray}`);
+            throw new TypeError(`Invalid nodeArray: ${nodeArray}`);
         }
     }
     
@@ -63,7 +63,7 @@ class ZapquakeHTMLUtil {
             nodeArray.push(spellCountDiv);
             return nodeArray;
         } else {
-            throw new Error(`Invalid spellCountListManager: ${spellCountListManager}`);
+            throw new TypeError(`Invalid spellCountListManager: ${spellCountListManager}`);
         }
     }
     
@@ -98,7 +98,7 @@ class ZapquakeHTMLUtil {
 
             return spellContainer;
         } else {
-            throw new Error(`Invalid spell: ${spell}`);
+            throw new TypeError(`Invalid spell: ${spell}`);
         }
     }
 
@@ -132,9 +132,9 @@ class ZapquakeHTMLUtil {
             return equipmentContainer;
         } else {
             if (!(hero instanceof Hero)) {
-                throw new Error(`Invalid hero: ${hero}`);
+                throw new TypeError(`Invalid hero: ${hero}`);
             } else {
-                throw new Error(`Invalid defense: ${defense}`);
+                throw new TypeError(`Invalid defense: ${defense}`);
             }
         }
     }
@@ -289,7 +289,7 @@ class ZapquakeHTMLUtil {
 
             return defenseDiv;
         } else {
-            throw new Error(`Invalid defense: ${defense}`);
+            throw new TypeError(`Invalid defense: ${defense}`);
         }
     }
 }

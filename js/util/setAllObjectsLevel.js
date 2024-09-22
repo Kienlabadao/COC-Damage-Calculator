@@ -13,7 +13,7 @@ function setAllSpellsMaxLevel() {
         const levelSlider = spellDiv.querySelector(".slider");
         levelSlider.value = maxLevelPos;
 
-        updateOffenseLevel(spellDiv, maxLevelPos);
+        updateOffense(levelSlider);
     });
 }
 
@@ -27,7 +27,7 @@ function setAllSpellsMinLevel() {
         const levelSlider = spellDiv.querySelector(".slider");
         levelSlider.value = minLevelPos;
 
-        updateOffenseLevel(spellDiv, minLevelPos);
+        updateOffense(levelSlider);
     });
 }
 

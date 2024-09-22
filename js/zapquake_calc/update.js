@@ -5,7 +5,7 @@ function updateDefense(element) {
     if (defenseDiv) {
         updateDefenseLevel(defenseDiv, currentLevelPos);           
     } else {
-        throw new Error(`Invalid defenseDiv: ${defenseDiv}`);
+        throw new TypeError(`Invalid defenseDiv: ${defenseDiv}`);
     }
     calcDefense(defenseDiv);
 }
@@ -40,7 +40,7 @@ function updateOffense(element) {
     if (offenseDiv) {
         updateOffenseLevel(offenseDiv, currentLevelPos)
     } else {
-        throw new Error(`Invalid offenseDiv: ${offenseDiv}`);
+        throw new TypeError(`Invalid offenseDiv: ${offenseDiv}`);
     }      
     calc();
 }
@@ -52,7 +52,7 @@ function updateOffenseLevel(offenseDiv, currentLevelPos) {
     } else if (offenseDiv.classList.contains("equipment")) {
         updateEquipmentLevel(offenseDiv, currentLevelPos);
     } else {
-        throw new Error(`ERROR: Div did not contain appropriate type: ${offenseDiv.classList}`);
+        throw new TypeError(`Div did not contain appropriate type: ${offenseDiv.classList}`);
     }
 }
 

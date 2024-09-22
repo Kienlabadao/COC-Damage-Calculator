@@ -7,8 +7,8 @@ class Troop extends Offense {
     static DAMAGE = 1;
     static DEATH_DAMAGE = 2;
 
-    constructor(offenseID, currentLevelPos, isEnabled, damageMode = Troop.DAMAGE) {
-        super(offenseID, "troop", currentLevelPos, isEnabled);
+    constructor(offenseID, currentLevelPos, activeModifier, isEnabled, damageMode = Troop.DAMAGE) {
+        super(offenseID, "troop", currentLevelPos, activeModifier, isEnabled);
         this.setSortedDeathDamageList();
         this._troopType = this.offenseJSON["troop_type"];
         this.damageMode = damageMode;
@@ -24,54 +24,61 @@ class Troop extends Offense {
         }       
     }
 
+    getCurrentDeathDamage() {
+        return this.getDeathDamage(this.currentLevelPos);
+    }
+
+    // Get damage after modify for troop
+    calcModifiedDamage() {
+        if (this.activeModifier !== null) {
+            const multiplier = NumberUtil.round2Places(100 + this.activeModifier.getCurrentModify());
+
+            return NumberUtil.round2Places(this.getCurrentNormalDamage() * multiplier / 100);
+        } else {
+            return this.getCurrentNormalDamage();
+        }
+    }
+
     // Get base damage for troop depend on its damage mode
     getCurrentDamage() {
         switch (this.damageMode) {
             case Troop.DAMAGE:
-                return this.getDamage(this.currentLevelPos);
+                return this.calcModifiedDamage();
             case Troop.DEATH_DAMAGE:
-                return this.getDeathDamage(this.currentLevelPos);
+                return this.getCurrentDeathDamage();
             default:
-                throw new Error(`Invalid damageMode: ${this.damageMode}`);
+                throw new TypeError(`Invalid damageMode: ${this.damageMode}`);
         }
     }
 
-    // Get damage after modify for troop
-    calcModifiedDamage(modify = 0) {
-        return this.getCurrentDamage() * modify / 100;
+    getCurrentDamageFormat() {
+        return `${this.getCurrentDamage()}`;
     }
 
     // Calculate how many damages does this troop do to defense depend on its damage mode
-    calcDamage(defense, modify = 0) {
+    calcDamage(defense) {
         if (defense instanceof Defense) {
             if (defense.isImmune(this)) {
                 return 0;
             }
 
-            switch (this.damageMode) {
-                case Troop.DAMAGE:
-                    return NumberUtil.round2Places(this.getCurrentDamage() + this.calcModifiedDamage(modify));
-                case Troop.DEATH_DAMAGE:
-                    return NumberUtil.round2Places(this.getDeathDamage(this.currentLevelPos));
-                default:
-                    throw new Error(`Invalid damageMode: ${this.damageMode}`);
-            } 
+            return this.getCurrentDamage();
         } else {
-            throw new Error(`Invalid defense: ${defense}`);
+            throw new TypeError(`Invalid defense: ${defense}`);
         }  
     }
 
     // Calculate and update defense remaining HP after getting hit by troop
-    calcRemainingHP(defense, modify = 0) {
+    calcRemainingHP(defense) {
         if (defense instanceof Defense) {
             if (defense.isImmune(this)) {
                 return;
             }
 
             const hp = defense.remainingHP;
-            defense.remainingHP = NumberUtil.round2Places(hp - this.calcDamage(defense, modify));
+            defense.remainingHP = NumberUtil.round2Places(hp - this.calcDamage(defense));
         } else {
-            throw new Error(`Invalid defense: ${defense}`);
+            throw new TypeError(`Invalid defense: ${defense}`);
         }
     }
 
@@ -100,7 +107,9 @@ class Troop extends Offense {
 
     // Get a new troop with same datas
     clone() {
-        return new Troop(this.offenseID, this.currentLevelPos, this.isEnabled, this.damageMode);
+        const clonedActiveModifier = this.activeModifier !== null ? this.activeModifier.clone() : null;
+
+        return new Troop(this.offenseID, this.currentLevelPos, clonedActiveModifier, this.isEnabled, this.damageMode);
     }
 
     // Get sorted ascending order of death damage list as json object is sorted by keys not values
@@ -132,7 +141,7 @@ class Troop extends Offense {
                 }
                 break;
             default:
-                throw new Error(`Invalid damageMode: ${newDamageMode}`); 
+                throw new TypeError(`Invalid damageMode: ${newDamageMode}`); 
         }
     }
 

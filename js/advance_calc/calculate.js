@@ -11,7 +11,7 @@ function calcDefense(defenseDiv) {
     const defenseID = HTMLUtil.getDataID(defenseDiv);
     const defense = defenseListManager.getDefense(defenseID);
     if (defense === null) {
-        throw new Error(`Invalid defenseID: ${defenseID}`);
+        throw new ReferenceError(`Invalid defenseID: ${defenseID}`);
     }
 
     toggleCollapseBtnText(defenseDiv.querySelector(".show-more-btn"), false);
@@ -65,6 +65,6 @@ function getDamageLogList(defense) {
         damageLogListManager.loadWithActionList(clonedDefense, actionListManager);
         return damageLogListManager; 
     } else {
-        throw new Error(`Invalid defense: ${defense}`);
+        throw new TypeError(`Invalid defense: ${defense}`);
     }
 }

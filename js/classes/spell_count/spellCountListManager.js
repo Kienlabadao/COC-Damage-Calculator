@@ -46,7 +46,7 @@ class SpellCountListManager {
                 }
             }
         } else {
-            throw new Error(`Invalid damageLogListManager: ${damageLogListManager}`);
+            throw new TypeError(`Invalid damageLogListManager: ${damageLogListManager}`);
         }
     }
 
@@ -59,7 +59,7 @@ class SpellCountListManager {
                 throw new Error(`SpellCount already exist: ${newSpellCount}`);
             }  
         } else {
-            throw new Error(`Invalid newSpellCount: ${newSpellCount}`);
+            throw new TypeError(`Invalid newSpellCount: ${newSpellCount}`);
         }
     }
 
@@ -78,7 +78,7 @@ class SpellCountListManager {
             }
             return null;
         } else {
-            throw new Error(`Invalid keySpell: ${keySpell}`);
+            throw new TypeError(`Invalid keySpell: ${keySpell}`);
         }
     }
 
@@ -111,7 +111,7 @@ class SpellCountListManager {
             }
             return totalSpellCount;
         } else {
-            throw new Error(`Invalid isIgnoreDonatedSpell: ${isIgnoreDonatedSpell}`);
+            throw new TypeError(`Invalid isIgnoreDonatedSpell: ${isIgnoreDonatedSpell}`);
         }
     }
 

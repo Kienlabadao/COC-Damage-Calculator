@@ -4,8 +4,8 @@ class Spell extends Offense {
     // Store additional data for spell including if it came from donation
     // Note: All damage related number is rounded up to 2 decimal places
 
-    constructor(offenseID, currentLevelPos, isEnabled, isDonated = false) {
-        super(offenseID, "spell", currentLevelPos, isEnabled);
+    constructor(offenseID, currentLevelPos, activeModifier, isEnabled, isDonated = false) {
+        super(offenseID, "spell", currentLevelPos, activeModifier, isEnabled);
         this.isDonated = isDonated;
     }
 
@@ -15,7 +15,7 @@ class Spell extends Offense {
         if (this.isDamageTypeEQ()) {
             return maxHP * this.getCurrentDamage() / 100;
         } else {
-            throw new Error(`Spell isn't EQ type: ${this.offenseID}`);
+            throw new TypeError(`Spell isn't EQ type: ${this.offenseID}`);
         }
     }
 
@@ -37,7 +37,7 @@ class Spell extends Offense {
                     return NumberUtil.round2Places(this.calcBaseEQDamage(maxHP) * (1 / (2 * eqCount + 1)));            
             }  
         } else {
-            throw new Error(`Invalid defense: ${defense}`);
+            throw new TypeError(`Invalid defense: ${defense}`);
         }       
     }
 
@@ -60,7 +60,7 @@ class Spell extends Offense {
                     return;               
             }  
         } else {
-            throw new Error(`Invalid defense: ${defense}`);
+            throw new TypeError(`Invalid defense: ${defense}`);
         }     
     }
 
@@ -79,7 +79,9 @@ class Spell extends Offense {
 
     // Get a new equipment with same datas
     clone() {
-        return new Spell(this.offenseID, this.currentLevelPos, this.isEnabled, this.isDonated);
+        const clonedActiveModifier = this.activeModifier !== null ? this.activeModifier.clone() : null;
+
+        return new Spell(this.offenseID, this.currentLevelPos, clonedActiveModifier, this.isEnabled, this.isDonated);
     }
 
     // Setter

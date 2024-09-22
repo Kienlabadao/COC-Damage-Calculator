@@ -60,7 +60,7 @@ class DefenseListManager {
                 throw new Error(`DefenseID already exist: ${newDefense.defenseID}`);
             }  
         } else {
-            throw new Error(`Invalid newDefense: ${newDefense}`);
+            throw new TypeError(`Invalid newDefense: ${newDefense}`);
         }
     }
 

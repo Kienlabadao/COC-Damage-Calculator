@@ -1,33 +1,39 @@
 function addAction(element) {
     const amount = Number.parseInt(element.value);
     const offenseDiv = HTMLUtil.getParentDiv(element, "offense");
-    const offenseID = HTMLUtil.getDataID(offenseDiv);
-    const offense = offenseListManager.getOffense(offenseID);
-    const modifierOverlayDiv = offenseDiv.querySelector(".modifier");
 
-    if (modifierOverlayDiv !== null) {
-        const modifierID = HTMLUtil.getDataID(modifierOverlayDiv);
+    if (offenseDiv !== null) {
+        const offenseID = HTMLUtil.getDataID(offenseDiv);
+        const offense = offenseListManager.getOffense(offenseID);
 
-        if (modifierID.length !== 0 && modifierID !== "death") {
-            const modifier = modifierListManager.getModifier(modifierID);
-    
-            addActionList(amount, offense, modifier);     
-        } else {
-            addActionList(amount, offense);        
-        }
-    } else {
         addActionList(amount, offense);
+        updateActionList();
+        console.log(actionListManager);
+        calc();
+    } else {
+        const equipmentDiv = HTMLUtil.getParentDiv(element, "equipment");
+        
+        if (equipmentDiv !== null) {
+            const equipmentID = HTMLUtil.getDataID(equipmentDiv);
+            const hero = offenseListManager.getHeroFromEquipment(equipmentID);
+            hero.setActiveEquipment(equipmentID); 
+            console.log(hero);
+            addActionList(amount, hero);
+            updateActionList();
+            console.log(actionListManager);
+            calc();
+        } else {
+            throw new Error(`Invalid action btn: ${element}`);
+        }
     }
-    updateActionList();
-    calc();
 }
 
-function addActionList(amount, offense, modifier = null) {
+function addActionList(amount, offense) {
     for (let count = 0; count < amount; count++) {
         const actionListSize = actionListManager.getLength();
 
         if (actionListSize < actionListMaxSize) {
-            actionListManager.add(new Action(offense.clone(), modifier !== null ? modifier.clone() : null));
+            actionListManager.add(new Action(offense.clone()));
             updateActionCount(actionListManager.getLength());
             if (!HTMLUtil.isDivHidden(statusLimitExceededDiv)) {
                 setStatusLimitExceededDiv(false);
@@ -135,7 +141,7 @@ function updateActionCount(actionListSize) {
             actionCountBox.textContent = `Actions Count: ${actionListSize}/${actionListMaxSize}`;
         }
     } else {
-        throw new Error(`Invalid actionListSize: ${actionListSize}`);
+        throw new TypeError(`Invalid actionListSize: ${actionListSize}`);
     }
 }
 
@@ -152,7 +158,7 @@ function setStatusLimitExceededDiv(status) {
             statusText.textContent = "";
         }
     } else {
-        throw new Error(`Invalid status: ${status}`);
+        throw new TypeError(`Invalid status: ${status}`);
     }
 }
 

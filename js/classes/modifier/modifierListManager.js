@@ -38,14 +38,15 @@ class ModifierListManager {
     }
 
     // Get list of modifiers that affect a certain type and is active (enabled by user)
-    getActiveModifierListManager(modifierType) {
-        const troopModifierListManager = new ModifierListManager();
+    getActiveModifierListManager() {
+        const activeModifierListManager = new ModifierListManager();
+
         for (const modifier of this.modifierList) {
-            if (modifier.isActive && modifier.isAffected(modifierType)) {
-                troopModifierListManager.add(modifier);
+            if (modifier.isActive) {
+                activeModifierListManager.add(modifier.clone());
             }
         }
-        return troopModifierListManager;
+        return activeModifierListManager;
     }
 
     // Return the modifier with highest modify
@@ -77,7 +78,7 @@ class ModifierListManager {
                 throw new Error(`Modifier already exist: ${newModifier}`);
             }
         } else {
-            throw new Error(`Invalid newModifier: ${newModifier}`);
+            throw new TypeError(`Invalid newModifier: ${newModifier}`);
         }              
     }
 

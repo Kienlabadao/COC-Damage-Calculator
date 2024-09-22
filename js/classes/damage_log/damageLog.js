@@ -16,7 +16,7 @@ class DamageLog {
         if (newOffense instanceof Offense) {
             this._offense = newOffense;
         } else {
-            throw new Error(`Invalid offense: ${newOffense}`)
+            throw new TypeError(`Invalid offense: ${newOffense}`)
         }       
     }
 
@@ -24,7 +24,7 @@ class DamageLog {
         if (newModifier === null || newModifier instanceof Modifier) {
             this._modifier = newModifier;
         } else {
-            throw new Error(`Invalid modifier: ${newModifier}`)
+            throw new TypeError(`Invalid modifier: ${newModifier}`)
         }
     }
 
@@ -32,7 +32,7 @@ class DamageLog {
         if (newDefense instanceof Defense) {
             this._defense = newDefense;
         } else {
-            throw new Error(`Invalid defense: ${newDefense}`)
+            throw new TypeError(`Invalid defense: ${newDefense}`)
         }        
     }
 
@@ -40,7 +40,7 @@ class DamageLog {
         if (NumberUtil.isNumber(newDamage) && newDamage >= 0) {
             this._damage = newDamage;
         } else {
-            throw new Error(`Invalid damage: ${newDamage}`)
+            throw new TypeError(`Invalid damage: ${newDamage}`)
         }
     }
 
@@ -48,7 +48,7 @@ class DamageLog {
         if (typeof newIsImmune === "boolean") {
             this._isImmune = newIsImmune;
         } else {
-            throw new Error(`Invalid isImmune: ${newIsImmune}`)
+            throw new TypeError(`Invalid isImmune: ${newIsImmune}`)
         }
     }
 
@@ -56,7 +56,7 @@ class DamageLog {
         if (NumberUtil.isNumber(newRemainingHP)) {
             this._remainingHP = newRemainingHP;
         } else {
-            throw new Error(`Invalid remainingHP: ${newRemainingHP}`)
+            throw new TypeError(`Invalid remainingHP: ${newRemainingHP}`)
         }
     }
 

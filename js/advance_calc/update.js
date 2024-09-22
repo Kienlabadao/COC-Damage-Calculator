@@ -2,13 +2,14 @@
 function updateDefense(element) {
     const defenseDiv = HTMLUtil.getParentDiv(element, "defense");
     const currentLevelPos = Number.parseInt(element.value);
+
     if (defenseDiv) {
         updateDefenseLevel(defenseDiv, currentLevelPos);
+        calcDefense(defenseDiv);
+        filterDefenses();
     } else {
-        throw new Error(`Invalid defenseDiv: ${defenseDiv}`);
+        throw new TypeError(`Invalid defenseDiv: ${defenseDiv}`);
     }
-    calcDefense(defenseDiv);
-    filterDefenses();
 }
 
 // Update defense's stat, image
@@ -42,12 +43,18 @@ function updateDefenseLevel(defenseDiv, currentLevelPos) {
 // Called when the slider level of offense is changed. Get the caller offense, its level to start update and recalculation
 function updateOffense(element) {
     const offenseDiv = HTMLUtil.getParentDiv(element, "offense");
+    const offense = offenseListManager.getOffense(HTMLUtil.getDataID(offenseDiv));
     const currentLevelPos = Number.parseInt(element.value);    
     
     if (offenseDiv) {
-        updateOffenseLevel(offenseDiv, currentLevelPos)
+        updateOffenseLevel(offenseDiv, currentLevelPos);
+        if (offense instanceof Hero) {
+            updateHeroDamage(offense);
+        } else {
+            updateOffenseDamage(offenseDiv);
+        }
     } else {
-        throw new Error(`Invalid offenseDiv: ${offenseDiv}`);
+        throw new TypeError(`Invalid offenseDiv: ${offenseDiv}`);
     }
 }
 
@@ -73,7 +80,6 @@ function updateOffenseLevel(offenseDiv, currentLevelPos) {
             if (HTMLUtil.getDataID(heroSection) === offense.offenseID) {
                 const heroAttackDiv = heroSection.querySelector(".hero-attack");
                 const heroAttackLevelOverlayDiv = heroAttackDiv.querySelector(".level");
-                const damageDiv = heroAttackDiv.querySelector(".damage");
 
                 if (offense.isMaxLevel()) {
                     HTMLUtil.addLevelOverlayMaxedClass(heroAttackLevelOverlayDiv);
@@ -81,25 +87,44 @@ function updateOffenseLevel(offenseDiv, currentLevelPos) {
                     HTMLUtil.removeLevelOverlayMaxedClass(heroAttackLevelOverlayDiv);
                 }
                 heroAttackLevelOverlayDiv.textContent = offense.getCurrentLevel();
-                damageDiv.textContent = offense.getCurrentDamageFormat();
-
-                updateAllHeroEquipmentsDamage(offense);
+                return;
             }
         });
-    } else {
+    }
+}
+
+function updateOffenseDamage(offenseDiv) {
+    const offenseID = HTMLUtil.getDataID(offenseDiv);
+    const offense = offenseListManager.getOffense(offenseID);
+
+    if (offense) {
         const damageDiv = offenseDiv.querySelector(".damage");  
         damageDiv.textContent = offense.getCurrentDamageFormat();
+
+        if (offense instanceof Troop && offense.damageMode === Troop.DEATH_DAMAGE) {
+            HTMLUtil.removeTextRagedClass(damageDiv);
+        } else {
+            if (offense.activeModifier !== null) {
+                HTMLUtil.addTextRagedClass(damageDiv);
+            } else {
+                HTMLUtil.removeTextRagedClass(damageDiv);
+            }
+        }
+    } else {
+        throw new Error(`Invalid offenseDiv: ${offenseDiv}`);
     }
 }
 
 function updateEquipment(element) {
     const equipmentDiv = HTMLUtil.getParentDiv(element, "equipment");
+    const hero = offenseListManager.getHeroFromEquipment(HTMLUtil.getDataID(equipmentDiv));
     const currentLevelPos = Number.parseInt(element.value);    
     
     if (equipmentDiv) {
-        updateEquipmentLevel(equipmentDiv, currentLevelPos)
+        updateEquipmentLevel(equipmentDiv, currentLevelPos);
+        updateHeroDamage(hero);
     } else {
-        throw new Error(`Invalid equipmentDiv: ${equipmentDiv}`);
+        throw new TypeError(`Invalid equipmentDiv: ${equipmentDiv}`);
     }
 }
 
@@ -118,8 +143,6 @@ function updateEquipmentLevel(equipmentDiv, currentLevelPos) {
         HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
     }
     levelOverlayDiv.textContent = equipment.getCurrentLevel();
-
-    updateHeroDamage(hero);
 }
 
 function updateHeroDamage(hero) {
@@ -132,14 +155,19 @@ function updateHeroNormalAttackDamage(hero) {
         heroSections.forEach((heroSection) => {
             if (HTMLUtil.getDataID(heroSection) === hero.offenseID) {
                 const heroAttackDiv = heroSection.querySelector(".hero-attack");
-                console.log(hero.getCurrentDamageFormat());
                 const damageDiv = heroAttackDiv.querySelector(".damage");
 
                 damageDiv.textContent = hero.getCurrentDamageFormat();
+                if (hero.activeModifier !== null) {
+                    HTMLUtil.addTextRagedClass(damageDiv);
+                } else {
+                    HTMLUtil.removeTextRagedClass(damageDiv);
+                }
+                return;
             }
         });
     } else {
-        throw new Error(`Invalid hero: ${hero}`);
+        throw new TypeError(`Invalid hero: ${hero}`);
     }
 }
 
@@ -147,14 +175,15 @@ function updateAllHeroEquipmentsDamage(hero) {
     if (hero instanceof Hero) {
         heroSections.forEach((heroSection) => {
             if (HTMLUtil.getDataID(heroSection) === hero.offenseID) {
-                const equipmentDivs = heroSection.querySelectorAll(".equipment");
+                const equipmentDivs = AdvanceHTMLUtil.getAllEquipmentDivsFromHeroSection(heroSection);
                 equipmentDivs.forEach((equipmentDiv) => {
                     updateEquipmentDamage(hero, equipmentDiv);
                 });
+                return;
             }
         });
     } else {
-        throw new Error(`Invalid hero: ${hero}`);
+        throw new TypeError(`Invalid hero: ${hero}`);
     }
 }
 
@@ -168,14 +197,28 @@ function updateEquipmentDamage(hero, equipmentDiv) {
             clonedHero.setActiveEquipment(equipmentID);
             const damageDiv = equipmentDiv.querySelector(".damage");
             damageDiv.textContent = clonedHero.getCurrentDamageFormat();
+
+            if (equipment.isEquipmentTypeAttack()) {
+                if (hero.activeModifier !== null) {
+                    HTMLUtil.addTextRagedClass(damageDiv);
+                } else {
+                    HTMLUtil.removeTextRagedClass(damageDiv);
+                }
+            }
         }
 
         if (equipment.isEquipmentTypeSupport()) {
             const dpsBoostDiv = equipmentDiv.querySelector(".dps-boost");
             dpsBoostDiv.textContent = equipment.getCurrentDPSBoostFormat();
+
+            if (hero.activeModifier !== null) {
+                HTMLUtil.addTextRagedClass(dpsBoostDiv);
+            } else {
+                HTMLUtil.removeTextRagedClass(dpsBoostDiv);
+            }
         }
     } else {
-        throw new Error(`Invalid hero: ${hero}`);
+        throw new TypeError(`Invalid hero: ${hero}`);
     }
 }
 
@@ -186,17 +229,18 @@ function updateModifier(element) {
     
     if (modifierDiv) {
         updateModifierLevel(modifierDiv, currentLevelPos);
+        updateModifierModify(modifierDiv);
+        updateAllOffensesModifier();
     } else {
-        throw new Error(`Invalid modifierDiv: ${modifierDiv}`);
+        throw new TypeError(`Invalid modifierDiv: ${modifierDiv}`);
     }
-    updateOverlay();
 }
 
 // Update modifier's stat, image 
 function updateModifierLevel(modifierDiv, currentLevelPos) {
     const modifierID = HTMLUtil.getDataID(modifierDiv);
     const modifier = modifierListManager.getModifier(modifierID);
-    const key = LocalStorageUtils.getObjectKey(type, "offense", modifierID);       
+    const key = LocalStorageUtils.getObjectKey(type, "modifier", modifierID);       
 
     modifier.currentLevelPos = currentLevelPos;
     LocalStorageUtils.saveNumber(key, currentLevelPos);
@@ -208,6 +252,18 @@ function updateModifierLevel(modifierDiv, currentLevelPos) {
     }
     modifierDiv.querySelector(".level").textContent = modifier.getCurrentLevel();
     modifierDiv.querySelector(".image").src = modifier.getImagePath();
+}
+
+function updateModifierModify(modifierDiv) {
+    const modifierID = HTMLUtil.getDataID(modifierDiv);
+    const modifier = modifierListManager.getModifier(modifierID);
+
+    if (modifier) {
+        const modifyDiv = modifierDiv.querySelector(".modify");  
+        modifyDiv.textContent = modifier.getCurrentModifyFormat();
+    } else {
+        throw new TypeError(`Invalid modifierDiv: ${modifierDiv}`);
+    }
 }
 
 function toggleUseEquipment(element) {
@@ -230,6 +286,7 @@ function toggleUseEquipment(element) {
     }
 
     updateHeroDamage(hero);
+    console.log(offenseListManager);
 }
 
 // Called when the appropriate toggle button is pressed, update and save new value and update related offense overlay
@@ -243,70 +300,146 @@ function toggleUseModifer(element) {
     LocalStorageUtils.saveBoolean(useModifierKey, useModifier);
     modifier.isActive = useModifier;
 
-    updateOverlay();
+    updateAllOffensesModifier();
 }
 
 function toggleUseTroopDeathDamage(element) {
     useTroopDeathDamage = element.checked;
     LocalStorageUtils.saveBoolean(LocalStorageUtils.getUseTroopDeathDamageKey(type), useTroopDeathDamage);
-
+    console.log(useTroopDeathDamage);
     for (const troop of offenseListManager.getTroopList()) {
         if (useTroopDeathDamage) {
-            troop.damageMode = Troop.DEATH_DAMAGE;
+            try {
+                troop.damageMode = Troop.DEATH_DAMAGE;
+            } catch (error) {
+                if (error instanceof TypeError) {
+                    throw error;
+                } else {
+                    continue;
+                }
+            }
+
+            for (const troopDiv of troopDivs) {
+                if (HTMLUtil.getDataID(troopDiv) === troop.offenseID) {
+                    updateOffenseDamage(troopDiv);
+                }
+            }
         } else {
             troop.damageMode = Troop.DAMAGE;
+            for (const troopDiv of troopDivs) {
+                if (HTMLUtil.getDataID(troopDiv) === troop.offenseID) {
+                    updateOffenseDamage(troopDiv);
+                }
+            }
         }
     }
 
-    updateOverlay();
+    updateAllOffensesModifierOverlay();
+}
+
+function updateAllOffensesModifier() {
+    updateActiveModifier();
+    updateAllOffensesModifierOverlay();
+    updateAllOffensesDamage();
+}
+
+function updateActiveModifier() {
+    const activeModifierListManager = modifierListManager.getActiveModifierListManager();
+    if (!activeModifierListManager.isEmpty()) {
+        offenseListManager.addAllModifiers(activeModifierListManager);
+    } else {
+        offenseListManager.removeModifier();
+    }
 }
 
 // Update overlay
-function updateOverlay() {
+function updateAllOffensesModifierOverlay() {
+    for (const spellDiv of spellDivs) {
+        updateOffenseModifierOverlay(spellDiv);
+    }
+    for (const heroSection of heroSections) {
+        updateOffenseModifierOverlay(heroSection.querySelector(".hero-attack"));
+        updateAllEquipmentsModifierOverlay(heroSection);
+    }
     for (const troopDiv of troopDivs) {
-        updateTroopDivOverlay(troopDiv);
+        updateOffenseModifierOverlay(troopDiv);
     }
     for (const repairDiv of repairDivs) {
-        updateRepairDivOverlay(repairDiv);
+        updateOffenseModifierOverlay(repairDiv);
+    }
+}
+
+function updateOffenseModifierOverlay(offenseDiv) {
+    const offenseID = HTMLUtil.getDataID(offenseDiv);
+    const offense = offenseListManager.getOffense(offenseID);
+
+    if (offense instanceof Offense) {
+        const objectContainer = offenseDiv.querySelector(".object-container");
+        HTMLUtil.removeChild(objectContainer, ".modifier");
+
+        if (offense instanceof Troop && offense.damageMode === Troop.DEATH_DAMAGE) {
+            const modifierOverlay = HTMLUtil.createModifierOverlay(deathDamageImage, HTMLUtil.OVERLAY_NORMAL, HTMLUtil.MODIFIER_DEATH);
+            HTMLUtil.setDataID(modifierOverlay, "death_damage");
+
+            objectContainer.appendChild(modifierOverlay);
+        } else {
+            const modifier = offense.activeModifier;
+
+            if (modifier !== null) {
+                const modifierOverlay = HTMLUtil.createModifierOverlay(modifier.getImagePath(), HTMLUtil.OVERLAY_NORMAL, HTMLUtil.MODIFIER_RAGED);
+                HTMLUtil.setDataID(modifierOverlay, modifier.modifierID);
+
+                objectContainer.appendChild(modifierOverlay);
+            }      
+        }
+    } else {
+        throw new TypeError(`Invalid offenseDiv: ${offenseDiv}`);
     }
 }
 
 // Update overlay for troop
 // Note: Death damage always takes precedence over modifiers
-function updateTroopDivOverlay(troopDiv) {
-    const troopID = HTMLUtil.getDataID(troopDiv);
-    const troop = offenseListManager.getTroop(troopID);
-    const troopModifierListManager = modifierListManager.getActiveModifierListManager(Modifier.TROOP);
-    const objectContainer = troopDiv.querySelector(".object-container");
-    HTMLUtil.removeChild(objectContainer, ".modifier");
+function updateAllEquipmentsModifierOverlay(heroSection) {
+    const heroID = HTMLUtil.getDataID(heroSection);
+    const hero = offenseListManager.getHero(heroID);
 
-    if (useTroopDeathDamage && troop.canDealDeathDamage()) {
-        const modifierOverlay = HTMLUtil.createModifierOverlay(deathDamageImage, HTMLUtil.OVERLAY_NORMAL, HTMLUtil.MODIFIER_DEATH);
-        HTMLUtil.setDataID(modifierOverlay, "death_damage");
+    if (hero instanceof Hero) {
+        const equipmentDivs = AdvanceHTMLUtil.getAllEquipmentDivsFromHeroSection(heroSection);
 
-        objectContainer.appendChild(modifierOverlay);
-    } else if (!troopModifierListManager.isEmpty()) {
-        const modifier = troopModifierListManager.getHighestModifier();
+        for (const equipmentDiv of equipmentDivs) {
+            const equipmentID = HTMLUtil.getDataID(equipmentDiv);
+            const equipment = hero.getEquipment(equipmentID);
 
-        const modifierOverlay = HTMLUtil.createModifierOverlay(modifier.getImagePath(), HTMLUtil.OVERLAY_NORMAL, HTMLUtil.MODIFIER_RAGED);
-        HTMLUtil.setDataID(modifierOverlay, modifier.modifierID);
+            if (equipment.isEquipmentTypeAttack()) {
+                const objectContainer = equipmentDiv.querySelector(".object-container");
+                HTMLUtil.removeChild(objectContainer, ".modifier");
 
-        objectContainer.appendChild(modifierOverlay);
+                const modifier = hero.activeModifier;
+
+                if (modifier !== null) {
+                    const modifierOverlay = HTMLUtil.createModifierOverlay(modifier.getImagePath(), HTMLUtil.OVERLAY_NORMAL, HTMLUtil.MODIFIER_RAGED);
+                    HTMLUtil.setDataID(modifierOverlay, modifier.modifierID);
+
+                    objectContainer.appendChild(modifierOverlay);
+                }
+            }
+        }
+    } else {
+        throw new TypeError(`Invalid heroSection: ${heroSection}`);
     }
 }
 
-// Update overlay for repair
-function updateRepairDivOverlay(repairDiv) {
-    const repairModifierListManager = modifierListManager.getActiveModifierListManager(Modifier.REPAIR);
-    const objectContainer = repairDiv.querySelector(".object-container");
-    HTMLUtil.removeChild(objectContainer, ".modifier");
-
-    if (!repairModifierListManager.isEmpty()) {
-        const modifier = repairModifierListManager.getHighestModifier();
-
-        const modifierOverlay = HTMLUtil.createModifierOverlay(modifier.getImagePath(), HTMLUtil.OVERLAY_NORMAL, HTMLUtil.MODIFIER_RAGED);
-        HTMLUtil.setDataID(modifierOverlay, modifier.modifierID);
-
-        objectContainer.appendChild(modifierOverlay);
+function updateAllOffensesDamage() {
+    for (const spellDiv of spellDivs) {
+        updateOffenseDamage(spellDiv);
+    }
+    for (const hero of offenseListManager.getHeroList()) {
+        updateHeroDamage(hero);
+    }
+    for (const troopDiv of troopDivs) {
+        updateOffenseDamage(troopDiv);
+    }
+    for (const repairDiv of repairDivs) {
+        updateOffenseDamage(repairDiv);
     }
 }

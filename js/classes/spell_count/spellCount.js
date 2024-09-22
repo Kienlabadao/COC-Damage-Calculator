@@ -13,7 +13,7 @@ class SpellCount {
         if (newSpell instanceof Spell) {
             this._spell = newSpell;
         } else {
-            throw new Error(`Invalid spell: ${newSpell}`);
+            throw new TypeError(`Invalid spell: ${newSpell}`);
         }
     }
 
@@ -21,7 +21,7 @@ class SpellCount {
         if (NumberUtil.isNumber(newCount) && newCount >= 0) {
             this._count = newCount;
         } else {
-            throw new Error(`Invalid count: ${newCount}`);
+            throw new TypeError(`Invalid count: ${newCount}`);
         }
     }
 

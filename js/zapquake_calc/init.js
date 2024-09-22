@@ -15,7 +15,7 @@ const defensesSection = document.getElementById("defenses");
 let defenseDivs = [];
 const offensesSection = document.getElementById("offenses");
 const spellDivs = offensesSection.querySelectorAll(".offense.spell");
-const equipmentDivs = offensesSection.querySelectorAll(".offense.equipment");
+const equipmentDivs = offensesSection.querySelectorAll(".equipment");
 const eqOrderDropdown = document.getElementById("earthquakeOrder");
 const useDonatedZapSpellCheckbox = document.getElementById("useDonatedLightning");
 const donateCountInputBox = document.getElementById("donateCount");
@@ -102,10 +102,11 @@ function loadSpell(spell) {
         } else {
           HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
         }
+        return;
       }
     });  
   } else {
-    throw new Error(`Invalid spell: ${spell}`);
+    throw new TypeError(`Invalid spell: ${spell}`);
   }
 }
 
@@ -140,11 +141,12 @@ function loadEquipment(hero) {
           } else {
             HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
           }
+          return;
         }
       });
     }
   } else {
-    throw new Error(`Invalid hero: ${hero}`);
+    throw new TypeError(`Invalid hero: ${hero}`);
   }
 }
 
@@ -153,6 +155,6 @@ function loadDefense(defense) {
   if (defense instanceof Defense) {
     defensesSection.appendChild(ZapquakeHTMLUtil.createDefenseDiv(defense));
   } else {
-    throw new Error(`Invalid defense: ${defense}`);
+    throw new TypeError(`Invalid defense: ${defense}`);
   }
 }

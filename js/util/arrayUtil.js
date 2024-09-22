@@ -10,12 +10,12 @@ class ArrayUtil {
                 if (Array.isArray(childArray)) {
                     keyArray.push(childArray[0]);
                 } else {
-                    throw new Error(`Invalid childArray inside array: ${childArray}, ${array}`);
+                    throw new TypeError(`Invalid childArray inside array: ${childArray}, ${array}`);
                 }
             }
             return keyArray;
         } else {
-            throw new Error(`Invalid array: ${array}`);
+            throw new TypeError(`Invalid array: ${array}`);
         }
     }
 

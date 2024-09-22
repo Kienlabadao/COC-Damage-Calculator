@@ -1,9 +1,11 @@
 {
   "modifier": {
     "rage_spell": {
-      "affects": [
-        "troop"
+      "affect_offense_type": [
+        "troop", "hero"
       ],
+      "affect_only": [],
+      "doesnt_affect": [],
       "modify": {
         "1": 130,
         "2": 140,
@@ -14,8 +16,12 @@
       }
     },
     "rage_gem": {
-      "affects": [
-        "troop"
+      "affect_offense_type": [
+        "troop", "hero"
+      ],
+      "affect_only": [],
+      "doesnt_affect": [
+        "grand_warden"
       ],
       "modify": {
         "1": 20,
@@ -39,9 +45,11 @@
       }
     },
     "rage_spell_tower": {
-      "affects": [
+      "affect_offense_type": [
         "repair"
       ],
+      "affect_only": [],
+      "doesnt_affect": [],
       "modify": {
         "1": 60
       }

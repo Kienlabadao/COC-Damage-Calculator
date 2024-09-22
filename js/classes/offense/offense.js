@@ -14,17 +14,21 @@ class Offense {
     static TROOP = "troop";
     static REPAIR = "repair";
 
-    constructor(offenseID, type, currentLevelPos, isEnabled) {
-        this._type = type;
+    constructor(offenseID, type, currentLevelPos, activeModifier, isEnabled) {    
         this._offenseID = offenseID;
+        this._type = type;
+
         this.setOffenseJSON();
         this._name = this.offenseJSON["name"];
         this._damageType = this.offenseJSON["damage_type"];
         this.setSortedDamageList();
         this.setLevelList();
+
         this._maxLevelPos = this.levelList.length - 1;
         this._minLevelPos = 0;
         this.currentLevelPos = currentLevelPos;
+
+        this.activeModifier = activeModifier;
         this.isEnabled = isEnabled;
     }
 
@@ -45,8 +49,12 @@ class Offense {
         return this.damageList[levelPos][Offense.DAMAGE_POS];
     }
 
-    getCurrentDamage() {
+    getCurrentNormalDamage() {
         return this.getDamage(this.currentLevelPos);
+    }
+
+    getCurrentDamage() {
+        return this.getCurrentNormalDamage();
     }
 
     getCurrentDamageFormat() {
@@ -77,29 +85,29 @@ class Offense {
             case Offense.SPELL:
                 this._offenseJSON = getSpell(this.offenseID);
                 if (this.offenseJSON === undefined) {
-                    throw new Error(`Invalid offenseID: ${this.offenseID}`);
+                    throw new TypeError(`Invalid offenseID: ${this.offenseID}`);
                 }
                 break;
             case Offense.HERO:
                 this._offenseJSON = getHero(this.offenseID);
                 if (this.offenseJSON === undefined) {
-                    throw new Error(`Invalid offenseID: ${this.offenseID}`);
+                    throw new TypeError(`Invalid offenseID: ${this.offenseID}`);
                 }
                 break;
             case Offense.TROOP:
                 this._offenseJSON = getTroop(this.offenseID);
                 if (this.offenseJSON === undefined) {
-                    throw new Error(`Invalid offenseID: ${this.offenseID}`);
+                    throw new TypeError(`Invalid offenseID: ${this.offenseID}`);
                 }
                 break;
             case Offense.REPAIR:
                 this._offenseJSON = getRepair(this.offenseID);
                 if (this.offenseJSON === undefined) {
-                    throw new Error(`Invalid offenseID: ${this.offenseID}`);
+                    throw new TypeError(`Invalid offenseID: ${this.offenseID}`);
                 }
                 break;
             default:
-                throw new Error(`Invalid type: ${this.type}`);
+                throw new TypeError(`Invalid type: ${this.type}`);
         }  
     }
 
@@ -117,23 +125,41 @@ class Offense {
         if (NumberUtil.isNumber(newMinLevelPos) && newMinLevelPos >= 0 && newMinLevelPos <= this.maxLevelPos) {
             this._minLevelPos = newMinLevelPos;
         } else {
-            throw new Error(`Invalid newMinLevelPos: ${newMinLevelPos}`);      
+            throw new TypeError(`Invalid newMinLevelPos: ${newMinLevelPos}`);      
         }
     }
 
     set currentLevelPos(newCurrentLevelPos) {
         if (newCurrentLevelPos !== null) {
             if (!NumberUtil.isNumber(newCurrentLevelPos)) {
-                throw new Error(`Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`);
+                throw new TypeError(`Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`);
             }
 
             if (this.levelList[newCurrentLevelPos] !== undefined) {
                 this._currentLevelPos = newCurrentLevelPos;
             } else {
-                throw new Error(`Invalid currentLevelPos: ${newCurrentLevelPos}. OffenseID: ${this.offenseID}`);
+                throw new TypeError(`Invalid currentLevelPos: ${newCurrentLevelPos}. OffenseID: ${this.offenseID}`);
             }
         } else {
             this._currentLevelPos = this.maxLevelPos;
+        }
+    }
+
+    set activeModifier(newActiveModifier) {
+        if (newActiveModifier === null) {
+            this._activeModifier = null;
+        } else {
+            if (newActiveModifier instanceof Modifier) {
+                if (newActiveModifier.isAffected(this)) {
+                    if (this.activeModifier === null || this.activeModifier === undefined ||newActiveModifier.compareModify(this.activeModifier) === 1) {
+                        this._activeModifier = newActiveModifier;
+                    }                   
+                } else {
+                    throw new Error(`newActiveModifier doesn't affect this offense. newActiveModifier: ${newActiveModifier}. Offense: ${this}`); 
+                }
+            } else {
+                throw new TypeError(`Invalid newActiveModifier: ${newActiveModifier}`); 
+            }
         }
     }
 
@@ -141,7 +167,7 @@ class Offense {
         if (typeof newIsEnabled === "boolean") {
             this._isEnabled = newIsEnabled;
         } else {
-            throw new Error(`Invalid newIsEnabled: ${newIsEnabled}`);      
+            throw new TypeError(`Invalid newIsEnabled: ${newIsEnabled}`);      
         }
     }
 
@@ -180,6 +206,10 @@ class Offense {
 
     get currentLevelPos() {
         return this._currentLevelPos;
+    }
+
+    get activeModifier() {
+        return this._activeModifier;
     }
 
     get isEnabled() {

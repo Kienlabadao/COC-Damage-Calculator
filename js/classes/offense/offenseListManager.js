@@ -42,7 +42,7 @@ class OffenseListManager {
             } else {
                 useOffense = true;
             }        
-            const spell = new Spell(spellID, null, useOffense);
+            const spell = new Spell(spellID, null, null, useOffense);
             const key = LocalStorageUtils.getObjectKey(type, "offense", spellID);
             try {
                 spell.currentLevelPos = LocalStorageUtils.loadNumber(key, spell.currentLevelPos);
@@ -64,7 +64,7 @@ class OffenseListManager {
             const useOffense = true;
             const equipmentListManager = new EquipmentListManager();
             equipmentListManager.loadKey(type, heroID);
-            const hero = new Hero(heroID, null, useOffense, equipmentListManager);           
+            const hero = new Hero(heroID, null, null, useOffense, equipmentListManager);           
             if (type !== "simple") {
                 const key = LocalStorageUtils.getObjectKey(type, "offense", heroID);
 
@@ -93,7 +93,7 @@ class OffenseListManager {
             } else {
                 useOffense = true;
             }
-            const troop = new Troop(troopID, null, useOffense);
+            const troop = new Troop(troopID, null, null, useOffense);
             const key = LocalStorageUtils.getObjectKey(type, "offense", troopID);
             try {
                 troop.currentLevelPos = LocalStorageUtils.loadNumber(key, troop.currentLevelPos);
@@ -122,7 +122,7 @@ class OffenseListManager {
             } else {
                 useOffense = true;
             }
-            const repair = new Repair(repairID, null, useOffense);
+            const repair = new Repair(repairID, null, null, useOffense);
             const key = LocalStorageUtils.getObjectKey(type, "offense", repairID);
             try {
                 repair.currentLevelPos = LocalStorageUtils.loadNumber(key, repair.currentLevelPos);
@@ -240,7 +240,7 @@ class OffenseListManager {
                 return hero;
             }
         }
-        throw new Error(`EquipmentID doesn't exist: ${equipmentID}`);
+        throw new ReferenceError(`EquipmentID doesn't exist: ${equipmentID}`);
     }
 
     getEquipmentFromHero(equipmentID) {
@@ -250,27 +250,8 @@ class OffenseListManager {
                 return equipment;
             }
         }
-        throw new Error(`EquipmentID doesn't exist: ${equipmentID}`);
+        throw new ReferenceError(`EquipmentID doesn't exist: ${equipmentID}`);
     }
-
-    // getAllEquipmentsFromHero() {
-    //     let equipmentListManager = null;
-    //     for (const hero of this.getHeroList()) {
-    //         if (equipmentListManager === null) {
-    //             equipmentListManager = hero.equipmentListManager;
-    //         } else {
-    //             for (const equipment of hero.equipmentListManager) {
-
-    //             }
-    //         }
-
-    //         const equipment = hero.getEquipment(equipmentID);
-    //         if (equipment !== null) {
-    //             return equipment;
-    //         }
-    //     }
-    //     throw new Error(`EquipmentID doesn't exist: ${equipmentID}`);
-    // }
 
     // Add new offense and check for unique
     add(newOffense) {
@@ -291,7 +272,7 @@ class OffenseListManager {
             if (offenseID === spellID) {
                 const useOffenseKey = LocalStorageUtils.getUseObjectKeyDonated(type, "offense", spellID);
                 const useOffense = LocalStorageUtils.loadBoolean(useOffenseKey, true);
-                const spell = new Spell(spellID, null, useOffense, true);
+                const spell = new Spell(spellID, null, null, useOffense, true);
                 const key = LocalStorageUtils.getObjectKeyDonated(type, "offense", spellID);
                 try {
                     spell.currentLevelPos = LocalStorageUtils.loadNumber(key, spell.currentLevelPos);
@@ -305,7 +286,48 @@ class OffenseListManager {
                 return;
             }            
         }
-        throw new Error(`Invalid spellID: ${spellID}`);
+        throw new TypeError(`Invalid spellID: ${spellID}`);
+    }
+
+    addAllModifiers(modifierListManager) {
+        this.removeModifier();
+        
+        if (modifierListManager instanceof ModifierListManager) {
+            for (const modifier of modifierListManager.modifierList) {
+                this.addModifier(modifier);
+            }
+        } else {
+            throw new TypeError(`Invalid modifierListManager: ${modifierListManager}`);       
+        }
+    }
+
+    addModifier(modifier) {
+        if (modifier === null) {
+            for (const offense of this.offenseList) {
+                offense.activeModifier = null;
+            }
+        } else if (modifier instanceof Modifier) {
+            const clonedModifier = modifier.clone();
+            
+            for (const offense of this.offenseList) {
+                try {
+                    offense.activeModifier = clonedModifier;
+                } catch (error) {
+                    if (error instanceof TypeError) {
+                        throw error;
+                    } else {
+                        continue;
+                    }
+                }
+            }
+            console.log(this.offenseList);
+        } else {
+            throw new TypeError(`Invalid modifier: ${modifier}`);
+        }
+    }
+
+    removeModifier() {
+        this.addModifier(null);
     }
 
     // Check if offense already exist in the list

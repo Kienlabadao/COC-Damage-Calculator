@@ -11,7 +11,7 @@ class DamageLogListManager {
         if (newDamageLog instanceof DamageLog) {
             this.damageLogList.push(newDamageLog);
         } else {
-            throw new Error(`Invalid damageLog: ${newDamageLog}`);
+            throw new TypeError(`Invalid damageLog: ${newDamageLog}`);
         }
     }
 
@@ -22,16 +22,15 @@ class DamageLogListManager {
             const clonedDefense = defense.clone();
             for (const action of actionListManager.actionList) {
                 const offense = action.offense;
-                const modifier = action.modifier;
+                const modifier = offense.activeModifier;
 
                 if (!offense.isEnabled) {
                     continue;
                 }
 
-                const modify = modifier instanceof Modifier ? modifier.getCurrentModify() : 0;
                 const isImmune = clonedDefense.isImmune(offense);
-                const damage = offense.calcDamage(clonedDefense, modify);
-                offense.calcRemainingHP(clonedDefense, modify);                
+                const damage = offense.calcDamage(clonedDefense);
+                offense.calcRemainingHP(clonedDefense);                
                 const remainingHP = clonedDefense.remainingHP;
 
                 this.add(new DamageLog(offense, modifier, clonedDefense.clone(), damage, isImmune, remainingHP));
@@ -42,9 +41,9 @@ class DamageLogListManager {
             }
         } else {
             if (!(defense instanceof Defense)) {
-                throw new Error(`Invalid defense: ${defense}`);
+                throw new TypeError(`Invalid defense: ${defense}`);
             } else {
-                throw new Error(`Invalid actionListManager: ${actionListManager}`);
+                throw new TypeError(`Invalid actionListManager: ${actionListManager}`);
             }          
         }
     }

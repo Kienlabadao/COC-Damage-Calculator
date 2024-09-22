@@ -4,8 +4,15 @@ class NumberUtil {
 
     // Round number up to n decimal places
     static round(number, decimalPlaces) {
-        const roundNumber = 10 * decimalPlaces;
-        return Math.round(number * roundNumber) / roundNumber;
+        if (NumberUtil.isNumber(number) && NumberUtil.isNumber(decimalPlaces)) {
+            return parseFloat((number).toFixed(decimalPlaces));
+        } else {
+            if (!NumberUtil.isNumber(number)) {
+                throw new TypeError(`Invalid number: ${number}`);
+            } else {
+                throw new TypeError(`Invalid number: ${decimalPlaces}`);
+            }
+        }        
     }
 
     // Round number up to 2 decimal places

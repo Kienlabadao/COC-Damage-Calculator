@@ -82,7 +82,7 @@ class Defense {
             }
             return false;
         } else {
-            throw new Error(`Invalid offense: ${checkOffense}`);
+            throw new TypeError(`Invalid offense: ${checkOffense}`);
         }
     }
 
@@ -135,7 +135,7 @@ class Defense {
     setDefenseJSON() {
         this._defenseJSON = getDefense(this.defenseID);
         if (this.defenseJSON  === undefined) {
-            throw new Error(`defenseID doesn't exist in JSON: ${this.defenseID}`);
+            throw new ReferenceError(`defenseID doesn't exist in JSON: ${this.defenseID}`);
         }
     }
 
@@ -171,14 +171,14 @@ class Defense {
     set currentLevelPos(newCurrentLevelPos) {
         if (newCurrentLevelPos !== null) {
             if (!NumberUtil.isNumber(newCurrentLevelPos)) {
-                throw new Error(`Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`);
+                throw new TypeError(`Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`);
             }
             
             if (this.levelList[newCurrentLevelPos] !== undefined) {
                 this._currentLevelPos = newCurrentLevelPos;
                 this.resetRemainingHP();
             } else {
-                throw new Error(`Invalid currentLevelPos: ${newCurrentLevelPos}. DefenseID: ${this.defenseID}`);
+                throw new TypeError(`Invalid currentLevelPos: ${newCurrentLevelPos}. DefenseID: ${this.defenseID}`);
             }
         } else {
             this._currentLevelPos = this.maxLevelPos;
@@ -191,7 +191,7 @@ class Defense {
         if (NumberUtil.isNumber(newRemainingHP) && newRemainingHP <= this.getCurrentMaxHP()) {
             this._remainingHP = newRemainingHP;
         } else {
-            throw new Error(`Invalid remainingHP: ${newRemainingHP}. DefenseID: ${this.defenseID}. Defense maxHP: ${this.getCurrentMaxHP()}`);
+            throw new TypeError(`Invalid remainingHP: ${newRemainingHP}. DefenseID: ${this.defenseID}. Defense maxHP: ${this.getCurrentMaxHP()}`);
         }
     }
 
@@ -199,7 +199,7 @@ class Defense {
         if (NumberUtil.isNumber(newEQCount) && newEQCount >= 0) {
             this._eqCount = newEQCount;
         } else {
-            throw new Error(`Invalid eqCount: ${newEQCount}`);
+            throw new TypeError(`Invalid eqCount: ${newEQCount}`);
         }
     }
 

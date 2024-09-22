@@ -21,7 +21,7 @@ function canEquipmentDestroy(defense) {
         }
         return clonedDefense.isDestroyed();        
     } else {
-        throw new Error(`Invalid defense: ${defense}`);
+        throw new TypeError(`Invalid defense: ${defense}`);
     }
 }
 
@@ -30,7 +30,7 @@ function calcDefense(defenseDiv) {
     const defenseID = HTMLUtil.getDataID(defenseDiv);
     const defense = defenseListManager.getDefense(defenseID);    
     if (defense === null) {
-        throw new Error(`Invalid defenseID: ${defenseID}`);
+        throw new TypeError(`Invalid defenseID: ${defenseID}`);
     }
 
     toggleCollapseBtnText(defenseDiv.querySelector(".show-more-btn"), false);
@@ -103,7 +103,7 @@ function getSpellCountLists(defense) {
         }
         return spellCountLists; 
     } else {
-        throw new Error(`Invalid defense: ${defense}`);
+        throw new TypeError(`Invalid defense: ${defense}`);
     }
 }
 
@@ -161,7 +161,7 @@ function createActionList(maxEQSpellCount, defense) {
                 }
                 break;
             default:
-                throw new Error(`Invalid eqOrder: ${eqOrder}`);
+                throw new TypeError(`Invalid eqOrder: ${eqOrder}`);
         }
         
         // If user choose to use donated lightning spells, add the correct amount of them into the order list
@@ -178,7 +178,7 @@ function createActionList(maxEQSpellCount, defense) {
         }
         return actionListManager;
     } else {
-        throw new Error(`Invalid defense: ${defense}`);   
+        throw new TypeError(`Invalid defense: ${defense}`);   
     }   
 }
 

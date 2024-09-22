@@ -8,14 +8,19 @@ class Modifier {
     static MODIFY_POS = 1;
 
     static TROOP = 0;
-    static REPAIR = 1;
+    static HERO = 1;
+    static REPAIR = 2;
 
     constructor(modifierID, currentLevelPos, isActive = false) {
         this._modifierID = modifierID;
+
         this.setModifierJSON();
         this.setSortedModifyList();
         this.setLevelList();
-        this._affectList = this.modifierJSON["affects"];
+        this._affectTypeList = this.modifierJSON["affect_offense_type"];
+        this._affectOnlyList = this.modifierJSON["affect_only"];
+        this._doesntAffectList = this.modifierJSON["doesnt_affect"];
+
         this._maxLevelPos = this.levelList.length - 1;
         this._minLevelPos = 1;
         this.currentLevelPos = currentLevelPos;
@@ -43,6 +48,10 @@ class Modifier {
         return this.getModify(this.currentLevelPos);
     }
     
+    getCurrentModifyFormat() {
+        return `+${this.getCurrentModify()}%`;
+    }
+
     isMaxLevel() {
         return this.getMaxLevel() === this.getCurrentLevel();
     }
@@ -52,14 +61,32 @@ class Modifier {
     }
 
     // Check if modifier can affect this type of offense
-    isAffected(type) {
-        switch (type) {
-            case Modifier.TROOP:
-                return this.affectList.includes("troop");
-            case Modifier.REPAIR:
-                return this.affectList.includes("repair");
-            default:
-                throw new Error(`Invalid type: ${type}`);
+    isTypeAffected(type) {
+        if (typeof type === "string") {
+            return this.affectTypeList.includes(type);
+        } else {
+            throw new TypeError(`Invalid type: ${type}`);
+        }
+    }
+
+    isAffected(offense) {
+        if (offense instanceof Offense) {
+            if (this.isTypeAffected(offense.type)) {
+                if (this.affectOnlyList.length > 0) {
+                    if (this.affectOnlyList.includes(offense.offenseID)) {
+                        return true;
+                    }                   
+                } else if (this.doesntAffectList.length > 0) {
+                    if (!this.doesntAffectList.includes(offense.offenseID)) {
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            throw new TypeError(`Invalid offense: ${offense}`);
         }
     }
 
@@ -85,7 +112,7 @@ class Modifier {
                 return 0;
             }
         } else {
-            throw new Error(`Invalid compareModfier: ${compareModfier}`)
+            throw new TypeError(`Invalid compareModfier: ${compareModfier}`)
         }       
     }
 
@@ -103,7 +130,7 @@ class Modifier {
     setModifierJSON() {
         this._modifierJSON = getModifier(this.modifierID);
         if (this.modifierJSON === undefined) {
-            throw new Error(`modifierID doesn't exist in JSON: ${this.modifierID}`);
+            throw new ReferenceError(`modifierID doesn't exist in JSON: ${this.modifierID}`);
         }
     }
 
@@ -120,13 +147,13 @@ class Modifier {
     set currentLevelPos(newCurrentLevelPos) {
         if (newCurrentLevelPos !== null) {
             if (!NumberUtil.isNumber(newCurrentLevelPos)) {
-                throw new Error(`Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`);
+                throw new TypeError(`Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`);
             }
 
             if (this.levelList[newCurrentLevelPos] !== undefined) {
                 this._currentLevelPos = newCurrentLevelPos;
             } else {
-                throw new Error(`Invalid currentLevelPos: ${newCurrentLevelPos}. OffenseID: ${this.modifierID}`);
+                throw new TypeError(`Invalid currentLevelPos: ${newCurrentLevelPos}. OffenseID: ${this.modifierID}`);
             }
         } else {
             this._currentLevelPos = this.maxLevelPos;
@@ -137,7 +164,7 @@ class Modifier {
         if (typeof newIsActive === "boolean") {
             this._isActive = newIsActive;
         } else {
-            throw new Error(`Invalid isActive: ${newIsActive}`)
+            throw new TypeError(`Invalid isActive: ${newIsActive}`)
         }
     }
 
@@ -157,11 +184,18 @@ class Modifier {
     get levelList() {
         return this._levelList;
     }
-
-    get affectList() {
-        return this._affectList;
+    get affectTypeList() {
+        return this._affectTypeList;
     }
 
+    get affectOnlyList() {
+        return this._affectOnlyList;
+    }
+
+    get doesntAffectList() {
+        return this._doesntAffectList;
+    }
+    
     get maxLevelPos() {
         return this._maxLevelPos;
     }

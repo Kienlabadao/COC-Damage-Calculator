@@ -66,7 +66,7 @@ class EquipmentListManager {
                 throw new Error(`Equipment already exist: ${newEquipment}`);
             }
         } else {
-            throw new Error(`Invalid newEquipment: ${newEquipment}`);
+            throw new TypeError(`Invalid newEquipment: ${newEquipment}`);
         }              
     }
 

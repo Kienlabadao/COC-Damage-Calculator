@@ -11,7 +11,7 @@ class ActionListManager {
         if (newAction instanceof Action) {
             this.actionList.push(newAction);
         } else {
-            throw new Error(`Invalid action: ${newAction}`);
+            throw new TypeError(`Invalid action: ${newAction}`);
         }
     }
 
@@ -33,7 +33,7 @@ class ActionListManager {
     removeItemAtIndex(index) {
         if (NumberUtil.isNumber(index)) {         
             if (!this.isValidIndex(index)) {
-                throw new Error("Index out of range.");
+                throw new RangeError("Index out of range.");
             }
         
             const newActionList = [];
@@ -49,7 +49,7 @@ class ActionListManager {
             this._actionList = newActionList;
             return isRemoved;
         } else {
-            throw new Error(`Invalid index: ${index}`);
+            throw new TypeError(`Invalid index: ${index}`);
         }
     }
 
@@ -60,7 +60,7 @@ class ActionListManager {
                 this.actionList.pop();
             }
         } else {
-            throw new Error(`Invalid amount: ${amount}`);       
+            throw new TypeError(`Invalid amount: ${amount}`);       
         }
     }
 
@@ -71,11 +71,11 @@ class ActionListManager {
         }
     
         if (!NumberUtil.isNumber(index1) || !this.isValidIndex(index1)) {
-            throw new Error(`Invalid index1: ${index1}`); 
+            throw new TypeError(`Invalid index1: ${index1}`); 
         }
 
         if (!NumberUtil.isNumber(index2) || !this.isValidIndex(index2)) {
-            throw new Error(`Invalid index2: ${index2}`); 
+            throw new TypeError(`Invalid index2: ${index2}`); 
         }
 
         [this.actionList[index1], this.actionList[index2]] = [this.actionList[index2], this.actionList[index1]];
