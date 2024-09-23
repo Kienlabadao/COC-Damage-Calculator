@@ -155,13 +155,17 @@ function updateHeroNormalAttackDamage(hero) {
         heroSections.forEach((heroSection) => {
             if (HTMLUtil.getDataID(heroSection) === hero.offenseID) {
                 const heroAttackDiv = heroSection.querySelector(".hero-attack");
-                const damageDiv = heroAttackDiv.querySelector(".damage");
+                const damageDPHDiv = heroAttackDiv.querySelector(".damage-dph");
+                const damageDPSDiv = heroAttackDiv.querySelector(".damage-dps");
 
-                damageDiv.textContent = hero.getCurrentDamageFormat();
+                damageDPHDiv.textContent = hero.getCurrentDamageFormat(Hero.DPH);
+                damageDPSDiv.textContent = hero.getCurrentDamageFormat(Hero.DPS);
                 if (hero.activeModifier !== null) {
-                    HTMLUtil.addTextRagedClass(damageDiv);
+                    HTMLUtil.addTextRagedClass(damageDPSDiv);
+                    HTMLUtil.addTextRagedClass(damageDPHDiv);
                 } else {
-                    HTMLUtil.removeTextRagedClass(damageDiv);
+                    HTMLUtil.removeTextRagedClass(damageDPSDiv);
+                    HTMLUtil.removeTextRagedClass(damageDPHDiv);
                 }
                 return;
             }
@@ -196,8 +200,8 @@ function updateEquipmentDamage(hero, equipmentDiv) {
         if (equipment.isEquipmentTypeAttack() || equipment.isEquipmentTypeDamage()) {
             clonedHero.setActiveEquipment(equipmentID);
             const damageDiv = equipmentDiv.querySelector(".damage");
+            
             damageDiv.textContent = clonedHero.getCurrentDamageFormat();
-
             if (equipment.isEquipmentTypeAttack()) {
                 if (hero.activeModifier !== null) {
                     HTMLUtil.addTextRagedClass(damageDiv);
@@ -207,14 +211,24 @@ function updateEquipmentDamage(hero, equipmentDiv) {
             }
         }
 
+        if (equipment.isEquipmentTypeAttack()) {
+            const extraDamageDiv = equipmentDiv.querySelector(".extra-damage");
+            
+            extraDamageDiv.textContent = equipment.getCurrentDamageFormat();
+        }
+
         if (equipment.isEquipmentTypeSupport()) {
             const dpsBoostDiv = equipmentDiv.querySelector(".dps-boost");
-            dpsBoostDiv.textContent = equipment.getCurrentDPSBoostFormat();
+            const dphBoostDiv = equipmentDiv.querySelector(".dph-boost");
 
+            dpsBoostDiv.textContent = equipment.getCurrentDPSBoostFormat();
+            dphBoostDiv.textContent = equipment.getCurrentDPHBoostFormat(clonedHero.attackSpeed);
             if (hero.activeModifier !== null) {
                 HTMLUtil.addTextRagedClass(dpsBoostDiv);
+                HTMLUtil.addTextRagedClass(dphBoostDiv);
             } else {
                 HTMLUtil.removeTextRagedClass(dpsBoostDiv);
+                HTMLUtil.removeTextRagedClass(dphBoostDiv);
             }
         }
     } else {

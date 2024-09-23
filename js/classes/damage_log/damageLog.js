@@ -1,31 +1,25 @@
 class DamageLog {
 
-    // Store damage log which hold offense, its modifier (if have), the defense that it attacks, how many damage does it deals, does that defense immune to it, and defense remaining HP.
+    // Store damage log which hold action, its modifier (if have), the defense that it attacks, how many damage does it deals, does that defense immune to it, and defense remaining HP.
 
-    constructor(offense, modifier, defense, damage, isImmune, remainingHP) {
-        this.offense = offense;
-        this.modifier = modifier;
+    constructor(action, defense, isImmune, damage, modifiedDamage, hardModeDamage, reducedEQDamage, remainingHP) {
+        this.action = action;
         this.defense = defense;
         this._damage = damage;
+        this._modifiedDamage = modifiedDamage;
+        this._hardModeDamage = hardModeDamage;
+        this._reducedEQDamage = reducedEQDamage;
         this._isImmune = isImmune;
         this._remainingHP = remainingHP;
     }
 
     // Setter
-    set offense(newOffense) {
-        if (newOffense instanceof Offense) {
-            this._offense = newOffense;
+    set action(newAction) {
+        if (newAction instanceof Action) {
+            this._action = newAction;
         } else {
-            throw new TypeError(`Invalid offense: ${newOffense}`)
+            throw new TypeError(`Invalid action: ${newAction}`)
         }       
-    }
-
-    set modifier(newModifier) {
-        if (newModifier === null || newModifier instanceof Modifier) {
-            this._modifier = newModifier;
-        } else {
-            throw new TypeError(`Invalid modifier: ${newModifier}`)
-        }
     }
 
     set defense(newDefense) {
@@ -36,6 +30,14 @@ class DamageLog {
         }        
     }
 
+    set isImmune(newIsImmune) {
+        if (typeof newIsImmune === "boolean") {
+            this._isImmune = newIsImmune;
+        } else {
+            throw new TypeError(`Invalid isImmune: ${newIsImmune}`)
+        }
+    }
+
     set damage(newDamage) {
         if (NumberUtil.isNumber(newDamage) && newDamage >= 0) {
             this._damage = newDamage;
@@ -44,11 +46,27 @@ class DamageLog {
         }
     }
 
-    set isImmune(newIsImmune) {
-        if (typeof newIsImmune === "boolean") {
-            this._isImmune = newIsImmune;
+    set modifiedDamage(newModifiedDamage) {
+        if (NumberUtil.isNumber(newModifiedDamage) && newModifiedDamage >= 0) {
+            this._modifiedDamage = newModifiedDamage;
         } else {
-            throw new TypeError(`Invalid isImmune: ${newIsImmune}`)
+            throw new TypeError(`Invalid modifiedDamage: ${newModifiedDamage}`)
+        }
+    }
+
+    set hardModeDamage(newHardModeDamage) {
+        if (NumberUtil.isNumber(newHardModeDamage) && newHardModeDamage >= 0) {
+            this._hardModeDamage = newHardModeDamage;
+        } else {
+            throw new TypeError(`Invalid damage: ${newHardModeDamage}`)
+        }
+    }
+
+    set reducedEQDamage(newReducedEQDamage) {
+        if (NumberUtil.isNumber(newReducedEQDamage) && newReducedEQDamage >= 0) {
+            this._reducedEQDamage = newReducedEQDamage;
+        } else {
+            throw new TypeError(`Invalid damage: ${newReducedEQDamage}`)
         }
     }
 
@@ -61,12 +79,8 @@ class DamageLog {
     }
 
     // Getter
-    get offense() {
-        return this._offense;
-    }
-
-    get modifier() {
-        return this._modifier;
+    get action() {
+        return this._action;
     }
 
     get defense() {
@@ -79,6 +93,18 @@ class DamageLog {
 
     get damage() {
         return this._damage;
+    }
+
+    get modifiedDamage() {
+        return this._modifiedDamage;
+    }
+
+    get hardModeDamage() {
+        return this._hardModeDamage;
+    }
+
+    get reducedEQDamage() {
+        return this._reducedEQDamage;
     }
 
     get remainingHP() {

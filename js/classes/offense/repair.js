@@ -14,7 +14,7 @@ class Repair extends Offense {
     // Get damage after modify for repair
     calcModifiedDamage() {
         if (this.activeModifier !== null) {
-            const multiplier = NumberUtil.round2Places(100 + this.activeModifier.getCurrentModify());
+            const multiplier = this.activeModifier.getCurrentCalculationModify();
 
             return NumberUtil.round2Places(this.getCurrentNormalDamage() * multiplier / 100);
         } else {

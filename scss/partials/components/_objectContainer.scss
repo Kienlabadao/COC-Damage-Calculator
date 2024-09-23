@@ -31,7 +31,7 @@
     @include object-container;
 
     &--responsive {
-        @include respondToBreakpoint(md) {
+        @include respondToBreakpoint(lg) {
             @include object-container--small;
         }      
     }
@@ -40,12 +40,20 @@
         background-color: $light-brown;
     }
 
+    &--modifier {
+        background-color: $light-purple;
+    }
+
     &--epic {
         background-color: $purple;
     }
   
     &--immune {
         background-color: $light-red;
+    }
+
+    &--hardmode {
+        background-color: $orange;
     }
 
     &--small {

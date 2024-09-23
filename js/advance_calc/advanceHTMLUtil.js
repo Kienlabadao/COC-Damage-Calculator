@@ -57,9 +57,10 @@ class AdvanceHTMLUtil {
     // Create action row that will be added to the action detail list
     static createActionDetailRow(action, orderNumber, totalAction) {
         if (action instanceof Action) {
-            const offense = action.offense;
+            let offense = action.offense;
             const modifier = offense.activeModifier;
-
+            
+            console.log(offense);
             const row = document.createElement("tr");
 
             const actionCell = document.createElement("td");
@@ -68,52 +69,67 @@ class AdvanceHTMLUtil {
             // Create the main container div
             const actionContainerDiv = document.createElement("div");
             actionContainerDiv.className = "object-container object-container--responsive";
-            if (offense instanceof Spell && offense.offenseID === eqSpellKey) {
-                actionContainerDiv.classList.add("object-container--earthquake");
-            } else if (offense instanceof Equipment && offense.isRarityEpic()) {
-                actionContainerDiv.classList.add("object-container--epic");
+            if (action.isActionType(Action.EQUIPMENT)) {
+                if (offense.activeEquipment.isRarityEpic()) {
+                    actionContainerDiv.classList.add("object-container--epic");
+                }
+            } else {
+                if (offense instanceof Spell && offense.offenseID === eqSpellKey) {
+                    actionContainerDiv.classList.add("object-container--earthquake");
+                }
             }
             actionCell.appendChild(actionContainerDiv);
     
             // Create the main image element
             const actionMainImage = document.createElement("img");
             actionMainImage.className = "image object-container__img";
-            actionMainImage.src = offense.getImagePath();
-            actionContainerDiv.appendChild(actionMainImage);
-    
-            if (offense instanceof Troop) {
-                switch (offense.damageMode) {
-                    case Troop.DEATH_DAMAGE:
-                        actionContainerDiv.appendChild(HTMLUtil.createModifierOverlay(deathDamageImage, HTMLUtil.OVERLAY_RESPONSIVE, HTMLUtil.MODIFIER_DEATH));
-                        break;
-                }
+            if (action.isActionType(Action.EQUIPMENT)) {
+                actionMainImage.src = offense.activeEquipment.getImagePath();
+            } else {
+                actionMainImage.src = offense.getImagePath();
             }
+            actionContainerDiv.appendChild(actionMainImage);
 
             // Create the order overlay
             actionContainerDiv.appendChild(HTMLUtil.createOrderOverlay(orderNumber, HTMLUtil.OVERLAY_RESPONSIVE));
     
             // Create the level overlay
-            actionContainerDiv.appendChild(HTMLUtil.createLevelOverlay(offense, HTMLUtil.OVERLAY_RESPONSIVE));
+            if (action.isActionType(Action.EQUIPMENT)) {
+                actionContainerDiv.appendChild(HTMLUtil.createLevelOverlay(offense.activeEquipment, HTMLUtil.OVERLAY_RESPONSIVE));
+            } else {
+                actionContainerDiv.appendChild(HTMLUtil.createLevelOverlay(offense, HTMLUtil.OVERLAY_RESPONSIVE));
+            }
+
+            if (offense instanceof Troop && offense.damageMode === Troop.DEATH_DAMAGE) {
+                actionContainerDiv.appendChild(HTMLUtil.createModifierOverlay(deathDamageImage, HTMLUtil.OVERLAY_RESPONSIVE, HTMLUtil.MODIFIER_DEATH));
+            }
             
             const modifierCell = document.createElement("td");
             row.appendChild(modifierCell);
 
-            if (modifier !== null) {
-                // Create the main container div
-                const modifierContainerDiv = document.createElement("div");
-                modifierContainerDiv.className = "object-container object-container--responsive";
-                modifierCell.appendChild(modifierContainerDiv);
-        
-                // Create the main image element
-                const modifierMainImage = document.createElement("img");
-                modifierMainImage.className = "image object-container__img";
-                modifierMainImage.src = modifier.getImagePath();
-                modifierContainerDiv.appendChild(modifierMainImage);
+            const modifierContainerDiv = document.createElement("td");
+            modifierContainerDiv.className = "d-flex justify-content-center gap-3";
+            modifierCell.appendChild(modifierContainerDiv);
 
-                // Create the level overlay
-                if (modifier.modifierID !== rageSpellTowerKey) {
-                    modifierContainerDiv.appendChild(HTMLUtil.createLevelOverlay(modifier, HTMLUtil.OVERLAY_RESPONSIVE));
-                }             
+            switch (action.type) {
+                case Action.EQUIPMENT:
+                    if (!offense.activeEquipment.isEquipmentTypeDamage()) {
+                        modifierContainerDiv.appendChild(AdvanceHTMLUtil.createModifierContainerDiv(offense));
+                    } else {
+                        break;
+                    }                   
+                case Action.HERO:
+                    for (const equipment of offense.equipmentListManager.equipmentList) {
+                        if (equipment.isEnabled && equipment.isEquipmentTypeSupport()) {
+                            modifierContainerDiv.appendChild(AdvanceHTMLUtil.createModifierContainerDiv(equipment));
+                        }                   
+                    }
+                case Action.OFFENSE:
+                    if (modifier !== null) {
+                        modifierContainerDiv.appendChild(AdvanceHTMLUtil.createModifierContainerDiv(modifier));
+                    }
+                    //modifierContainerDiv.appendChild(AdvanceHTMLUtil.createHardModeIconDiv());
+                    break;
             }
 
             const manageCell = document.createElement("td");
@@ -160,6 +176,49 @@ class AdvanceHTMLUtil {
         } else {
             throw new TypeError(`Invalid action: ${action}`);
         }
+    }
+
+    static createModifierContainerDiv(object) {
+        if (object instanceof Offense || object instanceof Equipment || object instanceof Modifier) {
+            // Create the main container div
+            const modifierContainerDiv = document.createElement("div");
+            modifierContainerDiv.className = "object-container object-container--responsive";
+            if (object instanceof Modifier) {
+                modifierContainerDiv.classList.add("object-container--modifier");
+            } else if (object instanceof Equipment) {
+                if (object.isRarityEpic()) {
+                    modifierContainerDiv.classList.add("object-container--epic");
+                }
+            }
+    
+            // Create the main image element
+            const modifierMainImage = document.createElement("img");
+            modifierMainImage.className = "image object-container__img";
+            modifierMainImage.src = object.getImagePath();
+            modifierContainerDiv.appendChild(modifierMainImage);
+
+            // Create the level overlay
+            if (!(object instanceof Modifier && object.modifierID === rageSpellTowerKey)) {
+                modifierContainerDiv.appendChild(HTMLUtil.createLevelOverlay(object, HTMLUtil.OVERLAY_RESPONSIVE));
+            } 
+        
+            return modifierContainerDiv;
+        } else {
+            throw new Error(`Invalid object: ${object}`);
+        }
+    }
+
+    static createHardModeIconDiv() {
+        const hardModeIconDiv = document.createElement("div");
+        hardModeIconDiv.className = "object-container object-container--hardmode object-container--responsive";
+
+        // Create the main image element
+        const hardModeIcon = document.createElement("img");
+        hardModeIcon.className = "image object-container__img";
+        hardModeIcon.src = hardModeImage;
+        hardModeIconDiv.appendChild(hardModeIcon);
+    
+        return hardModeIconDiv;
     }
 
     // Create a defense div to be added to the page
@@ -387,7 +446,7 @@ class AdvanceHTMLUtil {
                 button1.className = "btn btn-success";
                 button1.value = "1";
                 button1.textContent = "Add 1";
-                button1.setAttribute("onclick", "addAction(this)");
+                button1.setAttribute("onclick", "addAction(this, 'equipment')");
                 buttonContainer.appendChild(button1);
                 
                 const button5 = document.createElement("button");
@@ -395,7 +454,7 @@ class AdvanceHTMLUtil {
                 button5.className = "btn btn-success";
                 button5.value = "5";
                 button5.textContent = "Add 5";
-                button5.setAttribute("onclick", "addAction(this)");           
+                button5.setAttribute("onclick", "addAction(this, 'equipment')");           
                 buttonContainer.appendChild(button5);
             }
         
@@ -423,30 +482,68 @@ class AdvanceHTMLUtil {
                 damageRow.appendChild(damageValue);
             }
 
+            if (equipment.isEquipmentTypeAttack()) {
+                const extraDamageRow = document.createElement("div");
+                extraDamageRow.className = "d-flex justify-content-center align-items-center column-gap-1";
+                damageDisplayDiv.appendChild(extraDamageRow);
+
+                const extraDamageLabel = document.createElement("div");
+                extraDamageLabel.className = "fw-bold";
+                extraDamageLabel.textContent = "Extra Damage:";
+                extraDamageRow.appendChild(extraDamageLabel);
+
+                const damageImg = document.createElement("img");
+                damageImg.src = "/images/other/attack.webp";
+                damageImg.width = 20;
+                extraDamageRow.appendChild(damageImg);
+
+                const extraDamageValue = document.createElement("div");
+                extraDamageValue.className = "extra-damage fw-bold";
+                extraDamageRow.appendChild(extraDamageValue);
+            }
+
             if (equipment.isEquipmentTypeSupport()) {
-                const heroBoostRow = document.createElement("div");
-                heroBoostRow.className = "d-flex justify-content-center align-items-center column-gap-1";
-                damageDisplayDiv.appendChild(heroBoostRow);           
-
-                const heroBoostLabel = document.createElement("div");
-                heroBoostLabel.className = "fw-bold";
-                heroBoostLabel.textContent = "Hero Boost:";
-                heroBoostRow.appendChild(heroBoostLabel);
-
-                const heroBoostImg = document.createElement("img");
-                heroBoostImg.src = "/images/other/attack.webp";
-                heroBoostImg.width = 20;
-                heroBoostRow.appendChild(heroBoostImg);
-
-                const heroBoostValue = document.createElement("div");
-                heroBoostValue.className = "dps-boost fw-bold";
-                heroBoostRow.appendChild(heroBoostValue);
+                damageDisplayDiv.appendChild(AdvanceHTMLUtil.createHeroBoostRow(Hero.DPS));
+                damageDisplayDiv.appendChild(AdvanceHTMLUtil.createHeroBoostRow(Hero.DPH));
             }
 
             return mainDiv;
         } else {
             throw new TypeError(`Invalid defense: ${equipment}`);
         }
+    }
+
+    static createHeroBoostRow(damageFormat) {
+        if (!Hero.isValidDamageFormat(damageFormat)) {
+            throw new TypeError(`Invalid damageFormat: ${damageFormat}`);
+        }
+
+        const heroBoostRow = document.createElement("div");
+        heroBoostRow.className = "d-flex justify-content-center align-items-center column-gap-1";                 
+
+        const heroBoostLabel = document.createElement("div");
+        heroBoostLabel.className = "fw-bold";
+        if (damageFormat === Hero.DPS) {
+            heroBoostLabel.textContent = "DPS Boost:";
+        } else {
+            heroBoostLabel.textContent = "DPH Boost:";
+        }
+        heroBoostRow.appendChild(heroBoostLabel);
+
+        const heroBoostImg = document.createElement("img");
+        heroBoostImg.src = "/images/other/attack.webp";
+        heroBoostImg.width = 20;
+        heroBoostRow.appendChild(heroBoostImg);
+
+        const heroBoostValue = document.createElement("div");
+        if (damageFormat === Hero.DPS) {
+            heroBoostValue.className = "dps-boost fw-bold";
+        } else {
+            heroBoostValue.className = "dph-boost fw-bold";
+        }
+        heroBoostRow.appendChild(heroBoostValue);
+
+        return heroBoostRow;
     }
 
     // Create a damage log defense to be added to the first row of each detail section of defense which show defense and its max HP
@@ -492,14 +589,18 @@ class AdvanceHTMLUtil {
     // Create damage log to be added to each row in detail section of defense
     static createDamageLogRow(damageLog, orderCount) {
         if (damageLog instanceof DamageLog && NumberUtil.isNumber(orderCount)) {
-            const offense = damageLog.offense;
+            const action = damageLog.action;
+            const offense = action.offense;
             const defense = damageLog.defense;
-            const modifier = damageLog.modifier;
+            const modifier = offense.activeModifier;
+
             const isImmune = damageLog.isImmune;
             const damage = damageLog.damage;
+            const modifiedDamage = damageLog.modifiedDamage;
+            const hardModeDamage = damageLog.hardModeDamage;
+            const reducedEQDamage = damageLog.reducedEQDamage;
             const remainingHP = defense.remainingHP;
             const maxHP = defense.getCurrentMaxHP();
-            const eqCount = defense.eqCount - 1;
     
             const rowData = document.createElement("tr");
     
@@ -508,17 +609,32 @@ class AdvanceHTMLUtil {
     
             const offenseIconDiv = document.createElement("div");
             offenseIconDiv.className = "object-container object-container--small";
+            if (action.isActionType(Action.EQUIPMENT)) {
+                if (offense.activeEquipment.isRarityEpic()) {
+                    offenseIconDiv.classList.add("object-container--epic");
+                }
+            } else {
+                if (offense instanceof Spell && offense.offenseID === eqSpellKey) {
+                    offenseIconDiv.classList.add("object-container--earthquake");
+                }
+            }
             offenseIconCell.appendChild(offenseIconDiv);
     
-            if (offense instanceof Troop && offense.damageMode === Troop.DEATH_DAMAGE) {
-                offenseIconDiv.appendChild(HTMLUtil.createModifierOverlay(deathDamageImage, HTMLUtil.OVERLAY_SMALL, HTMLUtil.MODIFIER_DEATH));
-            } else if (modifier !== null) {
-                offenseIconDiv.appendChild(HTMLUtil.createModifierOverlay(modifier.getImagePath(), HTMLUtil.OVERLAY_SMALL, HTMLUtil.MODIFIER_RAGED));
+            if (!(offense instanceof Hero && offense.activeEquipment !== null)) {
+                if (offense instanceof Troop && offense.damageMode === Troop.DEATH_DAMAGE) {
+                    offenseIconDiv.appendChild(HTMLUtil.createModifierOverlay(deathDamageImage, HTMLUtil.OVERLAY_SMALL, HTMLUtil.MODIFIER_DEATH));
+                } else if (modifier !== null) {
+                    offenseIconDiv.appendChild(HTMLUtil.createModifierOverlay(modifier.getImagePath(), HTMLUtil.OVERLAY_SMALL, HTMLUtil.MODIFIER_RAGED));
+                }
             }
     
             const offenseIconImg = document.createElement("img");
             offenseIconImg.className = "image object-container__img";
-            offenseIconImg.src = offense.getImagePath();
+            if (offense instanceof Hero && offense.activeEquipment !== null) {
+                offenseIconImg.src = offense.activeEquipment.getImagePath();
+            } else {
+                offenseIconImg.src = offense.getImagePath();
+            }
             offenseIconDiv.appendChild(offenseIconImg);
     
             offenseIconDiv.appendChild(HTMLUtil.createLevelOverlay(offense, HTMLUtil.OVERLAY_SMALL));
@@ -549,13 +665,13 @@ class AdvanceHTMLUtil {
             if (!isImmune) {
                 if (offense instanceof Repair) {
                     const damageIconImg = document.createElement("img");
-
+                    damageIconImg.className = "mx-1";
                     damageIconImg.src = repairImage;
                     damageIconImg.width = 20;
                     damageDiv.appendChild(damageIconImg);
                 } else {
                     const damageIconImg = document.createElement("img");
-
+                    damageIconImg.className = "mx-1";
                     damageIconImg.src = attackImage;
                     damageIconImg.width = 20;
                     damageDiv.appendChild(damageIconImg);
@@ -568,51 +684,18 @@ class AdvanceHTMLUtil {
                 damageAmount.classList.add("text--immune");
                 damageAmount.textContent = "🚫Immune";
             } else {
-                if (modifier !== null && damage > 0) {
+                if (modifiedDamage > 0) {
                     damageAmount.classList.add("text--raged");
                 }
                 damageAmount.textContent = damage;
             }  
             damageDiv.appendChild(damageAmount);
     
-            if (!isImmune && offense.isDamageTypeEQ() && eqCount > 0) {
-                const reducedDamage = NumberUtil.round2Places(offense.calcBaseEQDamage(maxHP) - damage);
-    
-                const differentDiv = document.createElement("div");
-                differentDiv.className = "d-flex align-items-center justify-content-center text text--damage-reduced";
-                damageCell.appendChild(differentDiv);
-    
-                const prefixSpan = document.createElement("span");
-                prefixSpan.textContent = `(- ${reducedDamage}`;
-                differentDiv.appendChild(prefixSpan);
-    
-                const eqIconImg = document.createElement("img");
-                eqIconImg.src = eqIcon;     
-                eqIconImg.width = 20;
-                differentDiv.appendChild(eqIconImg);
-    
-                const surfixSpan = document.createElement("span");
-                surfixSpan.textContent = ")";
-                differentDiv.appendChild(surfixSpan);
-            } else if (modifier !== null && damage > 0) {
-                const modifiedDamage = NumberUtil.round2Places(offense.calcModifiedDamage(modifier.getCurrentModify()));
-    
-                const differentDiv = document.createElement("div");
-                differentDiv.className = "d-flex align-items-center justify-content-center text text--raged";
-                damageCell.appendChild(differentDiv);
-    
-                const prefixSpan = document.createElement("span");
-                prefixSpan.textContent = `(+ ${modifiedDamage}`;
-                differentDiv.appendChild(prefixSpan);
-    
-                const eqIconImg = document.createElement("img");
-                eqIconImg.src = modifier.getImagePath();     
-                eqIconImg.width = 20;
-                differentDiv.appendChild(eqIconImg);
-    
-                const surfixSpan = document.createElement("span");
-                surfixSpan.textContent = ")";
-                differentDiv.appendChild(surfixSpan);
+            if (reducedEQDamage > 0) {
+                damageCell.appendChild(AdvanceHTMLUtil.createReducedEQDamageDiv(damageLog));
+            }
+            if (modifiedDamage > 0) {
+                damageCell.appendChild(AdvanceHTMLUtil.createModifiedDamageDiv(damageLog));
             }
     
             const hpCell = document.createElement("td");
@@ -635,6 +718,59 @@ class AdvanceHTMLUtil {
             } else {
                 throw new TypeError(`Invalid orderCount: ${orderCount}`);
             }           
+        }
+    }
+
+    static createModifiedDamageDiv(damageLog) {
+        if (damageLog instanceof DamageLog) {
+            const modifier = damageLog.action.offense.activeModifier;
+            const modifiedDamage = damageLog.modifiedDamage;
+    
+            const modifiedDamageDiv = document.createElement("div");
+            modifiedDamageDiv.className = "d-flex align-items-center justify-content-center text text--raged";
+
+            const prefixSpan = document.createElement("span");
+            prefixSpan.textContent = `(+ ${modifiedDamage}`;
+            modifiedDamageDiv.appendChild(prefixSpan);
+
+            const modifierImg = document.createElement("img");
+            modifierImg.className = "mx-1";
+            modifierImg.src = modifier.getImagePath();
+            modifierImg.width = 20;
+            modifiedDamageDiv.appendChild(modifierImg);
+
+            const surfixSpan = document.createElement("span");
+            surfixSpan.textContent = ")";
+            modifiedDamageDiv.appendChild(surfixSpan);
+
+            return modifiedDamageDiv;
+        } else {
+            throw new TypeError(`Invalid damageLog: ${damageLog}`);
+        }
+    }
+
+    static createReducedEQDamageDiv(damageLog) {
+        if (damageLog instanceof DamageLog) {
+            const reducedEQDamage = damageLog.reducedEQDamage;
+    
+            const reducedEQDamageDiv = document.createElement("div");
+            reducedEQDamageDiv.className = "d-flex align-items-center justify-content-center text text--damage-reduced";
+
+            const prefixSpan = document.createElement("span");
+            prefixSpan.textContent = `(- ${reducedEQDamage}`;
+            reducedEQDamageDiv.appendChild(prefixSpan);
+
+            const eqIconImg = document.createElement("img");
+            eqIconImg.className = "mx-1";
+            eqIconImg.src = eqIcon;     
+            eqIconImg.width = 20;
+            reducedEQDamageDiv.appendChild(eqIconImg);
+
+            const surfixSpan = document.createElement("span");
+            surfixSpan.textContent = ")";
+            reducedEQDamageDiv.appendChild(surfixSpan);
+
+            return reducedEQDamageDiv;
         }
     }
 

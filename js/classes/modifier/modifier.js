@@ -48,6 +48,19 @@ class Modifier {
         return this.getModify(this.currentLevelPos);
     }
     
+    getCurrentCalculationModify(modifier = 1) {
+        console.log(this);
+        console.log(modifier);
+        if (NumberUtil.isNumber(modifier)) {
+            console.log(this.getCurrentModify());
+            console.log(this.getCurrentModify() * modifier);
+            console.log(NumberUtil.round2Places(100 + this.getCurrentModify() * modifier));
+            return NumberUtil.round2Places(100 + this.getCurrentModify() * modifier);
+        } else {
+            throw new TypeError(`Invalid modifier: ${modifier}`);
+        }
+    }
+
     getCurrentModifyFormat() {
         return `+${this.getCurrentModify()}%`;
     }

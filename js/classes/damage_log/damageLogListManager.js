@@ -29,11 +29,31 @@ class DamageLogListManager {
                 }
 
                 const isImmune = clonedDefense.isImmune(offense);
-                const damage = offense.calcDamage(clonedDefense);
-                offense.calcRemainingHP(clonedDefense);                
-                const remainingHP = clonedDefense.remainingHP;
+                let damage = 0;
+                let modifiedDamage = 0;
+                let hardModeDamage = 0;
+                let reducedEQDamage = 0;
+                let remainingHP = clonedDefense.remainingHP;
 
-                this.add(new DamageLog(offense, modifier, clonedDefense.clone(), damage, isImmune, remainingHP));
+                if (!isImmune) {
+                    damage = offense.calcDamage(clonedDefense);
+                    
+                    if (offense.isDamageTypeEQ()) {
+                        reducedEQDamage = NumberUtil.round2Places(offense.calcBaseEQDamage(clonedDefense.getCurrentMaxHP()) - damage);
+                    } else {
+                        if (modifier !== null) {
+                            const clonedOffense = offense.clone();
+                            clonedOffense.activeModifier = null;
+                            modifiedDamage = NumberUtil.round2Places(damage - clonedOffense.calcDamage(clonedDefense));
+                        }
+                        hardModeDamage = 0;
+                    }
+
+                    offense.calcRemainingHP(clonedDefense);
+                    remainingHP = clonedDefense.remainingHP;
+                }
+
+                this.add(new DamageLog(action, clonedDefense.clone(), isImmune, damage, modifiedDamage, hardModeDamage, reducedEQDamage, remainingHP));
                 
                 if (clonedDefense.isDestroyed()) {
                     return;

@@ -66,8 +66,20 @@ class Equipment {
         return this.getDPSBoost(this.currentLevelPos);
     }
 
+    getCurrentDPHBoost(attackSpeed) {
+        if (NumberUtil.isNumber(attackSpeed)) {
+            return NumberUtil.round2Places(this.getCurrentDPSBoost() * attackSpeed);
+        } else {
+            throw new TypeError(`Invalid attackSpeed: ${attackSpeed}`);     
+        } 
+    }
+
     getCurrentDPSBoostFormat() {
-        return `${this.getCurrentDPSBoost()} DPS`;
+        return `${this.getCurrentDPSBoost()}`;         
+    }
+
+    getCurrentDPHBoostFormat(attackSpeed) {
+        return `${this.getCurrentDPHBoost(attackSpeed)}`;
     }
 
     // Calculate base damage for eq damage type spell

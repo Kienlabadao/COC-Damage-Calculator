@@ -6,13 +6,13 @@ const actionListMaxSize = 30;
 const deathDamageImage = "/images/other/death.webp";
 const attackImage = "/images/other/attack.webp";
 const repairImage = "/images/other/repair.webp";
+const hardModeImage = "/images/other/hardmode.webp";
 const eqIcon = "/images/other/earthquake_icon.webp";
 
 const eqSpellKey = "earthquake_spell";
 const rageSpellTowerKey = "rage_spell_tower";
 const hideDestroyedDefensesKey = "hideDestroyedDefenses";
 const hideSurvivedDefensesKey = "hideSurvivedDefenses";
-const showActionDetailKey = "showActionDetail";
 
 const defensesSection = document.getElementById("defenses");
 let defenseDivs = [];
@@ -22,12 +22,10 @@ const heroSections = offensesSection.querySelectorAll(".hero-section");
 const troopDivs = offensesSection.querySelectorAll(".offense.troop");
 const repairDivs = offensesSection.querySelectorAll(".offense.repair");
 const modifierDivs = offensesSection.querySelectorAll(".modifier.modifier-obj");
-const actionListDiv = document.getElementById("actionList");
 const actionListDetailDiv = document.getElementById("actionListDetail");
 const useTroopDeathDamageCheckbox = document.getElementById("useTroopDeathDamage");
 const hideDestroyedDefensesCheckbox = document.getElementById(hideDestroyedDefensesKey);
 const hideSurvivedDefensesCheckbox = document.getElementById(hideSurvivedDefensesKey);
-const showActionDetailCheckbox = document.getElementById("showDetailActionList");
 const searchDefenseBox = document.getElementById("searchDefense");
 const defenseCountBox = document.getElementById("defenseCount");
 const actionCountBox = document.getElementById("actionCount");
@@ -36,7 +34,6 @@ const statusLimitExceededDiv = document.getElementById("statusLimitExceeded");
 let useTroopDeathDamage = LocalStorageUtils.loadBoolean(LocalStorageUtils.getUseTroopDeathDamageKey(type), false);
 let isHideDestroyedDefenses = LocalStorageUtils.loadBoolean(hideDestroyedDefensesKey, false);
 let isHideSurvivedDefenses = LocalStorageUtils.loadBoolean(hideSurvivedDefensesKey, false);
-let showActionDetail = LocalStorageUtils.loadBoolean(showActionDetailKey, false);
 
 const offenseListManager = new OffenseListManager();
 const modifierListManager = new ModifierListManager();
@@ -45,6 +42,8 @@ const actionListManager = new ActionListManager();
 
 // Load the page when JSON is loaded successfully
 document.addEventListener('init', () => {
+  Hero.HARD_MODE_HEROES_MODIFIER = getHardModeHeroesModifier();
+  
   offenseListManager.loadKey(type);
   modifierListManager.loadKey(type);
   defenseListManager.loadKey(type);
@@ -77,13 +76,11 @@ document.addEventListener('init', () => {
   useTroopDeathDamageCheckbox.checked = useTroopDeathDamage;
   hideDestroyedDefensesCheckbox.checked = isHideDestroyedDefenses;
   hideSurvivedDefensesCheckbox.checked = isHideSurvivedDefenses;
-  showActionDetailCheckbox.checked = showActionDetail;
 
   updateAllOffensesModifier();
   hideActionList();
   updateActionCount(actionListManager.getLength());
   filterDefenses();
-  toggleShowActionListType();
 });
 
 // Load spell div with saved data
@@ -136,7 +133,8 @@ function loadHero(hero) {
         const heroLevelDiv = heroSection.querySelector(".hero-level");
         const heroLevelImgContainer = heroLevelDiv.querySelector(".image");
         const heroLevelLevelOverlayDiv = heroLevelDiv.querySelector(".level");
-        const levelSlider = heroLevelDiv.querySelector(".slider");       
+        const levelSlider = heroLevelDiv.querySelector(".slider");
+        const attackSpeedDiv = heroLevelDiv.querySelector(".attack-speed");
 
         const heroAttackDiv = heroSection.querySelector(".hero-attack");
         const heroAttackImgContainer = heroAttackDiv.querySelector(".image");
@@ -151,6 +149,8 @@ function loadHero(hero) {
         levelSlider.min = minLevelPos;
         levelSlider.max = maxLevelPos;
         levelSlider.value = currentLevelPos;
+
+        attackSpeedDiv.textContent = `${hero.attackSpeed}s`;
 
         if (hero.isMaxLevel()) {            
           HTMLUtil.addLevelOverlayMaxedClass(heroLevelLevelOverlayDiv);

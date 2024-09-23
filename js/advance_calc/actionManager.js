@@ -1,39 +1,37 @@
-function addAction(element) {
+function addAction(element, type) {
     const amount = Number.parseInt(element.value);
-    const offenseDiv = HTMLUtil.getParentDiv(element, "offense");
 
-    if (offenseDiv !== null) {
-        const offenseID = HTMLUtil.getDataID(offenseDiv);
-        const offense = offenseListManager.getOffense(offenseID);
+    switch (type) {
+        case "hero":
+        case "offense":
+            const offenseDiv = HTMLUtil.getParentDiv(element, "offense");
+            const offenseID = HTMLUtil.getDataID(offenseDiv);
+            const offense = offenseListManager.getOffense(offenseID);
 
-        addActionList(amount, offense);
-        updateActionList();
-        console.log(actionListManager);
-        calc();
-    } else {
-        const equipmentDiv = HTMLUtil.getParentDiv(element, "equipment");
-        
-        if (equipmentDiv !== null) {
+            addActionList(amount, offense, type);
+            break;
+        case "equipment":
+            const equipmentDiv = HTMLUtil.getParentDiv(element, "equipment");
             const equipmentID = HTMLUtil.getDataID(equipmentDiv);
             const hero = offenseListManager.getHeroFromEquipment(equipmentID);
             hero.setActiveEquipment(equipmentID); 
-            console.log(hero);
-            addActionList(amount, hero);
-            updateActionList();
-            console.log(actionListManager);
-            calc();
-        } else {
-            throw new Error(`Invalid action btn: ${element}`);
-        }
+
+            addActionList(amount, hero, type);
+            break;
+        default:
+            throw new Error(`Invalid action type: ${type}`);
     }
+    updateActionList();
+    console.log(actionListManager);
+    calc();
 }
 
-function addActionList(amount, offense) {
+function addActionList(amount, offense, type) {
     for (let count = 0; count < amount; count++) {
         const actionListSize = actionListManager.getLength();
 
         if (actionListSize < actionListMaxSize) {
-            actionListManager.add(new Action(offense.clone()));
+            actionListManager.add(new Action(offense.clone(), type));
             updateActionCount(actionListManager.getLength());
             if (!HTMLUtil.isDivHidden(statusLimitExceededDiv)) {
                 setStatusLimitExceededDiv(false);
@@ -103,22 +101,12 @@ function moveActionDown(element) {
 }
 
 function updateActionList() {
-    updateActionListDiv();
     updateActionListDetailDiv();
     
     if (actionListManager.isEmpty()) {
         hideActionList();
     } else {
         showActionList();
-    }
-}
-
-function updateActionListDiv() {
-    HTMLUtil.removeAllChilds(actionListDiv);
-    
-    let count = 0;
-    for (const action of actionListManager.actionList) {
-        actionListDiv.appendChild(AdvanceHTMLUtil.createActionDiv(action, ++count));
     }
 }
 
@@ -159,22 +147,6 @@ function setStatusLimitExceededDiv(status) {
         }
     } else {
         throw new TypeError(`Invalid status: ${status}`);
-    }
-}
-
-function toggleShowActionDetail(element) {
-    showActionDetail = element.checked;
-    LocalStorageUtils.saveBoolean(showActionDetailKey, showActionDetail);
-    toggleShowActionListType();
-}
-
-function toggleShowActionListType() {
-    if (showActionDetail) {
-        HTMLUtil.showDiv(actionListDetailDiv);
-        HTMLUtil.hideDiv(actionListDiv);
-    } else {
-        HTMLUtil.showDiv(actionListDiv);
-        HTMLUtil.hideDiv(actionListDetailDiv);
     }
 }
 

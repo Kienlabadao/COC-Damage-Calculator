@@ -13,7 +13,7 @@ class Spell extends Offense {
     // EQ damage deal % damage based on target max hp
     calcBaseEQDamage(maxHP) {
         if (this.isDamageTypeEQ()) {
-            return maxHP * this.getCurrentDamage() / 100;
+            return NumberUtil.round2Places(maxHP * this.getCurrentDamage() / 100);
         } else {
             throw new TypeError(`Spell isn't EQ type: ${this.offenseID}`);
         }

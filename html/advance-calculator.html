@@ -101,12 +101,12 @@
                                         <input type="range" class="slider slider--theme" min="1" oninput="updateOffense(this)">
                                     </div>
                                     <div class="d-flex justify-content-center gap-3">
-                                        <button type="button" class="btn btn-success" value="1" onclick="addAction(this)">Add 1</button>
-                                        <button type="button" class="btn btn-success" value="5" onclick="addAction(this)">Add 5</button>
+                                        <button type="button" class="btn btn-success" value="1" onclick="addAction(this, 'offense')">Add 1</button>
+                                        <button type="button" class="btn btn-success" value="5" onclick="addAction(this, 'offense')">Add 5</button>
                                     </div>
                                     <div class="d-flex justify-content-center align-items-center mt-2">
                                         <img src="/images/other/attack.webp" width="20">
-                                        <div class="damage fw-bold mx-1">4100</div>
+                                        <div class="damage fw-bold mx-1"></div>
                                     </div>
                                 </div>
                                 <div class="col offense spell card-custom card-custom__object text-center" data-id="earthquake_spell" data-donated="false">
@@ -119,12 +119,12 @@
                                         <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                                     </div>
                                     <div class="d-flex justify-content-center gap-3">
-                                        <button type="button" class="btn btn-success" value="1" onclick="addAction(this)">Add 1</button>
-                                        <button type="button" class="btn btn-success" value="5" onclick="addAction(this)">Add 5</button>
+                                        <button type="button" class="btn btn-success" value="1" onclick="addAction(this, 'offense')">Add 1</button>
+                                        <button type="button" class="btn btn-success" value="5" onclick="addAction(this, 'offense')">Add 5</button>
                                     </div>
                                     <div class="d-flex justify-content-center align-items-center mt-2">
                                         <img src="/images/other/attack.webp" width="20">
-                                        <div class="damage fw-bold mx-1">4100</div>
+                                        <div class="damage fw-bold mx-1"></div>
                                     </div>
                                 </div>
                             </div>
@@ -163,8 +163,8 @@
                                         <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                                     </div>
                                     <div class="d-flex justify-content-md-evenly justify-content-center gap-3">
-                                        <button type="button" class="btn btn-success" value="1" onclick="addAction(this)">Add 1</button>
-                                        <button type="button" class="btn btn-success" value="5" onclick="addAction(this)">Add 5</button>
+                                        <button type="button" class="btn btn-success" value="1" onclick="addAction(this, 'offense')">Add 1</button>
+                                        <button type="button" class="btn btn-success" value="5" onclick="addAction(this, 'offense')">Add 5</button>
                                     </div>
                                     <div class="d-flex justify-content-center align-items-center mt-2">
                                         <img src="/images/other/attack.webp" width="20">
@@ -182,8 +182,8 @@
                                         <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                                     </div>
                                     <div class="d-flex justify-content-md-evenly justify-content-center gap-3">
-                                        <button type="button" class="btn btn-success" value="1" onclick="addAction(this)">Add 1</button>
-                                        <button type="button" class="btn btn-success" value="5" onclick="addAction(this)">Add 5</button>
+                                        <button type="button" class="btn btn-success" value="1" onclick="addAction(this, 'offense')">Add 1</button>
+                                        <button type="button" class="btn btn-success" value="5" onclick="addAction(this, 'offense')">Add 5</button>
                                     </div>
                                     <div class="d-flex justify-content-center align-items-center mt-2">
                                         <img src="/images/other/attack.webp" width="20">
@@ -230,6 +230,13 @@
                                             <div class="mt-2">
                                                 <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                                             </div>
+                                            <div class="mt-2">
+                                                <div class="d-flex justify-content-center align-items-center column-gap-1">
+                                                    <div class="fw-bold">Attack Speed:</div>
+                                                    <img src="/images/other/attack_speed.webp" width="20">
+                                                    <div class="attack-speed fw-bold"></div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>                                   
                                 </div>
@@ -241,18 +248,25 @@
                                                 <h5>Normal Attack</h5>
                                                 <div class="object-container">
                                                     <img class="image object-container__img">
-                                                    <div class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed">18</div>
+                                                    <div class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed"></div>
                                                     <div class="modifier overlay overlay--top-left overlay__img"></div>
                                                 </div>
                                                 <div class="d-flex justify-content-md-evenly justify-content-center gap-3 mt-2">
-                                                    <button type="button" class="btn btn-success" value="1" onclick="addAction(this)">Add 1</button>
-                                                    <button type="button" class="btn btn-success" value="5" onclick="addAction(this)">Add 5</button>
+                                                    <button type="button" class="btn btn-success" value="1" onclick="addAction(this, 'hero')">Add 1</button>
+                                                    <button type="button" class="btn btn-success" value="5" onclick="addAction(this, 'hero')">Add 5</button>
                                                 </div>
                                                 <div class="mt-2">
-                                                    <div class="d-flex justify-content-center align-items-center column-gap-1">
-                                                        <div class="fw-bold">DPH:</div>
-                                                        <img src="/images/other/attack.webp" width="20">
-                                                        <div class="damage fw-bold"></div>
+                                                    <div class="mt-2">
+                                                        <div class="d-flex justify-content-center align-items-center column-gap-1">
+                                                            <div class="fw-bold">DPS:</div>
+                                                            <img src="/images/other/attack.webp" width="20">
+                                                            <div class="damage-dps fw-bold"></div>
+                                                        </div>
+                                                        <div class="d-flex justify-content-center align-items-center column-gap-1">
+                                                            <div class="fw-bold">DPH:</div>
+                                                            <img src="/images/other/attack.webp" width="20">
+                                                            <div class="damage-dph fw-bold"></div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -296,6 +310,13 @@
                                             <div class="mt-2">
                                                 <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                                             </div>
+                                            <div class="mt-2">
+                                                <div class="d-flex justify-content-center align-items-center column-gap-1">
+                                                    <div class="fw-bold">Attack Speed:</div>
+                                                    <img src="/images/other/attack_speed.webp" width="20">
+                                                    <div class="attack-speed fw-bold"></div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>                                   
                                 </div>
@@ -307,18 +328,23 @@
                                                 <h5>Normal Attack</h5>
                                                 <div class="object-container">
                                                     <img class="image object-container__img">
-                                                    <div class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed">18</div>
+                                                    <div class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed"></div>
                                                     <div class="modifier overlay overlay--top-left overlay__img"></div>
                                                 </div>
                                                 <div class="d-flex justify-content-md-evenly justify-content-center gap-3 mt-2">
-                                                    <button type="button" class="btn btn-success" value="1" onclick="addAction(this)">Add 1</button>
-                                                    <button type="button" class="btn btn-success" value="5" onclick="addAction(this)">Add 5</button>
+                                                    <button type="button" class="btn btn-success" value="1" onclick="addAction(this, 'hero')">Add 1</button>
+                                                    <button type="button" class="btn btn-success" value="5" onclick="addAction(this, 'hero')">Add 5</button>
                                                 </div>
                                                 <div class="mt-2">
                                                     <div class="d-flex justify-content-center align-items-center column-gap-1">
+                                                        <div class="fw-bold">DPS:</div>
+                                                        <img src="/images/other/attack.webp" width="20">
+                                                        <div class="damage-dps fw-bold"></div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-center align-items-center column-gap-1">
                                                         <div class="fw-bold">DPH:</div>
                                                         <img src="/images/other/attack.webp" width="20">
-                                                        <div class="damage fw-bold"></div>
+                                                        <div class="damage-dph fw-bold"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -365,8 +391,8 @@
                                         <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
                                     </div>
                                     <div class="d-flex justify-content-md-evenly justify-content-center gap-3">
-                                        <button type="button" class="btn btn-success" value="1" onclick="addAction(this)">Add 1</button>
-                                        <button type="button" class="btn btn-success" value="5" onclick="addAction(this)">Add 5</button>
+                                        <button type="button" class="btn btn-success" value="1" onclick="addAction(this, 'offense')">Add 1</button>
+                                        <button type="button" class="btn btn-success" value="5" onclick="addAction(this, 'offense')">Add 5</button>
                                     </div>
                                     <div class="d-flex justify-content-center align-items-center mt-2">
                                         <img src="/images/other/repair.webp" width="20">
@@ -395,7 +421,7 @@
                             <div class="row row-cols-6 justify-content-evenly gap-3">
                                 <div class="col modifier modifier-obj card-custom card-custom__object text-center" data-id="rage_spell">
                                     <h5>Rage Spell</h5>
-                                    <div class="object-container">
+                                    <div class="object-container object-container--modifier">
                                         <img class="image object-container__img">
                                         <div class="level overlay overlay--bottom-left overlay__number"></div>
                                     </div>
@@ -413,7 +439,7 @@
                                 </div>
                                 <div class="col modifier modifier-obj card-custom card-custom__object text-center" data-id="rage_gem">
                                     <h5>Rage Gem</h5>
-                                    <div class="object-container">
+                                    <div class="object-container object-container--modifier">
                                         <img class="image object-container__img">
                                         <div class="level overlay overlay--bottom-left overlay__number"></div>
                                     </div>
@@ -431,7 +457,7 @@
                                 </div>
                                 <div class="col modifier modifier-obj card-custom card-custom__object text-center" data-id="rage_spell_tower">
                                     <h5>Rage Spell Tower</h5>
-                                    <div class="object-container">
+                                    <div class="object-container object-container--modifier">
                                         <img class="image object-container__img">
                                     </div>
                                     <div class="d-flex justify-content-center align-items-center gap-1">
@@ -555,10 +581,6 @@
                     </div>
                 </div><hr>
                 <div>
-                    <div class="d-flex align-items-center gap-2">
-                        <input id="showDetailActionList" class="form-check-input checkbox" type="checkbox" oninput="toggleShowActionDetail(this)">
-                        <label class="h5 mb-0" for="showDetailActionList">Show Details</label>
-                    </div>
                     <div class="d-flex justify-content-center justify-content-sm-start flex-wrap gap-3 mt-3">
                         <button type="button" class="btn btn-danger" value="1" onclick="removeAction(this)">Remove 1</button>
                         <button type="button" class="btn btn-danger" value="5" onclick="removeAction(this)">Remove 5</button>
@@ -566,15 +588,13 @@
                     </div>
                 </div><hr>
                 <div>
-                    <h5 id="actionCount" class="mb-0">Action Count: 12/50</h5>
+                    <h5 id="actionCount" class="mb-0"></h5>
                 </div><hr>
                 <div>
                     <div class="collapse-btn my-3" id="showActionListButton">
                         <button class="btn btn-secondary fw-bold" type="button" data-bs-toggle="collapse" aria-expanded="true" onclick="toggleHTMLCollapseBtnText(this)" data-bs-target="#showActionList" aria-controls="showActionList">Hide</button>
                     </div>
                     <div class="collapse show" id="showActionList">
-                        <div id="actionList" class="d-flex justify-content-center justify-content-md-start flex-wrap gap-1">
-                        </div>
                         <div id="actionListDetail" class="table-container">
                             <table class="text-center align-middle fw-bold">
                                 <thead>
@@ -584,58 +604,7 @@
                                         <th>Manage</th>
                                     </tr>
                                 </thead>
-                                <tbody class="action-display">
-                                    <tr>
-                                        <td>
-                                            <div class="object-container object-container--responsive"><img class="image object-container__img" src="/images/offense/repairs/builders_hut/6.webp">
-                                                <div class="modifier overlay overlay--responsive overlay--top-right overlay__number overlay__number--order">1</div>
-                                                <div class="modifier overlay overlay--responsive overlay--bottom-left overlay__number overlay__number--level-maxed">6</div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="object-container object-container--responsive"><img class="image object-container__img" src="/images/offense/repairs/builders_hut/6.webp">
-                                                <div class="modifier overlay overlay--responsive overlay--top-right overlay__number overlay__number--order">1</div>
-                                                <div class="modifier overlay overlay--responsive overlay--bottom-left overlay__number overlay__number--level-maxed">6</div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-success" onclick="">
-                                                <i class="fa-solid fa-arrow-up fa-1x"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-success" onclick="">
-                                                <i class="fa-solid fa-arrow-down fa-1x"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-danger" onclick="">
-                                                <i class="fa-solid fa-trash-can fa-1x"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="object-container object-container--responsive"><img class="image object-container__img" src="/images/offense/repairs/builders_hut/6.webp">
-                                                <div class="modifier overlay overlay--responsive overlay--top-right overlay__number overlay__number--order">1</div>
-                                                <div class="modifier overlay overlay--responsive overlay--bottom-left overlay__number overlay__number--level-maxed">6</div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="object-container object-container--responsive"><img class="image object-container__img" src="/images/offense/repairs/builders_hut/6.webp">
-                                                <div class="modifier overlay overlay--responsive overlay--top-right overlay__number overlay__number--order">1</div>
-                                                <div class="modifier overlay overlay--responsive overlay--bottom-left overlay__number overlay__number--level-maxed">6</div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-success" onclick="">
-                                                <i class="fa-solid fa-arrow-up fa-1x"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-success" onclick="">
-                                                <i class="fa-solid fa-arrow-down fa-1x"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-danger" onclick="">
-                                                <i class="fa-solid fa-trash-can fa-1x"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                <tbody class="action-display"></tbody>
                             </table>
                         </div>
                     </div>

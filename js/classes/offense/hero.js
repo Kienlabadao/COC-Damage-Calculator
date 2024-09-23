@@ -7,6 +7,15 @@ class Hero extends Offense {
     static DAMAGE = 1;
     static DEATH_DAMAGE = 2;
 
+    static DPS = 1;
+    static DPH = 2;
+
+    // Modifier (rage spell, rage gem) is only 50% effective on heroes
+    static HERO_MODIFIER_EFFECTIVENESS = 0.5;
+
+    // Hard Mode
+    static HARD_MODE_HEROES_MODIFIER;
+
     constructor(offenseID, currentLevelPos, activeModifier, isEnabled, equipmentListManager) {
         super(offenseID, "hero", currentLevelPos, activeModifier, isEnabled);
         this._attackSpeed = this.offenseJSON["attack_speed"];
@@ -18,12 +27,36 @@ class Hero extends Offense {
         return this.getCurrentNormalDamage();
     }
 
-    getCurrentDamageFormat() {
-        let totalDPS = this.getCurrentNormalDamage();
+    // Get damage after modify for hero
+    calcModifiedDamage(totalDPS) {
+        if (this.activeModifier !== null) {
+            const multiplier = this.activeModifier.getCurrentCalculationModify(Hero.HERO_MODIFIER_EFFECTIVENESS);
+            console.log(this);
+            console.log(multiplier);
+            return NumberUtil.round2Places(totalDPS * multiplier / 100);
+        } else {
+            return NumberUtil.round2Places(totalDPS);
+        }
+    }
+
+    convertDPSToDPH(dps) {
+        if (NumberUtil.isNumber(dps)) {
+            return NumberUtil.round2Places(dps * this.attackSpeed);
+        } else {
+            throw new TypeError(`Invalid dps: ${dps}`);
+        }
+    }
+
+    getCurrentDamageFormat(damageFormat = Hero.DPH) {
+        if (!Hero.isValidDamageFormat(damageFormat)) {
+            throw new TypeError(`Invalid damageFormat: ${damageFormat}`);
+        }
+
+        let totalDamage = this.getCurrentNormalDamage();
 
         for (const equipment of this.equipmentListManager.equipmentList) {
             if (equipment.isEnabled) {
-                totalDPS += equipment.getCurrentDPSBoost();      
+                totalDamage += equipment.getCurrentDPSBoost();      
             }
         }
 
@@ -31,37 +64,36 @@ class Hero extends Offense {
             if (this.activeEquipment.isEquipmentTypeDamage()) {
                 return this.activeEquipment.getCurrentDamageFormat();
             } else if (this.activeEquipment.isEquipmentTypeAttack()) {
-                totalDPS = this.calcModifiedDamage(totalDPS);
-                totalDPS = this.convertDPSToDPH(totalDPS);
-                totalDPS += this.activeEquipment.getCurrentDamage()             
-                return `${NumberUtil.round2Places(totalDPS)}`;
+                totalDamage = this.calcModifiedDamage(totalDamage);
+                if (damageFormat === Hero.DPH) {
+                    totalDamage = this.convertDPSToDPH(totalDamage);
+                }                
+                totalDamage += this.activeEquipment.getCurrentDamage();
+
+                return `${NumberUtil.round2Places(totalDamage)}`;
             } else {
                 console.warn(`ActiveEquipment can't deal damage: ${this.activeEquipment}`);
                 return 0;
             }
         } else {
-            totalDPS = this.calcModifiedDamage(totalDPS);
-            totalDPS = this.convertDPSToDPH(totalDPS);
-            return `${NumberUtil.round2Places(totalDPS)}`;
+            totalDamage = this.calcModifiedDamage(totalDamage);
+            if (damageFormat === Hero.DPH) {
+                totalDamage = this.convertDPSToDPH(totalDamage);
+            }
+
+            return `${NumberUtil.round2Places(totalDamage)}`;
         }
     }
 
-    // Get damage after modify for hero
-    calcModifiedDamage(totalDPS) {
-        if (this.activeModifier !== null) {
-            const multiplier = 100 + this.activeModifier.getCurrentModify() / 2;
-
-            return totalDPS * multiplier / 100;
+    calcBaseEQDamage(maxHP) {
+        if (this.activeEquipment !== null) {
+            return this.activeEquipment.calcBaseEQDamage(maxHP);
         } else {
-            return this.getCurrentNormalDamage();
-        }
-    }
-
-    convertDPSToDPH(dps) {
-        if (NumberUtil.isNumber(dps)) {
-            return dps * this.attackSpeed;
-        } else {
-            throw new TypeError(`Invalid dps: ${dps}`);
+            if (this.isDamageTypeEQ()) {
+                return maxHP * this.getCurrentDamage() / 100;
+            } else {
+                throw new TypeError(`Hero doesn't deal EQ damage: ${this.offenseID}`);
+            }
         }
     }
 
@@ -87,13 +119,15 @@ class Hero extends Offense {
                     totalDPS = this.calcModifiedDamage(totalDPS);
                     totalDPS = this.convertDPSToDPH(totalDPS);
                     totalDPS += this.activeEquipment.calcDamage(defense);
-                    return totalDPS;
+
+                    return NumberUtil.round2Places(totalDPS);
                 } else {
                     console.warn(`ActiveEquipment can't deal damage: ${this.activeEquipment}`);
                     return 0;
                 }
             } else {
                 totalDPS = this.calcModifiedDamage(totalDPS);
+
                 return this.convertDPSToDPH(totalDPS);
             }
         } else {
@@ -142,6 +176,15 @@ class Hero extends Offense {
     // Get hero's image path in the project folder
     getImagePath() {
         return `/images/offense/heroes/${this.offenseID}.webp`;      
+    }
+
+    // Check if offense deal earthquake type damage
+    isDamageTypeEQ() {
+        if (this.activeEquipment !== null) {
+            return this.activeEquipment.isDamageTypeEQ();
+        } else {
+            return this.damageType === "earthquake";
+        }      
     }
 
     // Get a new hero with same datas
@@ -194,5 +237,11 @@ class Hero extends Offense {
 
     get activeEquipment() {
         return this._activeEquipment;
+    }
+
+    static isValidDamageFormat(damageFormat) {
+        const damageFormatList = [Hero.DPS, Hero.DPH];
+
+        return damageFormatList.includes(damageFormat);
     }
 }

@@ -97,4 +97,8 @@ function getMaxSpellCount() {
     return otherJSON["max_spell_count"];
 }
 
+function getHardModeHeroesModifier() {
+    return otherJSON["hard_mode_heroes_modifier"];
+}
+
 fetchJSON();

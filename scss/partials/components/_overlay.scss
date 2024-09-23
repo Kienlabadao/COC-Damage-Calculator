@@ -82,7 +82,7 @@
     @include overlay;
   
     &--responsive {
-        @include respondToBreakpoint(md) {
+        @include respondToBreakpoint(lg) {
           @include overlay--small;
         }
     }
