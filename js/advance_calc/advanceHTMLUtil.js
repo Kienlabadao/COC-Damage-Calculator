@@ -111,6 +111,7 @@ class AdvanceHTMLUtil {
             modifierContainerDiv.className = "d-flex justify-content-center gap-3";
             modifierCell.appendChild(modifierContainerDiv);
 
+            let addHardModeIcon = false;
             switch (action.type) {
                 case Action.EQUIPMENT:
                     if (!offense.activeEquipment.isEquipmentTypeDamage()) {
@@ -124,11 +125,16 @@ class AdvanceHTMLUtil {
                             modifierContainerDiv.appendChild(AdvanceHTMLUtil.createModifierContainerDiv(equipment));
                         }                   
                     }
+                    if (offense.isHardModeEnabled) {
+                        addHardModeIcon = true;
+                    }             
                 case Action.OFFENSE:
                     if (modifier !== null) {
                         modifierContainerDiv.appendChild(AdvanceHTMLUtil.createModifierContainerDiv(modifier));
                     }
-                    //modifierContainerDiv.appendChild(AdvanceHTMLUtil.createHardModeIconDiv());
+                    if (addHardModeIcon) {
+                        modifierContainerDiv.appendChild(AdvanceHTMLUtil.createHardModeIconDiv());
+                    }
                     break;
             }
 
@@ -215,7 +221,7 @@ class AdvanceHTMLUtil {
         // Create the main image element
         const hardModeIcon = document.createElement("img");
         hardModeIcon.className = "image object-container__img";
-        hardModeIcon.src = hardModeImage;
+        hardModeIcon.src = hardModeTextImage;
         hardModeIconDiv.appendChild(hardModeIcon);
     
         return hardModeIconDiv;
@@ -507,6 +513,17 @@ class AdvanceHTMLUtil {
                 damageDisplayDiv.appendChild(AdvanceHTMLUtil.createHeroBoostRow(Hero.DPH));
             }
 
+            const typeDiv = document.createElement("div");
+            typeDiv.className = "fw-bold";
+            if (equipment.isEquipmentTypeAttack()) {
+                typeDiv.textContent = "Type: Attack";
+            } else if (equipment.isEquipmentTypeDamage()) {
+                typeDiv.textContent = "Type: Damage";
+            } else {
+                typeDiv.textContent = "Type: Support";
+            }
+            mainDiv.appendChild(typeDiv);
+
             return mainDiv;
         } else {
             throw new TypeError(`Invalid defense: ${equipment}`);
@@ -692,10 +709,13 @@ class AdvanceHTMLUtil {
             damageDiv.appendChild(damageAmount);
     
             if (reducedEQDamage > 0) {
-                damageCell.appendChild(AdvanceHTMLUtil.createReducedEQDamageDiv(damageLog));
+                damageCell.appendChild(AdvanceHTMLUtil.createHardModeDamageDiv(damageLog));
             }
             if (modifiedDamage > 0) {
                 damageCell.appendChild(AdvanceHTMLUtil.createModifiedDamageDiv(damageLog));
+            }
+            if (hardModeDamage > 0) {
+                damageCell.appendChild(AdvanceHTMLUtil.createHardModeDamageDiv(damageLog));
             }
     
             const hpCell = document.createElement("td");
@@ -749,7 +769,7 @@ class AdvanceHTMLUtil {
         }
     }
 
-    static createReducedEQDamageDiv(damageLog) {
+    static createHardModeDamageDiv(damageLog) {
         if (damageLog instanceof DamageLog) {
             const reducedEQDamage = damageLog.reducedEQDamage;
     
@@ -771,6 +791,31 @@ class AdvanceHTMLUtil {
             reducedEQDamageDiv.appendChild(surfixSpan);
 
             return reducedEQDamageDiv;
+        }
+    }
+
+    static createHardModeDamageDiv(damageLog) {
+        if (damageLog instanceof DamageLog) {
+            const hardModeDamage = damageLog.hardModeDamage;
+    
+            const hardModeDamageDiv = document.createElement("div");
+            hardModeDamageDiv.className = "d-flex align-items-center justify-content-center text text--hard-mode";
+
+            const prefixSpan = document.createElement("span");
+            prefixSpan.textContent = `(- ${hardModeDamage}`;
+            hardModeDamageDiv.appendChild(prefixSpan);
+
+            const hardModeIconImg = document.createElement("img");
+            hardModeIconImg.className = "mx-1";
+            hardModeIconImg.src = hardModeIconImage;
+            hardModeIconImg.width = 20;
+            hardModeDamageDiv.appendChild(hardModeIconImg);
+
+            const surfixSpan = document.createElement("span");
+            surfixSpan.textContent = ")";
+            hardModeDamageDiv.appendChild(surfixSpan);
+
+            return hardModeDamageDiv;
         }
     }
 

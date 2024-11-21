@@ -46,7 +46,13 @@ class DamageLogListManager {
                             clonedOffense.activeModifier = null;
                             modifiedDamage = NumberUtil.round2Places(damage - clonedOffense.calcDamage(clonedDefense));
                         }
-                        hardModeDamage = 0;
+
+                        if (offense instanceof Hero && offense.isHardModeEnabled) {
+                            const clonedOffense = offense.clone();
+                            clonedOffense.isHardModeEnabled = false;
+                            
+                            hardModeDamage = NumberUtil.round2Places(clonedOffense.calcDamage(clonedDefense) - damage);
+                        }
                     }
 
                     offense.calcRemainingHP(clonedDefense);

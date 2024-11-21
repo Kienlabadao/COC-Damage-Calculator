@@ -14,28 +14,40 @@ class Hero extends Offense {
     static HERO_MODIFIER_EFFECTIVENESS = 0.5;
 
     // Hard Mode
-    static HARD_MODE_HEROES_MODIFIER;
+    static HARD_MODE_HEROES_MODIFIER = 1;
 
-    constructor(offenseID, currentLevelPos, activeModifier, isEnabled, equipmentListManager) {
+    constructor(offenseID, currentLevelPos, activeModifier, isEnabled, equipmentListManager, isHardModeEnabled) {
         super(offenseID, "hero", currentLevelPos, activeModifier, isEnabled);
         this._attackSpeed = this.offenseJSON["attack_speed"];
         this.equipmentListManager = equipmentListManager;
         this._activeEquipment = null;
+        this._isHardModeEnabled = isHardModeEnabled;
     }
 
     getCurrentDamage() {
         return this.getCurrentNormalDamage();
     }
 
+    calcBaseEQDamage(maxHP) {
+        if (this.activeEquipment !== null) {
+            return this.activeEquipment.calcBaseEQDamage(maxHP);
+        } else {
+            if (this.isDamageTypeEQ()) {
+                return maxHP * this.getCurrentDamage() / 100;
+            } else {
+                throw new TypeError(`Hero doesn't deal EQ damage: ${this.offenseID}`);
+            }
+        }
+    }
+
     // Get damage after modify for hero
-    calcModifiedDamage(totalDPS) {
+    calcModifiedDamage(totalDamage) {
         if (this.activeModifier !== null) {
             const multiplier = this.activeModifier.getCurrentCalculationModify(Hero.HERO_MODIFIER_EFFECTIVENESS);
-            console.log(this);
-            console.log(multiplier);
-            return NumberUtil.round2Places(totalDPS * multiplier / 100);
+
+            return NumberUtil.round2Places(totalDamage * multiplier);
         } else {
-            return NumberUtil.round2Places(totalDPS);
+            return NumberUtil.round2Places(totalDamage);
         }
     }
 
@@ -56,19 +68,22 @@ class Hero extends Offense {
 
         for (const equipment of this.equipmentListManager.equipmentList) {
             if (equipment.isEnabled) {
-                totalDamage += equipment.getCurrentDPSBoost();      
+                totalDamage += equipment.getCurrentDPSBoost(false);      
             }
         }
 
         if (this.activeEquipment !== null) {
             if (this.activeEquipment.isEquipmentTypeDamage()) {
-                return this.activeEquipment.getCurrentDamageFormat();
+                return this.activeEquipment.getCurrentDamageFormat(false);
             } else if (this.activeEquipment.isEquipmentTypeAttack()) {
                 totalDamage = this.calcModifiedDamage(totalDamage);
                 if (damageFormat === Hero.DPH) {
                     totalDamage = this.convertDPSToDPH(totalDamage);
-                }                
+                }
                 totalDamage += this.activeEquipment.getCurrentDamage();
+                if (this.isHardModeEnabled) {
+                    totalDamage = Hero.calcHardModeDamage(totalDamage);
+                }
 
                 return `${NumberUtil.round2Places(totalDamage)}`;
             } else {
@@ -80,20 +95,11 @@ class Hero extends Offense {
             if (damageFormat === Hero.DPH) {
                 totalDamage = this.convertDPSToDPH(totalDamage);
             }
+            if (this.isHardModeEnabled) {
+                totalDamage = Hero.calcHardModeDamage(totalDamage);
+            }
 
             return `${NumberUtil.round2Places(totalDamage)}`;
-        }
-    }
-
-    calcBaseEQDamage(maxHP) {
-        if (this.activeEquipment !== null) {
-            return this.activeEquipment.calcBaseEQDamage(maxHP);
-        } else {
-            if (this.isDamageTypeEQ()) {
-                return maxHP * this.getCurrentDamage() / 100;
-            } else {
-                throw new TypeError(`Hero doesn't deal EQ damage: ${this.offenseID}`);
-            }
         }
     }
 
@@ -104,11 +110,11 @@ class Hero extends Offense {
                 return 0;
             }
 
-            let totalDPS = this.getCurrentDamage();
+            let totalDamage = this.getCurrentDamage();
 
             for (const equipment of this.equipmentListManager.equipmentList) {
                 if (equipment.isEnabled) {
-                    totalDPS += equipment.getCurrentDPSBoost();      
+                    totalDamage += equipment.getCurrentDPSBoost(false);      
                 }
             }
 
@@ -116,19 +122,26 @@ class Hero extends Offense {
                 if (this.activeEquipment.isEquipmentTypeDamage()) {
                     return NumberUtil.round2Places(this.activeEquipment.calcDamage(defense));
                 } else if (this.activeEquipment.isEquipmentTypeAttack()) {
-                    totalDPS = this.calcModifiedDamage(totalDPS);
-                    totalDPS = this.convertDPSToDPH(totalDPS);
-                    totalDPS += this.activeEquipment.calcDamage(defense);
-
-                    return NumberUtil.round2Places(totalDPS);
+                    totalDamage = this.calcModifiedDamage(totalDamage);
+                    totalDamage = this.convertDPSToDPH(totalDamage);
+                    totalDamage += this.activeEquipment.calcDamage(defense);
+                    if (this.isHardModeEnabled) {
+                        totalDamage = Hero.calcHardModeDamage(totalDamage);
+                    }
+                    
+                    return NumberUtil.round2Places(totalDamage);
                 } else {
                     console.warn(`ActiveEquipment can't deal damage: ${this.activeEquipment}`);
                     return 0;
                 }
             } else {
-                totalDPS = this.calcModifiedDamage(totalDPS);
+                totalDamage = this.calcModifiedDamage(totalDamage);
+                totalDamage = this.convertDPSToDPH(totalDamage);
+                if (this.isHardModeEnabled) {
+                    totalDamage = Hero.calcHardModeDamage(totalDamage);
+                }
 
-                return this.convertDPSToDPH(totalDPS);
+                return NumberUtil.round2Places(totalDamage);
             }
         } else {
             throw new TypeError(`Invalid defense: ${defense}`);
@@ -190,7 +203,7 @@ class Hero extends Offense {
     // Get a new hero with same datas
     clone() {
         const clonedActiveModifier = this.activeModifier !== null ? this.activeModifier.clone() : null;
-        const clonedHero = new Hero(this.offenseID, this.currentLevelPos, clonedActiveModifier, this.isEnabled, this.equipmentListManager.clone());
+        const clonedHero = new Hero(this.offenseID, this.currentLevelPos, clonedActiveModifier, this.isEnabled, this.equipmentListManager.clone(), this.isHardModeEnabled);
 
         if (this.activeEquipment !== null) {
             clonedHero.setActiveEquipment(this.activeEquipment.equipmentID);
@@ -226,6 +239,13 @@ class Hero extends Offense {
         }
     }
 
+    set isHardModeEnabled(newIsHardModeEnabled) {
+        if (typeof newIsHardModeEnabled === "boolean") {
+            this._isHardModeEnabled = newIsHardModeEnabled;
+        } else {
+            throw new TypeError(`Invalid newIsHardModeEnabled: ${newIsHardModeEnabled}`);      
+        }
+    }
     // Getter
     get attackSpeed() {
         return this._attackSpeed;
@@ -239,9 +259,17 @@ class Hero extends Offense {
         return this._activeEquipment;
     }
 
+    get isHardModeEnabled() {
+        return this._isHardModeEnabled;
+    }
+
     static isValidDamageFormat(damageFormat) {
         const damageFormatList = [Hero.DPS, Hero.DPH];
 
         return damageFormatList.includes(damageFormat);
+    }
+
+    static calcHardModeDamage(totalDamage) {
+        return NumberUtil.round2Places(totalDamage * Hero.HARD_MODE_HEROES_MODIFIER);
     }
 }

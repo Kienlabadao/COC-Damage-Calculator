@@ -33,7 +33,7 @@ class Troop extends Offense {
         if (this.activeModifier !== null) {
             const multiplier = this.activeModifier.getCurrentCalculationModify();
 
-            return NumberUtil.round2Places(this.getCurrentNormalDamage() * multiplier / 100);
+            return NumberUtil.round2Places(this.getCurrentNormalDamage() * multiplier);
         } else {
             return this.getCurrentNormalDamage();
         }

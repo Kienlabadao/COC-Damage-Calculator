@@ -38,6 +38,21 @@ class HTMLUtil {
         textDiv.classList.remove("text--raged");
     }
 
+    // Add/remove raged class for text
+    static addTextHardModeClass(textDiv) {
+        textDiv.classList.add("text--hard-mode");
+    }
+    
+    static removeTextHardModeClass(textDiv) {
+        textDiv.classList.remove("text--hard-mode");
+    }
+
+    static removeAllTextClasses(textDiv) {
+        HTMLUtil.removeTextMaxedClass(textDiv);
+        HTMLUtil.removeTextRagedClass(textDiv);
+        HTMLUtil.removeTextHardModeClass(textDiv);
+    }
+
     // Set status text fail/success for status text div
     static setStatusTextSuccess(statusText) {
         statusText.classList.remove("status-container__text--fail");

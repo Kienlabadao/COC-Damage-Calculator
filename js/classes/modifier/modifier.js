@@ -22,7 +22,7 @@ class Modifier {
         this._doesntAffectList = this.modifierJSON["doesnt_affect"];
 
         this._maxLevelPos = this.levelList.length - 1;
-        this._minLevelPos = 1;
+        this._minLevelPos = 0;
         this.currentLevelPos = currentLevelPos;
         this.isActive = isActive;
     }
@@ -49,13 +49,8 @@ class Modifier {
     }
     
     getCurrentCalculationModify(modifier = 1) {
-        console.log(this);
-        console.log(modifier);
         if (NumberUtil.isNumber(modifier)) {
-            console.log(this.getCurrentModify());
-            console.log(this.getCurrentModify() * modifier);
-            console.log(NumberUtil.round2Places(100 + this.getCurrentModify() * modifier));
-            return NumberUtil.round2Places(100 + this.getCurrentModify() * modifier);
+            return NumberUtil.round2Places((100 + this.getCurrentModify() * modifier) / 100);
         } else {
             throw new TypeError(`Invalid modifier: ${modifier}`);
         }

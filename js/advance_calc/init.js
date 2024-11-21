@@ -6,7 +6,8 @@ const actionListMaxSize = 30;
 const deathDamageImage = "/images/other/death.webp";
 const attackImage = "/images/other/attack.webp";
 const repairImage = "/images/other/repair.webp";
-const hardModeImage = "/images/other/hardmode.webp";
+const hardModeTextImage = "/images/other/hardmode.webp";
+const hardModeIconImage = "/images/other/hardmodeicon.webp";
 const eqIcon = "/images/other/earthquake_icon.webp";
 
 const eqSpellKey = "earthquake_spell";
@@ -26,6 +27,7 @@ const actionListDetailDiv = document.getElementById("actionListDetail");
 const useTroopDeathDamageCheckbox = document.getElementById("useTroopDeathDamage");
 const hideDestroyedDefensesCheckbox = document.getElementById(hideDestroyedDefensesKey);
 const hideSurvivedDefensesCheckbox = document.getElementById(hideSurvivedDefensesKey);
+const useHardModeCheckbox = document.getElementById("toggleUseHardMode");
 const searchDefenseBox = document.getElementById("searchDefense");
 const defenseCountBox = document.getElementById("defenseCount");
 const actionCountBox = document.getElementById("actionCount");
@@ -34,6 +36,7 @@ const statusLimitExceededDiv = document.getElementById("statusLimitExceeded");
 let useTroopDeathDamage = LocalStorageUtils.loadBoolean(LocalStorageUtils.getUseTroopDeathDamageKey(type), false);
 let isHideDestroyedDefenses = LocalStorageUtils.loadBoolean(hideDestroyedDefensesKey, false);
 let isHideSurvivedDefenses = LocalStorageUtils.loadBoolean(hideSurvivedDefensesKey, false);
+let useHardMode = LocalStorageUtils.loadBoolean(LocalStorageUtils.getUseHardModeKey(), false);
 
 const offenseListManager = new OffenseListManager();
 const modifierListManager = new ModifierListManager();
@@ -43,14 +46,13 @@ const actionListManager = new ActionListManager();
 // Load the page when JSON is loaded successfully
 document.addEventListener('init', () => {
   Hero.HARD_MODE_HEROES_MODIFIER = getHardModeHeroesModifier();
-  
+
   offenseListManager.loadKey(type);
   modifierListManager.loadKey(type);
   defenseListManager.loadKey(type);
   updateActiveModifier();
   console.log(localStorage);
   console.log(offenseListManager);
-  console.log(modifierListManager);
   if (!stopGenerateDefenseDiv) {
     for (const defense of defenseListManager.defenseList) {
       loadDefense(defense);
@@ -76,6 +78,7 @@ document.addEventListener('init', () => {
   useTroopDeathDamageCheckbox.checked = useTroopDeathDamage;
   hideDestroyedDefensesCheckbox.checked = isHideDestroyedDefenses;
   hideSurvivedDefensesCheckbox.checked = isHideSurvivedDefenses;
+  useHardModeCheckbox.checked = useHardMode;
 
   updateAllOffensesModifier();
   hideActionList();
@@ -173,9 +176,7 @@ function loadHero(hero) {
 function loadEquipment(hero, heroSection) {
   if (hero instanceof Hero) {
     const equipmentListManager = hero.equipmentListManager;
-    const activeEquipmentDivs = heroSection.querySelector(".active-equipment");
-    const damageEquipmentDivs = heroSection.querySelector(".damage-equipment");
-    const supportEquipmentDivs = heroSection.querySelector(".support-equipment");
+    const equipmentListDivs = heroSection.querySelector(".equipment-list");
 
     for (const equipment of equipmentListManager.equipmentList) {
       const imagePath = equipment.getImagePath();
@@ -211,13 +212,7 @@ function loadEquipment(hero, heroSection) {
         HTMLUtil.removeLevelOverlayMaxedClass(levelOverlayDiv);
       }
 
-      if (equipment.isEquipmentTypeAttack()) {
-        activeEquipmentDivs.appendChild(equipmentDiv);
-      } else if (equipment.isEquipmentTypeDamage()) {
-        damageEquipmentDivs.appendChild(equipmentDiv);
-      } else {
-        supportEquipmentDivs.appendChild(equipmentDiv);
-      }
+      equipmentListDivs.appendChild(equipmentDiv);
     }
   } else {
     throw new TypeError(`Invalid hero: ${hero}`);

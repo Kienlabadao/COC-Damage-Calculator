@@ -49,37 +49,61 @@ class Equipment {
         return this.getDamage(this.currentLevelPos);
     }
 
-    getCurrentDamageFormat() {
-        switch (this.damageType) {
-            case "direct":
-                return `${this.getCurrentDamage()}`;
-            case "earthquake":
-                return `❤${this.getCurrentDamage()}%`;             
-        }
+    getCurrentDamageFormat(useHardMode) {
+        if (typeof useHardMode === "boolean") {
+            switch (this.damageType) {
+                case "direct":
+                    if (this.isEquipmentTypeDamage()) {
+                        return `${NumberUtil.round2Places(this.getCurrentDamage())}`;
+                    } else {
+                        if (useHardMode) {
+                            return `${NumberUtil.round2Places(Hero.calcHardModeDamage(this.getCurrentDamage()))}`;
+                        } else {
+                            return `${NumberUtil.round2Places(this.getCurrentDamage())}`;
+                        }
+                    }
+                case "earthquake":
+                    return `❤${this.getCurrentDamage()}%`;             
+            }
+        } else {
+            throw new TypeError(`Invalid useHardMode: ${useHardMode}`);    
+        }        
     }
 
     getDPSBoost(levelPos) {
         return this.dpsBoostList !== null ? this.dpsBoostList[levelPos][Equipment.DAMAGE_POS] : 0;
     }
 
-    getCurrentDPSBoost() {
-        return this.getDPSBoost(this.currentLevelPos);
+    getCurrentDPSBoost(useHardMode) {
+        if (typeof useHardMode === "boolean") {
+            if (useHardMode) {
+                return NumberUtil.round2Places(Hero.calcHardModeDamage(this.getDPSBoost(this.currentLevelPos)));
+            } else {
+                return this.getDPSBoost(this.currentLevelPos);
+            }
+        } else {
+            throw new TypeError(`Invalid useHardMode: ${useHardMode}`);
+        }       
     }
 
-    getCurrentDPHBoost(attackSpeed) {
-        if (NumberUtil.isNumber(attackSpeed)) {
-            return NumberUtil.round2Places(this.getCurrentDPSBoost() * attackSpeed);
+    getCurrentDPHBoost(attackSpeed, useHardMode) {
+        if (NumberUtil.isNumber(attackSpeed) && typeof useHardMode === "boolean") {
+            return NumberUtil.round2Places(this.getCurrentDPSBoost(useHardMode) * attackSpeed);
         } else {
-            throw new TypeError(`Invalid attackSpeed: ${attackSpeed}`);     
+            if (!NumberUtil.isNumber(attackSpeed)) {
+                throw new TypeError(`Invalid attackSpeed: ${attackSpeed}`);   
+            } else {
+                throw new TypeError(`Invalid useHardMode: ${useHardMode}`);
+            }            
         } 
     }
 
-    getCurrentDPSBoostFormat() {
-        return `${this.getCurrentDPSBoost()}`;         
+    getCurrentDPSBoostFormat(useHardMode) {
+        return `${this.getCurrentDPSBoost(useHardMode)}`;         
     }
 
-    getCurrentDPHBoostFormat(attackSpeed) {
-        return `${this.getCurrentDPHBoost(attackSpeed)}`;
+    getCurrentDPHBoostFormat(attackSpeed, useHardMode) {
+        return `${this.getCurrentDPHBoost(attackSpeed, useHardMode)}`;
     }
 
     // Calculate base damage for eq damage type spell

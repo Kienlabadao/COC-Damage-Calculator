@@ -5,9 +5,11 @@ function setAllSpellsLevel(element) {
     switch (element.value) {
         case "max":
             setAllSpellsMaxLevel();
+            updateAllSpellsDamage();
             return;
         case "min":
             setAllSpellsMinLevel();
+            updateAllSpellsDamage();
             return;
         default:
             throw new ReferenceError(`Invalid state: ${element.value}`)
@@ -18,9 +20,11 @@ function setAllTroopsLevel(element) {
     switch (element.value) {
         case "max":
             setAllTroopsMaxLevel();
+            updateAllTroopsDamage();
             return;
         case "min":
             setAllTroopsMinLevel();
+            updateAllTroopsDamage();
             return;
         default:
             throw new ReferenceError(`Invalid state: ${element.value}`)
@@ -44,9 +48,11 @@ function setAllRepairsLevel(element) {
     switch (element.value) {
         case "max":
             setAllRepairsMaxLevel(element);
+            updateAllRepairsDamage();
             return;
         case "min":
             setAllRepairsMinLevel(element);
+            updateAllRepairsDamage();
             return;
         default:
             throw new ReferenceError(`Invalid state: ${element.value}`)
@@ -72,10 +78,12 @@ function setAllModifiersLevel(element) {
     switch (element.value) {
         case "max":
             setAllModifiersMaxLevel(element);
+            updateAllModifiersModify();
             updateAllOffensesModifier();
             return;
         case "min":
             setAllModifiersMinLevel(element);
+            updateAllModifiersModify();
             updateAllOffensesModifier();
             return;
         default:

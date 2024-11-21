@@ -160,12 +160,15 @@ function updateHeroNormalAttackDamage(hero) {
 
                 damageDPHDiv.textContent = hero.getCurrentDamageFormat(Hero.DPH);
                 damageDPSDiv.textContent = hero.getCurrentDamageFormat(Hero.DPS);
-                if (hero.activeModifier !== null) {
+
+                HTMLUtil.removeAllTextClasses(damageDPSDiv);
+                HTMLUtil.removeAllTextClasses(damageDPHDiv);
+                if (hero.isHardModeEnabled) {
+                    HTMLUtil.addTextHardModeClass(damageDPSDiv);
+                    HTMLUtil.addTextHardModeClass(damageDPHDiv);
+                } else if (hero.activeModifier !== null) {
                     HTMLUtil.addTextRagedClass(damageDPSDiv);
                     HTMLUtil.addTextRagedClass(damageDPHDiv);
-                } else {
-                    HTMLUtil.removeTextRagedClass(damageDPSDiv);
-                    HTMLUtil.removeTextRagedClass(damageDPHDiv);
                 }
                 return;
             }
@@ -203,10 +206,11 @@ function updateEquipmentDamage(hero, equipmentDiv) {
             
             damageDiv.textContent = clonedHero.getCurrentDamageFormat();
             if (equipment.isEquipmentTypeAttack()) {
-                if (hero.activeModifier !== null) {
+                HTMLUtil.removeAllTextClasses(damageDiv);
+                if (hero.isHardModeEnabled) {
+                    HTMLUtil.addTextHardModeClass(damageDiv);
+                } else if (hero.activeModifier !== null) {
                     HTMLUtil.addTextRagedClass(damageDiv);
-                } else {
-                    HTMLUtil.removeTextRagedClass(damageDiv);
                 }
             }
         }
@@ -214,21 +218,29 @@ function updateEquipmentDamage(hero, equipmentDiv) {
         if (equipment.isEquipmentTypeAttack()) {
             const extraDamageDiv = equipmentDiv.querySelector(".extra-damage");
             
-            extraDamageDiv.textContent = equipment.getCurrentDamageFormat();
+            extraDamageDiv.textContent = equipment.getCurrentDamageFormat(useHardMode);
+
+            HTMLUtil.removeAllTextClasses(extraDamageDiv);
+            if (hero.isHardModeEnabled) {
+                HTMLUtil.addTextHardModeClass(extraDamageDiv);
+            }
         }
 
         if (equipment.isEquipmentTypeSupport()) {
             const dpsBoostDiv = equipmentDiv.querySelector(".dps-boost");
             const dphBoostDiv = equipmentDiv.querySelector(".dph-boost");
 
-            dpsBoostDiv.textContent = equipment.getCurrentDPSBoostFormat();
-            dphBoostDiv.textContent = equipment.getCurrentDPHBoostFormat(clonedHero.attackSpeed);
-            if (hero.activeModifier !== null) {
+            dpsBoostDiv.textContent = equipment.getCurrentDPSBoostFormat(useHardMode);
+            dphBoostDiv.textContent = equipment.getCurrentDPHBoostFormat(clonedHero.attackSpeed, useHardMode);
+
+            HTMLUtil.removeAllTextClasses(dpsBoostDiv);
+            HTMLUtil.removeAllTextClasses(dphBoostDiv);
+            if (hero.isHardModeEnabled) {
+                HTMLUtil.addTextHardModeClass(dpsBoostDiv);
+                HTMLUtil.addTextHardModeClass(dphBoostDiv);
+            } else if (hero.activeModifier !== null) {
                 HTMLUtil.addTextRagedClass(dpsBoostDiv);
                 HTMLUtil.addTextRagedClass(dphBoostDiv);
-            } else {
-                HTMLUtil.removeTextRagedClass(dpsBoostDiv);
-                HTMLUtil.removeTextRagedClass(dphBoostDiv);
             }
         }
     } else {
@@ -351,6 +363,18 @@ function toggleUseTroopDeathDamage(element) {
     updateAllOffensesModifierOverlay();
 }
 
+function toggleUseHardMode(element) {
+    const useHardModeKey = LocalStorageUtils.getUseHardModeKey();
+
+    useHardMode = element.checked;
+    for (const hero of offenseListManager.getHeroList()) {
+        hero.isHardModeEnabled = useHardMode;
+    }
+    LocalStorageUtils.saveBoolean(useHardModeKey, useHardMode);
+ 
+    updateAllHeroesDamage();
+}
+
 function updateAllOffensesModifier() {
     updateActiveModifier();
     updateAllOffensesModifierOverlay();
@@ -444,15 +468,37 @@ function updateAllEquipmentsModifierOverlay(heroSection) {
 }
 
 function updateAllOffensesDamage() {
+    updateAllSpellsDamage();
+    updateAllHeroesDamage();
+    updateAllTroopsDamage();
+    updateAllRepairsDamage();
+}
+
+function updateAllModifiersModify() {
+    for (const modifierDiv of modifierDivs) {
+        updateModifierModify(modifierDiv);
+    }
+}
+
+function updateAllSpellsDamage() {
     for (const spellDiv of spellDivs) {
         updateOffenseDamage(spellDiv);
     }
+}
+
+function updateAllHeroesDamage() {
     for (const hero of offenseListManager.getHeroList()) {
         updateHeroDamage(hero);
     }
+}
+
+function updateAllTroopsDamage() {
     for (const troopDiv of troopDivs) {
         updateOffenseDamage(troopDiv);
     }
+}
+
+function updateAllRepairsDamage() {
     for (const repairDiv of repairDivs) {
         updateOffenseDamage(repairDiv);
     }

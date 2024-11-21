@@ -199,8 +199,8 @@
                     <h2 class="text-center">Hero</h2>
                     <div class="setting-container">
                         <div class="d-flex align-items-center gap-2">
-                            <input id="toggleHardMode" class="form-check-input checkbox" type="checkbox" oninput="toggleHardMode(this)">
-                            <label class="h5 mb-0" for="toggleHardMode">Toggle Hard Mode</label>
+                            <input id="toggleUseHardMode" class="form-check-input checkbox" type="checkbox" oninput="toggleUseHardMode(this)">
+                            <label class="h5 mb-0" for="toggleUseHardMode">Toggle Hard Mode</label>
                         </div>
                     </div>
                     <!-- Barbarian King -->
@@ -242,8 +242,8 @@
                                 </div>
                                 <div class="col-lg-8 col-xl-9">
                                     <div>
-                                        <h3 class="mb-0 me-3 text-center">Attack</h3>
-                                        <div class="active-equipment row row-cols-6 justify-content-evenly gap-3 mt-3">
+                                        <h3 class="mb-0 me-3 text-center">Attack & Equipments</h3>
+                                        <div class="equipment-list row row-cols-5 justify-content-evenly gap-3 mt-3">
                                             <div class="offense hero hero-attack card-custom card-custom__object text-center" data-id="barbarian_king">
                                                 <h5>Normal Attack</h5>
                                                 <div class="object-container">
@@ -271,14 +271,152 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div><hr>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div><hr>
+                    <!-- Archer Queen -->
+                    <div class="hero-section mb-5" data-id="archer_queen">
+                        <div class="collapse-btn my-3 d-flex align-items-center">
+                            <h3 class="mb-0 me-3">Archer Queen</h3>
+                            <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" aria-expanded="true" onclick="toggleHTMLCollapseBtnText(this)" data-bs-target="#show-archer_queen" aria-controls="show-archer_queen">Hide</button>
+                        </div>
+                        <div class="collapse show" id="show-archer_queen">
+                            <div class="setting-container">
+                                <div class="d-flex flex-wrap gap-2 my-2">
+                                    <button class="btn btn-secondary" type="button" value="max" onclick="">Set All Equipments to Max Level</button>
+                                    <button class="btn btn-secondary" type="button" value="min" onclick="">Set All Equipments to Min Level</button>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center gy-5 gy-lg-0 mt-3">
+                                <div class="col-lg-4 col-xl-3">
+                                    <div class="row row-cols-1 justify-content-center">
+                                        <div class="offense hero hero-level col card-custom card-custom__object text-center" data-id="archer_queen">
+                                            <h3>Archer Queen</h3>
+                                            <div class="object-container object-container--large">
+                                                <img class="image object-container__img" src="/images/offense/heroes/archer_queen.webp">
+                                                <div class="modifier overlay overlay--large overlay--top-left overlay__img" data-id=""></div>
+                                                <div class="level overlay overlay--large overlay--bottom-left overlay__number"></div>
+                                            </div>
+                                            <div class="mt-2">
+                                                <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
+                                            </div>
+                                            <div class="mt-2">
+                                                <div class="d-flex justify-content-center align-items-center column-gap-1">
+                                                    <div class="fw-bold">Attack Speed:</div>
+                                                    <img src="/images/other/attack_speed.webp" width="20">
+                                                    <div class="attack-speed fw-bold"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                   
+                                </div>
+                                <div class="col-lg-8 col-xl-9">
                                     <div>
-                                        <h3 class="mb-0 me-3 text-center">Damage Equipment</h3>
-                                        <div class="damage-equipment row row-cols-6 justify-content-evenly gap-3 mt-3"></div>
-                                    </div><hr>
+                                        <h3 class="mb-0 me-3 text-center">Attack & Equipments</h3>
+                                        <div class="equipment-list row row-cols-5 justify-content-evenly gap-3 mt-3">
+                                            <div class="offense hero hero-attack card-custom card-custom__object text-center" data-id="archer_queen">
+                                                <h5>Normal Attack</h5>
+                                                <div class="object-container">
+                                                    <img class="image object-container__img">
+                                                    <div class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed"></div>
+                                                    <div class="modifier overlay overlay--top-left overlay__img"></div>
+                                                </div>
+                                                <div class="d-flex justify-content-md-evenly justify-content-center gap-3 mt-2">
+                                                    <button type="button" class="btn btn-success" value="1" onclick="addAction(this, 'hero')">Add 1</button>
+                                                    <button type="button" class="btn btn-success" value="5" onclick="addAction(this, 'hero')">Add 5</button>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <div class="mt-2">
+                                                        <div class="d-flex justify-content-center align-items-center column-gap-1">
+                                                            <div class="fw-bold">DPS:</div>
+                                                            <img src="/images/other/attack.webp" width="20">
+                                                            <div class="damage-dps fw-bold"></div>
+                                                        </div>
+                                                        <div class="d-flex justify-content-center align-items-center column-gap-1">
+                                                            <div class="fw-bold">DPH:</div>
+                                                            <img src="/images/other/attack.webp" width="20">
+                                                            <div class="damage-dph fw-bold"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div><hr>
+                    <!-- Grand Warden -->
+                    <div class="hero-section mb-5" data-id="grand_warden">
+                        <div class="collapse-btn my-3 d-flex align-items-center">
+                            <h3 class="mb-0 me-3">Grand Warden</h3>
+                            <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" aria-expanded="true" onclick="toggleHTMLCollapseBtnText(this)" data-bs-target="#show-grand_warden" aria-controls="show-grand_warden">Hide</button>
+                        </div>
+                        <div class="collapse show" id="show-grand_warden">
+                            <div class="setting-container">
+                                <div class="d-flex flex-wrap gap-2 my-2">
+                                    <button class="btn btn-secondary" type="button" value="max" onclick="">Set All Equipments to Max Level</button>
+                                    <button class="btn btn-secondary" type="button" value="min" onclick="">Set All Equipments to Min Level</button>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center gy-5 gy-lg-0 mt-3">
+                                <div class="col-lg-4 col-xl-3">
+                                    <div class="row row-cols-1 justify-content-center">
+                                        <div class="offense hero hero-level col card-custom card-custom__object text-center" data-id="grand_warden">
+                                            <h3>Grand Warden</h3>
+                                            <div class="object-container object-container--large">
+                                                <img class="image object-container__img" src="/images/offense/heroes/grand_warden.webp">
+                                                <div class="modifier overlay overlay--large overlay--top-left overlay__img" data-id=""></div>
+                                                <div class="level overlay overlay--large overlay--bottom-left overlay__number"></div>
+                                            </div>
+                                            <div class="mt-2">
+                                                <input type="range" class="slider slider--theme" oninput="updateOffense(this)">
+                                            </div>
+                                            <div class="mt-2">
+                                                <div class="d-flex justify-content-center align-items-center column-gap-1">
+                                                    <div class="fw-bold">Attack Speed:</div>
+                                                    <img src="/images/other/attack_speed.webp" width="20">
+                                                    <div class="attack-speed fw-bold"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                   
+                                </div>
+                                <div class="col-lg-8 col-xl-9">
                                     <div>
-                                        <h3 class="mb-0 me-3 text-center">Support Equipment</h3>
-                                        <div class="support-equipment row row-cols-6 justify-content-evenly gap-3 mt-3"></div>
+                                        <h3 class="mb-0 me-3 text-center">Attack & Equipments</h3>
+                                        <div class="equipment-list row row-cols-5 justify-content-evenly gap-3 mt-3">
+                                            <div class="offense hero hero-attack card-custom card-custom__object text-center" data-id="grand_warden">
+                                                <h5>Normal Attack</h5>
+                                                <div class="object-container">
+                                                    <img class="image object-container__img">
+                                                    <div class="level overlay overlay--bottom-left overlay__number overlay__number--level-maxed"></div>
+                                                    <div class="modifier overlay overlay--top-left overlay__img"></div>
+                                                </div>
+                                                <div class="d-flex justify-content-md-evenly justify-content-center gap-3 mt-2">
+                                                    <button type="button" class="btn btn-success" value="1" onclick="addAction(this, 'hero')">Add 1</button>
+                                                    <button type="button" class="btn btn-success" value="5" onclick="addAction(this, 'hero')">Add 5</button>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <div class="mt-2">
+                                                        <div class="d-flex justify-content-center align-items-center column-gap-1">
+                                                            <div class="fw-bold">DPS:</div>
+                                                            <img src="/images/other/attack.webp" width="20">
+                                                            <div class="damage-dps fw-bold"></div>
+                                                        </div>
+                                                        <div class="d-flex justify-content-center align-items-center column-gap-1">
+                                                            <div class="fw-bold">DPH:</div>
+                                                            <img src="/images/other/attack.webp" width="20">
+                                                            <div class="damage-dph fw-bold"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>                            
@@ -322,8 +460,8 @@
                                 </div>
                                 <div class="col-lg-8 col-xl-9">
                                     <div>
-                                        <h3 class="mb-0 me-3 text-center">Attack</h3>
-                                        <div class="active-equipment row row-cols-6 justify-content-evenly gap-3 mt-3">
+                                        <h3 class="mb-0 me-3 text-center">Attack & Equipments</h3>
+                                        <div class="equipment-list row row-cols-5 justify-content-evenly gap-3 mt-3">
                                             <div class="offense hero hero-attack card-custom card-custom__object text-center" data-id="royal_champion">
                                                 <h5>Normal Attack</h5>
                                                 <div class="object-container">
@@ -349,14 +487,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div><hr>
-                                    <div>
-                                        <h3 class="mb-0 me-3 text-center">Damage Equipment</h3>
-                                        <div class="damage-equipment row row-cols-6 justify-content-evenly gap-3 mt-3"></div>
-                                    </div><hr>
-                                    <div>
-                                        <h3 class="mb-0 me-3 text-center">Support Equipment</h3>
-                                        <div class="support-equipment row row-cols-6 justify-content-evenly gap-3 mt-3"></div>
                                     </div>
                                 </div>
                             </div>                            

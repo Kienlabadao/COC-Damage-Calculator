@@ -27,6 +27,10 @@ class LocalStorageUtils {
         return `${type}_useTroopDeathDamage`;
     }
 
+    static getUseHardModeKey() {
+        return `useHardMode`;
+    }
+
     static getUseModifierKey(type, modifierID) {
         return `${type}_use_${modifierID}`;
     }

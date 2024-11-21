@@ -60,11 +60,13 @@ class OffenseListManager {
     // Current level is set to user choices (which is stored in localStorage)
     // If there is none (storage reset or first time visit), then it's set to default (0 for zapquake calculator, max level for other)
     loadHeroWithKey(type) {
+        const isHardModeEnabled = LocalStorageUtils.getBoolean(LocalStorageUtils.getUseHardModeKey());
+
         for (const heroID of Object.keys(getAllHeroes())) {
             const useOffense = true;
             const equipmentListManager = new EquipmentListManager();
             equipmentListManager.loadKey(type, heroID);
-            const hero = new Hero(heroID, null, null, useOffense, equipmentListManager);           
+            const hero = new Hero(heroID, null, null, useOffense, equipmentListManager, isHardModeEnabled);           
             if (type !== "simple") {
                 const key = LocalStorageUtils.getObjectKey(type, "offense", heroID);
 

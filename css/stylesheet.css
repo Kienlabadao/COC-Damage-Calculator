@@ -3,18 +3,18 @@
   src: url(/fonts/SVN-SupercellMagic.otf);
 }
 :root {
-  --bg-color: #e5e7eb;
+  --bg-color: hsl(220, 13%, 91%);
   --text-color: hsl(215, 28%, 17%);
   --navbar-bg-color: hsl(0, 0%, 100%);
   --brand-text-shadow-color: 3px 3px 8px hsl(0, 0%, 70%);
   --card-main-color: hsl(0, 0%, 100%);
-  --card-object-bg-color: #e5e7eb;
+  --card-object-bg-color: hsl(220, 13%, 91%);
   --card-object-shadow-color: 0 3px 10px #cccccc;
   --search-box-input-color: hsl(215, 14%, 34%);
   --checkbox-bg-color: hsl(0, 0%, 100%);
   --checkbox-checked-bg-color: hsl(215, 14%, 34%);
   --checkbox-shadow-color: rgba(75, 85, 99, 0.5);
-  --checkbox-card-obj-bg-color: #e5e7eb;
+  --checkbox-card-obj-bg-color: hsl(220, 13%, 91%);
   --checkbox-card-obj-checked-bg-color: hsl(215, 14%, 34%);
   --checkbox-card-obj-shadow-color: rgba(75, 85, 99, 0.5);
   --range-theme-color: hsl(215, 14%, 34%);
