@@ -1,0 +1,91 @@
+@use "../abstracts" as *;
+
+@mixin object-container {
+    position: relative;
+    display: inline-block;   
+    border-radius: 10px;
+    background-color: $light-blue;
+    
+    .object-container__img {
+        height: 90px;
+        width: 90px;
+    }
+}
+
+@mixin object-container--small {
+    .object-container__img {
+        height: 50px;
+        width: 50px;
+    }
+}
+
+@mixin object-container--large {
+    .object-container__img {
+        padding: 10px;
+        height: 200px;
+        width: 200px;
+    }
+}
+
+.object-container {
+    @include object-container;
+
+    &--responsive {
+        @include respondToBreakpoint(lg) {
+            @include object-container--small;
+        }      
+    }
+
+    &--earthquake {
+        background-color: $light-brown;
+    }
+
+    &--modifier {
+        background-color: $light-purple;
+    }
+
+    &--epic {
+        background-color: $purple;
+    }
+  
+    &--immune {
+        background-color: $light-red;
+    }
+
+    &--hardmode {
+        background-color: $orange;
+    }
+
+    &--small {
+        @include object-container--small;
+    }
+
+    &--large {
+        @include object-container--large;
+    }
+
+    &--tall {
+        height: 80px;
+        width: auto;
+
+        .object-container__header {
+
+            & .overlay {
+                position: static;
+                height: 30px;               
+            }
+        }
+
+        .overlay {
+            
+            &.overlay--top-left, &.overlay--top-right {
+                top: 30px;
+            }            
+        }
+
+        img {
+            height: 50px;
+            width: 50px;
+        }
+    }
+}

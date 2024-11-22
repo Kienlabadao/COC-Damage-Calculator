@@ -1,0 +1,28 @@
+@use "../abstracts/" as *;
+
+.text {
+
+    &--raged {
+        color: $light-purple;
+    }
+
+    &--hard-mode {
+        color: $orange;
+    }
+
+    &--level-maxed {
+        color: $yellow;
+    }
+
+    &--destroyed, &--immune, &--damage-reduced {
+        color: $light-red;
+    }
+    
+    &--hp-full {
+        color: $lime;
+    }
+
+    &--warning {
+        color: var(--text-warning-color);
+    }
+}

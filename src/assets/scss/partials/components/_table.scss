@@ -1,0 +1,89 @@
+@use "../abstracts" as *;
+
+@mixin table-row {
+    border-color: $white;
+    border-bottom: 3px solid;
+}
+
+@mixin table-data {
+    border-color: $white; 
+    border-left: 2px solid;
+    border-right: 2px solid;
+    padding: 5px 10px;
+
+    &:first-child {
+        border-left: none;
+        border-color: $white;
+    }
+    
+    &:last-child {
+        border-right: none;
+        border-color: $white;
+    }
+}
+
+.table-container {
+    overflow-x: auto;
+
+    table {
+        background-color: $light-gray;
+        color: $white;
+        width: 100%;
+        min-width: 260px;
+        white-space: nowrap;
+        font-size: 1rem;
+
+        td {
+            padding: 5px 0;
+        }
+
+        thead {
+            tr {
+                @include table-row;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+            }
+
+            th {
+                border-color: $white;
+                border-bottom: 3px solid;   
+                border-left: 2px solid;
+                border-right: 2px solid;
+                padding: 5px 10px;
+
+                &:first-child {
+                    border-left: none;
+                }
+                
+                &:last-child {
+                    border-right: none;
+                }
+            }  
+            
+            td {
+                @include table-data;
+            }
+        }
+        
+        tbody {
+            tr {
+                @include table-row;
+
+                &:first-child {
+                    border-color: $white; 
+                    border-top: 2px solid;
+                }
+                
+                &:last-child {
+                    border-bottom: none;
+                }
+            }
+
+            td {
+                @include table-data;
+            }
+        }
+    }
+}
