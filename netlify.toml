@@ -1,9 +1,4 @@
 [[redirects]]
-    from = "/html/*"
-    to = "/:splat"
-    force = true
-
-[[redirects]]
     from = "/*"
-    to = "/html/:splat"
+    to = "/index.html"
     status = 200
