@@ -1,10 +1,17 @@
-function Navbar() {
-  
+import { Link, NavLink, useLocation } from "react-router-dom";
+import URLS from "assets/data/urlMappings";
+
+function Navbar() {  
+    const location = useLocation();
+
+    // Check if the current URL matches either Zapquake or Advance pages
+    const isCalculatorActive = location.pathname === `${URLS.zapquakeCalcPage}` || location.pathname === `${URLS.advanceCalcPage}`;
+
     return (
         <>
             <nav className="navbar navbar-expand-lg fixed-top" id="navbar">
                 <div className="container-fluid justify-content-start mx-lg-5 px-sm-5 fw-bold">
-                    <a className="navbar-brand d-flex align-items-center" href="/html/">
+                    <Link className="navbar-brand d-flex align-items-center" to={URLS.homePage}>
                         <div className="brand__logo me-3 d-flex justify-content-center align-items-center">
                             <img src="/images/other/logo.webp" alt="Logo"></img>
                         </div>
@@ -12,24 +19,24 @@ function Navbar() {
                             <div className="brand__text--orange">Damage</div>
                             <div className="brand__text--yellow">Calculator</div>
                         </div>
-                    </a>
+                    </Link>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <a className="nav-link active" aria-current="page" href="/html/">Home</a>
+                                <NavLink className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} to={URLS.homePage}>Home</NavLink>
                             </li>
                             <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Calculator</a>
+                                <a className={`nav-link dropdown-toggle ${isCalculatorActive ? 'active' : ''}`} role="button" data-bs-toggle="dropdown" aria-expanded="false">Calculator</a>
                                 <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" href="/html/zapquake-calculator.html">Zapquake</a></li>
-                                    <li><a className="dropdown-item" href="/html/advance-calculator.html">Advance</a></li>
+                                    <li><NavLink className={({ isActive }) => `dropdown-item ${isActive ? 'fw-bold' : ''}`} to={URLS.zapquakeCalcPage}>Zapquake</NavLink></li>
+                                    <li><NavLink className={({ isActive }) => `dropdown-item ${isActive ? 'fw-bold' : ''}`} to={URLS.advanceCalcPage}>Advance</NavLink></li>
                                 </ul>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" aria-current="page" href="/html/changelog.html">Changelog</a>
+                                <NavLink className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} to={URLS.changelogPage}>Changelog</NavLink>
                             </li>
                             <li className="nav-item d-sm-none">
-                                <a className="nav-link" aria-current="page" href="/html/setting.html">Setting</a>
+                                <NavLink className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} to={URLS.settingPage}>Setting</NavLink>
                             </li>
                         </ul>
                     </div>
@@ -40,9 +47,9 @@ function Navbar() {
                         <i className="fa-solid fa-sun fa-2x d-none" id="lightModeIcon"></i>
                         <i className="fa-solid fa-moon fa-2x" id="darkModeIcon"></i>
                     </button>
-                    <a href="/html/setting.html" className="btn btn--setting border-0 d-none d-sm-block">
+                    <Link to={URLS.settingPage} className="btn btn--setting border-0 d-none d-sm-block">
                         <i className="fa-solid fa-gear fa-2x"></i>
-                    </a>
+                    </Link>
                 </div>
             </nav>
         </>

@@ -1,6 +1,6 @@
 @use "./abstracts/" as *;
 
-#root {
+body {
     background-color: var(--bg-color);
     color: var(--text-color);
 }

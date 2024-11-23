@@ -50,7 +50,7 @@
   --footer-color: hsl(215, 28%, 17%);
 }
 
-#root {
+body {
   background-color: var(--bg-color);
   color: var(--text-color);
 }
