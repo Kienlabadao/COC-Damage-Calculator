@@ -2,8 +2,8 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import "./assets/css/stylesheet.css";
-import { URLS } from "./assets/data/config.tsx";
+import "assets/css/stylesheet.css";
+import { URLS } from "assets/data/config";
 
 import {
   HomePage,
@@ -11,13 +11,16 @@ import {
   AdvancePage,
   ChangelogPage,
   SettingPage,
+  PageNotFoundPage,
   ErrorPage,
 } from "pages";
+import { setupGlobalErrorHandler } from "utils/errorHandler";
 
 const router = createBrowserRouter([
   {
     path: `${URLS.HomePage}`,
     element: <HomePage />,
+    errorElement: <PageNotFoundPage />,
   },
   {
     path: `${URLS.ZapquakeCalcPage}`,
@@ -40,6 +43,8 @@ const router = createBrowserRouter([
     element: <ErrorPage />,
   },
 ]);
+
+setupGlobalErrorHandler();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
