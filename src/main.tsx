@@ -1,46 +1,48 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import './assets/css/stylesheet.css';
+import "./assets/css/stylesheet.css";
 import { URLS } from "./assets/data/config.tsx";
 
-import HomePage from './pages/HomePage/HomePage.tsx';
-import ZapquakePage from './pages/Calculator/ZapquakePage/ZapquakePage';
-import AdvancePage from './pages/Calculator/AdvancePage/AdvancePage';
-import ChangelogPage from './pages/ChangelogPage/ChangelogPage';
-import SettingPage from './pages/SettingPage/SettingPage';
-import ErrorPage from './pages/Error/ErrorPage/ErrorPage';
+import {
+  HomePage,
+  ZapquakePage,
+  AdvancePage,
+  ChangelogPage,
+  SettingPage,
+  ErrorPage,
+} from "pages";
 
 const router = createBrowserRouter([
   {
     path: `${URLS.HomePage}`,
-    element: <HomePage />
+    element: <HomePage />,
   },
   {
     path: `${URLS.ZapquakeCalcPage}`,
-    element: <ZapquakePage />
+    element: <ZapquakePage />,
   },
   {
     path: `${URLS.AdvanceCalcPage}`,
-    element: <AdvancePage />
+    element: <AdvancePage />,
   },
   {
     path: `${URLS.ChangelogPage}`,
-    element: <ChangelogPage />
+    element: <ChangelogPage />,
   },
   {
     path: `${URLS.SettingPage}`,
-    element: <SettingPage />
+    element: <SettingPage />,
   },
   {
     path: `${URLS.ErrorPage}`,
-    element: <ErrorPage />
-  }
+    element: <ErrorPage />,
+  },
 ]);
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <RouterProvider router={router} />
-  </StrictMode>,
-)
+  </StrictMode>
+);

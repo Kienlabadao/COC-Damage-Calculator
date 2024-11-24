@@ -1,8 +1,8 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { URLS } from "assets/data/config";
-import { ThemeToggler } from "./ThemeToggler";
+import { ThemeToggler } from "../ThemeToggler";
 
-function Navbar() {
+export function Navbar() {
   const location = useLocation();
 
   // Check if the current URL matches either Zapquake or Advance pages
@@ -117,5 +117,3 @@ function Navbar() {
     </>
   );
 }
-
-export default Navbar;

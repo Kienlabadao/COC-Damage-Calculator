@@ -1,13 +1,10 @@
-import Navbar from 'components/Navbar';
-import Footer from 'components/Footer';
+import { Navbar, Footer } from "components";
 
-function ZapquakePage() {
+export function ZapquakePage() {
   return (
     <>
-      <Navbar/>
-      <Footer/>
+      <Navbar />
+      <Footer />
     </>
-  )
+  );
 }
-
-export default ZapquakePage;

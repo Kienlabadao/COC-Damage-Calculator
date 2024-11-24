@@ -1,8 +1,6 @@
-import Navbar from "components/Navbar";
-import ContentContainer from "components/ContentContainer";
-import Footer from "components/Footer";
+import { Navbar, Footer, ContentContainer } from "components";
 
-export default function HomePage() {
+export function HomePage() {
   return (
     <>
       <Navbar />

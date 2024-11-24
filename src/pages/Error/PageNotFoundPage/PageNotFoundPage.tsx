@@ -1,13 +1,10 @@
-import Navbar from 'components/Navbar';
-import Footer from 'components/Footer';
+import { Navbar, Footer } from "components";
 
-function PageNotFoundPage() {
+export function PageNotFoundPage() {
   return (
     <>
-      <Navbar/>
-      <Footer/>
+      <Navbar />
+      <Footer />
     </>
-  )
+  );
 }
-
-export default PageNotFoundPage;

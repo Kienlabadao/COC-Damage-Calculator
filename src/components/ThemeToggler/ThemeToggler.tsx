@@ -1,10 +1,10 @@
 import { useGetTheme } from "hooks/useGetTheme";
-import useSetTheme from "hooks/useSetTheme";
+import { useSetTheme } from "hooks/useSetTheme";
 import { Theme } from "assets/data/config";
 
-export default function ThemeToggler() {
+export function ThemeToggler() {
   const { theme, setTheme } = useGetTheme();
-  console.log("ThemeToggler");
+
   useSetTheme(theme);
 
   return (

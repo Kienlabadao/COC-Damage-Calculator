@@ -1,0 +1,1 @@
+export { ZapquakePage } from "./ZapquakePage";

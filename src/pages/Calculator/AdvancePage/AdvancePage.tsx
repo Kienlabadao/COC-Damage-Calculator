@@ -1,13 +1,10 @@
-import Navbar from 'components/Navbar';
-import Footer from 'components/Footer';
+import { Navbar, Footer } from "components";
 
-function AdvancePage() {
+export function AdvancePage() {
   return (
     <>
-      <Navbar/>
-      <Footer/>
+      <Navbar />
+      <Footer />
     </>
-  )
+  );
 }
-
-export default AdvancePage;

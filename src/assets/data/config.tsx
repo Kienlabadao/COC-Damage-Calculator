@@ -16,4 +16,4 @@ export enum Theme {
   Dark = "dark",
 }
 
-export const DEFAULT_THEME = Theme.Dark;
+export const DEFAULT_THEME = Theme.Light;
