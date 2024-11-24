@@ -282,7 +282,9 @@
       "type": "building",
       "hp": [
         5400,
-        5700
+        5700,
+        6000,
+        6150
       ],
       "immune": []
     },
@@ -291,7 +293,19 @@
       "type": "building",
       "hp": [
         5000,
-        5200
+        5200,
+        5400,
+        5500
+      ],
+      "immune": []
+    },
+    "firespitter": {
+      "name": "Firespitter",
+      "type": "building",
+      "hp": [
+        4500,
+        5000,
+        5250
       ],
       "immune": []
     },
@@ -314,7 +328,8 @@
         8200,
         8900,
         9600,
-        10000
+        10000,
+        10400
       ],
       "immune": [
         "lightning_spell"
@@ -341,9 +356,9 @@
         "lightning_spell"
       ]
     },
-    "grand_warden_altar": {
-      "name": "Grand Warden Altar",
-      "type": "building",
+    "grand_warden": {
+      "name": "Grand Warden",
+      "type": "hero",
       "hp": [
         850,
         868,
@@ -416,7 +431,10 @@
         2397,
         2414
       ],
-      "immune": []
+      "immune": [
+        "earthquake_spell",
+        "earthquake_boots"
+      ]
     },
     "archer_queen": {
       "name": "Archer Queen",

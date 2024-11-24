@@ -74,7 +74,7 @@ class Defense {
 
     // Get defense's image path in the project folder
     getImagePath() {
-        const heroList = ["grand_warden_altar", "archer_queen", "royal_champion"];
+        const heroList = ["grand_warden", "archer_queen", "royal_champion"];
 
         if (heroList.includes(this.defenseID)) {
             return `/images/defense/${this.defenseID}/${this.defenseID}.webp`;
@@ -89,7 +89,9 @@ class Defense {
             case "archer_queen":
                 return "/images/other/archer_queen_ko.webp"; 
             case "royal_champion":
-                return "/images/other/royal_champion_ko.webp";      
+                return "/images/other/royal_champion_ko.webp";
+            case "grand_warden":
+                return "/images/other/grand_warden_ko.webp";  
             default:
                 return "/images/other/destroyed.webp";
         }
