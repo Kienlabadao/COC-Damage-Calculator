@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import './assets/css/stylesheet.css';
-import URLS from "./assets/data/urlMappings";
+import { URLS } from "./assets/data/config.tsx";
 
 import HomePage from './pages/HomePage/HomePage.tsx';
 import ZapquakePage from './pages/Calculator/ZapquakePage/ZapquakePage';
@@ -14,27 +14,27 @@ import ErrorPage from './pages/Error/ErrorPage/ErrorPage';
 
 const router = createBrowserRouter([
   {
-    path: `${URLS.homePage}`,
+    path: `${URLS.HomePage}`,
     element: <HomePage />
   },
   {
-    path: `${URLS.zapquakeCalcPage}`,
+    path: `${URLS.ZapquakeCalcPage}`,
     element: <ZapquakePage />
   },
   {
-    path: `${URLS.advanceCalcPage}`,
+    path: `${URLS.AdvanceCalcPage}`,
     element: <AdvancePage />
   },
   {
-    path: `${URLS.changelogPage}`,
+    path: `${URLS.ChangelogPage}`,
     element: <ChangelogPage />
   },
   {
-    path: `${URLS.settingPage}`,
+    path: `${URLS.SettingPage}`,
     element: <SettingPage />
   },
   {
-    path: `${URLS.errorPage}`,
+    path: `${URLS.ErrorPage}`,
     element: <ErrorPage />
   }
 ]);
