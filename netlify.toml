@@ -1,3 +1,7 @@
+[build]
+  publish = ""
+  command = ""
+
 [[redirects]]
     from = "/html/*"
     to = "/:splat"
