@@ -1,331 +1,580 @@
 <!DOCTYPE html>
 <html lang="en" class="h-100" data-bs-theme="light">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home | COC Damage Calculator</title>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/images/favicon/site.webmanifest">
-    <link rel="mask-icon" href="/images/favicon/safari-pinned-tab.svg" color="#bf00ff">
-    <meta name="msapplication-TileColor" content="#9f00a7">
-    <meta name="theme-color" content="#ffffff">
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/images/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/images/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/images/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/images/favicon/site.webmanifest" />
+    <link
+      rel="mask-icon"
+      href="/images/favicon/safari-pinned-tab.svg"
+      color="#bf00ff"
+    />
+    <meta name="msapplication-TileColor" content="#9f00a7" />
+    <meta name="theme-color" content="#ffffff" />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="/css/stylesheet.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link href="/css/stylesheet.css" rel="stylesheet" />
     <script src="/js/util/localStorageUtils.js"></script>
     <script src="/js/util/loadTheme.js"></script>
-    <script src="https://kit.fontawesome.com/e1acb8aa00.js" crossorigin="anonymous"></script>
-</head>
+    <script
+      src="https://kit.fontawesome.com/e1acb8aa00.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
 
-<body class="d-flex flex-column h-100">
+  <body class="d-flex flex-column h-100">
     <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
-        <div class="container-fluid justify-content-start mx-lg-5 px-sm-5 fw-bold">
-            <a class="navbar-brand d-flex align-items-center" href="/html/">
-                <div class="brand__logo me-3 d-flex justify-content-center align-items-center">
-                    <img src="/images/other/logo.webp" alt="Logo">
-                </div>               
-                <div class="brand__text">
-                    <div class="brand__text--orange">Damage</div>
-                    <div class="brand__text--yellow">Calculator</div>
-                </div>
-            </a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/html/">Home</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Calculator</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/html/zapquake-calculator.html">Zapquake</a></li>
-                            <li><a class="dropdown-item" href="/html/advance-calculator.html">Advance</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/html/changelog.html">Changelog</a>
-                    </li>
-                    <li class="nav-item d-sm-none">
-                        <a class="nav-link" aria-current="page" href="/html/setting.html">Setting</a>
-                    </li>
-                </ul>
-            </div>
-            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>    
-            <button id="toggleTheme" class="btn btn--toggle-theme" onclick="toggleTheme()">
-                <i class="fa-solid fa-sun fa-2x d-none" id="lightModeIcon"></i>
-                <i class="fa-solid fa-moon fa-2x" id="darkModeIcon"></i>
-            </button>
-            <a href="/html/setting.html" class="btn btn--setting border-0 d-none d-sm-block">
-                <i class="fa-solid fa-gear fa-2x"></i>
-            </a>
+      <div
+        class="container-fluid justify-content-start mx-lg-5 px-sm-5 fw-bold"
+      >
+        <a class="navbar-brand d-flex align-items-center" href="/html/">
+          <div
+            class="brand__logo me-3 d-flex justify-content-center align-items-center"
+          >
+            <img src="/images/other/logo.webp" alt="Logo" />
+          </div>
+          <div class="brand__text">
+            <div class="brand__text--orange">Damage</div>
+            <div class="brand__text--yellow">Calculator</div>
+          </div>
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/html/"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                >Calculator</a
+              >
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="/html/zapquake-calculator.html"
+                    >Zapquake</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/html/advance-calculator.html"
+                    >Advance</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                aria-current="page"
+                href="/html/changelog.html"
+                >Changelog</a
+              >
+            </li>
+            <li class="nav-item d-sm-none">
+              <a class="nav-link" aria-current="page" href="/html/setting.html"
+                >Setting</a
+              >
+            </li>
+          </ul>
         </div>
+        <button
+          class="navbar-toggler ms-auto"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <button
+          id="toggleTheme"
+          class="btn btn--toggle-theme"
+          onclick="toggleTheme()"
+        >
+          <i class="fa-solid fa-sun fa-2x d-none" id="lightModeIcon"></i>
+          <i class="fa-solid fa-moon fa-2x" id="darkModeIcon"></i>
+        </button>
+        <a
+          href="/html/setting.html"
+          class="btn btn--setting border-0 d-none d-sm-block"
+        >
+          <i class="fa-solid fa-gear fa-2x"></i>
+        </a>
+      </div>
     </nav>
 
     <main class="container-fluid pb-5">
-        <header class="text-center">
-            <img src="/images/other/coc.png" width="200">
-            <h1 class="brand__text">
-                <span class="brand__text--orange d-inline-block mt-2">Damage</span>
-                <span class="brand__text--yellow d-inline-block mt-2">Calculator</span>
-            </h1>
-        </header>
-        <section class="main-container mx-auto mt-5">
-            <section class="card-custom card-custom__main shadow p-4 my-5">
-                <h2 class="text-center">!!! Important !!!</h2><hr>
-                <div class="row align-items-center">
-                    <div class="col-md-3 text-center">
-                        <img src="/images/other/builder.webp" width="160">
-                    </div>
-                    <div class="col-md-9">
-                        <h5>This website is currently in the testing phase.</h5>
-                        <ul>
-                            <li>Please help me test it as much as possible, as I need to ensure everything runs smoothly.</li>
-                            <li>Any bug reports or feedback are <strong>greatly appreciated!</strong></li>
-                            <li>
-                                <div>I also have some design choices that I'm unsure about. I've listed them all in this form, which also serves as a bug report/feedback sheet.</div>
-                                <div>
-                                    <div>
-                                        <a href="https://forms.gle/cfXJ46tHb92HovHH7" target="_blank" class="btn btn-primary">
-                                            <i class="fa-solid fa-sheet-plastic"></i> Link to the form
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                        <h5>Thank you! ❤</h5>
-                    </div>
-                </div>                
-            </section>
-
-            <section class="card-custom card-custom__main shadow p-4 my-5">
-                <h2 class="text-center">Introduction</h2><hr>
-                <div>
-                    <p>Welcome to the <strong class="fs-4">Clash of Clans</strong> <span class="brand__text brand__text--orange brand__text--no-shadow">Damage</span> <span class="brand__text brand__text--yellow brand__text--no-shadow">Calculator</span> - your one-stop spot for all damage calculations in Clash of Clans!</p>
-                    <ul>
-                        <li>
-                            <p>Do you need to know <strong>how many lightning and earthquake spells</strong> are needed to take out a <strong>max level town hall</strong> with the help of <strong>fireball and giant arrow? I got you covered! 👍</strong></p>
-                        </li>
-                        <li>
-                            <p>Do you need to know <strong>how quickly</strong> you need to snipe the clan castle with <strong>fireball and earthquake spell</strong> before <strong>the builders</strong> can save it? <strong>I got you covered! 👍</strong></p>
-                        </li>
-                        <li>
-                            <p>Do you need to know <strong>how many defenses</strong> can survive <strong>5 Giant Arrows</strong> shot? That's quite an interesting question but hey, <strong>I also got you covered! 👍</strong></p>
-                        </li>
-                    </ul>                   
-                    <div>This website have 2 main features:</div>
-                    <ul>
-                        <li class="mt-1">
-                            <div class="d-flex align-items-center flex-wrap">
-                                <div class="me-3 fw-bold">Zapquake Calculator</div>
-                                <div>
-                                    <a href="/html/zapquake-calculator.html" class="btn btn-secondary">Visit</a>
-                                </div>
-                            </div>                           
-                        </li>
-                        <li class="mt-3">
-                            <div class="d-flex align-items-center flex-wrap">
-                                <div class="me-3 fw-bold">Advance Calculator</div>
-                                <div>
-                                    <a href="/html/advance-calculator.html" class="btn btn-secondary">Visit</a>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>                
-            </section>
-
-            <section class="card-custom card-custom__main shadow p-4 my-5">
-                <h2 class="text-center">Information</h2><hr>
-                <div>
-                    <div>
-                        <div class="mb-3">
-                            <span class="brand__text brand__text--blue brand__text--no-shadow">Zap</span>
-                            <span class="brand__text brand__text--brown brand__text--no-shadow">Quake</span>
-                            <span class="brand__text brand__text--yellow brand__text--no-shadow">Calculator</span>
-                        </div>
-                        <p>This is where you can calculate how many Lightning and Earthquake spells are needed to take down a defense at specific level.</p>
-                        <div>While there are many other zapquake calculator available out there, mine offers <strong>2 extra features:</strong></div>
-                        <ul>
-                            <li>
-                                <div class="fw-bold">The ability to account for hero equipment.</div>
-                                <div>This is exactly why I created this website in the first place.</div>
-                            </li>
-                            <li>
-                                <div class="fw-bold">The ability to factor in donated Lightning spells.</div>
-                                <div>This is particularly useful for low to mid-level Townhall players, as you typically receive high-level Lightning spells in your Clan Castle.</div>
-                            </li>
-                        </ul>
-                    </div><hr>
-                    <div class="mt-4">
-                        <div class="mb-3">
-                            <span class="brand__text brand__text--orange brand__text--no-shadow">Advance</span>
-                            <span class="brand__text brand__text--yellow brand__text--no-shadow">Calculator</span>
-                        </div>                      
-                        <div>This is where you can do more advance calculation. Featuring:</div>
-                        <ul>
-                            <li>
-                                <div class="fw-bold">The ability to select actions such as spells, hero equipment, troops, in any order.</div>
-                            </li>
-                            <li>
-                                <div class="fw-bold">The option to manage those actions by removing or reordering them.</div>
-                            </li>
-                            <li>
-                                <div class="fw-bold">Calculate:</div>
-                                <ul>
-                                    <li><div class="fw-bold">How much damage each action inflicts.</div></li>
-                                    <li><div class="fw-bold">The remaining HP of the defense after each action.</div></li>
-                                    <li><div class="fw-bold">The impact of modifiers (e.g., Rage spell, cumulative Earthquake damage).</div></li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <div>This is particularly useful if you need to:</div>
-                        <ul>
-                            <li>
-                                <div class="fw-bold">Determine whether you should take down a defense which direct damage offense (like Fireball, Giant Arrow, etc.) while there are Battle Builders around. If so, you can calculate how quickly you need to act before the builders save it.</div>
-                            </li>
-                            <li>
-                                <div class="fw-bold">Calculate how many troops (currently, Balloons and Rocket Balloons) are needed to take down a defense.</div>
-                                <div>This is especially valuable for Lavaloon strategy or when you want to snipe a specific defense.</div>
-                            </li>
-                            <li>
-                                <div class="fw-bold">Or just for fun.</div>
-                                <div>Ever wondered how much HP a max-level Town Hall has left after 5 Earthquake Boots and 7 Earthquake spells? Well, you probably haven't thought about that, but hey, why not find out?</div>
-                            </li>
-                        </ul>
-                    </div><hr>
-                    <div class="mt-4">
-                        <h3>Other</h3>
-                        <ul>
-                            <li>While the website is supported on small screens like phones, it's recommended to use a larger screen, such as a monitor or tablet, for the best experience.</li>
-                            <li>Future plan:
-                                <ul>
-                                    <li>Make demonstration video for each calculators.</li>
-                                    <li>Add support for more troops in the advance calculator.</li>
-                                    <li>Add support for hero in the advance calculator.</li>
-                                </ul>
-                            </li>
-                            <li>I will work on them in the future whenever I have free time. Otherwise, the website is fully functional and ready to use. As always, I will update the data whenever there are new updates or balance changes coming to the game.</li>
-                        </ul>
-                    </div>
-                </div>    
-            </section>
-
-            <section class="card-custom card-custom__main shadow p-4 my-5">
-                <h2 class="text-center">Links</h2><hr>
-                <div>                   
-                    <div>Found a <strong>bug?</strong> Have <strong>suggestion?</strong> Contact me via:</div>
-                    <ul class="mt-1">
-                        <li>
-                            <div class="d-flex align-items-center flex-wrap">
-                                <div class="me-2">Reddit</div>
-                                <div>
-                                    <a href="https://www.reddit.com/user/Kienlabadao/" target="_blank" class="btn btn--reddit">
-                                        <i class="fa-brands fa-reddit-alien"></i> Reddit
-                                    </a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="mt-3">
-                            <div class="d-flex align-items-center flex-wrap">
-                                <div class="me-2">Discord</div>
-                                <div>
-                                    <a href="https://discord.com/invite/6SDDRw68" target="_blank" class="btn btn-primary">
-                                        <i class="fa-brands fa-discord"></i> Discord
-                                    </a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="mt-3">
-                            <div class="d-flex align-items-center flex-wrap">
-                                <div class="me-2">Prefer staying anonymous?</div>
-                                <div>
-                                    <a href="https://forms.gle/weCLKkpg5py6PrGb9" target="_blank" class="btn btn-primary">
-                                        <i class="fa-solid fa-sheet-plastic"></i> Fill in this form
-                                    </a>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <div>Other links:</div>
-                    <ul class="mt-1">
-                        <li>
-                            <div class="d-flex align-items-center flex-wrap">
-                                <div class="me-2">Source Code</div>
-                                <div>
-                                    <a href="https://github.com/Kienlabadao/COC-Damage-Calculator" target="_blank" class="btn btn-primary"><i class="fa-brands fa-github"></i> Github</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="mt-3">
-                            <div class="d-flex align-items-center flex-wrap">
-                                <div class="me-2">Like my work?</div>
-                                <div>
-                                    <a href="https://buymeacoffee.com/kienlabadao" target="_blank" class="btn btn-success btn--donate">☕ Buy me a coffee</a>
-                                </div>
-                            </div>
-                        </li>                        
-                    </ul>
-                </div> 
-            </section>
-
-            <section class="card-custom card-custom__main shadow p-4 my-5">
-                <h2 class="text-center">Credits</h2><hr>
-                <div>
-                    <ul>
-                        <li><a href="https://zapquaker.netlify.app/" target="_blank">Zapquaker</a> for inspired me to make this website (and some UI design ideas)</li>
-                        <li><a href="https://clashofclans.fandom.com/wiki/Clash_of_Clans_Wiki" target="_blank">Clash of Clans Wiki</a> for informations, images, and formula.</li>
-                        <li>Friends and Clanmates for helping with testing and feedback to ensure the website runs smoothly.</li>
-                        <li>
-                            <div>You - the user.</div>
-                            <ul>
-                                <li>I've always wanted to make something that helps others. By contributing, giving feedbacks, or just using this site, you're making my day. Thank you! ❤</li>
-                            </ul>
-                        </li>
-                    </ul>
+      <header class="text-center">
+        <img src="/images/other/coc.png" width="200" />
+        <h1 class="brand__text">
+          <span class="brand__text--orange d-inline-block mt-2">Damage</span>
+          <span class="brand__text--yellow d-inline-block mt-2"
+            >Calculator</span
+          >
+        </h1>
+      </header>
+      <section class="main-container mx-auto mt-5">
+        <section class="card-custom card-custom__main shadow p-4 my-5">
+          <h2 class="text-center">Introduction</h2>
+          <hr />
+          <div>
+            <p>
+              Welcome to the <strong class="fs-4">Clash of Clans</strong>
+              <span
+                class="brand__text brand__text--orange brand__text--no-shadow"
+                >Damage</span
+              >
+              <span
+                class="brand__text brand__text--yellow brand__text--no-shadow"
+                >Calculator</span
+              >
+              - your one-stop spot for all damage calculations in Clash of
+              Clans!
+            </p>
+            <ul>
+              <li>
+                <p>
+                  Do you need to know
+                  <strong>how many lightning and earthquake spells</strong> are
+                  needed to take out a <strong>max level town hall</strong> with
+                  the help of
+                  <strong
+                    >fireball and giant arrow? I got you covered! 👍</strong
+                  >
+                </p>
+              </li>
+              <li>
+                <p>
+                  Do you need to know <strong>how quickly</strong> you need to
+                  snipe the clan castle with
+                  <strong>fireball and earthquake spell</strong> before
+                  <strong>the builders</strong> can save it?
+                  <strong>I got you covered! 👍</strong>
+                </p>
+              </li>
+              <li>
+                <p>
+                  Do you need to know <strong>how many defenses</strong> can
+                  survive <strong>5 Giant Arrows</strong> shot? That's quite an
+                  interesting question but hey,
+                  <strong>I also got you covered! 👍</strong>
+                </p>
+              </li>
+            </ul>
+            <div>This website have 2 main features:</div>
+            <ul>
+              <li class="mt-1">
+                <div class="d-flex align-items-center flex-wrap">
+                  <div class="me-3 fw-bold">Zapquake Calculator</div>
+                  <div>
+                    <a
+                      href="/html/zapquake-calculator.html"
+                      class="btn btn-secondary"
+                      >Visit</a
+                    >
+                  </div>
                 </div>
-            </section>
+              </li>
+              <li class="mt-3">
+                <div class="d-flex align-items-center flex-wrap">
+                  <div class="me-3 fw-bold">Advance Calculator</div>
+                  <div>
+                    <a
+                      href="/html/advance-calculator.html"
+                      class="btn btn-secondary"
+                      >Visit</a
+                    >
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
         </section>
+
+        <section class="card-custom card-custom__main shadow p-4 my-5">
+          <h2 class="text-center">Information</h2>
+          <hr />
+          <div>
+            <div>
+              <div class="mb-3">
+                <span
+                  class="brand__text brand__text--blue brand__text--no-shadow"
+                  >Zap</span
+                >
+                <span
+                  class="brand__text brand__text--brown brand__text--no-shadow"
+                  >Quake</span
+                >
+                <span
+                  class="brand__text brand__text--yellow brand__text--no-shadow"
+                  >Calculator</span
+                >
+              </div>
+              <p>
+                This is where you can calculate how many Lightning and
+                Earthquake spells are needed to take down a defense at specific
+                level.
+              </p>
+              <div>
+                While there are many other zapquake calculator available out
+                there, mine offers <strong>2 extra features:</strong>
+              </div>
+              <ul>
+                <li>
+                  <div class="fw-bold">
+                    The ability to account for hero equipment.
+                  </div>
+                  <div>
+                    This is exactly why I created this website in the first
+                    place.
+                  </div>
+                </li>
+                <li>
+                  <div class="fw-bold">
+                    The ability to factor in donated Lightning spells.
+                  </div>
+                  <div>
+                    This is particularly useful for low to mid-level Townhall
+                    players, as you typically receive high-level Lightning
+                    spells in your Clan Castle.
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <hr />
+            <div class="mt-4">
+              <div class="mb-3">
+                <span
+                  class="brand__text brand__text--orange brand__text--no-shadow"
+                  >Advance</span
+                >
+                <span
+                  class="brand__text brand__text--yellow brand__text--no-shadow"
+                  >Calculator</span
+                >
+              </div>
+              <div>
+                This is where you can do more advance calculation. Featuring:
+              </div>
+              <ul>
+                <li>
+                  <div class="fw-bold">
+                    The ability to select actions such as spells, hero
+                    equipment, troops, in any order.
+                  </div>
+                </li>
+                <li>
+                  <div class="fw-bold">
+                    The option to manage those actions by removing or reordering
+                    them.
+                  </div>
+                </li>
+                <li>
+                  <div class="fw-bold">Calculate:</div>
+                  <ul>
+                    <li>
+                      <div class="fw-bold">
+                        How much damage each action inflicts.
+                      </div>
+                    </li>
+                    <li>
+                      <div class="fw-bold">
+                        The remaining HP of the defense after each action.
+                      </div>
+                    </li>
+                    <li>
+                      <div class="fw-bold">
+                        The impact of modifiers (e.g., Rage spell, cumulative
+                        Earthquake damage).
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              <div>This is particularly useful if you need to:</div>
+              <ul>
+                <li>
+                  <div class="fw-bold">
+                    Determine whether you should take down a defense which
+                    direct damage offense (like Fireball, Giant Arrow, etc.)
+                    while there are Battle Builders around. If so, you can
+                    calculate how quickly you need to act before the builders
+                    save it.
+                  </div>
+                </li>
+                <li>
+                  <div class="fw-bold">
+                    Calculate how many troops (currently, Balloons and Rocket
+                    Balloons) are needed to take down a defense.
+                  </div>
+                  <div>
+                    This is especially valuable for Lavaloon strategy or when
+                    you want to snipe a specific defense.
+                  </div>
+                </li>
+                <li>
+                  <div class="fw-bold">Or just for fun.</div>
+                  <div>
+                    Ever wondered how much HP a max-level Town Hall has left
+                    after 5 Earthquake Boots and 7 Earthquake spells? Well, you
+                    probably haven't thought about that, but hey, why not find
+                    out?
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <hr />
+            <div class="mt-4">
+              <h3>Other</h3>
+              <ul>
+                <li>
+                  While the website is supported on small screens like phones,
+                  it's recommended to use a larger screen, such as a monitor or
+                  tablet, for the best experience.
+                </li>
+                <li>
+                  Future plan:
+                  <ul>
+                    <li>Make demonstration video for each calculators.</li>
+                    <li>
+                      Add support for more troops in the advance calculator.
+                    </li>
+                    <li>Add support for hero in the advance calculator.</li>
+                  </ul>
+                </li>
+                <li>
+                  I will work on them in the future whenever I have free time.
+                  Otherwise, the website is fully functional and ready to use.
+                  As always, I will update the data whenever there are new
+                  updates or balance changes coming to the game.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="card-custom card-custom__main shadow p-4 my-5">
+          <h2 class="text-center">Links</h2>
+          <hr />
+          <div>
+            <div>
+              Found a <strong>bug?</strong> Have
+              <strong>suggestion?</strong> Contact me via:
+            </div>
+            <ul class="mt-1">
+              <li>
+                <div class="d-flex align-items-center flex-wrap">
+                  <div class="me-2">Reddit</div>
+                  <div>
+                    <a
+                      href="https://www.reddit.com/user/Kienlabadao/"
+                      target="_blank"
+                      class="btn btn--reddit"
+                    >
+                      <i class="fa-brands fa-reddit-alien"></i> Reddit
+                    </a>
+                  </div>
+                </div>
+              </li>
+              <li class="mt-3">
+                <div class="d-flex align-items-center flex-wrap">
+                  <div class="me-2">Discord</div>
+                  <div>
+                    <a
+                      href="https://discord.com/invite/6SDDRw68"
+                      target="_blank"
+                      class="btn btn-primary"
+                    >
+                      <i class="fa-brands fa-discord"></i> Discord
+                    </a>
+                  </div>
+                </div>
+              </li>
+              <li class="mt-3">
+                <div class="d-flex align-items-center flex-wrap">
+                  <div class="me-2">Prefer staying anonymous?</div>
+                  <div>
+                    <a
+                      href="https://forms.gle/weCLKkpg5py6PrGb9"
+                      target="_blank"
+                      class="btn btn-primary"
+                    >
+                      <i class="fa-solid fa-sheet-plastic"></i> Fill in this
+                      form
+                    </a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <div>Other links:</div>
+            <ul class="mt-1">
+              <li>
+                <div class="d-flex align-items-center flex-wrap">
+                  <div class="me-2">Source Code</div>
+                  <div>
+                    <a
+                      href="https://github.com/Kienlabadao/COC-Damage-Calculator"
+                      target="_blank"
+                      class="btn btn-primary"
+                      ><i class="fa-brands fa-github"></i> Github</a
+                    >
+                  </div>
+                </div>
+              </li>
+              <li class="mt-3">
+                <div class="d-flex align-items-center flex-wrap">
+                  <div class="me-2">Like my work?</div>
+                  <div>
+                    <a
+                      href="https://buymeacoffee.com/kienlabadao"
+                      target="_blank"
+                      class="btn btn-success btn--donate"
+                      >☕ Buy me a coffee</a
+                    >
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="card-custom card-custom__main shadow p-4 my-5">
+          <h2 class="text-center">Credits</h2>
+          <hr />
+          <div>
+            <ul>
+              <li>
+                <a href="https://zapquaker.netlify.app/" target="_blank"
+                  >Zapquaker</a
+                >
+                for inspired me to make this website (and some UI design ideas)
+              </li>
+              <li>
+                <a
+                  href="https://clashofclans.fandom.com/wiki/Clash_of_Clans_Wiki"
+                  target="_blank"
+                  >Clash of Clans Wiki</a
+                >
+                for informations, images, and formula.
+              </li>
+              <li>
+                Friends and Clanmates for helping with testing and feedback to
+                ensure the website runs smoothly.
+              </li>
+              <li>
+                <div>You - the user.</div>
+                <ul>
+                  <li>
+                    I've always wanted to make something that helps others. By
+                    contributing, giving feedbacks, or just using this site,
+                    you're making my day. Thank you! ❤
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </section>
+      </section>
     </main>
 
     <footer class="p-5 text-center mt-auto">
-        <h4>Last Updated: 27/8/2024 (September 2024 Update)</h4>
-        <h4>Made by Kienlabadao</h4>
-        <div class="d-flex justify-content-center align-items-center flex-wrap gap-2">
-            <div>
-                <a href="https://www.reddit.com/user/Kienlabadao/" target="_blank" class="btn btn--reddit">
-                    <i class="fa-brands fa-reddit-alien"></i> Reddit
-                </a>
-            </div>
-            <div>
-                <a href="https://discord.com/invite/6SDDRw68" target="_blank" class="btn btn-primary">
-                    <i class="fa-brands fa-discord"></i> Discord
-                </a>
-            </div>
-            <div>
-                <a href="https://github.com/Kienlabadao/COC-Damage-Calculator" target="_blank" class="btn btn-primary"><i class="fa-brands fa-github"></i> Source Code</a>
-            </div>
-            <div>
-                <a href="https://buymeacoffee.com/kienlabadao" target="_blank" class="btn btn-success btn--donate">☕ Buy me a coffee</a>
-            </div>
+      <h4>Last Updated: 25/11/2024 (November 2024 Update)</h4>
+      <h4>Made by Kienlabadao</h4>
+      <div
+        class="d-flex justify-content-center align-items-center flex-wrap gap-2"
+      >
+        <div>
+          <a
+            href="https://www.reddit.com/user/Kienlabadao/"
+            target="_blank"
+            class="btn btn--reddit"
+          >
+            <i class="fa-brands fa-reddit-alien"></i> Reddit
+          </a>
         </div>
+        <div>
+          <a
+            href="https://discord.com/invite/6SDDRw68"
+            target="_blank"
+            class="btn btn-primary"
+          >
+            <i class="fa-brands fa-discord"></i> Discord
+          </a>
+        </div>
+        <div>
+          <a
+            href="https://github.com/Kienlabadao/COC-Damage-Calculator"
+            target="_blank"
+            class="btn btn-primary"
+            ><i class="fa-brands fa-github"></i> Source Code</a
+          >
+        </div>
+        <div>
+          <a
+            href="https://buymeacoffee.com/kienlabadao"
+            target="_blank"
+            class="btn btn-success btn--donate"
+            >☕ Buy me a coffee</a
+          >
+        </div>
+      </div>
     </footer>
 
-    <button type="button" id="scrollUpBtn" class="btn btn__scroll btn__scroll--up btn-secondary position-fixed d-none" onclick="scrollUp()">
-        <i class="fa-solid fa-arrow-up fa-2x"></i>
+    <button
+      type="button"
+      id="scrollUpBtn"
+      class="btn btn__scroll btn__scroll--up btn-secondary position-fixed d-none"
+      onclick="scrollUp()"
+    >
+      <i class="fa-solid fa-arrow-up fa-2x"></i>
     </button>
-    <button type="button" id="scrollDownBtn" class="btn btn__scroll btn__scroll--down btn-secondary position-fixed d-none" onclick="scrollDown()">
-        <i class="fa-solid fa-arrow-down fa-2x"></i>
+    <button
+      type="button"
+      id="scrollDownBtn"
+      class="btn btn__scroll btn__scroll--down btn-secondary position-fixed d-none"
+      onclick="scrollDown()"
+    >
+      <i class="fa-solid fa-arrow-down fa-2x"></i>
     </button>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
     <script src="/js/util/htmlUtil.js"></script>
     <script src="/js/util/init.js"></script>
     <script src="/js/util/scrollManager.js"></script>
     <script src="/js/util/toggleTheme.js"></script>
-</body>
+  </body>
 </html>
