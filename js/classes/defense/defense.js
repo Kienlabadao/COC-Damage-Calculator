@@ -55,16 +55,12 @@ class Defense {
 
   // Check if defense immune to this offense (store in json file)
   isImmune(checkOffense) {
-    if (checkOffense instanceof Offense) {
-      for (const offense of this.immuneList) {
-        if (offense.offenseID === checkOffense.offenseID) {
-          return true;
-        }
-      }
-      return false;
-    } else {
-      throw new Error(`Invalid offense: ${checkOffense}`);
+    if (!(checkOffense instanceof Offense)) {
+      throw new Error(`Invalid offense: ${checkOffense}`)
     }
+    return this.immuneList.some(
+      offense => offense.offenseID === checkOffense.offenseID
+    );
   }
 
   isDestroyed() {
@@ -147,49 +143,41 @@ class Defense {
 
   // Setter
   set currentLevelPos(newCurrentLevelPos) {
-    if (newCurrentLevelPos !== null) {
-      if (!NumberUtil.isNumber(newCurrentLevelPos)) {
-        throw new Error(
-          `Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`
-        );
-      }
-
-      if (this.hpList[newCurrentLevelPos] !== undefined) {
-        this._currentLevelPos = newCurrentLevelPos;
-        this.resetRemainingHP();
-      } else {
-        throw new Error(
-          `Invalid currentLevelPos: ${newCurrentLevelPos}. DefenseID: ${this.defenseID}`
-        );
-      }
-    } else {
+    if (newCurrentLevelPos === null) {
       this._currentLevelPos = this.maxLevelPos;
       this.resetRemainingHP();
+      return;
+    } 
+    if (!NumberUtil.isNumber(newCurrentLevelPos)) {
+      throw new Error(`Invalid type of currentLevelPos: ${newCurrentLevelPos}. Type: ${typeof newCurrentLevelPos}`);
     }
+    if (this.hpList[newCurrentLevelPos] === undefined) {
+      throw new Error(`Invalid currentLevelPos: ${newCurrentLevelPos}. DefenseID: ${this.defenseID}`);
+    }
+    this._currentLevelPos = newCurrentLevelPos;
+    this.resetRemainingHP();
   }
 
   set remainingHP(newRemainingHP) {
     // Defense remaining HP cannot be more than its max HP in its current level
-    if (
+    if (!(
       NumberUtil.isNumber(newRemainingHP) &&
       newRemainingHP <= this.getCurrentMaxHP()
-    ) {
-      this._remainingHP = newRemainingHP;
-    } else {
+    )) {
       throw new Error(
-        `Invalid remainingHP: ${newRemainingHP}. DefenseID: ${
-          this.defenseID
-        }. Defense maxHP: ${this.getCurrentMaxHP()}`
+        `Invalid remainingHP: ${newRemainingHP}. \
+        DefenseID: ${this.defenseID}. \
+        Defense maxHP: ${this.getCurrentMaxHP()}`
       );
-    }
+    } 
+    this._remainingHP = newRemainingHP;
   }
 
   set eqCount(newEQCount) {
-    if (NumberUtil.isNumber(newEQCount) && newEQCount >= 0) {
-      this._eqCount = newEQCount;
-    } else {
+    if (!(NumberUtil.isNumber(newEQCount) && newEQCount >= 0)) {
       throw new Error(`Invalid eqCount: ${newEQCount}`);
     }
+    this._eqCount = newEQCount;
   }
 
   // Getter

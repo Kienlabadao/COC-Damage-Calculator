@@ -13,51 +13,46 @@ class DamageLog {
 
     // Setter
     set offense(newOffense) {
-        if (newOffense instanceof Offense) {
-            this._offense = newOffense;
-        } else {
+        if (!(newOffense instanceof Offense)) {
             throw new Error(`Invalid offense: ${newOffense}`)
-        }       
+        }
+        this._offense = newOffense;
     }
 
     set modifier(newModifier) {
-        if (newModifier === null || newModifier instanceof Modifier) {
-            this._modifier = newModifier;
-        } else {
+        if (!(newModifier === null || newModifier instanceof Modifier)) {
             throw new Error(`Invalid modifier: ${newModifier}`)
-        }
+        } 
+        this._modifier = newModifier;
     }
 
     set defense(newDefense) {
-        if (newDefense instanceof Defense) {
-            this._defense = newDefense;
-        } else {
+        if (!(newDefense instanceof Defense)) {
             throw new Error(`Invalid defense: ${newDefense}`)
-        }        
+        }
+        this._defense = newDefense;   
     }
 
     set damage(newDamage) {
-        if (NumberUtil.isNumber(newDamage) && newDamage >= 0) {
-            this._damage = newDamage;
-        } else {
+        if (!(NumberUtil.isNumber(newDamage) && newDamage >= 0)) {
             throw new Error(`Invalid damage: ${newDamage}`)
         }
+        this._damage = newDamage;
     }
 
     set isImmune(newIsImmune) {
-        if (typeof newIsImmune === "boolean") {
-            this._isImmune = newIsImmune;
-        } else {
+        if (typeof newIsImmune !== "boolean") {
             throw new Error(`Invalid isImmune: ${newIsImmune}`)
         }
+        this._isImmune = newIsImmune;
     }
 
     set remainingHP(newRemainingHP) {
         if (NumberUtil.isNumber(newRemainingHP)) {
-            this._remainingHP = newRemainingHP;
-        } else {
             throw new Error(`Invalid remainingHP: ${newRemainingHP}`)
         }
+        this._remainingHP = newRemainingHP;
+        
     }
 
     // Getter
