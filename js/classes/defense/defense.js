@@ -6,6 +6,12 @@ const HERO_LIST = [
   "royal_champion",
   "minion_prince",
 ];
+const IMMUNITIES_CONVERTER = {
+  "hero" : ["earthquake_spell", "earthquake_boots"],
+  "ressource_storage" : ["lightning_spell"],
+  "building" : []
+};
+
 const DEFENSE_IMAGE_PATH = "images/defense"
 class Defense {
   // Store defense related datas including its level, hp, its immunes, and how many times it got hit by eq type offense (used for damage calculation)
@@ -30,10 +36,9 @@ class Defense {
     }
 
     // If remainingHP is not defined, it will be set to default 0
+    this.eqCount = 0;
     if (eqCount !== undefined) {
       this.eqCount = eqCount;
-    } else {
-      this.eqCount = 0;
     }
   }
 
@@ -125,11 +130,14 @@ class Defense {
 
   // Load defense immune list
   setImmuneList() {
+    const immunities = IMMUNITIES_CONVERTER[this.defenseJSON["type"]];
+    if (!immunities) {
+      throw new Error(`Invalid defense type : "${this.defenseJSON["type"]}" is not a valid type for the defense "${this._defenseID}"`)
+    }
     this._immuneList = [];
     const offenseListManager = new OffenseListManager();
     offenseListManager.load();
-
-    for (const offenseID of this.defenseJSON["immune"]) {
+    for (const offenseID of immunities) {
       this.immuneList.push(offenseListManager.getOffense(offenseID));
     }
   }
