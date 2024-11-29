@@ -12,55 +12,42 @@ class Equipment extends Offense {
     // Calculate base damage for eq damage type equipment
     // EQ damage deal % damage based on target max hp
     calcBaseEQDamage(maxHP) {
-        if (this.isDamageTypeEQ()) {
-            return NumberUtil.round2Places(maxHP * this.getCurrentDamage() / 100);
-        } else {
+        if (!(this.isDamageTypeEQ())) {
             throw new Error(`Spell isn't EQ type: ${this.offenseID}`);
         }
+        return NumberUtil.round2Places(maxHP * this.getCurrentDamage() / 100);
     }
 
     // Calculate how many damages does this equipment do to defense
     // For eq damage type equipment, also include reduced damage as eq type damage deal less damage the more its target got hit by eq type damage
     calcDamage(defense) {
-        if (defense instanceof Defense) {
-            if (defense.isImmune(this)) {
-                return 0;
-            }
-
-            const maxHP = defense.getCurrentMaxHP();
-            const eqCount = defense.eqCount;
-
-            switch (this.damageType) {
-                case "direct":
-                    return NumberUtil.round2Places(this.getCurrentDamage());
-                case "earthquake":
-                    return NumberUtil.round2Places(this.calcBaseEQDamage(maxHP) * (1 / (2 * eqCount + 1)));            
-            }  
-        } else {
+        if (!(defense instanceof Defense)) {
             throw new Error(`Invalid defense: ${defense}`);
-        }    
+        }
+        if (defense.isImmune(this)) {
+            return 0;
+        }
+        const maxHP = defense.getCurrentMaxHP();
+        switch (this.damageType) {
+            case "direct":
+                return NumberUtil.round2Places(this.getCurrentDamage());
+            case "earthquake":
+                return NumberUtil.round2Places(this.calcBaseEQDamage(maxHP) * (1 / (2 * defense.eqCount + 1)));            
+        }  
     }
  
     // Calculate and update defense remaining HP after getting hit by equipment
     // Also increase building eq count if equipment deal eq type damage
     calcRemainingHP(defense) {
-        if (defense instanceof Defense) {
-            if (defense.isImmune(this)) {
-                return;
-            }
-
-            const hp = defense.remainingHP;
-            switch (this.damageType) {
-                case "direct":
-                    defense.remainingHP = NumberUtil.round2Places(hp - this.calcDamage(defense));
-                    return;
-                case "earthquake":                  
-                    defense.remainingHP = NumberUtil.round2Places(hp - this.calcDamage(defense));
-                    defense.eqCount++;
-                    return;             
-            }  
-        } else {
+        if (!(defense instanceof Defense)) {
             throw new Error(`Invalid defense: ${defense}`);
+        }
+        if (defense.isImmune(this)) {
+            return;
+        }
+        defense.remainingHP = NumberUtil.round2Places(defense.remainingHP - this.calcDamage(defense));
+        if (this.damageType === "earthquake") {
+            defense.eqCount++;
         }
     }
 
