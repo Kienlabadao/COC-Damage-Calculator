@@ -1,3 +1,12 @@
+const HERO_LIST = [
+  // TODO add the BK ???
+  // "barbarian_king",
+  "grand_warden",
+  "archer_queen",
+  "royal_champion",
+  "minion_prince",
+];
+const DEFENSE_IMAGE_PATH = "images/defense"
 class Defense {
   // Store defense related datas including its level, hp, its immunes, and how many times it got hit by eq type offense (used for damage calculation)
   // Note: Variable that end with Pos (Ex. currentLevelPos) hold its current position in the json file
@@ -69,34 +78,18 @@ class Defense {
 
   // Get defense's image path in the project folder
   getImagePath() {
-    const heroList = [
-      "grand_warden",
-      "archer_queen",
-      "royal_champion",
-      "minion_prince",
-    ];
-
-    if (heroList.includes(this.defenseID)) {
-      return `/images/defense/${this.defenseID}/${this.defenseID}.webp`;
-    } else {
-      return `/images/defense/${this.defenseID}/${this.getCurrentLevel()}.webp`;
+    if (HERO_LIST.includes(this.defenseID)) {
+      return `/${DEFENSE_IMAGE_PATH}/${this.defenseID}/${this.defenseID}.webp`;
     }
+    return `/${DEFENSE_IMAGE_PATH}/${this.defenseID}/${this.getCurrentLevel()}.webp`;
   }
 
   // Get defense destroyed state's image path in the project folder
   getDestroyedImagePath() {
-    switch (this.defenseID) {
-      case "archer_queen":
-        return "/images/other/archer_queen_ko.webp";
-      case "royal_champion":
-        return "/images/other/royal_champion_ko.webp";
-      case "grand_warden":
-        return "/images/other/grand_warden_ko.webp";
-      case "minion_prince":
-        return "/images/other/minion_prince_ko.webp";
-      default:
-        return "/images/other/destroyed.webp";
+    if (HERO_LIST.includes(this.defenseID)) {
+        return `/${DEFENSE_IMAGE_PATH}/${this.defenseID}/${this.defenseID}_ko.webp`;
     }
+    return `/${DEFENSE_IMAGE_PATH}/destroyed.webp`;
   }
 
   // Reset defense's remaining HP back to its max HP in its current level
