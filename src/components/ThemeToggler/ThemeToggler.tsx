@@ -1,9 +1,12 @@
-import { useGetTheme } from "hooks/useGetTheme";
+import { Theme, DEFAULT_THEME, LocalStorageKey } from "assets/data/config";
+import { usePersistedState } from "hooks/usePersistedState";
 import { useSetTheme } from "hooks/useSetTheme";
-import { Theme } from "assets/data/config";
 
 export function ThemeToggler() {
-  const { theme, setTheme } = useGetTheme();
+  const [theme, setTheme] = usePersistedState<Theme>(
+    LocalStorageKey.ThemePref,
+    DEFAULT_THEME
+  );
 
   useSetTheme(theme);
 

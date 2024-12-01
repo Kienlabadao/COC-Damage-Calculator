@@ -1,11 +1,9 @@
-import { URLS } from "assets/data/config";
-
-const devMode = false; // Change to false for production mode
+import { DEV_MODE, URLS } from "assets/data/config";
 
 export function setupGlobalErrorHandler() {
   window.onerror = function (message, source, lineno, colno, error) {
     // If in development mode, don't redirect, just log the error
-    if (devMode) {
+    if (DEV_MODE) {
       console.error("Error occurred:", message, {
         source,
         lineno,
@@ -23,7 +21,7 @@ export function setupGlobalErrorHandler() {
   // Handle unhandled promise rejections
   window.addEventListener("unhandledrejection", (event) => {
     // In production, redirect to the error page
-    if (!devMode) {
+    if (!DEV_MODE) {
       console.error("Unhandled promise rejection:", event.reason);
       window.location.href = URLS.ErrorPage;
     } else {
