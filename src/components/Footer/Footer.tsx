@@ -1,3 +1,6 @@
+import { BSColor, ExternalURLS } from "assets/data/config";
+import { LinkButton } from "components/LinkButton";
+
 export function Footer() {
   return (
     <footer className="p-5 text-center mt-auto">
@@ -5,40 +8,40 @@ export function Footer() {
       <h4>Made by Kienlabadao</h4>
       <div className="d-flex justify-content-center align-items-center flex-wrap gap-2">
         <div>
-          <a
-            href="https://www.reddit.com/user/Kienlabadao/"
-            target="_blank"
-            className="btn btn--reddit"
+          <LinkButton
+            color={BSColor.Orange}
+            link={ExternalURLS.Reddit}
+            openInNewTab={true}
           >
             <i className="fa-brands fa-reddit-alien"></i> Reddit
-          </a>
+          </LinkButton>
         </div>
         <div>
-          <a
-            href="https://discord.com/invite/6SDDRw68"
-            target="_blank"
-            className="btn btn-primary"
+          <LinkButton
+            color={BSColor.Blue}
+            link={ExternalURLS.Discord}
+            openInNewTab={true}
           >
             <i className="fa-brands fa-discord"></i> Discord
-          </a>
+          </LinkButton>
         </div>
         <div>
-          <a
-            href="https://github.com/Kienlabadao/COC-Damage-Calculator"
-            target="_blank"
-            className="btn btn-primary"
+          <LinkButton
+            color={BSColor.Blue}
+            link={ExternalURLS.SourceCode}
+            openInNewTab={true}
           >
             <i className="fa-brands fa-github"></i> Source Code
-          </a>
+          </LinkButton>
         </div>
         <div>
-          <a
-            href="https://buymeacoffee.com/kienlabadao"
-            target="_blank"
-            className="btn btn-success btn--donate"
+          <LinkButton
+            color={BSColor.LightGreen}
+            link={ExternalURLS.Donate}
+            openInNewTab={true}
           >
             ☕ Buy me a coffee
-          </a>
+          </LinkButton>
         </div>
       </div>
     </footer>

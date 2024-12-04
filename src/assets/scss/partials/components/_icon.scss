@@ -1,33 +1,34 @@
+@use "sass:color";
 @use "../abstracts" as *;
 
 // Moon Icon (Dark Mode)
 .fa-solid.fa-moon {
-    color: lighten($black, 25);
+  color: color.adjust($black, $lightness: 25%);
 
-    &:hover {
-        color: darken($white, 40);
-    }
+  &:hover {
+    color: color.scale($white, $lightness: -40%);
+  }
 }
 
 // Sun Icon (Light Mode)
 .fa-solid.fa-sun {
-    color: $white;
-    
-    &:hover {
-        color: $yellow;   
-    }
+  color: $white;
+
+  &:hover {
+    color: $yellow;
+  }
 }
 
 // Gear Icon (Setting)
 .fa-solid.fa-gear {
-    color: var(--gear-icon-color);
+  color: var(--gear-icon-color);
 
-    &:hover {
-        color: var(--gear-icon-hover-color);
-    }
+  &:hover {
+    color: var(--gear-icon-hover-color);
+  }
 }
 
 // Chart Icon (Level)
 .fa-solid.fa-chart-simple {
-    color: $lime;
+  color: $lime;
 }

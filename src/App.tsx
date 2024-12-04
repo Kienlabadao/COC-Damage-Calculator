@@ -4,24 +4,17 @@ import {
   useLocation,
 } from "react-router-dom";
 
-import "assets/css/stylesheet.css";
-import { URLS } from "assets/data/config";
+import { PageURLS } from "assets/data/config";
 
-import {
-  HomePage,
-  ZapquakePage,
-  AdvancePage,
-  ChangelogPage,
-  SettingPage,
-  PageNotFoundPage,
-  ErrorPage,
-} from "pages";
+import { HomePage, ChangelogPage, PageNotFoundPage, ErrorPage } from "pages";
+import { ZapquakeCalcPage, AdvanceCalcPage, SettingPage } from "features";
 import { AutoScrollToggler } from "components/AutoScrollToggler";
+import { ToastContainer } from "react-toastify";
 
 export default function App() {
   const router = createBrowserRouter([
     {
-      path: `${URLS.HomePage}`,
+      path: `${PageURLS.HomePage}`,
       element: (
         <>
           <HomePage />
@@ -31,25 +24,25 @@ export default function App() {
       errorElement: <PageNotFoundPage />,
     },
     {
-      path: `${URLS.ZapquakeCalcPage}`,
+      path: `${PageURLS.ZapquakeCalcPage}`,
       element: (
         <>
-          <ZapquakePage />
+          <ZapquakeCalcPage />
           <AutoScrollWrapper />
         </>
       ),
     },
     {
-      path: `${URLS.AdvanceCalcPage}`,
+      path: `${PageURLS.AdvanceCalcPage}`,
       element: (
         <>
-          <AdvancePage />
+          <AdvanceCalcPage />
           <AutoScrollWrapper />
         </>
       ),
     },
     {
-      path: `${URLS.ChangelogPage}`,
+      path: `${PageURLS.ChangelogPage}`,
       element: (
         <>
           <ChangelogPage />
@@ -58,7 +51,7 @@ export default function App() {
       ),
     },
     {
-      path: `${URLS.SettingPage}`,
+      path: `${PageURLS.SettingPage}`,
       element: (
         <>
           <SettingPage />
@@ -67,7 +60,7 @@ export default function App() {
       ),
     },
     {
-      path: `${URLS.ErrorPage}`,
+      path: `${PageURLS.ErrorPage}`,
       element: (
         <>
           <ErrorPage />
@@ -80,6 +73,7 @@ export default function App() {
   return (
     <>
       <RouterProvider router={router} />
+      <ToastContainer />
     </>
   );
 }

@@ -36,7 +36,7 @@ export function ErrorPage() {
                         <a
                           href="https://www.reddit.com/user/Kienlabadao/"
                           target="_blank"
-                          className="btn btn--reddit"
+                          className="btn btn--orange"
                         >
                           <i className="fa-brands fa-reddit-alien"></i> Reddit
                         </a>

@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "./colors" as *;
 
 $brand-text-shadow-light-color: hsl(0, 0%, 70%);
@@ -5,11 +6,11 @@ $brand-text-shadow-dark-color: hsl(0, 0%, 30%);
 
 $brand-text-shadow-light-values: 3px 3px 8px #{$brand-text-shadow-light-color};
 $brand-text-shadow-dark-values: 3px 3px 10px #{$brand-text-shadow-dark-color},
-    -3px 3px 10px #{$brand-text-shadow-dark-color},
-    3px -3px 10px #{$brand-text-shadow-dark-color},
-    -3px -3px 10px #{$brand-text-shadow-dark-color};
+  -3px 3px 10px #{$brand-text-shadow-dark-color},
+  3px -3px 10px #{$brand-text-shadow-dark-color},
+  -3px -3px 10px #{$brand-text-shadow-dark-color};
 
-$card-object-shadow-light-color: darken($white, 20);
+$card-object-shadow-light-color: color.adjust($white, $lightness: -20%);
 $card-object-shadow-dark-color: $medium-gray;
 
 $card-object-shadow-light-values: 0 3px 10px #{$card-object-shadow-light-color};

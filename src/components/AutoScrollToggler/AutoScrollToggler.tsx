@@ -1,4 +1,4 @@
-import { scrollUp, scrollDown } from "utils/scrollUtils";
+import { scrollUp, scrollDown } from "utils/pageUtils";
 
 import { useScrollButtonVisibility } from "hooks/useScrollButtonVisibility";
 

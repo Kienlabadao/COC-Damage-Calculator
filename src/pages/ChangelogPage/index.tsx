@@ -1,1 +1,1 @@
-export { ChangelogPage } from "./ChangelogPage";
+export * from "./ChangelogPage";

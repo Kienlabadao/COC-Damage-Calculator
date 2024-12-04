@@ -1,58 +1,59 @@
+@use "sass:color";
 @use "../abstracts/" as *;
 
 .btn {
-    border: none;
-    font-weight: bold;
+  border: none;
+  font-weight: bold;
 
-    &--reddit {
-        color: $white;
-        background-color: $orange;
+  &-orange {
+    color: $white;
+    background-color: $orange;
 
-        &:hover {
-            color: $white;
-            background-color: darken($orange, 7);
-        }
-
-        &:first-child:active {
-            color: $white;
-            background-color: darken($orange, 10);          
-        }
-
-        &:focus-visible {
-            color: $white;
-            background-color: darken($orange, 10);          
-            outline-offset: 0px;
-            outline: 4px solid lighten($orange, 30);
-        }
-    }
-    
-    &--donate {
-        background-color: $green;       
+    &:hover {
+      color: $white;
+      background-color: color.adjust($orange, $lightness: -7%);
     }
 
-    &__scroll {
-        @include widthHeight(50px, 50px);
-        right: 0;
-        border-radius: 10px 0 0 10px;
-
-        &--up {
-            bottom: 22%;
-        }
-    
-        &--down {
-            bottom: 15%;
-        }
-
-        @include respondToHeight(750) {
-            &--up {
-                bottom: 25%;
-            }
-        }
-
-        @include respondToHeight(550) {
-            &--up {
-                bottom: 27%;
-            }
-        }
+    &:first-child:active {
+      color: $white;
+      background-color: color.adjust($orange, $lightness: -10%);
     }
+
+    &:focus-visible {
+      color: $white;
+      background-color: color.adjust($orange, $lightness: -10%);
+      outline-offset: 0px;
+      outline: 4px solid color.adjust($orange, $lightness: 30%);
+    }
+  }
+
+  &-light-green {
+    background-color: $green;
+  }
+
+  &__scroll {
+    @include widthHeight(50px, 50px);
+    right: 0;
+    border-radius: 10px 0 0 10px;
+
+    &--up {
+      bottom: 22%;
+    }
+
+    &--down {
+      bottom: 15%;
+    }
+
+    @include respondToHeight(750) {
+      &--up {
+        bottom: 25%;
+      }
+    }
+
+    @include respondToHeight(550) {
+      &--up {
+        bottom: 27%;
+      }
+    }
+  }
 }

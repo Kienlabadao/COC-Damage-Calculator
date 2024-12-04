@@ -13,6 +13,14 @@ export default defineConfig({
       hooks: path.resolve(__dirname, "./src/hooks"),
       pages: path.resolve(__dirname, "./src/pages"),
       utils: path.resolve(__dirname, "./src/utils"),
+      features: path.resolve(__dirname, "./src/features"),
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: "modern-compiler",
+      },
     },
   },
 });

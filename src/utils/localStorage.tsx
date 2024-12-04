@@ -14,3 +14,7 @@ export function getItem(key: string) {
     console.log(error);
   }
 }
+
+export function clearAll() {
+  window.localStorage.clear();
+}

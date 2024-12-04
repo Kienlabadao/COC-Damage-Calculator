@@ -1,1 +1,0 @@
-export { SettingPage } from "./SettingPage";

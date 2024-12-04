@@ -1,1 +1,1 @@
-export { AutoScrollToggler } from "./AutoScrollToggler";
+export * from "./AutoScrollToggler";

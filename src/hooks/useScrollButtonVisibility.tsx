@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { SCROLL_POS_THRESHOLD } from "assets/data/config";
-import { getCurrentScrollPos, getPageHeight } from "utils/scrollUtils";
+import { getCurrentScrollPos, getPageHeight } from "utils/pageUtils";
 
 // Helper function to calculate and set visibility
-const updateScrollButtonVisibility = (
+function updateScrollButtonVisibility(
   setShowBackToTop: React.Dispatch<React.SetStateAction<boolean>>,
   setShowBackToBottom: React.Dispatch<React.SetStateAction<boolean>>
-) => {
+) {
   const currentScrollPos = getCurrentScrollPos();
   const pageHeight = getPageHeight();
 
   setShowBackToTop(currentScrollPos > SCROLL_POS_THRESHOLD);
   setShowBackToBottom(currentScrollPos < pageHeight - SCROLL_POS_THRESHOLD);
-};
+}
 
 export function useScrollButtonVisibility() {
   const [showBackToTop, setShowBackToTop] = useState(false);

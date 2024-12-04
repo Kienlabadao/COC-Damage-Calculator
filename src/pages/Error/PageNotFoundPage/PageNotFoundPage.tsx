@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { URLS } from "assets/data/config";
+import { PageURLS } from "assets/data/config";
 import { Navbar, Footer } from "components";
 
 export function PageNotFoundPage() {
@@ -22,7 +22,7 @@ export function PageNotFoundPage() {
               </div>
               <div>
                 <span>Click </span>
-                <Link to={URLS.HomePage}>here</Link>
+                <Link to={PageURLS.HomePage}>here</Link>
                 <span> to go back to the home page.</span>
               </div>
             </div>

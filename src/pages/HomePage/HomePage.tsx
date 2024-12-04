@@ -1,4 +1,6 @@
+import { BSColor, PageURLS, ExternalURLS } from "assets/data/config";
 import { Navbar, Footer, ContentContainer } from "components";
+import { LinkButton } from "components/LinkButton";
 
 export function HomePage() {
   return (
@@ -43,14 +45,14 @@ export function HomePage() {
                     </div>
                     <div>
                       <div>
-                        <a
-                          href="https://forms.gle/cfXJ46tHb92HovHH7"
-                          target="_blank"
-                          className="btn btn-primary"
+                        <LinkButton
+                          color={BSColor.Blue}
+                          link={ExternalURLS.TestForm}
+                          openInNewTab={true}
                         >
                           <i className="fa-solid fa-sheet-plastic"></i> Link to
                           the form
-                        </a>
+                        </LinkButton>
                       </div>
                     </div>
                   </li>
@@ -111,12 +113,12 @@ export function HomePage() {
                   <div className="d-flex align-items-center flex-wrap">
                     <div className="me-3 fw-bold">Zapquake Calculator</div>
                     <div>
-                      <a
-                        href="/html/zapquake-calculator.html"
-                        className="btn btn-secondary"
+                      <LinkButton
+                        color={BSColor.Gray}
+                        link={PageURLS.ZapquakeCalcPage}
                       >
                         Visit
-                      </a>
+                      </LinkButton>
                     </div>
                   </div>
                 </li>
@@ -124,12 +126,12 @@ export function HomePage() {
                   <div className="d-flex align-items-center flex-wrap">
                     <div className="me-3 fw-bold">Advance Calculator</div>
                     <div>
-                      <a
-                        href="/html/advance-calculator.html"
-                        className="btn btn-secondary"
+                      <LinkButton
+                        color={BSColor.Gray}
+                        link={PageURLS.AdvanceCalcPage}
                       >
                         Visit
-                      </a>
+                      </LinkButton>
                     </div>
                   </div>
                 </li>
@@ -307,13 +309,13 @@ export function HomePage() {
                   <div className="d-flex align-items-center flex-wrap">
                     <div className="me-2">Reddit</div>
                     <div>
-                      <a
-                        href="https://www.reddit.com/user/Kienlabadao/"
-                        target="_blank"
-                        className="btn btn--reddit"
+                      <LinkButton
+                        color={BSColor.Orange}
+                        link={ExternalURLS.Reddit}
+                        openInNewTab={true}
                       >
                         <i className="fa-brands fa-reddit-alien"></i> Reddit
-                      </a>
+                      </LinkButton>
                     </div>
                   </div>
                 </li>
@@ -321,13 +323,13 @@ export function HomePage() {
                   <div className="d-flex align-items-center flex-wrap">
                     <div className="me-2">Discord</div>
                     <div>
-                      <a
-                        href="https://discord.com/invite/6SDDRw68"
-                        target="_blank"
-                        className="btn btn-primary"
+                      <LinkButton
+                        color={BSColor.Blue}
+                        link={ExternalURLS.Discord}
+                        openInNewTab={true}
                       >
                         <i className="fa-brands fa-discord"></i> Discord
-                      </a>
+                      </LinkButton>
                     </div>
                   </div>
                 </li>
@@ -335,14 +337,14 @@ export function HomePage() {
                   <div className="d-flex align-items-center flex-wrap">
                     <div className="me-2">Prefer staying anonymous?</div>
                     <div>
-                      <a
-                        href="https://forms.gle/weCLKkpg5py6PrGb9"
-                        target="_blank"
-                        className="btn btn-primary"
+                      <LinkButton
+                        color={BSColor.Blue}
+                        link={ExternalURLS.BugReportForm}
+                        openInNewTab={true}
                       >
                         <i className="fa-solid fa-sheet-plastic"></i> Fill in
                         this form
-                      </a>
+                      </LinkButton>
                     </div>
                   </div>
                 </li>
@@ -353,13 +355,13 @@ export function HomePage() {
                   <div className="d-flex align-items-center flex-wrap">
                     <div className="me-2">Source Code</div>
                     <div>
-                      <a
-                        href="https://github.com/Kienlabadao/COC-Damage-Calculator"
-                        target="_blank"
-                        className="btn btn-primary"
+                      <LinkButton
+                        color={BSColor.Blue}
+                        link={ExternalURLS.SourceCode}
+                        openInNewTab={true}
                       >
                         <i className="fa-brands fa-github"></i> Github
-                      </a>
+                      </LinkButton>
                     </div>
                   </div>
                 </li>
@@ -367,13 +369,13 @@ export function HomePage() {
                   <div className="d-flex align-items-center flex-wrap">
                     <div className="me-2">Like my work?</div>
                     <div>
-                      <a
-                        href="https://buymeacoffee.com/kienlabadao"
-                        target="_blank"
-                        className="btn btn-success btn--donate"
+                      <LinkButton
+                        color={BSColor.LightGreen}
+                        link={ExternalURLS.Donate}
+                        openInNewTab={true}
                       >
                         ☕ Buy me a coffee
-                      </a>
+                      </LinkButton>
                     </div>
                   </div>
                 </li>
@@ -387,17 +389,14 @@ export function HomePage() {
             <div>
               <ul>
                 <li>
-                  <a href="https://zapquaker.netlify.app/" target="_blank">
+                  <a href={ExternalURLS.Zapquaker} target="_blank">
                     Zapquaker
                   </a>{" "}
                   for inspired me to make this website (and some UI design
                   ideas)
                 </li>
                 <li>
-                  <a
-                    href="https://clashofclans.fandom.com/wiki/Clash_of_Clans_Wiki"
-                    target="_blank"
-                  >
+                  <a href={ExternalURLS.COCWiki} target="_blank">
                     Clash of Clans Wiki
                   </a>{" "}
                   for informations, images, and formula.
