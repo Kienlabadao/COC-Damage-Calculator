@@ -50,6 +50,24 @@ export const OffenseCard = memo(function OffenseCard({
           Use spell
         </label>
       </div>
+      {isDonated && (
+        <div className="donate-count">
+          <label htmlFor="donateCount" className="form-label">
+            <strong>Number of spell in clan castle:</strong>
+          </label>
+          <div className="d-flex justify-content-center">
+            <input
+              type="number"
+              min="0"
+              max="3"
+              value="0"
+              className="form-control input-box bg-secondary"
+              id="donateCount"
+              onInput={() => console.log("pressed")}
+            />
+          </div>
+        </div>
+      )}
       <div className="d-flex justify-content-center align-items-center column-gap-1 mt-2">
         <img src="/images/other/attack.webp" width="20" />
         <div className="damage fw-bold"></div>
