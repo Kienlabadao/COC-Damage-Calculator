@@ -1,25 +1,29 @@
-export const enum DefenseType {
-  Building = "building",
-  Hero = "hero",
-}
+import { ObjectValues } from "utils/objectUtils";
 
-interface LevelHp {
+export const DEFENSE_TYPE = {
+  Building: "building",
+  Hero: "hero",
+} as const;
+
+export type DefenseType = ObjectValues<typeof DEFENSE_TYPE>;
+
+interface LevelHP {
   level: number;
   supercharge_level: number;
   hp: number;
 }
 
-interface DefenseStats {
+export interface DefenseStats {
   name: string;
   type: DefenseType;
-  hp: LevelHp[];
+  hp: LevelHP[];
   immune: string[];
 }
 
 export const DefenseData: Record<string, DefenseStats> = {
   cannon: {
     name: "Cannon",
-    type: DefenseType.Building,
+    type: DEFENSE_TYPE.Building,
     hp: [
       { level: 1, supercharge_level: 0, hp: 420 },
       { level: 2, supercharge_level: 0, hp: 470 },
@@ -47,7 +51,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   archer_tower: {
     name: "Archer Tower",
-    type: DefenseType.Building,
+    type: DEFENSE_TYPE.Building,
     hp: [
       { level: 1, supercharge_level: 0, hp: 380 },
       { level: 2, supercharge_level: 0, hp: 420 },
@@ -75,7 +79,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   mortar: {
     name: "Mortar",
-    type: DefenseType.Building,
+    type: DEFENSE_TYPE.Building,
     hp: [
       { level: 1, supercharge_level: 0, hp: 400 },
       { level: 2, supercharge_level: 0, hp: 450 },
@@ -99,7 +103,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   air_defense: {
     name: "Air Defense",
-    type: DefenseType.Building,
+    type: DEFENSE_TYPE.Building,
     hp: [
       { level: 1, supercharge_level: 0, hp: 800 },
       { level: 2, supercharge_level: 0, hp: 850 },
@@ -121,7 +125,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   wizard_tower: {
     name: "Wizard Tower",
-    type: DefenseType.Building,
+    type: DEFENSE_TYPE.Building,
     hp: [
       { level: 1, supercharge_level: 0, hp: 620 },
       { level: 2, supercharge_level: 0, hp: 650 },
@@ -146,7 +150,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   air_sweeper: {
     name: "Air Sweeper",
-    type: DefenseType.Building,
+    type: DEFENSE_TYPE.Building,
     hp: [
       { level: 1, supercharge_level: 0, hp: 750 },
       { level: 2, supercharge_level: 0, hp: 800 },
@@ -160,7 +164,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   hidden_tesla: {
     name: "Hidden Tesla",
-    type: DefenseType.Building,
+    type: DEFENSE_TYPE.Building,
     hp: [
       { level: 1, supercharge_level: 0, hp: 600 },
       { level: 2, supercharge_level: 0, hp: 630 },
@@ -183,7 +187,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   bomb_tower: {
     name: "Bomb Tower",
-    type: DefenseType.Building,
+    type: DEFENSE_TYPE.Building,
     hp: [
       { level: 1, supercharge_level: 0, hp: 650 },
       { level: 2, supercharge_level: 0, hp: 700 },
@@ -203,7 +207,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   xbow: {
     name: "X-Bow",
-    type: DefenseType.Building,
+    type: DEFENSE_TYPE.Building,
     hp: [
       { level: 1, supercharge_level: 0, hp: 1500 },
       { level: 2, supercharge_level: 0, hp: 1900 },
@@ -222,7 +226,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   inferno_tower: {
     name: "Inferno Tower",
-    type: DefenseType.Building,
+    type: DEFENSE_TYPE.Building,
     hp: [
       { level: 1, supercharge_level: 0, hp: 1500 },
       { level: 2, supercharge_level: 0, hp: 1800 },
@@ -240,7 +244,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   eagle_artillery: {
     name: "Eagle Artillery",
-    type: DefenseType.Building,
+    type: DEFENSE_TYPE.Building,
     hp: [
       { level: 1, supercharge_level: 0, hp: 4000 },
       { level: 2, supercharge_level: 0, hp: 4400 },
@@ -254,7 +258,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   scattershot: {
     name: "Scattershot",
-    type: DefenseType.Building,
+    type: DEFENSE_TYPE.Building,
     hp: [
       { level: 1, supercharge_level: 0, hp: 3600 },
       { level: 2, supercharge_level: 0, hp: 4200 },
@@ -267,7 +271,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   builders_hut: {
     name: "Builder's Hut",
-    type: DefenseType.Building,
+    type: DEFENSE_TYPE.Building,
     hp: [
       { level: 1, supercharge_level: 0, hp: 250 },
       { level: 2, supercharge_level: 0, hp: 1000 },
@@ -281,7 +285,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   spell_tower: {
     name: "Spell Tower",
-    type: DefenseType.Building,
+    type: DEFENSE_TYPE.Building,
     hp: [
       { level: 1, supercharge_level: 0, hp: 2500 },
       { level: 2, supercharge_level: 0, hp: 2800 },
@@ -291,7 +295,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   monolith: {
     name: "Monolith",
-    type: DefenseType.Building,
+    type: DEFENSE_TYPE.Building,
     hp: [
       { level: 1, supercharge_level: 0, hp: 4747 },
       { level: 2, supercharge_level: 0, hp: 5050 },
@@ -301,7 +305,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   ricochet_cannon: {
     name: "Ricochet Cannon",
-    type: DefenseType.Building,
+    type: DEFENSE_TYPE.Building,
     hp: [
       { level: 1, supercharge_level: 0, hp: 5400 },
       { level: 2, supercharge_level: 0, hp: 5700 },
@@ -312,7 +316,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   multiarcher_tower: {
     name: "Multi-Archer Tower",
-    type: DefenseType.Building,
+    type: DEFENSE_TYPE.Building,
     hp: [
       { level: 1, supercharge_level: 0, hp: 5000 },
       { level: 2, supercharge_level: 0, hp: 5200 },
@@ -323,7 +327,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   firespitter: {
     name: "Firespitter",
-    type: DefenseType.Building,
+    type: DEFENSE_TYPE.Building,
     hp: [
       { level: 1, supercharge_level: 0, hp: 4500 },
       { level: 2, supercharge_level: 0, hp: 5000 },
@@ -333,7 +337,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   townhall: {
     name: "Townhall",
-    type: DefenseType.Building,
+    type: DEFENSE_TYPE.Building,
     hp: [
       { level: 1, supercharge_level: 0, hp: 450 },
       { level: 2, supercharge_level: 0, hp: 1600 },
@@ -357,7 +361,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   clan_castle: {
     name: "Clan Castle",
-    type: DefenseType.Building,
+    type: DEFENSE_TYPE.Building,
     hp: [
       { level: 1, supercharge_level: 0, hp: 1000 },
       { level: 2, supercharge_level: 0, hp: 1400 },
@@ -377,7 +381,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   archer_queen: {
     name: "Archer Queen",
-    type: DefenseType.Hero,
+    type: DEFENSE_TYPE.Hero,
     hp: [
       { level: 1, supercharge_level: 0, hp: 580 },
       { level: 2, supercharge_level: 0, hp: 592 },
@@ -484,7 +488,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   minion_prince: {
     name: "Minion Prince",
-    type: DefenseType.Hero,
+    type: DEFENSE_TYPE.Hero,
     hp: [
       { level: 1, supercharge_level: 0, hp: 1200 },
       { level: 2, supercharge_level: 0, hp: 1242 },
@@ -581,7 +585,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   grand_warden: {
     name: "Grand Warden",
-    type: DefenseType.Hero,
+    type: DEFENSE_TYPE.Hero,
     hp: [
       { level: 1, supercharge_level: 0, hp: 850 },
       { level: 2, supercharge_level: 0, hp: 868 },
@@ -663,7 +667,7 @@ export const DefenseData: Record<string, DefenseStats> = {
   },
   royal_champion: {
     name: "Royal Champion",
-    type: DefenseType.Hero,
+    type: DEFENSE_TYPE.Hero,
     hp: [
       { level: 1, supercharge_level: 0, hp: 2508 },
       { level: 2, supercharge_level: 0, hp: 2550 },

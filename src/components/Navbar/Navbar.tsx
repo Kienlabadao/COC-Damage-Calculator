@@ -1,5 +1,5 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { PageURLS } from "assets/data/config";
+import { PAGE_URLS } from "assets/data/config";
 import { ThemeToggler } from "../ThemeToggler";
 
 export function Navbar() {
@@ -7,8 +7,8 @@ export function Navbar() {
 
   // Check if the current URL matches either Zapquake or Advance pages
   const isCalculatorActive =
-    location.pathname === `${PageURLS.ZapquakeCalcPage}` ||
-    location.pathname === `${PageURLS.AdvanceCalcPage}`;
+    location.pathname === `${PAGE_URLS.ZapquakeCalcPage}` ||
+    location.pathname === `${PAGE_URLS.AdvanceCalcPage}`;
 
   return (
     <>
@@ -16,7 +16,7 @@ export function Navbar() {
         <div className="container-fluid justify-content-start mx-lg-5 px-sm-5 fw-bold">
           <Link
             className="navbar-brand d-flex align-items-center"
-            to={PageURLS.HomePage}
+            to={PAGE_URLS.HomePage}
           >
             <div className="brand__logo me-3 d-flex justify-content-center align-items-center">
               <img src="/images/other/logo.webp" alt="Logo"></img>
@@ -33,7 +33,7 @@ export function Navbar() {
                   className={({ isActive }) =>
                     `nav-link ${isActive ? "active" : ""}`
                   }
-                  to={PageURLS.HomePage}
+                  to={PAGE_URLS.HomePage}
                 >
                   Home
                 </NavLink>
@@ -55,7 +55,7 @@ export function Navbar() {
                       className={({ isActive }) =>
                         `dropdown-item ${isActive ? "fw-bold" : ""}`
                       }
-                      to={PageURLS.ZapquakeCalcPage}
+                      to={PAGE_URLS.ZapquakeCalcPage}
                     >
                       Zapquake
                     </NavLink>
@@ -65,7 +65,7 @@ export function Navbar() {
                       className={({ isActive }) =>
                         `dropdown-item ${isActive ? "fw-bold" : ""}`
                       }
-                      to={PageURLS.AdvanceCalcPage}
+                      to={PAGE_URLS.AdvanceCalcPage}
                     >
                       Advance
                     </NavLink>
@@ -77,7 +77,7 @@ export function Navbar() {
                   className={({ isActive }) =>
                     `nav-link ${isActive ? "active" : ""}`
                   }
-                  to={PageURLS.ChangelogPage}
+                  to={PAGE_URLS.ChangelogPage}
                 >
                   Changelog
                 </NavLink>
@@ -87,7 +87,7 @@ export function Navbar() {
                   className={({ isActive }) =>
                     `nav-link ${isActive ? "active" : ""}`
                   }
-                  to={PageURLS.SettingPage}
+                  to={PAGE_URLS.SettingPage}
                 >
                   Setting
                 </NavLink>
@@ -107,7 +107,7 @@ export function Navbar() {
           </button>
           <ThemeToggler />
           <Link
-            to={PageURLS.SettingPage}
+            to={PAGE_URLS.SettingPage}
             className="btn btn--setting border-0 d-none d-sm-block"
           >
             <i className="fa-solid fa-gear fa-2x"></i>

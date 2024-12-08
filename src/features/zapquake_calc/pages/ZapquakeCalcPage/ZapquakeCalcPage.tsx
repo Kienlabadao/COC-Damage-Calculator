@@ -1,13 +1,15 @@
-import { DefenseData, DefenseType } from "assets/data/game";
-import { Navbar, Footer } from "components";
+import { Navbar, Footer, MainContainer } from "components";
+import { ZapquakeCalculator } from "features/zapquake_calc/components";
 
 export function ZapquakeCalcPage() {
-  const building = DefenseData["cannon"];
-  console.log(building);
-  console.log(DefenseType.Building);
   return (
     <>
       <Navbar />
+
+      <MainContainer>
+        <ZapquakeCalculator />
+      </MainContainer>
+
       <Footer />
     </>
   );

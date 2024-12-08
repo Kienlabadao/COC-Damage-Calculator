@@ -4,7 +4,7 @@ import {
   useLocation,
 } from "react-router-dom";
 
-import { PageURLS } from "assets/data/config";
+import { PAGE_URLS } from "assets/data/config";
 
 import { HomePage, ChangelogPage, PageNotFoundPage, ErrorPage } from "pages";
 import { ZapquakeCalcPage, AdvanceCalcPage, SettingPage } from "features";
@@ -14,7 +14,7 @@ import { ToastContainer } from "react-toastify";
 export default function App() {
   const router = createBrowserRouter([
     {
-      path: `${PageURLS.HomePage}`,
+      path: `${PAGE_URLS.HomePage}`,
       element: (
         <>
           <HomePage />
@@ -24,7 +24,7 @@ export default function App() {
       errorElement: <PageNotFoundPage />,
     },
     {
-      path: `${PageURLS.ZapquakeCalcPage}`,
+      path: `${PAGE_URLS.ZapquakeCalcPage}`,
       element: (
         <>
           <ZapquakeCalcPage />
@@ -33,7 +33,7 @@ export default function App() {
       ),
     },
     {
-      path: `${PageURLS.AdvanceCalcPage}`,
+      path: `${PAGE_URLS.AdvanceCalcPage}`,
       element: (
         <>
           <AdvanceCalcPage />
@@ -42,7 +42,7 @@ export default function App() {
       ),
     },
     {
-      path: `${PageURLS.ChangelogPage}`,
+      path: `${PAGE_URLS.ChangelogPage}`,
       element: (
         <>
           <ChangelogPage />
@@ -51,7 +51,7 @@ export default function App() {
       ),
     },
     {
-      path: `${PageURLS.SettingPage}`,
+      path: `${PAGE_URLS.SettingPage}`,
       element: (
         <>
           <SettingPage />
@@ -60,7 +60,7 @@ export default function App() {
       ),
     },
     {
-      path: `${PageURLS.ErrorPage}`,
+      path: `${PAGE_URLS.ErrorPage}`,
       element: (
         <>
           <ErrorPage />

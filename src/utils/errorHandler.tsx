@@ -1,4 +1,4 @@
-import { DEV_MODE, PageURLS } from "assets/data/config";
+import { DEV_MODE, PAGE_URLS } from "assets/data/config";
 
 export function setupGlobalErrorHandler() {
   window.onerror = function () {
@@ -14,7 +14,7 @@ export function setupGlobalErrorHandler() {
     }
     // TODO: Log error onto console upon redirect to error page
     // If not in development mode, redirect to a custom error page
-    window.location.href = PageURLS.ErrorPage; // Replace with your error page URL
+    window.location.href = PAGE_URLS.ErrorPage; // Replace with your error page URL
     return true; // This prevents the default browser error handling
   };
 
@@ -23,7 +23,7 @@ export function setupGlobalErrorHandler() {
     // In production, redirect to the error page
     if (!DEV_MODE) {
       //console.error("Unhandled promise rejection:", event.reason);
-      window.location.href = PageURLS.ErrorPage;
+      window.location.href = PAGE_URLS.ErrorPage;
     } else {
       //console.warn("Unhandled promise rejection:", event.reason);
     }

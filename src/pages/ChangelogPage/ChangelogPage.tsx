@@ -1,10 +1,11 @@
-import { Navbar, Footer, ContentContainer } from "components";
+import { Navbar, Footer, ContentContainer, MainContainer } from "components";
 
 export function ChangelogPage() {
   return (
     <>
       <Navbar />
-      <main className="container-fluid pb-5">
+
+      <MainContainer>
         <header className="text-center mt-3">
           <h1 className="brand__text text-center">
             <span className="brand__text--yellow">Changelog</span>
@@ -93,7 +94,8 @@ export function ChangelogPage() {
             </div>
           </ContentContainer>
         </section>
-      </main>
+      </MainContainer>
+
       <Footer />
     </>
   );

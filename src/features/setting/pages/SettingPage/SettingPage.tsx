@@ -1,5 +1,5 @@
-import { BSColor } from "assets/data/config";
-import { Navbar, Footer, Modal } from "components";
+import { BS_COLOR } from "assets/data/config";
+import { Navbar, Footer, Modal, MainContainer } from "components";
 import { useClearStorage } from "features/setting/hooks/useClearStorage";
 
 export function SettingPage() {
@@ -7,7 +7,7 @@ export function SettingPage() {
     <>
       <Navbar />
 
-      <main className="container-fluid pb-5">
+      <MainContainer>
         <header className="text-center mt-3">
           <h1 className="brand__text text-center">
             <span className="brand__text--blue">Setting</span>
@@ -30,17 +30,17 @@ export function SettingPage() {
                     title="Clear local storage?"
                     openButtonProps={{
                       children: <span>Clear</span>,
-                      color: BSColor.Red,
+                      color: BS_COLOR.Red,
                     }}
                     modalButtons={[
                       {
                         children: <span>Close</span>,
-                        color: BSColor.Gray,
+                        color: BS_COLOR.Gray,
                         closeOnClick: true,
                       },
                       {
                         children: <span>Clear</span>,
-                        color: BSColor.Red,
+                        color: BS_COLOR.Red,
                         closeOnClick: true,
                         onClick: useClearStorage,
                       },
@@ -57,7 +57,7 @@ export function SettingPage() {
             </div>
           </section>
         </section>
-      </main>
+      </MainContainer>
 
       <Footer />
     </>

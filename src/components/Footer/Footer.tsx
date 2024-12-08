@@ -1,4 +1,4 @@
-import { BSColor, ExternalURLS } from "assets/data/config";
+import { BS_COLOR, EXTERNAL_URLS } from "assets/data/config";
 import { LinkButton } from "components/LinkButton";
 
 export function Footer() {
@@ -9,8 +9,8 @@ export function Footer() {
       <div className="d-flex justify-content-center align-items-center flex-wrap gap-2">
         <div>
           <LinkButton
-            color={BSColor.Orange}
-            link={ExternalURLS.Reddit}
+            color={BS_COLOR.Orange}
+            link={EXTERNAL_URLS.Reddit}
             openInNewTab={true}
           >
             <i className="fa-brands fa-reddit-alien"></i> Reddit
@@ -18,8 +18,8 @@ export function Footer() {
         </div>
         <div>
           <LinkButton
-            color={BSColor.Blue}
-            link={ExternalURLS.Discord}
+            color={BS_COLOR.Blue}
+            link={EXTERNAL_URLS.Discord}
             openInNewTab={true}
           >
             <i className="fa-brands fa-discord"></i> Discord
@@ -27,8 +27,8 @@ export function Footer() {
         </div>
         <div>
           <LinkButton
-            color={BSColor.Blue}
-            link={ExternalURLS.SourceCode}
+            color={BS_COLOR.Blue}
+            link={EXTERNAL_URLS.SourceCode}
             openInNewTab={true}
           >
             <i className="fa-brands fa-github"></i> Source Code
@@ -36,8 +36,8 @@ export function Footer() {
         </div>
         <div>
           <LinkButton
-            color={BSColor.LightGreen}
-            link={ExternalURLS.Donate}
+            color={BS_COLOR.LightGreen}
+            link={EXTERNAL_URLS.Donate}
             openInNewTab={true}
           >
             ☕ Buy me a coffee

@@ -1,12 +1,13 @@
-import { BSColor, PageURLS, ExternalURLS } from "assets/data/config";
-import { Navbar, Footer, ContentContainer } from "components";
+import { BS_COLOR, PAGE_URLS, EXTERNAL_URLS } from "assets/data/config";
+import { Navbar, Footer, ContentContainer, MainContainer } from "components";
 import { LinkButton } from "components/LinkButton";
 
 export function HomePage() {
   return (
     <>
       <Navbar />
-      <main className="container-fluid pb-5">
+
+      <MainContainer>
         <header className="text-center">
           <img src="/images/other/coc.png" width="200" />
           <h1 className="brand__text">
@@ -46,8 +47,8 @@ export function HomePage() {
                     <div>
                       <div>
                         <LinkButton
-                          color={BSColor.Blue}
-                          link={ExternalURLS.TestForm}
+                          color={BS_COLOR.Blue}
+                          link={EXTERNAL_URLS.TestForm}
                           openInNewTab={true}
                         >
                           <i className="fa-solid fa-sheet-plastic"></i> Link to
@@ -114,8 +115,8 @@ export function HomePage() {
                     <div className="me-3 fw-bold">Zapquake Calculator</div>
                     <div>
                       <LinkButton
-                        color={BSColor.Gray}
-                        link={PageURLS.ZapquakeCalcPage}
+                        color={BS_COLOR.Gray}
+                        link={PAGE_URLS.ZapquakeCalcPage}
                       >
                         Visit
                       </LinkButton>
@@ -127,8 +128,8 @@ export function HomePage() {
                     <div className="me-3 fw-bold">Advance Calculator</div>
                     <div>
                       <LinkButton
-                        color={BSColor.Gray}
-                        link={PageURLS.AdvanceCalcPage}
+                        color={BS_COLOR.Gray}
+                        link={PAGE_URLS.AdvanceCalcPage}
                       >
                         Visit
                       </LinkButton>
@@ -310,8 +311,8 @@ export function HomePage() {
                     <div className="me-2">Reddit</div>
                     <div>
                       <LinkButton
-                        color={BSColor.Orange}
-                        link={ExternalURLS.Reddit}
+                        color={BS_COLOR.Orange}
+                        link={EXTERNAL_URLS.Reddit}
                         openInNewTab={true}
                       >
                         <i className="fa-brands fa-reddit-alien"></i> Reddit
@@ -324,8 +325,8 @@ export function HomePage() {
                     <div className="me-2">Discord</div>
                     <div>
                       <LinkButton
-                        color={BSColor.Blue}
-                        link={ExternalURLS.Discord}
+                        color={BS_COLOR.Blue}
+                        link={EXTERNAL_URLS.Discord}
                         openInNewTab={true}
                       >
                         <i className="fa-brands fa-discord"></i> Discord
@@ -338,8 +339,8 @@ export function HomePage() {
                     <div className="me-2">Prefer staying anonymous?</div>
                     <div>
                       <LinkButton
-                        color={BSColor.Blue}
-                        link={ExternalURLS.BugReportForm}
+                        color={BS_COLOR.Blue}
+                        link={EXTERNAL_URLS.BugReportForm}
                         openInNewTab={true}
                       >
                         <i className="fa-solid fa-sheet-plastic"></i> Fill in
@@ -356,8 +357,8 @@ export function HomePage() {
                     <div className="me-2">Source Code</div>
                     <div>
                       <LinkButton
-                        color={BSColor.Blue}
-                        link={ExternalURLS.SourceCode}
+                        color={BS_COLOR.Blue}
+                        link={EXTERNAL_URLS.SourceCode}
                         openInNewTab={true}
                       >
                         <i className="fa-brands fa-github"></i> Github
@@ -370,8 +371,8 @@ export function HomePage() {
                     <div className="me-2">Like my work?</div>
                     <div>
                       <LinkButton
-                        color={BSColor.LightGreen}
-                        link={ExternalURLS.Donate}
+                        color={BS_COLOR.LightGreen}
+                        link={EXTERNAL_URLS.Donate}
                         openInNewTab={true}
                       >
                         ☕ Buy me a coffee
@@ -389,14 +390,14 @@ export function HomePage() {
             <div>
               <ul>
                 <li>
-                  <a href={ExternalURLS.Zapquaker} target="_blank">
+                  <a href={EXTERNAL_URLS.Zapquaker} target="_blank">
                     Zapquaker
                   </a>{" "}
                   for inspired me to make this website (and some UI design
                   ideas)
                 </li>
                 <li>
-                  <a href={ExternalURLS.COCWiki} target="_blank">
+                  <a href={EXTERNAL_URLS.COCWiki} target="_blank">
                     Clash of Clans Wiki
                   </a>{" "}
                   for informations, images, and formula.
@@ -419,7 +420,8 @@ export function HomePage() {
             </div>
           </ContentContainer>
         </section>
-      </main>
+      </MainContainer>
+
       <Footer />
     </>
   );

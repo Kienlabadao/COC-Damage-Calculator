@@ -5,3 +5,7 @@ export * from "./ContentContainer";
 export * from "./Modal";
 export * from "./Button";
 export * from "./LinkButton";
+export * from "./MainContainer";
+export * from "./Slider";
+
+export * from "./CalculatorComponents";

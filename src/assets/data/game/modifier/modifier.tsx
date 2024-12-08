@@ -1,61 +1,64 @@
-import { GameDataType } from "../sharedEnums";
+import { GAME_DATA_TYPE, GameDataType } from "../sharedEnums";
 
-interface ModifierStats {
+interface LevelModify {
+  level: number;
+  modify: number;
+}
+
+export interface ModifierStats {
   name: string;
   affect_offense_type: GameDataType[];
   affect_only: string[];
   doesnt_affect: string[];
-  modify: Record<number, number>;
+  modify: LevelModify[];
 }
 
 export const ModifierData: Record<string, ModifierStats> = {
   rage_spell: {
     name: "rage_spell",
-    affect_offense_type: [GameDataType.Troop, GameDataType.Hero],
+    affect_offense_type: [GAME_DATA_TYPE.Troop, GAME_DATA_TYPE.Hero],
     affect_only: [],
     doesnt_affect: [],
-    modify: {
-      1: 130,
-      2: 140,
-      3: 150,
-      4: 160,
-      5: 170,
-      6: 180,
-    },
+    modify: [
+      { level: 1, modify: 130 },
+      { level: 2, modify: 140 },
+      { level: 3, modify: 150 },
+      { level: 4, modify: 160 },
+      { level: 5, modify: 170 },
+      { level: 6, modify: 180 },
+    ],
   },
   rage_gem: {
     name: "rage_gem",
-    affect_offense_type: [GameDataType.Troop, GameDataType.Hero],
+    affect_offense_type: [GAME_DATA_TYPE.Troop, GAME_DATA_TYPE.Hero],
     affect_only: [],
     doesnt_affect: ["grand_warden"],
-    modify: {
-      1: 20,
-      2: 20,
-      3: 25,
-      4: 25,
-      5: 25,
-      6: 30,
-      7: 30,
-      8: 30,
-      9: 35,
-      10: 35,
-      11: 35,
-      12: 40,
-      13: 40,
-      14: 40,
-      15: 45,
-      16: 45,
-      17: 45,
-      18: 50,
-    },
+    modify: [
+      { level: 1, modify: 20 },
+      { level: 2, modify: 20 },
+      { level: 3, modify: 25 },
+      { level: 4, modify: 25 },
+      { level: 5, modify: 25 },
+      { level: 6, modify: 30 },
+      { level: 7, modify: 30 },
+      { level: 8, modify: 30 },
+      { level: 9, modify: 35 },
+      { level: 10, modify: 35 },
+      { level: 11, modify: 35 },
+      { level: 12, modify: 40 },
+      { level: 13, modify: 40 },
+      { level: 14, modify: 40 },
+      { level: 15, modify: 45 },
+      { level: 16, modify: 45 },
+      { level: 17, modify: 45 },
+      { level: 18, modify: 50 },
+    ],
   },
   rage_spell_tower: {
     name: "rage_spell_tower",
-    affect_offense_type: [GameDataType.Repair],
+    affect_offense_type: [GAME_DATA_TYPE.Repair],
     affect_only: [],
     doesnt_affect: [],
-    modify: {
-      1: 60,
-    },
+    modify: [{ level: 1, modify: 60 }],
   },
 };

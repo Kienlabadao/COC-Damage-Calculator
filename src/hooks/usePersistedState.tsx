@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { getItem, setItem } from "utils/localStorage";
 
-export function usePersistedState<T>(key: string, initialValue: T) {
+export function usePersistedState<T>(
+  getOrStoreValue: () => T,
+  storeValue: (newItem: T) => void
+) {
   const [value, setValue] = useState(() => {
-    const item = getItem(key);
-    return (item as T) || initialValue;
+    return getOrStoreValue();
   });
 
   useEffect(() => {
-    setItem(key, value);
+    storeValue(value);
   }, [value]);
 
   return [value, setValue] as const;

@@ -1,21 +1,22 @@
-interface RepairStats {
+interface LevelRepair {
+  level: number;
+  repair: number;
+}
+
+export interface RepairStats {
   name: string;
-  repair: Record<number, number>;
+  repair: LevelRepair[];
 }
 
-interface Repair {
-  [id: string]: RepairStats;
-}
-
-export const RepairData: Repair = {
+export const RepairData: Record<string, RepairStats> = {
   builders_hut: {
     name: "Builders Hut",
-    repair: {
-      2: 32,
-      3: 40,
-      4: 48,
-      5: 54,
-      6: 60,
-    },
+    repair: [
+      { level: 2, repair: 32 },
+      { level: 3, repair: 40 },
+      { level: 4, repair: 48 },
+      { level: 5, repair: 54 },
+      { level: 6, repair: 60 },
+    ],
   },
 };

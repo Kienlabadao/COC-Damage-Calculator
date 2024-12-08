@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { BSColor } from "assets/data/config";
+import { BS_COLOR, BSColor } from "assets/data/config";
 
 interface Props {
   color?: BSColor;
@@ -8,7 +8,7 @@ interface Props {
   className?: string;
 }
 
-const DEFAULT_COLOR = BSColor.Gray;
+const DEFAULT_COLOR: BSColor = BS_COLOR.Gray;
 
 export function Button({
   children,

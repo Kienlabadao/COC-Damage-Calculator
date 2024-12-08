@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { BSColor } from "assets/data/config";
+import { BS_COLOR, BSColor } from "assets/data/config";
 
 interface Props {
   children: ReactNode;
@@ -8,7 +8,7 @@ interface Props {
   openInNewTab?: boolean;
 }
 
-const DEFAULT_COLOR = BSColor.Gray;
+const DEFAULT_COLOR: BSColor = BS_COLOR.Gray;
 
 export function LinkButton({
   children,

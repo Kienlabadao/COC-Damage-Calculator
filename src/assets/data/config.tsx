@@ -1,45 +1,64 @@
-export const enum LocalStorageKey {
-  ThemePref = "themePref",
-}
+import { ObjectValues } from "utils/objectUtils";
 
-export const enum PageURLS {
-  HomePage = "/",
-  ChangelogPage = "/changelog",
-  ZapquakeCalcPage = "/calculator/zapquake",
-  AdvanceCalcPage = "/calculator/advance",
-  SettingPage = "/setting",
-  ErrorPage = "/error",
-}
+export const VALUE_BOUNDARY = {
+  MIN: "min",
+  MAX: "max",
+} as const;
 
-export const enum ExternalURLS {
-  BugReportForm = "https://forms.gle/weCLKkpg5py6PrGb9",
-  TestForm = "https://forms.gle/cfXJ46tHb92HovHH7",
-  Reddit = "https://www.reddit.com/user/Kienlabadao/",
-  Discord = "https://discord.com/invite/6SDDRw68",
-  SourceCode = "https://github.com/Kienlabadao/COC-Damage-Calculator",
-  Donate = "https://buymeacoffee.com/kienlabadao",
-  Zapquaker = "https://github.com/Kienlabadao/COC-Damage-Calculator",
-  COCWiki = "https://buymeacoffee.com/kienlabadao",
-}
+export type ValueBoundary = ObjectValues<typeof VALUE_BOUNDARY>;
 
-export const enum Theme {
-  Light = "light",
-  Dark = "dark",
-}
+export const LOCAL_STORAGE_KEY = {
+  ThemePref: "themePref",
+} as const;
 
-export const enum BSColor {
-  Blue = "primary",
-  Gray = "secondary",
-  Green = "success",
-  Red = "danger",
-  Yellow = "warning",
-  Aqua = "info",
-  White = "light",
-  Black = "dark",
-  Orange = "orange",
-  LightGreen = "light-green btn-success",
-}
+export type LocalStorageKey = ObjectValues<typeof LOCAL_STORAGE_KEY>;
 
-export const DEFAULT_THEME = Theme.Light;
+export const PAGE_URLS = {
+  HomePage: "/",
+  ChangelogPage: "/changelog",
+  ZapquakeCalcPage: "/calculator/zapquake",
+  AdvanceCalcPage: "/calculator/advance",
+  SettingPage: "/setting",
+  ErrorPage: "/error",
+} as const;
+
+export type PageURLS = ObjectValues<typeof PAGE_URLS>;
+
+export const EXTERNAL_URLS = {
+  BugReportForm: "https://forms.gle/weCLKkpg5py6PrGb9",
+  TestForm: "https://forms.gle/cfXJ46tHb92HovHH7",
+  Reddit: "https://www.reddit.com/user/Kienlabadao/",
+  Discord: "https://discord.com/invite/6SDDRw68",
+  SourceCode: "https://github.com/Kienlabadao/COC-Damage-Calculator",
+  Donate: "https://buymeacoffee.com/kienlabadao",
+  Zapquaker: "https://github.com/Kienlabadao/COC-Damage-Calculator",
+  COCWiki: "https://buymeacoffee.com/kienlabadao",
+} as const;
+
+export type ExternalURLS = ObjectValues<typeof EXTERNAL_URLS>;
+
+export const THEME = {
+  Light: "light",
+  Dark: "dark",
+} as const;
+
+export type Theme = ObjectValues<typeof THEME>;
+
+export const BS_COLOR = {
+  Blue: "primary",
+  Gray: "secondary",
+  Green: "success",
+  Red: "danger",
+  Yellow: "warning",
+  Aqua: "info",
+  White: "light",
+  Black: "dark",
+  Orange: "orange",
+  LightGreen: "light-green btn-success",
+} as const;
+
+export type BSColor = ObjectValues<typeof BS_COLOR>;
+
+export const DEFAULT_THEME: Theme = THEME.Light;
 export const SCROLL_POS_THRESHOLD = 1000;
 export const DEV_MODE = true; // Change to false for production mode

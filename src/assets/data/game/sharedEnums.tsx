@@ -1,11 +1,11 @@
-import { OffenseType } from "./offense";
+import { ObjectValues } from "utils/objectUtils";
+import { OFFENSE_TYPE } from "./offense";
 
-export const enum GameDataType {
-  Modifier = "modifier",
-  Defense = "defense",
-  Repair = "repair",
-  Equipment = OffenseType.Equipment,
-  Hero = OffenseType.Hero,
-  Spell = OffenseType.Spell,
-  Troop = OffenseType.Troop,
-}
+export const GAME_DATA_TYPE = {
+  ...OFFENSE_TYPE,
+  Modifier: "modifier",
+  Defense: "defense",
+  Repair: "repair",
+} as const;
+
+export type GameDataType = ObjectValues<typeof GAME_DATA_TYPE>;
