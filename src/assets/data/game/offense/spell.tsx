@@ -35,6 +35,7 @@ export const SpellData: Record<string, SpellStats> = {
       { level: 9, damage: 560 },
       { level: 10, damage: 600 },
       { level: 11, damage: 640 },
+      { level: 12, damage: 680 },
     ],
   },
   earthquake_spell: {

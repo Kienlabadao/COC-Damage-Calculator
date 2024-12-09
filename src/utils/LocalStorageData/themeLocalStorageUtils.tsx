@@ -2,7 +2,7 @@ import { DEFAULT_THEME, LOCAL_STORAGE_KEY, Theme } from "assets/data/config";
 import { isThemeType } from "utils/customObjectUtils";
 import { clearItem, getItem, setItem } from "utils/localStorage";
 
-export function useThemeLocalStorage() {
+export function themeLocalStorageUtils() {
   const key = LOCAL_STORAGE_KEY.ThemePref;
 
   function storeTheme(theme: Theme): void {

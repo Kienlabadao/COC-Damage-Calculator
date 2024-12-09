@@ -37,6 +37,14 @@ export const EXTERNAL_URLS = {
 
 export type ExternalURLS = ObjectValues<typeof EXTERNAL_URLS>;
 
+export const IMAGE_PATH = {
+  Attack: "/images/other/attack.webp",
+  AttackSpeed: "/images/other/attack_speed.webp",
+  Repair: "/images/other/repair.webp",
+} as const;
+
+export type ImagePath = ObjectValues<typeof IMAGE_PATH>;
+
 export const THEME = {
   Light: "light",
   Dark: "dark",

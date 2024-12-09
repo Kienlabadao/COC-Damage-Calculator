@@ -10,11 +10,9 @@ import { VALUE_BOUNDARY } from "assets/data/config";
 import {
   getDefenseMaxLevelPos,
   getDefenseMinLevelPos,
-  getEquipmentMaxLevelPos,
-  getEquipmentMinLevelPos,
-  getSpellMaxLevelPos,
-  getSpellMinLevelPos,
-} from "utils/gameDataUtils";
+} from "utils/GameData/gameDataUtils";
+import { spellDataUtils } from "utils/GameData/spellDataUtils";
+import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
 
 export function getZapquakeCalcLevelPosGameDataStorageKey(
   gameDataID: string,
@@ -61,9 +59,12 @@ export function getEarthquakeOrderStorageKey(): string {
 export function getSpellDefaultLevelPos(spellID: string): number {
   switch (DEFAULT_LEVEL) {
     case VALUE_BOUNDARY.MAX:
-      return getSpellMaxLevelPos(spellID);
+      const { getSpellMaxLevelPos } = spellDataUtils(spellID);
 
+      return getSpellMaxLevelPos();
     case VALUE_BOUNDARY.MIN:
+      const { getSpellMinLevelPos } = spellDataUtils(spellID);
+
       return getSpellMinLevelPos();
   }
 }
@@ -71,9 +72,12 @@ export function getSpellDefaultLevelPos(spellID: string): number {
 export function getEquipmentDefaultLevelPos(equipmentID: string): number {
   switch (DEFAULT_LEVEL) {
     case VALUE_BOUNDARY.MAX:
-      return getEquipmentMaxLevelPos(equipmentID);
+      const { getEquipmentMaxLevelPos } = equipmentDataUtils(equipmentID);
 
+      return getEquipmentMaxLevelPos();
     case VALUE_BOUNDARY.MIN:
+      const { getEquipmentMinLevelPos } = equipmentDataUtils(equipmentID);
+
       return getEquipmentMinLevelPos();
   }
 }

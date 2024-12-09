@@ -1,34 +1,65 @@
-import { OffenseCardImage, Slider } from "components";
+import { DAMAGE_TYPE, DamageType } from "assets/data/game";
+import {
+  OffenseCardContainer,
+  OffenseCardImage,
+  Slider,
+  StatDisplayer,
+} from "components";
+import { BackgroundType } from "components/CalculatorComponents/OffenseCard/OffenseCardImage";
+import {
+  DISPLAYER_TYPE,
+  DisplayerType,
+} from "components/CalculatorComponents/OffenseCard/StatDisplayer";
 import { memo } from "react";
 
+function convertToDisplayerType(damageType: DamageType): DisplayerType {
+  switch (damageType) {
+    case DAMAGE_TYPE.Direct:
+      return DISPLAYER_TYPE.Damage;
+    case DAMAGE_TYPE.Earthquake:
+      return DISPLAYER_TYPE.EarthquakeDamage;
+    default:
+      throw new Error(
+        `OffenseCard.convertToDisplayerType ERROR: DamageType (${damageType}) not supported.`
+      );
+  }
+}
 interface Props {
   name: string;
   imagePath: string;
+  backgroundType: BackgroundType;
   minLevelPos: number;
   maxLevelPos: number;
   currentLevelPos: number;
+  currentLevel: number;
   updateCurrentLevelPos: (newCurrentLevelPos: number) => void;
+  damage: number;
+  damageType: DamageType;
   isDonated?: boolean;
 }
 
 export const OffenseCard = memo(function OffenseCard({
   name,
   imagePath,
+  backgroundType,
   minLevelPos,
   maxLevelPos,
   currentLevelPos,
+  currentLevel,
   updateCurrentLevelPos,
+  damage,
+  damageType,
   isDonated = false,
 }: Props) {
-  console.log(`OffenseCard name ${name} rendered`);
   return (
-    <div className="col card-custom card-custom__object text-center">
+    <OffenseCardContainer>
       <h5>{name}</h5>
-      <div className="object-container">
+      <div>
         <OffenseCardImage
           imagePath={imagePath}
-          level={currentLevelPos}
+          level={currentLevel}
           isMaxed={currentLevelPos === maxLevelPos}
+          backgroudType={backgroundType}
         />
       </div>
       <div className="mt-2">
@@ -68,10 +99,14 @@ export const OffenseCard = memo(function OffenseCard({
           </div>
         </div>
       )}
-      <div className="d-flex justify-content-center align-items-center column-gap-1 mt-2">
-        <img src="/images/other/attack.webp" width="20" />
-        <div className="damage fw-bold"></div>
+      <div className="mt-2">
+        <StatDisplayer
+          displayerType={convertToDisplayerType(damageType)}
+          label={"Damage"}
+          content={damage.toString()}
+          isModifierActive={false}
+        ></StatDisplayer>
       </div>
-    </div>
+    </OffenseCardContainer>
   );
 });

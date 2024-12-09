@@ -1,16 +1,16 @@
 import { Theme, THEME } from "assets/data/config";
-import { useThemeLocalStorage } from "hooks/LocalStorageData/useThemeLocalStorage";
 import { usePersistedState } from "hooks/usePersistedState";
-import { useSetTheme } from "hooks/useSetTheme";
+import { themeLocalStorageUtils } from "utils/LocalStorageData/themeLocalStorageUtils";
+import { setPageTheme } from "utils/pageUtils";
 
 export function ThemeToggler() {
-  const { getOrStoreTheme, storeTheme } = useThemeLocalStorage();
+  const { getOrStoreTheme, storeTheme } = themeLocalStorageUtils();
   const [theme, setTheme] = usePersistedState<Theme>(
     getOrStoreTheme,
     storeTheme
   );
 
-  useSetTheme(theme);
+  setPageTheme(theme);
 
   return (
     <button id="toggleTheme" className="btn btn--toggle-theme">

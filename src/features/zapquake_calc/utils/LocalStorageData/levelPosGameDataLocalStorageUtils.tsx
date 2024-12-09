@@ -5,9 +5,9 @@ import {
 } from "../zapquakeCalcUtils";
 import { GameDataType } from "assets/data/game";
 import { isNumber } from "utils/objectUtils";
-import { isValidGameDataLevelPos } from "utils/gameDataUtils";
+import { isValidGameDataLevelPos } from "utils/GameData/gameDataUtils";
 
-export function useLevelPosGameDataLocalStorage(
+export function levelPosGameDataLocalStorageUtils(
   gameDataID: string,
   type: GameDataType
 ) {
@@ -28,13 +28,20 @@ export function useLevelPosGameDataLocalStorage(
     const levelPos = getItem(key);
 
     if (isNumber(levelPos)) {
-      return levelPos;
+      if (isValidGameDataLevelPos(levelPos, gameDataID, type)) {
+        return levelPos;
+      } else {
+        console.warn(
+          `useLevelPosGameDataLocalStorage.getLevelPos ERROR: Value in storage key (${key}) is invalid. levelPos: ${levelPos}`
+        );
+      }
     } else {
       console.warn(
-        `useLevelPosGameDataLocalStorage.getLevelPos ERROR: Value in storage key (${key}) is not a number.`
+        `useLevelPosGameDataLocalStorage.getLevelPos ERROR: Value in storage key (${key}) is not a number. levelPos: ${levelPos}`
       );
-      return null;
     }
+
+    return null;
   }
 
   function getOrStoreLevelPos(): number {

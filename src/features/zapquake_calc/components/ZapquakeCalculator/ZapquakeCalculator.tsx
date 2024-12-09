@@ -6,8 +6,6 @@ import { useInitOffense } from "features/zapquake_calc/hooks/init/useInitOffense
 export function ZapquakeCalculator() {
   const [offenseItemList, updateOffenseItemList] = useInitOffense();
 
-  console.log("ZapquakeCalculator rendered");
-
   return (
     <>
       <OffenseSection

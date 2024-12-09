@@ -1,17 +1,16 @@
-import { EQUIPMENT_TYPE, OFFENSE_TYPE, OffenseType } from "assets/data/game";
-import { useLevelPosGameDataLocalStorage } from "features/zapquake_calc/utils/LocalStorageData/useLevelPosGameDataLocalStorage";
+import { EQUIPMENT_TYPE, OFFENSE_TYPE } from "assets/data/game";
+import {
+  createOffenseItem,
+  OffenseItem,
+  updateOffenseItemInList,
+} from "features/zapquake_calc/utils/offenseItemUtils";
 import { useState } from "react";
-import { getAllEquipmentIDs, getAllSpellIDs } from "utils/gameDataUtils";
-
-export interface OffenseItem {
-  id: string;
-  type: OffenseType;
-  currentLevelPos: number;
-  saveCurrentLevelPos: (newCurrentLevelPos: number) => number;
-}
+import {
+  getAllEquipmentIDs,
+  getAllSpellIDs,
+} from "utils/GameData/gameDataUtils";
 
 function getAllSpells(): OffenseItem[] {
-  console.log("getAllSpells called");
   const spellIDList = getAllSpellIDs();
 
   return spellIDList.map((spellID) =>
@@ -20,8 +19,6 @@ function getAllSpells(): OffenseItem[] {
 }
 
 function getAllEquipments(): OffenseItem[] {
-  console.log("getAllEquipments called");
-
   const equipmentIDList = getAllEquipmentIDs(new Set([EQUIPMENT_TYPE.Damage]));
 
   return equipmentIDList.map((equipmentID) =>
@@ -29,54 +26,20 @@ function getAllEquipments(): OffenseItem[] {
   );
 }
 
-function createOffenseItem(offenseID: string, type: OffenseType): OffenseItem {
-  console.log("createOffenseItem called");
-  const { getOrStoreLevelPos, storeLevelPos } = useLevelPosGameDataLocalStorage(
-    offenseID,
-    type
-  );
-  const currentLevelPos = getOrStoreLevelPos();
-
-  return {
-    id: offenseID,
-    type: type,
-    currentLevelPos: currentLevelPos,
-    saveCurrentLevelPos: (newCurrentLevelPos: number): number => {
-      storeLevelPos(newCurrentLevelPos);
-      return getOrStoreLevelPos();
-    },
-  };
-}
-
 export function useInitOffense() {
-  console.log("useInitOffense called");
   const [offenseItemList, setOffenseItemList] = useState([
     ...getAllSpells(),
     ...getAllEquipments(),
   ]);
 
   function updateOffenseItemList(offenseID: string, currentLevelPos: number) {
-    let isOffenseFound = false;
-
-    setOffenseItemList((prevOffenseItemList) =>
-      prevOffenseItemList.map((offense) => {
-        if (offense.id === offenseID) {
-          isOffenseFound = true;
-          return {
-            ...offense,
-            currentLevelPos: offense.saveCurrentLevelPos(currentLevelPos),
-          };
-        } else {
-          return offense;
-        }
-      })
-    );
-
-    if (!isOffenseFound) {
-      console.log(
-        `useInitOffense.updateOffenseItemList ERROR: No offense found with id ${offenseID}`
+    setOffenseItemList((prevOffenseItemList) => {
+      return updateOffenseItemInList(
+        prevOffenseItemList,
+        offenseID,
+        currentLevelPos
       );
-    }
+    });
   }
 
   return [offenseItemList, updateOffenseItemList] as const;

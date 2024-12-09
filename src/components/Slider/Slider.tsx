@@ -7,7 +7,6 @@ interface Props {
 
 export function Slider({ min, max, currentValue, onInput }: Props) {
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    console.log(event.target.valueAsNumber);
     onInput(event.target.valueAsNumber);
   }
 

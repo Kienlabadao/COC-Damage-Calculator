@@ -2,7 +2,6 @@ import {
   DefenseData,
   DefenseStats,
   EquipmentData,
-  EquipmentStats,
   EquipmentType,
   GAME_DATA_TYPE,
   GameDataType,
@@ -13,13 +12,14 @@ import {
   RepairData,
   RepairStats,
   SpellData,
-  SpellStats,
   TroopData,
   TroopStats,
 } from "assets/data/game";
-import { getAllObjectKeys } from "./objectUtils";
+import { getAllObjectKeys } from "../objectUtils";
+import { spellDataUtils } from "./spellDataUtils";
+import { equipmentDataUtils } from "./equipmentDataUtils";
 
-const OFFENSE_IMG_PATH = "/images/offense/";
+export const OFFENSE_IMG_PATH = "/images/offense/";
 const MODIFIER_IMG_PATH = "/images/modifier/";
 const REPAIR_IMG_PATH = "/images/repairs/";
 const DEFENSE_IMG_PATH = "/images/defense/";
@@ -73,28 +73,6 @@ export function getAllOffenseIDs(): string[] {
     ...getAllSpellIDs(),
     ...getAllTroopIDs(),
   ];
-}
-
-export function getSpell(spellID: string): SpellStats {
-  const spell = SpellData[spellID];
-
-  if (spell != null) {
-    return spell;
-  } else {
-    throw new Error(`getSpell ERROR: Spell with ID "${spellID}" not found.`);
-  }
-}
-
-export function getEquipment(equipmentID: string): EquipmentStats {
-  const equipment = EquipmentData[equipmentID];
-
-  if (equipment != null) {
-    return equipment;
-  } else {
-    throw new Error(
-      `getEquipment ERROR: Equipment with ID "${equipmentID}" not found.`
-    );
-  }
 }
 
 export function getTroop(troopID: string): TroopStats {
@@ -151,14 +129,6 @@ export function getDefense(defenseID: string): DefenseStats {
   }
 }
 
-export function getSpellImage(spellID: string): string {
-  return `${OFFENSE_IMG_PATH}/spells/${spellID}.webp`;
-}
-
-export function getEquipmentImage(equipmentID: string): string {
-  return `${OFFENSE_IMG_PATH}/equipments/${equipmentID}.webp`;
-}
-
 export function getTroopImage(troopID: string, level: number): string {
   return `${OFFENSE_IMG_PATH}/troops/${troopID}/${level}.webp`;
 }
@@ -179,53 +149,55 @@ export function getRepairImage(repairID: string, level: number): string {
   return `${REPAIR_IMG_PATH}/repair/${repairID}/${level}.webp`;
 }
 
-export function getSpellMaxLevelPos(spellID: string): number {
-  const spell = getSpell(spellID);
-
-  return spell.damage.length;
-}
-
-export function getTroopMaxLevelPos(troopID: string): number {
+export function getTroopLevelCount(troopID: string): number {
   const troop = getTroop(troopID);
   return troop.damage.length === 0
     ? troop.death_damage.length
     : troop.damage.length;
 }
 
-export function getHeroMaxLevelPos(heroID: string): number {
+export function getHeroLevelCount(heroID: string): number {
   const hero = getHero(heroID);
 
   return hero.dps.length;
 }
 
-export function getEquipmentMaxLevelPos(equipmentID: string): number {
-  const equipment = getEquipment(equipmentID);
-
-  return equipment.damage.length === 0
-    ? equipment.dps_boost.length
-    : equipment.damage.length;
-}
-
-export function getRepairMaxLevelPos(repairID: string): number {
+export function getRepairLevelCount(repairID: string): number {
   const repair = getRepair(repairID);
 
   return repair.repair.length;
 }
 
-export function getModifierMaxLevelPos(modifierID: string): number {
+export function getModifierLevelCount(modifierID: string): number {
   const modifier = getModifier(modifierID);
 
   return modifier.modify.length;
 }
 
-export function getDefenseMaxLevelPos(defenseID: string): number {
+export function getDefenseLevelCount(defenseID: string): number {
   const defense = getDefense(defenseID);
 
   return defense.hp.length;
 }
 
-export function getSpellMinLevelPos(): number {
-  return 0;
+export function getTroopMaxLevelPos(troopID: string): number {
+  return getTroopLevelCount(troopID) - 1;
+}
+
+export function getHeroMaxLevelPos(heroID: string): number {
+  return getHeroLevelCount(heroID) - 1;
+}
+
+export function getRepairMaxLevelPos(repairID: string): number {
+  return getRepairLevelCount(repairID) - 1;
+}
+
+export function getModifierMaxLevelPos(modifierID: string): number {
+  return getModifierLevelCount(modifierID) - 1;
+}
+
+export function getDefenseMaxLevelPos(defenseID: string): number {
+  return getDefenseLevelCount(defenseID) - 1;
 }
 
 export function getTroopMinLevelPos(): number {
@@ -233,10 +205,6 @@ export function getTroopMinLevelPos(): number {
 }
 
 export function getHeroMinLevelPos(): number {
-  return 0;
-}
-
-export function getEquipmentMinLevelPos(): number {
   return 0;
 }
 
@@ -252,16 +220,6 @@ export function getDefenseMinLevelPos(): number {
   return 0;
 }
 
-export function isValidSpellLevelPos(
-  spellID: string,
-  levelPos: number
-): boolean {
-  const maxLevelPos = getSpellMaxLevelPos(spellID);
-  const minLevelPos = getSpellMinLevelPos();
-
-  return minLevelPos <= levelPos && levelPos <= maxLevelPos;
-}
-
 export function isValidTroopLevelPos(
   troopID: string,
   levelPos: number
@@ -275,16 +233,6 @@ export function isValidTroopLevelPos(
 export function isValidHeroLevelPos(heroID: string, levelPos: number): boolean {
   const maxLevelPos = getHeroMaxLevelPos(heroID);
   const minLevelPos = getHeroMinLevelPos();
-
-  return minLevelPos <= levelPos && levelPos <= maxLevelPos;
-}
-
-export function isValidEquipmentLevelPos(
-  equipmentID: string,
-  levelPos: number
-): boolean {
-  const maxLevelPos = getEquipmentMaxLevelPos(equipmentID);
-  const minLevelPos = getEquipmentMinLevelPos();
 
   return minLevelPos <= levelPos && levelPos <= maxLevelPos;
 }
@@ -326,11 +274,15 @@ export function isValidGameDataLevelPos(
 ): boolean {
   switch (type) {
     case GAME_DATA_TYPE.Spell:
-      return isValidSpellLevelPos(gameDataID, levelPos);
+      const { isValidSpellLevelPos } = spellDataUtils(gameDataID);
+
+      return isValidSpellLevelPos(levelPos);
     case GAME_DATA_TYPE.Troop:
       return isValidTroopLevelPos(gameDataID, levelPos);
     case GAME_DATA_TYPE.Equipment:
-      return isValidEquipmentLevelPos(gameDataID, levelPos);
+      const { isValidEquipmentLevelPos } = equipmentDataUtils(gameDataID);
+
+      return isValidEquipmentLevelPos(levelPos);
     case GAME_DATA_TYPE.Hero:
       return isValidHeroLevelPos(gameDataID, levelPos);
     case GAME_DATA_TYPE.Modifier:
@@ -343,5 +295,70 @@ export function isValidGameDataLevelPos(
       throw new Error(
         `gameDataUtils.isValidGameDataLevelPos ERROR: GameData Type (${type}) is not supported in this function.`
       );
+  }
+}
+
+export function getTroopLevel(troopID: string, levelPos: number): number {
+  if (isValidTroopLevelPos(troopID, levelPos)) {
+    const troop = getTroop(troopID);
+
+    return troop.damage.length === 0
+      ? troop.death_damage[levelPos].level
+      : troop.damage[levelPos].level;
+  } else {
+    throw new Error(
+      `gameDataUtils.getTroopLevel ERROR: Invalid level pos. TroopID: ${troopID}. LevelPos: ${levelPos}`
+    );
+  }
+}
+
+export function getHeroLevel(heroID: string, levelPos: number): number {
+  if (isValidHeroLevelPos(heroID, levelPos)) {
+    const hero = getHero(heroID);
+
+    return hero.dps[levelPos].level;
+  } else {
+    throw new Error(
+      `gameDataUtils.getHeroLevel ERROR: Invalid level pos. HeroID: ${heroID}. LevelPos: ${levelPos}`
+    );
+  }
+}
+
+// Modifier version
+export function getModifierLevel(modifierID: string, levelPos: number): number {
+  if (isValidModifierLevelPos(modifierID, levelPos)) {
+    const modifier = getModifier(modifierID);
+
+    return modifier.modify[levelPos].level;
+  } else {
+    throw new Error(
+      `gameDataUtils.getModifierLevel ERROR: Invalid level pos. ModifierID: ${modifierID}. LevelPos: ${levelPos}`
+    );
+  }
+}
+
+// Repair version
+export function getRepairLevel(repairID: string, levelPos: number): number {
+  if (isValidRepairLevelPos(repairID, levelPos)) {
+    const repair = getRepair(repairID);
+
+    return repair.repair[levelPos].level;
+  } else {
+    throw new Error(
+      `gameDataUtils.getRepairLevel ERROR: Invalid level pos. RepairID: ${repairID}. LevelPos: ${levelPos}`
+    );
+  }
+}
+
+// Defense version
+export function getDefenseLevel(defenseID: string, levelPos: number): number {
+  if (isValidDefenseLevelPos(defenseID, levelPos)) {
+    const defense = getDefense(defenseID);
+
+    return defense.hp[levelPos].level;
+  } else {
+    throw new Error(
+      `gameDataUtils.getDefenseLevel ERROR: Invalid level pos. DefenseID: ${defenseID}. LevelPos: ${levelPos}`
+    );
   }
 }
