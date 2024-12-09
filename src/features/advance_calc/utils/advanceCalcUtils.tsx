@@ -10,19 +10,15 @@ import { VALUE_BOUNDARY } from "assets/data/config";
 import {
   getDefenseMaxLevelPos,
   getDefenseMinLevelPos,
-  getEquipmentMaxLevelPos,
-  getEquipmentMinLevelPos,
   getHeroMaxLevelPos,
   getHeroMinLevelPos,
   getModifierMaxLevelPos,
   getModifierMinLevelPos,
   getRepairMaxLevelPos,
   getRepairMinLevelPos,
-  getSpellMaxLevelPos,
-  getSpellMinLevelPos,
   getTroopMaxLevelPos,
   getTroopMinLevelPos,
-} from "utils/gameDataUtils";
+} from "utils/GameData/gameDataUtils";
 
 export function getAdvanceCalcLevelPosGameDataStorageKey(
   gameDataID: string,
@@ -66,15 +62,15 @@ export function getUseTroopDeathDamageStorageKey(): string {
   return `${CALCULATOR_TYPE.Advance}_use_troop_death_damage`;
 }
 
-export function getSpellDefaultLevelPos(spellID: string): number {
-  switch (DEFAULT_LEVEL) {
-    case VALUE_BOUNDARY.MAX:
-      return getSpellMaxLevelPos(spellID);
+// export function getSpellDefaultLevelPos(spellID: string): number {
+//   switch (DEFAULT_LEVEL) {
+//     case VALUE_BOUNDARY.MAX:
+//       return getSpellMaxLevelPos(spellID);
 
-    case VALUE_BOUNDARY.MIN:
-      return getSpellMinLevelPos();
-  }
-}
+//     case VALUE_BOUNDARY.MIN:
+//       return getSpellMinLevelPos();
+//   }
+// }
 
 export function getTroopDefaultLevelPos(troopID: string): number {
   switch (DEFAULT_LEVEL) {
@@ -86,15 +82,15 @@ export function getTroopDefaultLevelPos(troopID: string): number {
   }
 }
 
-export function getEquipmentDefaultLevelPos(equipmentID: string): number {
-  switch (DEFAULT_LEVEL) {
-    case VALUE_BOUNDARY.MAX:
-      return getEquipmentMaxLevelPos(equipmentID);
+// export function getEquipmentDefaultLevelPos(equipmentID: string): number {
+//   switch (DEFAULT_LEVEL) {
+//     case VALUE_BOUNDARY.MAX:
+//       return getEquipmentMaxLevelPos(equipmentID);
 
-    case VALUE_BOUNDARY.MIN:
-      return getEquipmentMinLevelPos();
-  }
-}
+//     case VALUE_BOUNDARY.MIN:
+//       return getEquipmentMinLevelPos();
+//   }
+// }
 
 export function getHeroDefaultLevelPos(heroID: string): number {
   switch (DEFAULT_LEVEL) {
