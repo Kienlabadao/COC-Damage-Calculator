@@ -1,5 +1,6 @@
-import { DAMAGE_TYPE, DamageType } from "assets/data/game";
+import { DAMAGE_TYPE, DamageType, OffenseType } from "assets/data/game";
 import {
+  Checkbox,
   OffenseCardContainer,
   OffenseCardImage,
   Slider,
@@ -25,28 +26,36 @@ function convertToDisplayerType(damageType: DamageType): DisplayerType {
   }
 }
 interface Props {
+  id: string;
   name: string;
+  type: OffenseType;
   imagePath: string;
   backgroundType: BackgroundType;
   minLevelPos: number;
   maxLevelPos: number;
   currentLevelPos: number;
   currentLevel: number;
+  useOffense: boolean;
   updateCurrentLevelPos: (newCurrentLevelPos: number) => void;
+  updateUseOffense: (newUseOffense: boolean) => void;
   damage: number;
   damageType: DamageType;
   isDonated?: boolean;
 }
 
 export const OffenseCard = memo(function OffenseCard({
+  id,
   name,
+  type,
   imagePath,
   backgroundType,
   minLevelPos,
   maxLevelPos,
   currentLevelPos,
   currentLevel,
+  useOffense,
   updateCurrentLevelPos,
+  updateUseOffense,
   damage,
   damageType,
   isDonated = false,
@@ -71,15 +80,12 @@ export const OffenseCard = memo(function OffenseCard({
         />
       </div>
       <div className="d-flex justify-content-center align-items-center mt-2">
-        <input
-          className="useCheckbox form-check-input checkbox me-1"
-          type="checkbox"
-          id="useLightningSpell"
-          onInput={() => console.log("pressed")}
+        <Checkbox
+          id={`use_${id}${isDonated ? "_donated" : ""}`}
+          label={`Use ${type}`}
+          isChecked={useOffense}
+          onInput={(isChecked: boolean) => updateUseOffense(isChecked)}
         />
-        <label className="h5 mb-0" htmlFor="useLightningSpell">
-          Use spell
-        </label>
       </div>
       {isDonated && (
         <div className="donate-count">

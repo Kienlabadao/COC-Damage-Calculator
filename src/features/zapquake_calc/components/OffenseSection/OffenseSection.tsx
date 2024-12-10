@@ -9,7 +9,11 @@ import { CardContainer } from "components";
 
 function createSpellCard(
   spell: OffenseItem,
-  updateOffenseItemList: (offenseID: string, currentLevelPos: number) => void
+  updateOffenseItemList: (
+    offenseID: string,
+    currentLevelPos?: number,
+    useOffense?: boolean
+  ) => void
 ) {
   const spellID = spell.id;
   const {
@@ -23,13 +27,18 @@ function createSpellCard(
   } = spellDataUtils(spellID);
 
   const name = getSpellName();
+  const type = spell.type;
   const imagePath = getSpellImage();
   const minLevelPos = getSpellMinLevelPos();
   const maxLevelPos = getSpellMaxLevelPos();
   const currentLevelPos = spell.currentLevelPos;
   const currentLevel = getSpellLevel(currentLevelPos);
+  const useOffense = spell.use;
   const updateCurrentLevelPos = useCallback((newCurrentLevelPos: number) => {
     updateOffenseItemList(spellID, newCurrentLevelPos);
+  }, []);
+  const updateUseOffense = useCallback((newUseOffense: boolean) => {
+    updateOffenseItemList(spellID, undefined, newUseOffense);
   }, []);
   const damage = getSpellDamage(currentLevelPos);
   const damageType = getSpellDamageType();
@@ -37,7 +46,9 @@ function createSpellCard(
   return (
     <OffenseCard
       key={spellID}
+      id={spellID}
       name={name}
+      type={type}
       imagePath={imagePath}
       backgroundType={
         spellID === SPELL.EarthquakeSpell
@@ -48,7 +59,9 @@ function createSpellCard(
       maxLevelPos={maxLevelPos}
       currentLevelPos={currentLevelPos}
       currentLevel={currentLevel}
+      useOffense={useOffense}
       updateCurrentLevelPos={updateCurrentLevelPos}
+      updateUseOffense={updateUseOffense}
       damage={damage}
       damageType={damageType}
     />
@@ -57,7 +70,11 @@ function createSpellCard(
 
 function createEquipmentCard(
   equipment: OffenseItem,
-  updateOffenseItemList: (offenseID: string, currentLevelPos: number) => void
+  updateOffenseItemList: (
+    offenseID: string,
+    currentLevelPos?: number,
+    useOffense?: boolean
+  ) => void
 ) {
   const equipmentID = equipment.id;
   const {
@@ -73,13 +90,18 @@ function createEquipmentCard(
   } = equipmentDataUtils(equipmentID);
 
   const name = getEquipmentName();
+  const type = equipment.type;
   const imagePath = getEquipmentImage();
   const minLevelPos = getEquipmentMinLevelPos();
   const maxLevelPos = getEquipmentMaxLevelPos();
   const currentLevelPos = equipment.currentLevelPos;
   const currentLevel = getEquipmentLevel(currentLevelPos);
+  const useOffense = equipment.use;
   const updateCurrentLevelPos = useCallback((newCurrentLevelPos: number) => {
     updateOffenseItemList(equipmentID, newCurrentLevelPos);
+  }, []);
+  const updateUseOffense = useCallback((newUseOffense: boolean) => {
+    updateOffenseItemList(equipmentID, undefined, newUseOffense);
   }, []);
   const damage = getEquipmentDamage(currentLevelPos);
   const damageType = getEquipmentDamageType();
@@ -92,7 +114,9 @@ function createEquipmentCard(
   return (
     <OffenseCard
       key={equipmentID}
+      id={equipmentID}
       name={name}
+      type={type}
       imagePath={imagePath}
       backgroundType={
         getEquipmentRarity() === RARITY.Epic
@@ -103,7 +127,9 @@ function createEquipmentCard(
       maxLevelPos={maxLevelPos}
       currentLevelPos={currentLevelPos}
       currentLevel={currentLevel}
+      useOffense={useOffense}
       updateCurrentLevelPos={updateCurrentLevelPos}
+      updateUseOffense={updateUseOffense}
       damage={damage}
       damageType={damageType}
     />
@@ -112,7 +138,11 @@ function createEquipmentCard(
 
 interface Props {
   offenseItemList: OffenseItem[];
-  updateOffenseItemList: (offenseID: string, currentLevelPos: number) => void;
+  updateOffenseItemList: (
+    offenseID: string,
+    currentLevelPos?: number,
+    useOffense?: boolean
+  ) => void;
   setAllOffensesToMax: (offenseTypeFilterList: Set<OffenseType>) => void;
   setAllOffensesToMin: (offenseTypeFilterList: Set<OffenseType>) => void;
 }

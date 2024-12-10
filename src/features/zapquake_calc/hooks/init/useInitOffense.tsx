@@ -34,12 +34,17 @@ export function useInitOffense() {
     ...getAllEquipments(),
   ]);
 
-  function updateOffenseItemList(offenseID: string, currentLevelPos: number) {
+  function updateOffenseItemList(
+    offenseID: string,
+    currentLevelPos?: number,
+    useOffense?: boolean
+  ) {
     setOffenseItemList((prevOffenseItemList) => {
       return updateOffenseItemInList(
         prevOffenseItemList,
         offenseID,
-        currentLevelPos
+        currentLevelPos,
+        useOffense
       );
     });
   }

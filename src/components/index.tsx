@@ -8,5 +8,6 @@ export * from "./LinkButton";
 export * from "./MainContainer";
 export * from "./Slider";
 export * from "./CardContainer";
+export * from "./Checkbox";
 
 export * from "./CalculatorComponents";

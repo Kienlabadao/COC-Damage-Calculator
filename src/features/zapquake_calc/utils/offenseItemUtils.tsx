@@ -4,12 +4,15 @@ import {
   getGameDataMaxLevelPos,
   getGameDataMinLevelPos,
 } from "utils/GameData/gameDataUtils";
+import { useOffenseLocalStorageUtils } from "./LocalStorageData/useOffenseLocalStorageUtils";
 
 export interface OffenseItem {
   id: string;
   type: OffenseType;
   currentLevelPos: number;
+  use: boolean;
   saveCurrentLevelPos: (newCurrentLevelPos: number) => number;
+  saveUseOffense: (newUseOffense: boolean) => boolean;
 }
 
 export function createOffenseItem(
@@ -18,15 +21,25 @@ export function createOffenseItem(
 ): OffenseItem {
   const { getOrStoreLevelPos, storeLevelPos } =
     levelPosGameDataLocalStorageUtils(offenseID, type);
+  const { getOrStoreUseOffense, storeUseOffense } = useOffenseLocalStorageUtils(
+    offenseID,
+    type
+  );
   const currentLevelPos = getOrStoreLevelPos();
+  const useOffense = getOrStoreUseOffense();
 
   return {
     id: offenseID,
     type: type,
     currentLevelPos: currentLevelPos,
+    use: useOffense,
     saveCurrentLevelPos: (newCurrentLevelPos: number): number => {
       storeLevelPos(newCurrentLevelPos);
       return getOrStoreLevelPos();
+    },
+    saveUseOffense: (newUseOffense: boolean): boolean => {
+      storeUseOffense(newUseOffense);
+      return getOrStoreUseOffense();
     },
   };
 }
@@ -34,17 +47,26 @@ export function createOffenseItem(
 export function updateOffenseItemInList(
   offenseItemList: OffenseItem[],
   offenseID: string,
-  currentLevelPos: number
+  currentLevelPos?: number,
+  useOffense?: boolean
 ): OffenseItem[] {
   let isOffenseFound = false;
 
   const updatedList = offenseItemList.map((offense) => {
     if (offense.id === offenseID) {
       isOffenseFound = true;
-      return {
-        ...offense,
-        currentLevelPos: offense.saveCurrentLevelPos(currentLevelPos),
-      };
+      const updatedOffense = { ...offense };
+
+      if (currentLevelPos !== undefined) {
+        updatedOffense.currentLevelPos =
+          offense.saveCurrentLevelPos(currentLevelPos);
+      }
+
+      if (useOffense !== undefined) {
+        updatedOffense.use = offense.saveUseOffense(useOffense);
+      }
+
+      return updatedOffense;
     }
     return offense;
   });

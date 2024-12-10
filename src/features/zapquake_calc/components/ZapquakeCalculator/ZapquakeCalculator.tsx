@@ -10,7 +10,7 @@ export function ZapquakeCalculator() {
     setAllOffensesToMax,
     setAllOffensesToMin,
   ] = useInitOffense();
-
+  console.log(offenseItemList);
   return (
     <>
       <OffenseSection
