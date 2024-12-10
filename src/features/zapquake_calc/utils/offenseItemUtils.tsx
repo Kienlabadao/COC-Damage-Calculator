@@ -1,5 +1,9 @@
 import { OffenseType } from "assets/data/game";
 import { levelPosGameDataLocalStorageUtils } from "./LocalStorageData/levelPosGameDataLocalStorageUtils";
+import {
+  getGameDataMaxLevelPos,
+  getGameDataMinLevelPos,
+} from "utils/GameData/gameDataUtils";
 
 export interface OffenseItem {
   id: string;
@@ -54,18 +58,44 @@ export function updateOffenseItemInList(
   return updatedList;
 }
 
-// export function setAllOffenseItemsToMax(
-//   offenseItemList: OffenseItem[],
-//   offenseTypeSearchList?: Set<OffenseType>
-// ): OffenseItem[] {
-//   return offenseItemList.map((offense) => {
-//     if (offenseTypeSearchList && offenseTypeSearchList.size !== 0 && offenseTypeSearchList.has(offense.type)) {
-//         const =
-//       return {
-//         ...offense,
-//         currentLevelPos: offense.saveCurrentLevelPos(currentLevelPos),
-//       };
-//     }
-//     return offense;
-//   });
-// }
+export function setAllOffenseItemsToMax(
+  offenseItemList: OffenseItem[],
+  offenseTypeFilterList?: Set<OffenseType>
+): OffenseItem[] {
+  return offenseItemList.map((offense) => {
+    if (
+      offenseTypeFilterList &&
+      offenseTypeFilterList.size !== 0 &&
+      offenseTypeFilterList.has(offense.type)
+    ) {
+      const maxLevelPos = getGameDataMaxLevelPos(offense.id, offense.type);
+
+      return {
+        ...offense,
+        currentLevelPos: offense.saveCurrentLevelPos(maxLevelPos),
+      };
+    }
+    return offense;
+  });
+}
+
+export function setAllOffenseItemsToMin(
+  offenseItemList: OffenseItem[],
+  offenseTypeFilterList?: Set<OffenseType>
+): OffenseItem[] {
+  return offenseItemList.map((offense) => {
+    if (
+      offenseTypeFilterList &&
+      offenseTypeFilterList.size !== 0 &&
+      offenseTypeFilterList.has(offense.type)
+    ) {
+      const minLevelPos = getGameDataMinLevelPos(offense.id, offense.type);
+
+      return {
+        ...offense,
+        currentLevelPos: offense.saveCurrentLevelPos(minLevelPos),
+      };
+    }
+    return offense;
+  });
+}

@@ -1,7 +1,9 @@
-import { EQUIPMENT_TYPE, OFFENSE_TYPE } from "assets/data/game";
+import { EQUIPMENT_TYPE, OFFENSE_TYPE, OffenseType } from "assets/data/game";
 import {
   createOffenseItem,
   OffenseItem,
+  setAllOffenseItemsToMax,
+  setAllOffenseItemsToMin,
   updateOffenseItemInList,
 } from "features/zapquake_calc/utils/offenseItemUtils";
 import { useState } from "react";
@@ -42,5 +44,28 @@ export function useInitOffense() {
     });
   }
 
-  return [offenseItemList, updateOffenseItemList] as const;
+  function setAllOffensesToMax(offenseTypeFilterList: Set<OffenseType>) {
+    setOffenseItemList((prevOffenseItemList) => {
+      return setAllOffenseItemsToMax(
+        prevOffenseItemList,
+        offenseTypeFilterList
+      );
+    });
+  }
+
+  function setAllOffensesToMin(offenseTypeFilterList: Set<OffenseType>) {
+    setOffenseItemList((prevOffenseItemList) => {
+      return setAllOffenseItemsToMin(
+        prevOffenseItemList,
+        offenseTypeFilterList
+      );
+    });
+  }
+
+  return [
+    offenseItemList,
+    updateOffenseItemList,
+    setAllOffensesToMax,
+    setAllOffensesToMin,
+  ] as const;
 }

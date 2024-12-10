@@ -7,12 +7,9 @@ import {
 } from "utils/calcLocalStorageKeyUtils";
 import { DEFAULT_LEVEL } from "../assets/calcConfig";
 import { VALUE_BOUNDARY } from "assets/data/config";
-import {
-  getDefenseMaxLevelPos,
-  getDefenseMinLevelPos,
-} from "utils/GameData/gameDataUtils";
 import { spellDataUtils } from "utils/GameData/spellDataUtils";
 import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
+import { defenseDataUtils } from "utils/GameData/defenseDataUtils";
 
 export function getZapquakeCalcLevelPosGameDataStorageKey(
   gameDataID: string,
@@ -85,9 +82,12 @@ export function getEquipmentDefaultLevelPos(equipmentID: string): number {
 export function getDefenseDefaultLevelPos(defenseID: string): number {
   switch (DEFAULT_LEVEL) {
     case VALUE_BOUNDARY.MAX:
-      return getDefenseMaxLevelPos(defenseID);
+      const { getDefenseMaxLevelPos } = defenseDataUtils(defenseID);
 
+      return getDefenseMaxLevelPos();
     case VALUE_BOUNDARY.MIN:
+      const { getDefenseMinLevelPos } = defenseDataUtils(defenseID);
+
       return getDefenseMinLevelPos();
   }
 }
@@ -105,7 +105,7 @@ export function getGameDataDefaultLevelPos(
       return getDefenseDefaultLevelPos(gameDataID);
     default:
       throw new Error(
-        `zapquakeCalcUtils.getGameDataDefaultLevelPos ERROR: GameData Type (${type}) is not supported in this function.`
+        `zapquakeCalcUtils.getGameDataDefaultLevelPos ERROR: GameData Type (${type}) is not supported.`
       );
   }
 }

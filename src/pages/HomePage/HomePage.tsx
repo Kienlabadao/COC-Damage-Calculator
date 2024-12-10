@@ -19,7 +19,7 @@ export function HomePage() {
             </span>
           </h1>
         </header>
-        <section className="main-container mx-auto mt-5">
+        <section className="mt-5">
           <ContentContainer>
             <h2 className="text-center">!!! Important !!!</h2>
             <hr />

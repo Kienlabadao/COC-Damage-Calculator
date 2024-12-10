@@ -1,4 +1,4 @@
-import { OFFENSE_TYPE, RARITY, SPELL } from "assets/data/game";
+import { OFFENSE_TYPE, OffenseType, RARITY, SPELL } from "assets/data/game";
 import { OffenseCard } from "../OffenseCard";
 import { useCallback } from "react";
 import { OffenseItem } from "features/zapquake_calc/utils/offenseItemUtils";
@@ -6,11 +6,6 @@ import { BACKGROUND_TYPE } from "components/CalculatorComponents/OffenseCard/Off
 import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
 import { spellDataUtils } from "utils/GameData/spellDataUtils";
 import { CardContainer } from "components";
-
-interface Props {
-  offenseItemList: OffenseItem[];
-  updateOffenseItemList: (offenseID: string, currentLevelPos: number) => void;
-}
 
 function createSpellCard(
   spell: OffenseItem,
@@ -115,9 +110,18 @@ function createEquipmentCard(
   );
 }
 
+interface Props {
+  offenseItemList: OffenseItem[];
+  updateOffenseItemList: (offenseID: string, currentLevelPos: number) => void;
+  setAllOffensesToMax: (offenseTypeFilterList: Set<OffenseType>) => void;
+  setAllOffensesToMin: (offenseTypeFilterList: Set<OffenseType>) => void;
+}
+
 export function OffenseSection({
   offenseItemList,
   updateOffenseItemList,
+  setAllOffensesToMax,
+  setAllOffensesToMin,
 }: Props) {
   return (
     <CardContainer>
@@ -132,7 +136,7 @@ export function OffenseSection({
               className="btn btn-secondary"
               type="button"
               value="max"
-              onClick={() => console.log("pressed")}
+              onClick={() => setAllOffensesToMax(new Set([OFFENSE_TYPE.Spell]))}
             >
               Set All Spells to Max Level
             </button>
@@ -140,7 +144,7 @@ export function OffenseSection({
               className="btn btn-secondary"
               type="button"
               value="min"
-              onClick={() => console.log("pressed")}
+              onClick={() => setAllOffensesToMin(new Set([OFFENSE_TYPE.Spell]))}
             >
               Set All Spells to Min Level
             </button>
@@ -150,7 +154,7 @@ export function OffenseSection({
               className="form-check-input checkbox me-1"
               type="checkbox"
               id="useDonatedLightning"
-              onInput={() => console.log("pressed")}
+              onInput={() => setAllOffensesToMin(new Set([OFFENSE_TYPE.Spell]))}
             />
             <label className="h5 mb-0" htmlFor="useDonatedLightning">
               Use donated lightning spell
@@ -173,7 +177,9 @@ export function OffenseSection({
               className="btn btn-secondary"
               type="button"
               value="max"
-              onClick={() => console.log("pressed")}
+              onClick={() =>
+                setAllOffensesToMax(new Set([OFFENSE_TYPE.Equipment]))
+              }
             >
               Set All Equipments to Max Level
             </button>
@@ -181,7 +187,9 @@ export function OffenseSection({
               className="btn btn-secondary"
               type="button"
               value="min"
-              onClick={() => console.log("pressed")}
+              onClick={() =>
+                setAllOffensesToMin(new Set([OFFENSE_TYPE.Equipment]))
+              }
             >
               Set All Equipments to Min Level
             </button>

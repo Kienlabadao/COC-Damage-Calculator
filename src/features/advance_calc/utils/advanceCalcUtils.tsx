@@ -1,4 +1,4 @@
-import { GameDataType } from "assets/data/game";
+import { GAME_DATA_TYPE, GameDataType } from "assets/data/game";
 import {
   CALCULATOR_TYPE,
   getHideDestroyedDefenseStorageKey,
@@ -7,18 +7,13 @@ import {
 } from "utils/calcLocalStorageKeyUtils";
 import { DEFAULT_LEVEL } from "../assets/calcConfig";
 import { VALUE_BOUNDARY } from "assets/data/config";
-import {
-  getDefenseMaxLevelPos,
-  getDefenseMinLevelPos,
-  getHeroMaxLevelPos,
-  getHeroMinLevelPos,
-  getModifierMaxLevelPos,
-  getModifierMinLevelPos,
-  getRepairMaxLevelPos,
-  getRepairMinLevelPos,
-  getTroopMaxLevelPos,
-  getTroopMinLevelPos,
-} from "utils/GameData/gameDataUtils";
+import { spellDataUtils } from "utils/GameData/spellDataUtils";
+import { troopDataUtils } from "utils/GameData/troopDataUtils";
+import { heroDataUtils } from "utils/GameData/heroDataUtils";
+import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
+import { modifierDataUtils } from "utils/GameData/modifierDataUtils";
+import { repairDataUtils } from "utils/GameData/repairDataUtils";
+import { defenseDataUtils } from "utils/GameData/defenseDataUtils";
 
 export function getAdvanceCalcLevelPosGameDataStorageKey(
   gameDataID: string,
@@ -62,72 +57,119 @@ export function getUseTroopDeathDamageStorageKey(): string {
   return `${CALCULATOR_TYPE.Advance}_use_troop_death_damage`;
 }
 
-// export function getSpellDefaultLevelPos(spellID: string): number {
-//   switch (DEFAULT_LEVEL) {
-//     case VALUE_BOUNDARY.MAX:
-//       return getSpellMaxLevelPos(spellID);
+export function getSpellDefaultLevelPos(spellID: string): number {
+  switch (DEFAULT_LEVEL) {
+    case VALUE_BOUNDARY.MAX:
+      const { getSpellMaxLevelPos } = spellDataUtils(spellID);
 
-//     case VALUE_BOUNDARY.MIN:
-//       return getSpellMinLevelPos();
-//   }
-// }
+      return getSpellMaxLevelPos();
+    case VALUE_BOUNDARY.MIN:
+      const { getSpellMinLevelPos } = spellDataUtils(spellID);
+
+      return getSpellMinLevelPos();
+  }
+}
 
 export function getTroopDefaultLevelPos(troopID: string): number {
   switch (DEFAULT_LEVEL) {
     case VALUE_BOUNDARY.MAX:
-      return getTroopMaxLevelPos(troopID);
+      const { getTroopMaxLevelPos } = troopDataUtils(troopID);
 
+      return getTroopMaxLevelPos();
     case VALUE_BOUNDARY.MIN:
+      const { getTroopMinLevelPos } = troopDataUtils(troopID);
+
       return getTroopMinLevelPos();
   }
 }
 
-// export function getEquipmentDefaultLevelPos(equipmentID: string): number {
-//   switch (DEFAULT_LEVEL) {
-//     case VALUE_BOUNDARY.MAX:
-//       return getEquipmentMaxLevelPos(equipmentID);
-
-//     case VALUE_BOUNDARY.MIN:
-//       return getEquipmentMinLevelPos();
-//   }
-// }
-
 export function getHeroDefaultLevelPos(heroID: string): number {
   switch (DEFAULT_LEVEL) {
     case VALUE_BOUNDARY.MAX:
-      return getHeroMaxLevelPos(heroID);
+      const { getHeroMaxLevelPos } = heroDataUtils(heroID);
 
+      return getHeroMaxLevelPos();
     case VALUE_BOUNDARY.MIN:
+      const { getHeroMinLevelPos } = heroDataUtils(heroID);
+
       return getHeroMinLevelPos();
   }
 }
 
-export function getRepairDefaultLevelPos(repairID: string): number {
+export function getEquipmentDefaultLevelPos(equipmentID: string): number {
   switch (DEFAULT_LEVEL) {
     case VALUE_BOUNDARY.MAX:
-      return getRepairMaxLevelPos(repairID);
+      const { getEquipmentMaxLevelPos } = equipmentDataUtils(equipmentID);
 
+      return getEquipmentMaxLevelPos();
     case VALUE_BOUNDARY.MIN:
-      return getRepairMinLevelPos();
+      const { getEquipmentMinLevelPos } = equipmentDataUtils(equipmentID);
+
+      return getEquipmentMinLevelPos();
   }
 }
 
 export function getModifierDefaultLevelPos(modifierID: string): number {
   switch (DEFAULT_LEVEL) {
     case VALUE_BOUNDARY.MAX:
-      return getModifierMaxLevelPos(modifierID);
+      const { getModifierMaxLevelPos } = modifierDataUtils(modifierID);
 
+      return getModifierMaxLevelPos();
     case VALUE_BOUNDARY.MIN:
+      const { getModifierMinLevelPos } = modifierDataUtils(modifierID);
+
       return getModifierMinLevelPos();
+  }
+}
+
+export function getRepairDefaultLevelPos(repairID: string): number {
+  switch (DEFAULT_LEVEL) {
+    case VALUE_BOUNDARY.MAX:
+      const { getRepairMaxLevelPos } = repairDataUtils(repairID);
+
+      return getRepairMaxLevelPos();
+    case VALUE_BOUNDARY.MIN:
+      const { getRepairMinLevelPos } = repairDataUtils(repairID);
+
+      return getRepairMinLevelPos();
   }
 }
 
 export function getDefenseDefaultLevelPos(defenseID: string): number {
   switch (DEFAULT_LEVEL) {
     case VALUE_BOUNDARY.MAX:
-      return getDefenseMaxLevelPos(defenseID);
+      const { getDefenseMaxLevelPos } = defenseDataUtils(defenseID);
 
+      return getDefenseMaxLevelPos();
     case VALUE_BOUNDARY.MIN:
+      const { getDefenseMinLevelPos } = defenseDataUtils(defenseID);
+
       return getDefenseMinLevelPos();
+  }
+}
+
+export function getGameDataDefaultLevelPos(
+  gameDataID: string,
+  type: GameDataType
+): number {
+  switch (type) {
+    case GAME_DATA_TYPE.Spell:
+      return getSpellDefaultLevelPos(gameDataID);
+    case GAME_DATA_TYPE.Troop:
+      return getTroopDefaultLevelPos(gameDataID);
+    case GAME_DATA_TYPE.Hero:
+      return getHeroDefaultLevelPos(gameDataID);
+    case GAME_DATA_TYPE.Equipment:
+      return getEquipmentDefaultLevelPos(gameDataID);
+    case GAME_DATA_TYPE.Modifier:
+      return getModifierDefaultLevelPos(gameDataID);
+    case GAME_DATA_TYPE.Repair:
+      return getRepairDefaultLevelPos(gameDataID);
+    case GAME_DATA_TYPE.Defense:
+      return getDefenseDefaultLevelPos(gameDataID);
+    default:
+      throw new Error(
+        `advanceCalcUtils.getGameDataDefaultLevelPos ERROR: GameData Type (${type}) is not supported.`
+      );
   }
 }
