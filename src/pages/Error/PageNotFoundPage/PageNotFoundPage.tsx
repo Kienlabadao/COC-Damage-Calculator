@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { PAGE_URLS } from "assets/data/config";
+import { PAGE_URLS } from "data/constants";
 import { Navbar, Footer } from "components";
 
 export function PageNotFoundPage() {

@@ -1,4 +1,4 @@
-import { BS_COLOR, PAGE_URLS, EXTERNAL_URLS } from "assets/data/config";
+import { BS_COLOR, PAGE_URLS, EXTERNAL_URLS } from "data/constants";
 import { Navbar, Footer, ContentContainer, MainContainer } from "components";
 import { LinkButton } from "components/LinkButton";
 

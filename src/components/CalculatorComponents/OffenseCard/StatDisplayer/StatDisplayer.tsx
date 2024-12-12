@@ -1,4 +1,4 @@
-import { IMAGE_PATH } from "assets/data/config";
+import { IMAGE_PATH } from "data/constants";
 import { ObjectValues } from "utils/objectUtils";
 import { ContentContainer } from "./ContentContainer";
 import { ImageContainer } from "./ImageContainer";

@@ -1,4 +1,4 @@
-import { DamageType, SpellData } from "assets/data/game";
+import { DamageType, SpellData } from "data/game";
 import { OFFENSE_IMG_PATH } from "./gameDataUtils";
 
 export function spellDataUtils(spellID: string) {

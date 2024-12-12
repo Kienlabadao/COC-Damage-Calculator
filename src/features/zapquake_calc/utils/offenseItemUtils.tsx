@@ -1,13 +1,14 @@
-import { OffenseType } from "assets/data/game";
-import { levelPosGameDataLocalStorageUtils } from "./LocalStorageData/levelPosGameDataLocalStorageUtils";
+import { OffenseType } from "data/game";
 import {
   getGameDataMaxLevelPos,
   getGameDataMinLevelPos,
 } from "utils/GameData/gameDataUtils";
-import { useOffenseLocalStorageUtils } from "./LocalStorageData/useOffenseLocalStorageUtils";
+import { manageZapquakeCalcLevelPosGameDataLocalStorage } from "./LocalStorageData/manageZapquakeCalcLevelPosGameDataLocalStorage";
+import { manageZapquakeCalcUseOffenseLocalStorage } from "./LocalStorageData/manageZapquakeCalcUseOffenseLocalStorage";
 
 export interface OffenseItem {
   id: string;
+  offenseID: string;
   type: OffenseType;
   currentLevelPos: number;
   use: boolean;
@@ -17,19 +18,19 @@ export interface OffenseItem {
 
 export function createOffenseItem(
   offenseID: string,
-  type: OffenseType
+  type: OffenseType,
+  isDonated: boolean = false
 ): OffenseItem {
   const { getOrStoreLevelPos, storeLevelPos } =
-    levelPosGameDataLocalStorageUtils(offenseID, type);
-  const { getOrStoreUseOffense, storeUseOffense } = useOffenseLocalStorageUtils(
-    offenseID,
-    type
-  );
+    manageZapquakeCalcLevelPosGameDataLocalStorage(offenseID, type, isDonated);
+  const { getOrStoreUseOffense, storeUseOffense } =
+    manageZapquakeCalcUseOffenseLocalStorage(offenseID, type, isDonated);
   const currentLevelPos = getOrStoreLevelPos();
   const useOffense = getOrStoreUseOffense();
 
   return {
     id: offenseID,
+    offenseID: offenseID,
     type: type,
     currentLevelPos: currentLevelPos,
     use: useOffense,

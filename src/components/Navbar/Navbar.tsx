@@ -1,5 +1,5 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { PAGE_URLS } from "assets/data/config";
+import { PAGE_URLS } from "data/constants";
 import { ThemeToggler } from "../ThemeToggler";
 
 export function Navbar() {

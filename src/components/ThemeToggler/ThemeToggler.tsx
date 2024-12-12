@@ -1,10 +1,10 @@
-import { Theme, THEME } from "assets/data/config";
+import { Theme, THEME } from "data/constants";
 import { usePersistedState } from "hooks/usePersistedState";
-import { themeLocalStorageUtils } from "utils/LocalStorageData/themeLocalStorageUtils";
+import { manageThemeLocalStorage } from "utils/LocalStorageData/manageThemeLocalStorage";
 import { setPageTheme } from "utils/pageUtils";
 
 export function ThemeToggler() {
-  const { getOrStoreTheme, storeTheme } = themeLocalStorageUtils();
+  const { getOrStoreTheme, storeTheme } = manageThemeLocalStorage();
   const [theme, setTheme] = usePersistedState<Theme>(
     getOrStoreTheme,
     storeTheme

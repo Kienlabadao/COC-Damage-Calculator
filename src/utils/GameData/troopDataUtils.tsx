@@ -1,4 +1,4 @@
-import { DamageType, TroopData, TroopType } from "assets/data/game";
+import { DamageType, TroopData, TroopType } from "data/game";
 import { OFFENSE_IMG_PATH } from "./gameDataUtils";
 
 export function troopDataUtils(troopID: string) {

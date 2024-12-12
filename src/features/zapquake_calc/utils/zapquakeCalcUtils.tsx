@@ -1,15 +1,22 @@
-import { GAME_DATA_TYPE, GameDataType } from "assets/data/game";
+import { GAME_DATA_TYPE, GameDataType, SPELL } from "data/game";
 import {
   CALCULATOR_TYPE,
+  DONATED_STR,
   getHideDestroyedDefenseStorageKey,
   getLevelPosGameDataStorageKey,
   getUseGameDataStorageKey,
 } from "utils/calcLocalStorageKeyUtils";
-import { DEFAULT_LEVEL } from "../assets/calcConfig";
-import { VALUE_BOUNDARY } from "assets/data/config";
+import { VALUE_BOUNDARY } from "data/constants";
 import { spellDataUtils } from "utils/GameData/spellDataUtils";
 import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
 import { defenseDataUtils } from "utils/GameData/defenseDataUtils";
+import {
+  DEFAULT_LEVEL,
+  MAX_DONATED_SPELL_COUNT,
+  MIN_DONATED_SPELL_COUNT,
+} from "features/zapquake_calc/config/config";
+
+const calculatorType = CALCULATOR_TYPE.Zapquake;
 
 export function getZapquakeCalcLevelPosGameDataStorageKey(
   gameDataID: string,
@@ -19,7 +26,7 @@ export function getZapquakeCalcLevelPosGameDataStorageKey(
   return getLevelPosGameDataStorageKey(
     gameDataID,
     gameDataType,
-    CALCULATOR_TYPE.Zapquake,
+    calculatorType,
     isDonated
   );
 }
@@ -32,25 +39,29 @@ export function getZapquakeCalcUseGameDataStorageKey(
   return getUseGameDataStorageKey(
     gameDataID,
     gameDataType,
-    CALCULATOR_TYPE.Zapquake,
+    calculatorType,
     isDonated
   );
 }
 
+export function getDonatedLightningSpellCountStorageKey(): string {
+  return `${calculatorType}_${GAME_DATA_TYPE.Spell}_count_${SPELL.LightningSpell}_${DONATED_STR}`;
+}
+
 export function getZapquakeCalcHideDestroyedDefenseStorageKey(): string {
-  return getHideDestroyedDefenseStorageKey(CALCULATOR_TYPE.Zapquake);
+  return getHideDestroyedDefenseStorageKey(calculatorType);
 }
 
 export function getHideEquipmentDestroyedDefenseStorageKey(): string {
-  return `${CALCULATOR_TYPE.Zapquake}_hide_equipment_destroyed_defense`;
+  return `${calculatorType}_hide_equipment_destroyed_defense`;
 }
 
 export function getHideImpossibleDestroyDefenseStorageKey(): string {
-  return `${CALCULATOR_TYPE.Zapquake}_hide_impossible_destroy_defense`;
+  return `${calculatorType}_hide_impossible_destroy_defense`;
 }
 
 export function getEarthquakeOrderStorageKey(): string {
-  return `${CALCULATOR_TYPE.Zapquake}_earthquake_order`;
+  return `${calculatorType}_earthquake_order`;
 }
 
 export function getSpellDefaultLevelPos(spellID: string): number {
@@ -108,4 +119,8 @@ export function getGameDataDefaultLevelPos(
         `zapquakeCalcUtils.getGameDataDefaultLevelPos ERROR: GameData Type (${type}) is not supported.`
       );
   }
+}
+
+export function isValidDonatedSpellCount(amount: number): boolean {
+  return MIN_DONATED_SPELL_COUNT <= amount && amount <= MAX_DONATED_SPELL_COUNT;
 }

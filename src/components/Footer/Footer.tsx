@@ -1,5 +1,5 @@
-import { BS_COLOR, EXTERNAL_URLS } from "assets/data/config";
 import { LinkButton } from "components/LinkButton";
+import { BS_COLOR, EXTERNAL_URLS } from "data/constants";
 
 export function Footer() {
   return (

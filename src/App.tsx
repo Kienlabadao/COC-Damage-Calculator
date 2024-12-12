@@ -4,12 +4,13 @@ import {
   useLocation,
 } from "react-router-dom";
 
-import { PAGE_URLS } from "assets/data/config";
-
 import { HomePage, ChangelogPage, PageNotFoundPage, ErrorPage } from "pages";
-import { ZapquakeCalcPage, AdvanceCalcPage, SettingPage } from "features";
 import { AutoScrollToggler } from "components/AutoScrollToggler";
 import { ToastContainer } from "react-toastify";
+import { ZapquakeCalcPage } from "pages/ZapquakeCalcPage";
+import { PAGE_URLS } from "data/constants";
+import { AdvanceCalcPage } from "pages/AdvanceCalcPage";
+import { SettingPage } from "pages/SettingPage";
 
 export default function App() {
   const router = createBrowserRouter([

@@ -1,4 +1,4 @@
-import { GameDataType } from "assets/data/game";
+import { GameDataType } from "data/game";
 import { ObjectValues } from "./objectUtils";
 
 export const CALCULATOR_TYPE = {
@@ -8,7 +8,11 @@ export const CALCULATOR_TYPE = {
 
 export type CalculatorType = ObjectValues<typeof CALCULATOR_TYPE>;
 
-const DONATED_STR = "donated";
+export const DONATED_STR = "donated";
+
+export function getDonatedGameDataID(gameDataID: string): string {
+  return `${gameDataID}_${DONATED_STR}`;
+}
 
 export function getLevelPosGameDataStorageKey(
   gameDataID: string,
@@ -16,8 +20,8 @@ export function getLevelPosGameDataStorageKey(
   calculatorType: CalculatorType,
   isDonated = false
 ): string {
-  return `${calculatorType}_${gameDataType}_level_pos_${gameDataID}${
-    isDonated ? `_${DONATED_STR}` : ""
+  return `${calculatorType}_${gameDataType}_level_pos_${
+    isDonated ? getDonatedGameDataID(gameDataID) : `${gameDataID}`
   }`;
 }
 
@@ -28,7 +32,7 @@ export function getUseGameDataStorageKey(
   isDonated = false
 ): string {
   return `${calculatorType}_${gameDataType}_use_${gameDataID}${
-    isDonated ? `_${DONATED_STR}` : ""
+    isDonated ? getDonatedGameDataID(gameDataID) : `${gameDataID}`
   }`;
 }
 

@@ -1,4 +1,10 @@
-import { EQUIPMENT_TYPE, OFFENSE_TYPE, OffenseType } from "assets/data/game";
+import { EQUIPMENT_TYPE, OFFENSE_TYPE, OffenseType, SPELL } from "data/game";
+import {
+  createDonatedLightningSpellItem,
+  setDonatedLightningSpellItemsToMax,
+  setDonatedLightningSpellItemsToMin,
+  updateDonatedLightningSpellItem,
+} from "features/zapquake_calc/utils/donatedLightningSpellItemUtils";
 import {
   createOffenseItem,
   OffenseItem,
@@ -6,7 +12,7 @@ import {
   setAllOffenseItemsToMin,
   updateOffenseItemInList,
 } from "features/zapquake_calc/utils/offenseItemUtils";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   getAllEquipmentIDs,
   getAllSpellIDs,
@@ -33,21 +39,52 @@ export function useInitOffense() {
     ...getAllSpells(),
     ...getAllEquipments(),
   ]);
+  const [donatedLightningSpellItem, setDonatedLightningSpellItem] = useState(
+    createDonatedLightningSpellItem()
+  );
 
-  function updateOffenseItemList(
-    offenseID: string,
-    currentLevelPos?: number,
-    useOffense?: boolean
-  ) {
-    setOffenseItemList((prevOffenseItemList) => {
-      return updateOffenseItemInList(
-        prevOffenseItemList,
-        offenseID,
-        currentLevelPos,
-        useOffense
-      );
-    });
-  }
+  const updateOffenseItem = useCallback(
+    (
+      offenseID: string,
+      isDonated: boolean = false,
+      currentLevelPos?: number,
+      useOffense?: boolean,
+      count?: number
+    ) => {
+      console.log("updateOffenseItem");
+      console.log(offenseID);
+      console.log(isDonated);
+      console.log(currentLevelPos);
+      console.log(useOffense);
+      console.log(count);
+      if (isDonated) {
+        if (offenseID === SPELL.LightningSpell) {
+          setDonatedLightningSpellItem((prevDonatedLightningSpellItem) =>
+            updateDonatedLightningSpellItem(
+              prevDonatedLightningSpellItem,
+              currentLevelPos,
+              useOffense,
+              count
+            )
+          );
+        } else {
+          throw new Error(
+            `useInitOffense.updateOffenseItemList ERROR: Donated for offenseID (${offenseID}) is not supported!`
+          );
+        }
+      } else {
+        setOffenseItemList((prevOffenseItemList) => {
+          return updateOffenseItemInList(
+            prevOffenseItemList,
+            offenseID,
+            currentLevelPos,
+            useOffense
+          );
+        });
+      }
+    },
+    []
+  );
 
   function setAllOffensesToMax(offenseTypeFilterList: Set<OffenseType>) {
     setOffenseItemList((prevOffenseItemList) => {
@@ -56,6 +93,10 @@ export function useInitOffense() {
         offenseTypeFilterList
       );
     });
+
+    setDonatedLightningSpellItem((prevDonatedLightningSpellItem) =>
+      setDonatedLightningSpellItemsToMax(prevDonatedLightningSpellItem)
+    );
   }
 
   function setAllOffensesToMin(offenseTypeFilterList: Set<OffenseType>) {
@@ -65,11 +106,16 @@ export function useInitOffense() {
         offenseTypeFilterList
       );
     });
+
+    setDonatedLightningSpellItem((prevDonatedLightningSpellItem) =>
+      setDonatedLightningSpellItemsToMin(prevDonatedLightningSpellItem)
+    );
   }
 
   return [
     offenseItemList,
-    updateOffenseItemList,
+    donatedLightningSpellItem,
+    updateOffenseItem,
     setAllOffensesToMax,
     setAllOffensesToMin,
   ] as const;

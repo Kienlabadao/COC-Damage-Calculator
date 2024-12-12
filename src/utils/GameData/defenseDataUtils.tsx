@@ -1,4 +1,4 @@
-import { DefenseData, DefenseType } from "assets/data/game";
+import { DefenseData, DefenseType } from "data/game";
 import { DEFENSE_IMG_PATH } from "./gameDataUtils";
 
 export function defenseDataUtils(defenseID: string) {

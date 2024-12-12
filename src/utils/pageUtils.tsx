@@ -1,4 +1,4 @@
-import { Theme } from "assets/data/config";
+import { Theme } from "data/constants";
 
 const body = document.body;
 const html = document.documentElement;

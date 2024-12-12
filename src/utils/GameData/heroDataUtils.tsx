@@ -1,4 +1,4 @@
-import { DamageType, HeroData } from "assets/data/game";
+import { DamageType, HeroData } from "data/game";
 import { OFFENSE_IMG_PATH } from "./gameDataUtils";
 
 export function heroDataUtils(heroID: string) {

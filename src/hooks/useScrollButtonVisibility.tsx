@@ -1,5 +1,5 @@
+import { SCROLL_POS_THRESHOLD } from "config/config";
 import { useEffect, useState } from "react";
-import { SCROLL_POS_THRESHOLD } from "assets/data/config";
 import { getCurrentScrollPos, getPageHeight } from "utils/pageUtils";
 
 // Helper function to calculate and set visibility

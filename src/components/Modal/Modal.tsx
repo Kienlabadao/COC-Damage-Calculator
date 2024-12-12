@@ -1,4 +1,4 @@
-import { BSColor } from "assets/data/config";
+import { BSColor } from "data/constants";
 import { Button } from "components";
 import { ReactNode } from "react";
 

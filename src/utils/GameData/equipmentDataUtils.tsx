@@ -4,7 +4,7 @@ import {
   EquipmentType,
   Hero,
   Rarity,
-} from "assets/data/game";
+} from "data/game";
 import { OFFENSE_IMG_PATH } from "./gameDataUtils";
 
 export function equipmentDataUtils(equipmentID: string) {

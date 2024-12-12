@@ -1,12 +1,11 @@
-import { GAME_DATA_TYPE, GameDataType } from "assets/data/game";
+import { GAME_DATA_TYPE, GameDataType } from "data/game";
 import {
   CALCULATOR_TYPE,
   getHideDestroyedDefenseStorageKey,
   getLevelPosGameDataStorageKey,
   getUseGameDataStorageKey,
 } from "utils/calcLocalStorageKeyUtils";
-import { DEFAULT_LEVEL } from "../assets/calcConfig";
-import { VALUE_BOUNDARY } from "assets/data/config";
+import { VALUE_BOUNDARY } from "data/constants";
 import { spellDataUtils } from "utils/GameData/spellDataUtils";
 import { troopDataUtils } from "utils/GameData/troopDataUtils";
 import { heroDataUtils } from "utils/GameData/heroDataUtils";
@@ -14,6 +13,7 @@ import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
 import { modifierDataUtils } from "utils/GameData/modifierDataUtils";
 import { repairDataUtils } from "utils/GameData/repairDataUtils";
 import { defenseDataUtils } from "utils/GameData/defenseDataUtils";
+import { DEFAULT_LEVEL } from "../config/config";
 
 export function getAdvanceCalcLevelPosGameDataStorageKey(
   gameDataID: string,

@@ -1,4 +1,5 @@
-import { DEV_MODE, PAGE_URLS } from "assets/data/config";
+import { DEV_MODE } from "config/config";
+import { PAGE_URLS } from "data/constants";
 
 export function setupGlobalErrorHandler() {
   window.onerror = function () {

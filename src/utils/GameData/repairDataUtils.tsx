@@ -1,4 +1,4 @@
-import { RepairData } from "assets/data/game";
+import { RepairData } from "data/game";
 import { REPAIR_IMG_PATH } from "./gameDataUtils";
 
 export function repairDataUtils(repairID: string) {

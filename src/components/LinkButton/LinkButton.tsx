@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { BS_COLOR, BSColor } from "assets/data/config";
+import { BS_COLOR, BSColor } from "data/constants";
 
 interface Props {
   children: ReactNode;
