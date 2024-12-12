@@ -1,8 +1,8 @@
 import { EQUIPMENT_TYPE, OFFENSE_TYPE, OffenseType, SPELL } from "data/game";
 import {
   createDonatedLightningSpellItem,
-  setDonatedLightningSpellItemsToMax,
-  setDonatedLightningSpellItemsToMin,
+  setDonatedLightningSpellItemToMax,
+  setDonatedLightningSpellItemToMin,
   updateDonatedLightningSpellItem,
 } from "features/zapquake_calc/utils/donatedLightningSpellItemUtils";
 import {
@@ -88,9 +88,11 @@ export function useInitOffense() {
       );
     });
 
-    setDonatedLightningSpellItem((prevDonatedLightningSpellItem) =>
-      setDonatedLightningSpellItemsToMax(prevDonatedLightningSpellItem)
-    );
+    if (offenseTypeFilterList.has(OFFENSE_TYPE.Spell)) {
+      setDonatedLightningSpellItem((prevDonatedLightningSpellItem) =>
+        setDonatedLightningSpellItemToMax(prevDonatedLightningSpellItem)
+      );
+    }
   }
 
   function setAllOffensesToMin(offenseTypeFilterList: Set<OffenseType>) {
@@ -101,9 +103,11 @@ export function useInitOffense() {
       );
     });
 
-    setDonatedLightningSpellItem((prevDonatedLightningSpellItem) =>
-      setDonatedLightningSpellItemsToMin(prevDonatedLightningSpellItem)
-    );
+    if (offenseTypeFilterList.has(OFFENSE_TYPE.Spell)) {
+      setDonatedLightningSpellItem((prevDonatedLightningSpellItem) =>
+        setDonatedLightningSpellItemToMin(prevDonatedLightningSpellItem)
+      );
+    }
   }
 
   return [

@@ -91,7 +91,10 @@ export function setAllOffenseItemsToMax(
       offenseTypeFilterList.size !== 0 &&
       offenseTypeFilterList.has(offense.type)
     ) {
-      const maxLevelPos = getGameDataMaxLevelPos(offense.id, offense.type);
+      const maxLevelPos = getGameDataMaxLevelPos(
+        offense.offenseID,
+        offense.type
+      );
 
       return {
         ...offense,
@@ -112,7 +115,10 @@ export function setAllOffenseItemsToMin(
       offenseTypeFilterList.size !== 0 &&
       offenseTypeFilterList.has(offense.type)
     ) {
-      const minLevelPos = getGameDataMinLevelPos(offense.id, offense.type);
+      const minLevelPos = getGameDataMinLevelPos(
+        offense.offenseID,
+        offense.type
+      );
 
       return {
         ...offense,

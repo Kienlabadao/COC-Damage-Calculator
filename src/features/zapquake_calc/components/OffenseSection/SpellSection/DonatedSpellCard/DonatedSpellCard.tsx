@@ -83,6 +83,8 @@ export const DonatedSpellCard = memo(function DonatedSpellCard({
   const minCount = MIN_DONATED_SPELL_COUNT;
   const maxCount = MAX_DONATED_SPELL_COUNT;
   const currentCount = spell.count;
+  console.log("DonatedSpellCard");
+  console.log(spell.count);
   const damage = getSpellDamage(currentLevelPos);
   const damageType = getSpellDamageType();
 

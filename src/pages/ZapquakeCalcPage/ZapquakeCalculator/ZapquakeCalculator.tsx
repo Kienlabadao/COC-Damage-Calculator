@@ -14,6 +14,7 @@ export function ZapquakeCalculator() {
     setAllOffensesToMax,
     setAllOffensesToMin,
   ] = useInitOffense();
+  console.log("ZapquakeCalculator");
   console.log(offenseItemList);
   console.log(donatedLightningSpellItem);
   return (

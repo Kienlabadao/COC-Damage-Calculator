@@ -62,7 +62,7 @@ export function updateDonatedLightningSpellItem(
   count?: number
 ): DonatedLightningSpellItem {
   return {
-    ...donatedLightningSpellItem, // Spread existing state
+    ...donatedLightningSpellItem,
     ...(currentLevelPos !== undefined && {
       currentLevelPos:
         donatedLightningSpellItem.saveCurrentLevelPos(currentLevelPos),
@@ -76,24 +76,31 @@ export function updateDonatedLightningSpellItem(
   };
 }
 
-export function setDonatedLightningSpellItemsToMax(
+export function setDonatedLightningSpellItemToMax(
   donatedLightningSpellItem: DonatedLightningSpellItem
 ): DonatedLightningSpellItem {
-  const id = donatedLightningSpellItem.id;
+  console.log("setDonatedLightningSpellItemToMax");
+  const offenseID = donatedLightningSpellItem.offenseID;
   const type = donatedLightningSpellItem.type;
 
-  donatedLightningSpellItem.currentLevelPos = getGameDataMaxLevelPos(id, type);
+  const maxLevelPos = getGameDataMaxLevelPos(offenseID, type);
 
-  return donatedLightningSpellItem;
+  return {
+    ...donatedLightningSpellItem,
+    currentLevelPos: maxLevelPos,
+  };
 }
 
-export function setDonatedLightningSpellItemsToMin(
+export function setDonatedLightningSpellItemToMin(
   donatedLightningSpellItem: DonatedLightningSpellItem
 ): DonatedLightningSpellItem {
-  const id = donatedLightningSpellItem.id;
+  const offenseID = donatedLightningSpellItem.offenseID;
   const type = donatedLightningSpellItem.type;
 
-  donatedLightningSpellItem.currentLevelPos = getGameDataMinLevelPos(id, type);
+  const maxLevelPos = getGameDataMinLevelPos(offenseID, type);
 
-  return donatedLightningSpellItem;
+  return {
+    ...donatedLightningSpellItem,
+    currentLevelPos: maxLevelPos,
+  };
 }
