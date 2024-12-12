@@ -87,7 +87,7 @@ export function setDonatedLightningSpellItemToMax(
 
   return {
     ...donatedLightningSpellItem,
-    currentLevelPos: maxLevelPos,
+    currentLevelPos: donatedLightningSpellItem.saveCurrentLevelPos(maxLevelPos),
   };
 }
 
@@ -97,10 +97,10 @@ export function setDonatedLightningSpellItemToMin(
   const offenseID = donatedLightningSpellItem.offenseID;
   const type = donatedLightningSpellItem.type;
 
-  const maxLevelPos = getGameDataMinLevelPos(offenseID, type);
+  const minLevelPos = getGameDataMinLevelPos(offenseID, type);
 
   return {
     ...donatedLightningSpellItem,
-    currentLevelPos: maxLevelPos,
+    currentLevelPos: donatedLightningSpellItem.saveCurrentLevelPos(minLevelPos),
   };
 }
