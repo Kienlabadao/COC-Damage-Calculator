@@ -10,16 +10,13 @@ import {
   MAX_DONATED_SPELL_COUNT,
   MIN_DONATED_SPELL_COUNT,
 } from "features/zapquake_calc/config/config";
-import {
-  NumberInputField,
-  OffenseCardContainer,
-  Slider,
-  StatDisplayer,
-} from "components";
+import { NumberInputField, Slider } from "components";
 import {
   DISPLAYER_TYPE,
   DisplayerType,
+  StatDisplayer,
 } from "components/CalculatorComponents/OffenseCard/StatDisplayer";
+import { OffenseCardContainer } from "components/CalculatorComponents/OffenseCard";
 
 function convertToDisplayerType(damageType: DamageType): DisplayerType {
   switch (damageType) {
@@ -83,8 +80,6 @@ export const DonatedSpellCard = memo(function DonatedSpellCard({
   const minCount = MIN_DONATED_SPELL_COUNT;
   const maxCount = MAX_DONATED_SPELL_COUNT;
   const currentCount = spell.count;
-  console.log("DonatedSpellCard");
-  console.log(spell.count);
   const damage = getSpellDamage(currentLevelPos);
   const damageType = getSpellDamageType();
 

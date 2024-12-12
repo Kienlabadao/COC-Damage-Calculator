@@ -3,8 +3,10 @@ import {
   FilterSection,
   OffenseSection,
 } from "features/zapquake_calc/components";
+import { DefenseSectionContext } from "features/zapquake_calc/context/DefenseSectionContext";
 import { OffenseSectionContext } from "features/zapquake_calc/context/OffenseSectionContext";
 import { useInitOffense } from "features/zapquake_calc/hooks/init/useInitOffense";
+import { useInitDefense } from "features/zapquake_calc/hooks/useInitDefense";
 
 export function ZapquakeCalculator() {
   const [
@@ -14,9 +16,13 @@ export function ZapquakeCalculator() {
     setAllOffensesToMax,
     setAllOffensesToMin,
   ] = useInitOffense();
-  console.log("ZapquakeCalculator");
-  console.log(offenseItemList);
-  console.log(donatedLightningSpellItem);
+  const [
+    defenseItemList,
+    updateDefenseItem,
+    setAllDefensesToMax,
+    setAllDefensesToMin,
+  ] = useInitDefense();
+  console.log(defenseItemList);
   return (
     <>
       <OffenseSectionContext.Provider
@@ -33,7 +39,16 @@ export function ZapquakeCalculator() {
 
       <FilterSection></FilterSection>
 
-      <DefenseSection></DefenseSection>
+      <DefenseSectionContext.Provider
+        value={{
+          defenseItemList,
+          updateDefenseItem,
+          setAllDefensesToMax,
+          setAllDefensesToMin,
+        }}
+      >
+        <DefenseSection></DefenseSection>
+      </DefenseSectionContext.Provider>
     </>
   );
 }

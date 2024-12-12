@@ -1,25 +1,19 @@
 @use "../abstracts" as *;
 
 .card-custom {
-  &__main {
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 20px;
-    background-color: var(--card-main-color);
-
-    .image--main {
-      height: 80px;
-    }
-  }
+  border-radius: 20px;
+  background-color: var(--card-main-color);
 
   &__object {
     width: auto;
     padding: 20px;
-    border-radius: 20px;
     background-color: var(--card-object-bg-color);
     box-shadow: var(--card-object-shadow-color);
     font-size: 1rem;
+
+    .image--main {
+      height: 80px;
+    }
 
     .status-container__text {
       font-size: 1rem;
@@ -27,6 +21,10 @@
 
     & .slider {
       width: 100%;
+    }
+
+    &--defense {
+      background-color: var(--card-main-color);
     }
 
     @include respondToBreakpoint(md) {
@@ -41,5 +39,14 @@
     padding: 1px 10px;
     font-size: 1.25rem;
     font-weight: bold;
+
+    &.supercharge {
+      display: flex;
+      align-items: center;
+      img {
+        margin: auto 3px;
+        height: 20px;
+      }
+    }
   }
 }

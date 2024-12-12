@@ -1,5 +1,5 @@
-import { DefenseData, DefenseType } from "data/game";
-import { DEFENSE_IMG_PATH } from "./gameDataUtils";
+import { DEFENSE_TYPE, DefenseData, DefenseType } from "data/game";
+import { DEFENSE_IMG_PATH, OFFENSE_IMG_PATH } from "./gameDataUtils";
 
 export function defenseDataUtils(defenseID: string) {
   const defenseData = DefenseData[defenseID];
@@ -14,7 +14,20 @@ export function defenseDataUtils(defenseID: string) {
   }
 
   function getDefenseImage(levelPos: number): string {
-    return `${DEFENSE_IMG_PATH}/defense/${defenseID}/${levelPos}.webp`;
+    const type = getDefenseType();
+
+    switch (type) {
+      case DEFENSE_TYPE.Building:
+        const level = getDefenseLevel(levelPos);
+
+        return `${DEFENSE_IMG_PATH}${defenseID}/${level}.webp`;
+      case DEFENSE_TYPE.Hero:
+        return `${OFFENSE_IMG_PATH}/heroes/${defenseID}/${defenseID}.webp`;
+      default:
+        throw new Error(
+          `gameDataUtils.getDefenseImage ERROR: Defense type (${type}) is not supported.`
+        );
+    }
   }
 
   function getDefenseType(): DefenseType {

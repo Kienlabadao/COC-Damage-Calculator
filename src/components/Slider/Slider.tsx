@@ -1,11 +1,24 @@
+function getSliderThemeClass(useTheme: boolean) {
+  return useTheme ? " slider--theme" : "";
+}
+
 interface Props {
   min: number;
   max: number;
   currentValue: number;
   onInput: (newValue: number) => void;
+  useTheme?: boolean;
+  className?: string;
 }
 
-export function Slider({ min, max, currentValue, onInput }: Props) {
+export function Slider({
+  min,
+  max,
+  currentValue,
+  onInput,
+  useTheme = true,
+  className = "",
+}: Props) {
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     onInput(event.target.valueAsNumber);
   }
@@ -16,7 +29,7 @@ export function Slider({ min, max, currentValue, onInput }: Props) {
       max={max}
       value={currentValue}
       type="range"
-      className="slider slider--theme"
+      className={`slider${getSliderThemeClass(useTheme)} ${className}`}
       onInput={handleChange}
     />
   );

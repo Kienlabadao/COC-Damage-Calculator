@@ -1,16 +1,15 @@
 import { DAMAGE_TYPE, DamageType, OffenseType } from "data/game";
+import { Checkbox, Slider } from "components";
 import {
-  Checkbox,
-  OffenseCardContainer,
+  BackgroundType,
   OffenseCardImage,
-  Slider,
-  StatDisplayer,
-} from "components";
-import { BackgroundType } from "components/CalculatorComponents/OffenseCard/OffenseCardImage";
+} from "components/CalculatorComponents/OffenseCard/OffenseCardImage";
 import {
   DISPLAYER_TYPE,
   DisplayerType,
+  StatDisplayer,
 } from "components/CalculatorComponents/OffenseCard/StatDisplayer";
+import { OffenseCardContainer } from "components/CalculatorComponents/OffenseCard";
 
 function convertToDisplayerType(damageType: DamageType): DisplayerType {
   switch (damageType) {

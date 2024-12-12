@@ -7,9 +7,7 @@ export * from "./Button";
 export * from "./LinkButton";
 export * from "./MainContainer";
 export * from "./Slider";
-export * from "./CardContainer";
+export * from "./SectionContainer";
 export * from "./Checkbox";
 export * from "./TextInputField";
 export * from "./NumberInputField";
-
-export * from "./CalculatorComponents";
