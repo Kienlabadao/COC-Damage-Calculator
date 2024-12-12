@@ -2,6 +2,7 @@ import { OFFENSE_TYPE } from "data/game";
 import { useOffenseSectionContext } from "features/zapquake_calc/context/OffenseSectionContext";
 import { SpellCard } from "./SpellCard";
 import { UseDonatedSpellCheckbox } from "./UseDonatedSpellCheckbox";
+import { DonatedSpellCard } from "./DonatedSpellCard/DonatedSpellCard";
 
 export function SpellSection() {
   const {
@@ -45,10 +46,9 @@ export function SpellSection() {
       </div>
       <div className="row row-cols-6 justify-content-evenly gap-3 mt-5">
         {donatedLightningSpellItem.use && (
-          <SpellCard
+          <DonatedSpellCard
             key={donatedLightningSpellItem.id}
             spell={donatedLightningSpellItem}
-            isDonated={true}
             updateOffenseItem={updateOffenseItem}
           />
         )}
@@ -58,7 +58,6 @@ export function SpellSection() {
             <SpellCard
               key={offense.id}
               spell={offense}
-              isDonated={false}
               updateOffenseItem={updateOffenseItem}
             />
           ))}

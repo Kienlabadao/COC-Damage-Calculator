@@ -9,5 +9,7 @@ export * from "./MainContainer";
 export * from "./Slider";
 export * from "./CardContainer";
 export * from "./Checkbox";
+export * from "./TextInputField";
+export * from "./NumberInputField";
 
 export * from "./CalculatorComponents";

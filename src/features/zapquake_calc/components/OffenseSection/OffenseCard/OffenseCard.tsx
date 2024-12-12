@@ -40,7 +40,6 @@ interface Props {
   updateUseOffense: (newUseOffense: boolean) => void;
   damage: number;
   damageType: DamageType;
-  isDonated?: boolean;
 }
 
 export function OffenseCard({
@@ -58,11 +57,10 @@ export function OffenseCard({
   updateUseOffense,
   damage,
   damageType,
-  isDonated = false,
 }: Props) {
   return (
     <OffenseCardContainer>
-      <h5>{`${name}${isDonated ? " (Donated)" : ""}`}</h5>
+      <h5>{name}</h5>
       <div>
         <OffenseCardImage
           imagePath={imagePath}
@@ -79,34 +77,14 @@ export function OffenseCard({
           onInput={(newValue: number) => updateCurrentLevelPos(newValue)}
         />
       </div>
-      {!isDonated && (
-        <div className="d-flex justify-content-center align-items-center mt-2">
-          <Checkbox
-            id={`use_${id}`}
-            label={`Use ${type}`}
-            isChecked={useOffense}
-            onInput={(isChecked: boolean) => updateUseOffense(isChecked)}
-          />
-        </div>
-      )}
-      {isDonated && (
-        <div className="donate-count">
-          <label htmlFor="donateCount" className="form-label">
-            <strong>Number of spell in clan castle:</strong>
-          </label>
-          <div className="d-flex justify-content-center">
-            <input
-              type="number"
-              min="0"
-              max="3"
-              value="0"
-              className="form-control input-box bg-secondary"
-              id="donateCount"
-              onInput={() => console.log("pressed")}
-            />
-          </div>
-        </div>
-      )}
+      <div className="d-flex justify-content-center align-items-center mt-2">
+        <Checkbox
+          id={`use_${id}`}
+          label={`Use ${type}`}
+          isChecked={useOffense}
+          onInput={(isChecked: boolean) => updateUseOffense(isChecked)}
+        />
+      </div>
       <div className="mt-2">
         <StatDisplayer
           displayerType={convertToDisplayerType(damageType)}

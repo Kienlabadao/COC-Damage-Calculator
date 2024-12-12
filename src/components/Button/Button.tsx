@@ -8,11 +8,9 @@ interface Props {
   className?: string;
 }
 
-const DEFAULT_COLOR: BSColor = BS_COLOR.Gray;
-
 export function Button({
   children,
-  color,
+  color = BS_COLOR.Gray,
   onClick,
   className = "",
   ...rest
@@ -20,7 +18,7 @@ export function Button({
   return (
     <button
       type="button"
-      className={`btn btn-${color || DEFAULT_COLOR}${
+      className={`btn${color !== BS_COLOR.None ? ` btn-${color}` : ""}${
         className ? ` ${className}` : ""
       }`}
       onClick={() => {

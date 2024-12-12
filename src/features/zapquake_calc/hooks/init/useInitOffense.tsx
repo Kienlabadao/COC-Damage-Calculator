@@ -51,12 +51,6 @@ export function useInitOffense() {
       useOffense?: boolean,
       count?: number
     ) => {
-      console.log("updateOffenseItem");
-      console.log(offenseID);
-      console.log(isDonated);
-      console.log(currentLevelPos);
-      console.log(useOffense);
-      console.log(count);
       if (isDonated) {
         if (offenseID === SPELL.LightningSpell) {
           setDonatedLightningSpellItem((prevDonatedLightningSpellItem) =>

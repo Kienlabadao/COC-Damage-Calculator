@@ -63,6 +63,7 @@ export const BS_COLOR = {
   Black: "dark",
   Orange: "orange",
   LightGreen: "light-green btn-success",
+  None: "none",
 } as const;
 
 export type BSColor = ObjectValues<typeof BS_COLOR>;

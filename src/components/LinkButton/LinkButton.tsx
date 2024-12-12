@@ -8,18 +8,16 @@ interface Props {
   openInNewTab?: boolean;
 }
 
-const DEFAULT_COLOR: BSColor = BS_COLOR.Gray;
-
 export function LinkButton({
   children,
-  color,
+  color = BS_COLOR.Gray,
   link,
   openInNewTab = false,
 }: Props) {
   return (
     <a
       href={link}
-      className={`btn btn-${color || DEFAULT_COLOR}`}
+      className={`btn${color !== BS_COLOR.None ? ` btn-${color}` : ""}`}
       {...(openInNewTab ? { target: "_blank" } : {})}
     >
       {children}

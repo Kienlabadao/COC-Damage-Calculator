@@ -1,4 +1,5 @@
-import { Theme, THEME } from "data/constants";
+import { Button } from "components/Button";
+import { BS_COLOR, Theme, THEME } from "data/constants";
 import { usePersistedState } from "hooks/usePersistedState";
 import { manageThemeLocalStorage } from "utils/LocalStorageData/manageThemeLocalStorage";
 import { setPageTheme } from "utils/pageUtils";
@@ -13,7 +14,7 @@ export function ThemeToggler() {
   setPageTheme(theme);
 
   return (
-    <button id="toggleTheme" className="btn btn--toggle-theme">
+    <Button className="btn--toggle-theme" color={BS_COLOR.None}>
       <i
         className={`fa-solid fa-sun fa-2x ${
           theme === THEME.Dark ? "" : "d-none"
@@ -28,6 +29,6 @@ export function ThemeToggler() {
         id="darkModeIcon"
         onClick={() => setTheme(THEME.Dark)}
       ></i>
-    </button>
+    </Button>
   );
 }

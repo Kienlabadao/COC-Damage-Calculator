@@ -7,7 +7,6 @@ import { OffenseCard } from "../../OffenseCard";
 
 interface Props {
   spell: OffenseItem;
-  isDonated: boolean;
   updateOffenseItem: (
     offenseID: string,
     isDonated?: boolean,
@@ -19,18 +18,15 @@ interface Props {
 
 export const SpellCard = memo(function SpellCard({
   spell,
-  isDonated = false,
   updateOffenseItem,
 }: Props) {
+  const isDonated = false;
   const updateCurrentLevelPos = useCallback((newCurrentLevelPos: number) => {
     updateOffenseItem(spellID, isDonated, newCurrentLevelPos);
   }, []);
   const updateUseOffense = useCallback((newUseOffense: boolean) => {
     updateOffenseItem(spellID, isDonated, undefined, newUseOffense);
   }, []);
-  // const updateCount = useCallback((newCount: number) => {
-  //   updateOffenseItem(spellID, isDonated, undefined, undefined, newCount);
-  // }, []);
 
   const spellID = spell.offenseID;
   const {
@@ -56,7 +52,6 @@ export const SpellCard = memo(function SpellCard({
   const currentLevelPos = spell.currentLevelPos;
   const currentLevel = getSpellLevel(currentLevelPos);
   const useOffense = spell.use;
-
   const damage = getSpellDamage(currentLevelPos);
   const damageType = getSpellDamageType();
 
@@ -76,7 +71,6 @@ export const SpellCard = memo(function SpellCard({
       updateUseOffense={updateUseOffense}
       damage={damage}
       damageType={damageType}
-      isDonated={isDonated}
     />
   );
 });

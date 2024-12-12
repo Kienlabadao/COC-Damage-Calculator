@@ -31,7 +31,7 @@ export function getUseGameDataStorageKey(
   calculatorType: CalculatorType,
   isDonated = false
 ): string {
-  return `${calculatorType}_${gameDataType}_use_${gameDataID}${
+  return `${calculatorType}_${gameDataType}_use_${
     isDonated ? getDonatedGameDataID(gameDataID) : `${gameDataID}`
   }`;
 }
