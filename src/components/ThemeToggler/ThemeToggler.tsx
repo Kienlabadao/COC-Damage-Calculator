@@ -1,15 +1,10 @@
 import { Button } from "components/Button";
-import { BS_COLOR, Theme, THEME } from "data/constants";
-import { usePersistedState } from "hooks/usePersistedState";
-import { manageThemeLocalStorage } from "utils/LocalStorageData/manageThemeLocalStorage";
+import { BS_COLOR, THEME } from "data/constants";
+import { useInitTheme } from "hooks/init/useInitTheme";
 import { setPageTheme } from "utils/pageUtils";
 
 export function ThemeToggler() {
-  const { getOrStoreTheme, storeTheme } = manageThemeLocalStorage();
-  const [theme, setTheme] = usePersistedState<Theme>(
-    getOrStoreTheme,
-    storeTheme
-  );
+  const [theme, setTheme] = useInitTheme();
 
   setPageTheme(theme);
 

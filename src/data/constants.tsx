@@ -8,7 +8,7 @@ export const VALUE_BOUNDARY = {
 export type ValueBoundary = ObjectValues<typeof VALUE_BOUNDARY>;
 
 export const LOCAL_STORAGE_KEY = {
-  ThemePref: "themePref",
+  ThemePref: "theme_pref",
 } as const;
 
 export type LocalStorageKey = ObjectValues<typeof LOCAL_STORAGE_KEY>;

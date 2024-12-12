@@ -5,8 +5,9 @@ import {
 } from "features/zapquake_calc/components";
 import { DefenseSectionContext } from "features/zapquake_calc/context/DefenseSectionContext";
 import { OffenseSectionContext } from "features/zapquake_calc/context/OffenseSectionContext";
+import { useInitDefense } from "features/zapquake_calc/hooks/init/useInitDefense";
+import { useInitEarthquakeOrder } from "features/zapquake_calc/hooks/init/useInitEarthquakeOrder";
 import { useInitOffense } from "features/zapquake_calc/hooks/init/useInitOffense";
-import { useInitDefense } from "features/zapquake_calc/hooks/useInitDefense";
 
 export function ZapquakeCalculator() {
   const [
@@ -16,12 +17,14 @@ export function ZapquakeCalculator() {
     setAllOffensesToMax,
     setAllOffensesToMin,
   ] = useInitOffense();
+  const [earthquakeOrder, setEarthquakeOrder] = useInitEarthquakeOrder();
   const [
     defenseItemList,
     updateDefenseItem,
     setAllDefensesToMax,
     setAllDefensesToMin,
   ] = useInitDefense();
+  console.log(earthquakeOrder);
   console.log(defenseItemList);
   return (
     <>
@@ -32,6 +35,8 @@ export function ZapquakeCalculator() {
           updateOffenseItem,
           setAllOffensesToMax,
           setAllOffensesToMin,
+          earthquakeOrder,
+          setEarthquakeOrder,
         }}
       >
         <OffenseSection></OffenseSection>

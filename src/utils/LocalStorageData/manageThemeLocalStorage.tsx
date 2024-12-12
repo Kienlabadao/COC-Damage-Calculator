@@ -5,6 +5,7 @@ import { clearItem, getItem, setItem } from "utils/localStorage";
 
 export function manageThemeLocalStorage() {
   const key = LOCAL_STORAGE_KEY.ThemePref;
+  const defaultTheme = DEFAULT_THEME;
 
   function storeTheme(theme: Theme): void {
     setItem(key, theme);
@@ -33,8 +34,8 @@ export function manageThemeLocalStorage() {
         `manageThemeLocalStorage.getOrStoreTheme log: Value in storage key (${key}) is null. Set defaultTheme.`
       );
 
-      storeTheme(DEFAULT_THEME);
-      return DEFAULT_THEME;
+      storeTheme(defaultTheme);
+      return defaultTheme;
     }
   }
 

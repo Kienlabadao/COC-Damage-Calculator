@@ -2,6 +2,12 @@ import { ObjectValues } from "utils/objectUtils";
 import { Hero, HERO } from "./hero";
 import { DAMAGE_TYPE, DamageType } from "./sharedEnums";
 
+export const EQUIPMENT = {
+  EarthquakeBoots: "earthquake_boots",
+} as const;
+
+export type Equipment = ObjectValues<typeof EQUIPMENT>;
+
 export const RARITY = {
   Common: "common",
   Epic: "epic",

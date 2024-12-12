@@ -1,16 +1,22 @@
 @use "../abstracts/" as *;
 
 .dropdown {
-    color: $white;
-    border: none;
+  color: $white;
+  border: none;
 
-    &#earthquakeOrder {
-        width: 25%;
-    }
+  &#earthquake_order {
+    width: 25%;
+  }
 
-    @include respondToBreakpoint(md) {
-        &#earthquakeOrder {
-            width: 100%;
-        }
+  @include respondToBreakpoint(xl) {
+    &#earthquake_order {
+      width: 50%;
     }
+  }
+
+  @include respondToBreakpoint(md) {
+    &#earthquake_order {
+      width: 100%;
+    }
+  }
 }
