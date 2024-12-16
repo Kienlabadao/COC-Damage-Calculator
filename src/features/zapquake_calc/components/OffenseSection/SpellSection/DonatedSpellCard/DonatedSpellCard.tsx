@@ -5,7 +5,6 @@ import {
 } from "components/CalculatorComponents/OffenseCard/OffenseCardImage";
 import { memo, useCallback } from "react";
 import { spellDataUtils } from "utils/GameData/spellDataUtils";
-import { DonatedLightningSpellItem } from "features/zapquake_calc/utils/donatedLightningSpellItemUtils";
 import {
   MAX_DONATED_SPELL_COUNT,
   MIN_DONATED_SPELL_COUNT,
@@ -17,6 +16,7 @@ import {
   StatDisplayer,
 } from "components/CalculatorComponents/OffenseCard/StatDisplayer";
 import { OffenseCardContainer } from "components/CalculatorComponents/OffenseCard";
+import { DonatedLightningSpellItem } from "features/zapquake_calc/objects/donatedLightningSpellItem";
 
 function convertToDisplayerType(damageType: DamageType): DisplayerType {
   switch (damageType) {

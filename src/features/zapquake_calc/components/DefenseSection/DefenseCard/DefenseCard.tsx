@@ -1,6 +1,6 @@
 import { Slider } from "components";
 import { StatDisplayer } from "components/CalculatorComponents/DefenseCard";
-import { DefenseItem } from "features/zapquake_calc/utils/defenseItemUtils";
+import { DefenseItem } from "features/zapquake_calc/objects/defenseItem";
 import { memo } from "react";
 import { defenseDataUtils } from "utils/GameData/defenseDataUtils";
 

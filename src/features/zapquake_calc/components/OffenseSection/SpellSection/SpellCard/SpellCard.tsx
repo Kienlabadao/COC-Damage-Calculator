@@ -1,9 +1,9 @@
 import { SPELL } from "data/game";
 import { BACKGROUND_TYPE } from "components/CalculatorComponents/OffenseCard/OffenseCardImage";
-import { OffenseItem } from "features/zapquake_calc/utils/offenseItemUtils";
 import { memo, useCallback } from "react";
 import { spellDataUtils } from "utils/GameData/spellDataUtils";
 import { OffenseCard } from "../../OffenseCard";
+import { OffenseItem } from "features/zapquake_calc/objects/offenseItem";
 
 interface Props {
   spell: OffenseItem;

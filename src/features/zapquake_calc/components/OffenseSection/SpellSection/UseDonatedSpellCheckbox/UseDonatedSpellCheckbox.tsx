@@ -1,5 +1,5 @@
 import { Checkbox } from "components";
-import { DonatedLightningSpellItem } from "features/zapquake_calc/utils/donatedLightningSpellItemUtils";
+import { DonatedLightningSpellItem } from "features/zapquake_calc/objects/donatedLightningSpellItem";
 import { useCallback } from "react";
 import { spellDataUtils } from "utils/GameData/spellDataUtils";
 

@@ -1,5 +1,5 @@
 import { Theme } from "data/constants";
-import { usePersistedState } from "hooks/usePersistedState";
+import { usePersistedState } from "hooks";
 import { manageThemeLocalStorage } from "utils/LocalStorageData/manageThemeLocalStorage";
 
 export function useInitTheme() {

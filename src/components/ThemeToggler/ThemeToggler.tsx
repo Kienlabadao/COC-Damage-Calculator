@@ -1,7 +1,7 @@
+import { setPageTheme } from "actions/Theme";
 import { Button } from "components/Button";
 import { BS_COLOR, THEME } from "data/constants";
-import { useInitTheme } from "hooks/init/useInitTheme";
-import { setPageTheme } from "utils/pageUtils";
+import { useInitTheme } from "hooks/Init";
 
 export function ThemeToggler() {
   const [theme, setTheme] = useInitTheme();

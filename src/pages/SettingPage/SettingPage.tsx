@@ -1,6 +1,6 @@
 import { BS_COLOR } from "data/constants";
 import { Navbar, Footer, Modal, MainContainer } from "components";
-import { useClearStorage } from "features/setting/hooks/useClearStorage";
+import { clearStorage } from "features/setting/actions";
 
 export function SettingPage() {
   return (
@@ -42,7 +42,7 @@ export function SettingPage() {
                         children: <span>Clear</span>,
                         color: BS_COLOR.Red,
                         closeOnClick: true,
-                        onClick: useClearStorage,
+                        onClick: clearStorage,
                       },
                     ]}
                   >

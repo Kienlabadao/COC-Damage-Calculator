@@ -1,6 +1,6 @@
 import { scrollUp, scrollDown } from "utils/pageUtils";
 
-import { useScrollButtonVisibility } from "hooks/useScrollButtonVisibility";
+import { useScrollButtonVisibility } from "hooks";
 
 export function AutoScrollToggler() {
   const [showBackToTop, showBackToBottom] = useScrollButtonVisibility();

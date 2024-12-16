@@ -1,6 +1,6 @@
 import { Dropdown } from "components";
 import { BS_COLOR } from "data/constants";
-import { useOffenseSectionContext } from "features/zapquake_calc/context/OffenseSectionContext";
+import { useOffenseSectionContext } from "features/zapquake_calc/context";
 import { EARTHQUAKE_ORDER } from "features/zapquake_calc/data/constants";
 import { isEarthquakeOrderType } from "features/zapquake_calc/utils/customObjectUtils";
 

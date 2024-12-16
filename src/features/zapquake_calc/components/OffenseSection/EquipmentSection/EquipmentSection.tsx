@@ -2,6 +2,7 @@ import { OFFENSE_TYPE } from "data/game";
 import { useOffenseSectionContext } from "features/zapquake_calc/context/OffenseSectionContext";
 import { EquipmentCard } from "./EquipmentCard";
 import { EquipmentSettingSection } from "./EquipmentSettingSection";
+import { filterOffenseItemList } from "features/zapquake_calc/objects/offenseItem";
 
 export function EquipmentSection() {
   const { offenseItemList, updateOffenseItem } = useOffenseSectionContext();
@@ -13,15 +14,16 @@ export function EquipmentSection() {
       <EquipmentSettingSection className="setting-container" />
 
       <div className="row row-cols-6 justify-content-evenly gap-3 mt-5">
-        {offenseItemList
-          .filter((offense) => offense.type === OFFENSE_TYPE.Equipment)
-          .map((offense) => (
-            <EquipmentCard
-              key={offense.id}
-              equipment={offense}
-              updateOffenseItem={updateOffenseItem}
-            />
-          ))}
+        {filterOffenseItemList(
+          offenseItemList,
+          new Set([OFFENSE_TYPE.Equipment])
+        ).map((offense) => (
+          <EquipmentCard
+            key={offense.id}
+            equipment={offense}
+            updateOffenseItem={updateOffenseItem}
+          />
+        ))}
       </div>
     </div>
   );

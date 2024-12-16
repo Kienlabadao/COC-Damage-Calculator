@@ -5,9 +5,9 @@ import {
 } from "features/zapquake_calc/components";
 import { DefenseSectionContext } from "features/zapquake_calc/context/DefenseSectionContext";
 import { OffenseSectionContext } from "features/zapquake_calc/context/OffenseSectionContext";
-import { useInitDefense } from "features/zapquake_calc/hooks/init/useInitDefense";
-import { useInitEarthquakeOrder } from "features/zapquake_calc/hooks/init/useInitEarthquakeOrder";
-import { useInitOffense } from "features/zapquake_calc/hooks/init/useInitOffense";
+import { useInitDefense } from "features/zapquake_calc/hooks/Init/useInitDefense";
+import { useInitEarthquakeOrder } from "features/zapquake_calc/hooks/Init/useInitEarthquakeOrder";
+import { useInitOffense } from "features/zapquake_calc/hooks/Init/useInitOffense";
 
 export function ZapquakeCalculator() {
   const [
@@ -23,7 +23,11 @@ export function ZapquakeCalculator() {
     updateDefenseItem,
     setAllDefensesToMax,
     setAllDefensesToMin,
-  ] = useInitDefense();
+  ] = useInitDefense(
+    offenseItemList,
+    donatedLightningSpellItem,
+    earthquakeOrder
+  );
   console.log(earthquakeOrder);
   console.log(defenseItemList);
   return (
