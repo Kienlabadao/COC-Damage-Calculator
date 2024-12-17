@@ -1,5 +1,4 @@
-import { GAME_DATA_TYPE } from "data/game";
-import { isValidGameDataLevelPos } from "utils/GameData/gameDataUtils";
+import { isValidSpellLevelPos } from "utils/GameData/gameDataUtils";
 
 export interface SpellCountItem {
   spellID: string;
@@ -14,7 +13,7 @@ export function createSpellCountItem(
   currentLevelPos: number,
   count: number
 ): SpellCountItem {
-  if (isValidGameDataLevelPos(currentLevelPos, spellID, GAME_DATA_TYPE.Spell)) {
+  if (isValidSpellLevelPos(spellID, currentLevelPos)) {
     return {
       spellID: spellID,
       isDonated: isDonated,

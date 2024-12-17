@@ -161,6 +161,62 @@ export function getGameDataMinLevelPos(
   }
 }
 
+export function isValidSpellLevelPos(
+  gameDataID: string,
+  levelPos: number
+): boolean {
+  const { isValidSpellLevelPos } = spellDataUtils(gameDataID);
+  return isValidSpellLevelPos(levelPos);
+}
+
+export function isValidTroopLevelPos(
+  gameDataID: string,
+  levelPos: number
+): boolean {
+  const { isValidTroopLevelPos } = troopDataUtils(gameDataID);
+  return isValidTroopLevelPos(levelPos);
+}
+
+export function isValidEquipmentLevelPos(
+  gameDataID: string,
+  levelPos: number
+): boolean {
+  const { isValidEquipmentLevelPos } = equipmentDataUtils(gameDataID);
+  return isValidEquipmentLevelPos(levelPos);
+}
+
+export function isValidHeroLevelPos(
+  gameDataID: string,
+  levelPos: number
+): boolean {
+  const { isValidHeroLevelPos } = heroDataUtils(gameDataID);
+  return isValidHeroLevelPos(levelPos);
+}
+
+export function isValidModifierLevelPos(
+  gameDataID: string,
+  levelPos: number
+): boolean {
+  const { isValidModifierLevelPos } = modifierDataUtils(gameDataID);
+  return isValidModifierLevelPos(levelPos);
+}
+
+export function isValidRepairLevelPos(
+  gameDataID: string,
+  levelPos: number
+): boolean {
+  const { isValidRepairLevelPos } = repairDataUtils(gameDataID);
+  return isValidRepairLevelPos(levelPos);
+}
+
+export function isValidDefenseLevelPos(
+  gameDataID: string,
+  levelPos: number
+): boolean {
+  const { isValidDefenseLevelPos } = defenseDataUtils(gameDataID);
+  return isValidDefenseLevelPos(levelPos);
+}
+
 export function isValidGameDataLevelPos(
   levelPos: number,
   gameDataID: string,
@@ -168,33 +224,19 @@ export function isValidGameDataLevelPos(
 ): boolean {
   switch (type) {
     case GAME_DATA_TYPE.Spell:
-      const { isValidSpellLevelPos } = spellDataUtils(gameDataID);
-
-      return isValidSpellLevelPos(levelPos);
+      return isValidSpellLevelPos(gameDataID, levelPos);
     case GAME_DATA_TYPE.Troop:
-      const { isValidTroopLevelPos } = troopDataUtils(gameDataID);
-
-      return isValidTroopLevelPos(levelPos);
+      return isValidTroopLevelPos(gameDataID, levelPos);
     case GAME_DATA_TYPE.Equipment:
-      const { isValidEquipmentLevelPos } = equipmentDataUtils(gameDataID);
-
-      return isValidEquipmentLevelPos(levelPos);
+      return isValidEquipmentLevelPos(gameDataID, levelPos);
     case GAME_DATA_TYPE.Hero:
-      const { isValidHeroLevelPos } = heroDataUtils(gameDataID);
-
-      return isValidHeroLevelPos(levelPos);
+      return isValidHeroLevelPos(gameDataID, levelPos);
     case GAME_DATA_TYPE.Modifier:
-      const { isValidModifierLevelPos } = modifierDataUtils(gameDataID);
-
-      return isValidModifierLevelPos(levelPos);
+      return isValidModifierLevelPos(gameDataID, levelPos);
     case GAME_DATA_TYPE.Repair:
-      const { isValidRepairLevelPos } = repairDataUtils(gameDataID);
-
-      return isValidRepairLevelPos(levelPos);
+      return isValidRepairLevelPos(gameDataID, levelPos);
     case GAME_DATA_TYPE.Defense:
-      const { isValidDefenseLevelPos } = defenseDataUtils(gameDataID);
-
-      return isValidDefenseLevelPos(levelPos);
+      return isValidDefenseLevelPos(gameDataID, levelPos);
     default:
       throw new Error(
         `gameDataUtils.isValidGameDataLevelPos ERROR: GameData Type (${type}) is not supported in this function.`

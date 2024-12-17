@@ -2,6 +2,7 @@ import { OffenseType } from "data/game";
 import { isValidGameDataLevelPos } from "utils/GameData/gameDataUtils";
 
 export interface BaseOffenseItem {
+  id: string;
   offenseID: string;
   type: OffenseType;
   currentLevelPos: number;
@@ -14,6 +15,7 @@ export function createBaseOffenseItem(
 ): BaseOffenseItem {
   if (isValidGameDataLevelPos(currentLevelPos, offenseID, type)) {
     return {
+      id: offenseID,
       offenseID: offenseID,
       type: type,
       currentLevelPos: currentLevelPos,

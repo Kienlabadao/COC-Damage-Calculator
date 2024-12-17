@@ -1,12 +1,14 @@
 import { Checkbox } from "components";
+import { OffenseType } from "data/game";
 import { DonatedLightningSpellItem } from "features/zapquake_calc/objects/donatedLightningSpellItem";
 import { useCallback } from "react";
 import { spellDataUtils } from "utils/GameData/spellDataUtils";
 
 interface Props {
   spell: DonatedLightningSpellItem;
-  updateOffenseItem: (
+  updateOffense: (
     offenseID: string,
+    type: OffenseType,
     isDonated?: boolean,
     currentLevelPos?: number,
     useOffense?: boolean,
@@ -14,16 +16,17 @@ interface Props {
   ) => void;
 }
 
-export function UseDonatedSpellCheckbox({ spell, updateOffenseItem }: Props) {
+export function UseDonatedSpellCheckbox({ spell, updateOffense }: Props) {
   const id = spell.id;
   const spellID = spell.offenseID;
   const { getSpellName } = spellDataUtils(spellID);
 
   const updateUseOffense = useCallback((newUseOffense: boolean) => {
-    updateOffenseItem(spellID, isDonated, undefined, newUseOffense);
+    updateOffense(spellID, type, isDonated, undefined, newUseOffense);
   }, []);
 
   const name = getSpellName();
+  const type = spell.type;
   const isDonated = true;
   const useOffense = spell.use;
 

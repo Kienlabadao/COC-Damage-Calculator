@@ -1,4 +1,4 @@
-import { DAMAGE_TYPE, DamageType, SPELL } from "data/game";
+import { DAMAGE_TYPE, DamageType, OffenseType, SPELL } from "data/game";
 import {
   BACKGROUND_TYPE,
   OffenseCardImage,
@@ -33,8 +33,9 @@ function convertToDisplayerType(damageType: DamageType): DisplayerType {
 
 interface Props {
   spell: DonatedLightningSpellItem;
-  updateOffenseItem: (
+  updateOffense: (
     offenseID: string,
+    type: OffenseType,
     isDonated?: boolean,
     currentLevelPos?: number,
     useOffense?: boolean,
@@ -44,14 +45,14 @@ interface Props {
 
 export const DonatedSpellCard = memo(function DonatedSpellCard({
   spell,
-  updateOffenseItem,
+  updateOffense,
 }: Props) {
   const isDonated = true;
   const updateCurrentLevelPos = useCallback((newCurrentLevelPos: number) => {
-    updateOffenseItem(spellID, isDonated, newCurrentLevelPos);
+    updateOffense(spellID, type, isDonated, newCurrentLevelPos);
   }, []);
   const updateCount = useCallback((newCount: number) => {
-    updateOffenseItem(spellID, isDonated, undefined, undefined, newCount);
+    updateOffense(spellID, type, isDonated, undefined, undefined, newCount);
   }, []);
 
   const spellID = spell.offenseID;

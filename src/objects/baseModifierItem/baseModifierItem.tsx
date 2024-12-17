@@ -1,5 +1,4 @@
-import { GAME_DATA_TYPE } from "data/game";
-import { isValidGameDataLevelPos } from "utils/GameData/gameDataUtils";
+import { isValidModifierLevelPos } from "utils/GameData/gameDataUtils";
 
 export interface BaseModifierItem {
   modifierID: string;
@@ -10,13 +9,7 @@ export function createBaseModifierItem(
   modifierID: string,
   currentLevelPos: number
 ): BaseModifierItem {
-  if (
-    isValidGameDataLevelPos(
-      currentLevelPos,
-      modifierID,
-      GAME_DATA_TYPE.Modifier
-    )
-  ) {
+  if (isValidModifierLevelPos(modifierID, currentLevelPos)) {
     return {
       modifierID: modifierID,
       currentLevelPos: currentLevelPos,

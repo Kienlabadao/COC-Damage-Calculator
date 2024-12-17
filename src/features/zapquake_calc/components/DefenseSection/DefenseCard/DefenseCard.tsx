@@ -1,20 +1,24 @@
 import { Slider } from "components";
 import { StatDisplayer } from "components/CalculatorComponents/DefenseCard";
-import { DefenseItem } from "features/zapquake_calc/objects/defenseItem";
+import {
+  DEFENSE_STATUS,
+  DefenseItem,
+} from "features/zapquake_calc/objects/defenseItem";
 import { memo } from "react";
 import { defenseDataUtils } from "utils/GameData/defenseDataUtils";
+import { ImpossibleDestroyStatus } from "./ImpossibleDestroyStatus";
 
 interface Props {
   defense: DefenseItem;
-  updateDefenseItem: (defenseID: string, currentLevelPos: number) => void;
+  updateDefense: (defenseID: string, currentLevelPos: number) => void;
 }
 
 export const DefenseCard = memo(function DefenseCard({
   defense,
-  updateDefenseItem,
+  updateDefense,
 }: Props) {
   const updateCurrentLevelPos = (newCurrentLevelPos: number) => {
-    updateDefenseItem(defenseID, newCurrentLevelPos);
+    updateDefense(defenseID, newCurrentLevelPos);
   };
 
   const defenseID = defense.defenseID;
@@ -38,6 +42,23 @@ export const DefenseCard = memo(function DefenseCard({
   const isMaxed = isMaxLevel(currentLevelPos);
   const imagePath = getDefenseImage(currentLevelPos);
   const hp = getDefenseHP(currentLevelPos);
+  const defenseStatus = defense.defenseStatus;
+  const spellCountList = defense.spellCountList;
+
+  const renderDefenseStatus = (): JSX.Element => {
+    switch (defenseStatus) {
+      case DEFENSE_STATUS.Normal:
+        return <div>Normal</div>;
+      case DEFENSE_STATUS.EquipmentDestroyed:
+        return <div>Equipment Destroyed</div>;
+      case DEFENSE_STATUS.ImpossibleDestroy:
+        return <ImpossibleDestroyStatus />;
+      default:
+        throw new Error(
+          `DefenseCard.renderDefenseStatus ERROR: defenseStatus (${defenseStatus}) is not supported.`
+        );
+    }
+  };
 
   return (
     <div>
@@ -64,16 +85,7 @@ export const DefenseCard = memo(function DefenseCard({
             <h5>Heroes Equipment used:</h5>
             <div className="equipment-list d-flex justify-content-center align-items-center flex-wrap gap-2"></div>
           </div>
-          <div className="status-div status-container d-flex align-items-center my-3">
-            <img
-              className="image status-container__img"
-              width="80"
-              src="/images/other/raged-barbarian.png"
-            />
-            <div className="info status-container__text">
-              It's impossible to destroy this defense with setup. Womp womp! 😔
-            </div>
-          </div>
+          {renderDefenseStatus()}
           <div className="defense-div container-fluid mt-3 d-none">
             <h5>Defense needed:</h5>
             <div className="defense-main-display row gy-2 gx-1 align-items-center"></div>

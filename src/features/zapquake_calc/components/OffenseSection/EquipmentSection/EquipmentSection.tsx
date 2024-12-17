@@ -5,7 +5,7 @@ import { EquipmentSettingSection } from "./EquipmentSettingSection";
 import { filterOffenseItemList } from "features/zapquake_calc/objects/offenseItem";
 
 export function EquipmentSection() {
-  const { offenseItemList, updateOffenseItem } = useOffenseSectionContext();
+  const { offenseItemList, updateOffense } = useOffenseSectionContext();
 
   return (
     <div className="mb-5">
@@ -21,7 +21,7 @@ export function EquipmentSection() {
           <EquipmentCard
             key={offense.id}
             equipment={offense}
-            updateOffenseItem={updateOffenseItem}
+            updateOffense={updateOffense}
           />
         ))}
       </div>

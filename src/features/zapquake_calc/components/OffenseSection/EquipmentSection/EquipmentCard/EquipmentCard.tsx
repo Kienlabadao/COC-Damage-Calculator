@@ -1,14 +1,15 @@
 import { OffenseCard } from "../../OffenseCard";
 import { memo, useCallback } from "react";
 import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
-import { RARITY } from "data/game";
+import { OffenseType, RARITY } from "data/game";
 import { BACKGROUND_TYPE } from "components/CalculatorComponents/OffenseCard/OffenseCardImage";
 import { OffenseItem } from "features/zapquake_calc/objects/offenseItem";
 
 interface Props {
   equipment: OffenseItem;
-  updateOffenseItem: (
+  updateOffense: (
     offenseID: string,
+    type: OffenseType,
     isDonated?: boolean,
     currentLevelPos?: number,
     useOffense?: boolean,
@@ -18,13 +19,13 @@ interface Props {
 
 export const EquipmentCard = memo(function EquipmentCard({
   equipment,
-  updateOffenseItem,
+  updateOffense,
 }: Props) {
   const updateCurrentLevelPos = useCallback((newCurrentLevelPos: number) => {
-    updateOffenseItem(equipmentID, undefined, newCurrentLevelPos);
+    updateOffense(equipmentID, type, undefined, newCurrentLevelPos);
   }, []);
   const updateUseOffense = useCallback((newUseOffense: boolean) => {
-    updateOffenseItem(equipmentID, undefined, undefined, newUseOffense);
+    updateOffense(equipmentID, type, undefined, undefined, newUseOffense);
   }, []);
 
   const equipmentID = equipment.offenseID;

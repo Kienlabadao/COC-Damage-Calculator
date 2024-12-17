@@ -7,8 +7,9 @@ import { EarthquakeOrder } from "features/zapquake_calc/data/constants";
 interface OffenseSectionContextProps {
   offenseItemList: OffenseItem[];
   donatedLightningSpellItem: DonatedLightningSpellItem;
-  updateOffenseItem: (
+  updateOffense: (
     offenseID: string,
+    type: OffenseType,
     isDonated?: boolean,
     currentLevelPos?: number,
     useOffense?: boolean,

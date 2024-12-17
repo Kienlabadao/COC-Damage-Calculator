@@ -6,7 +6,7 @@ import { SpellSectionSetting } from "./SpellSectionSetting";
 import { filterOffenseItemList } from "features/zapquake_calc/objects/offenseItem";
 
 export function SpellSection() {
-  const { offenseItemList, donatedLightningSpellItem, updateOffenseItem } =
+  const { offenseItemList, donatedLightningSpellItem, updateOffense } =
     useOffenseSectionContext();
 
   return (
@@ -20,7 +20,7 @@ export function SpellSection() {
           <DonatedSpellCard
             key={donatedLightningSpellItem.id}
             spell={donatedLightningSpellItem}
-            updateOffenseItem={updateOffenseItem}
+            updateOffense={updateOffense}
           />
         )}
         {filterOffenseItemList(
@@ -30,7 +30,7 @@ export function SpellSection() {
           <SpellCard
             key={offense.id}
             spell={offense}
-            updateOffenseItem={updateOffenseItem}
+            updateOffense={updateOffense}
           />
         ))}
       </div>

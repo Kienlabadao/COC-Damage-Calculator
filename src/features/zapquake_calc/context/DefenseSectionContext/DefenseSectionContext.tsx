@@ -3,7 +3,7 @@ import { createContext, useContext } from "react";
 
 interface DefenseSectionContextProps {
   defenseItemList: DefenseItem[];
-  updateDefenseItem: (defenseID: string, currentLevelPos: number) => void;
+  updateDefense: (defenseID: string, currentLevelPos: number) => void;
   setAllDefensesToMax: () => void;
   setAllDefensesToMin: () => void;
 }

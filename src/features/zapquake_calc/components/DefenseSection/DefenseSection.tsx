@@ -3,7 +3,7 @@ import { DefenseCard } from "./DefenseCard";
 import { SectionContainer } from "components";
 
 export function DefenseSection() {
-  const { defenseItemList, updateDefenseItem } = useDefenseSectionContext();
+  const { defenseItemList, updateDefense } = useDefenseSectionContext();
 
   return (
     <>
@@ -13,7 +13,7 @@ export function DefenseSection() {
             <DefenseCard
               key={defense.id}
               defense={defense}
-              updateDefenseItem={updateDefenseItem}
+              updateDefense={updateDefense}
             />
           ))}
         </div>

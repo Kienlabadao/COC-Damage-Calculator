@@ -11,7 +11,7 @@ interface Props {
 export function SpellSectionSetting({ className = "" }: Props) {
   const {
     donatedLightningSpellItem,
-    updateOffenseItem,
+    updateOffense,
     setAllOffensesToMax,
     setAllOffensesToMin,
   } = useOffenseSectionContext();
@@ -36,7 +36,7 @@ export function SpellSectionSetting({ className = "" }: Props) {
         <div className="d-flex justify-content-center align-items-center mt-2">
           <UseDonatedSpellCheckbox
             spell={donatedLightningSpellItem}
-            updateOffenseItem={updateOffenseItem}
+            updateOffense={updateOffense}
           />
         </div>
       </div>

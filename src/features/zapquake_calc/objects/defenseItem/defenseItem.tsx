@@ -1,13 +1,9 @@
-import { GAME_DATA_TYPE } from "data/game";
-import {
-  getGameDataMaxLevelPos,
-  getGameDataMinLevelPos,
-} from "utils/GameData/gameDataUtils";
-import { manageZapquakeCalcLevelPosGameDataLocalStorage } from "features/zapquake_calc/utils/LocalStorageData/manageZapquakeCalcLevelPosGameDataLocalStorage";
 import { SpellCountItem } from "../spellCountItem";
 import { ObjectValues } from "utils/objectUtils";
-
-const type = GAME_DATA_TYPE.Defense;
+import {
+  BaseDefenseItem,
+  createBaseDefenseItem,
+} from "objects/baseDefenseItem";
 
 export const DEFENSE_STATUS = {
   Normal: "normal",
@@ -17,50 +13,36 @@ export const DEFENSE_STATUS = {
 
 export type DefenseStatus = ObjectValues<typeof DEFENSE_STATUS>;
 
-export interface DefenseItem {
-  id: string;
-  defenseID: string;
-  currentLevelPos: number;
+export interface DefenseItem extends BaseDefenseItem {
   defenseStatus: DefenseStatus;
   spellCountList: SpellCountItem[][];
-  saveCurrentLevelPos: (newCurrentLevelPos: number) => number;
 }
 
 export function createDefenseItem(
   defenseID: string,
+  currentLevelPos: number,
   defenseStatus: DefenseStatus,
   spellCountList: SpellCountItem[][]
 ): DefenseItem {
-  const { getOrStoreLevelPos, storeLevelPos } =
-    manageZapquakeCalcLevelPosGameDataLocalStorage(defenseID, type);
-  const currentLevelPos = getOrStoreLevelPos();
-
   return {
-    id: defenseID,
-    defenseID: defenseID,
-    currentLevelPos: currentLevelPos,
+    ...createBaseDefenseItem(defenseID, currentLevelPos),
     defenseStatus: defenseStatus,
     spellCountList: spellCountList,
-    saveCurrentLevelPos: (newCurrentLevelPos: number): number => {
-      storeLevelPos(newCurrentLevelPos);
-      return getOrStoreLevelPos();
-    },
   };
 }
 
 export function updateDefenseItemInList(
-  defenseItemList: DefenseItem[],
-  defenseID: string,
-  currentLevelPos: number
+  updatedDefenseItem: DefenseItem,
+  defenseItemList: DefenseItem[]
 ): DefenseItem[] {
+  const defenseID = updatedDefenseItem.defenseID;
   let isDefenseFound = false;
 
   const updatedList = defenseItemList.map((defense) => {
-    if (defense.id === defenseID) {
+    if (defense.defenseID === defenseID) {
       isDefenseFound = true;
       return {
-        ...defense,
-        currentLevelPos: defense.saveCurrentLevelPos(currentLevelPos),
+        ...updatedDefenseItem,
       };
     }
     return defense;
@@ -73,30 +55,4 @@ export function updateDefenseItemInList(
   }
 
   return updatedList;
-}
-
-export function setAllDefenseItemsToMax(
-  defenseItemList: DefenseItem[]
-): DefenseItem[] {
-  return defenseItemList.map((defense) => {
-    const maxLevelPos = getGameDataMaxLevelPos(defense.defenseID, type);
-
-    return {
-      ...defense,
-      currentLevelPos: defense.saveCurrentLevelPos(maxLevelPos),
-    };
-  });
-}
-
-export function setAllDefenseItemsToMin(
-  defenseItemList: DefenseItem[]
-): DefenseItem[] {
-  return defenseItemList.map((defense) => {
-    const minLevelPos = getGameDataMinLevelPos(defense.defenseID, type);
-
-    return {
-      ...defense,
-      currentLevelPos: defense.saveCurrentLevelPos(minLevelPos),
-    };
-  });
 }

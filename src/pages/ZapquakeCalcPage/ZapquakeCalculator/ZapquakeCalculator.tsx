@@ -13,14 +13,14 @@ export function ZapquakeCalculator() {
   const [
     offenseItemList,
     donatedLightningSpellItem,
-    updateOffenseItem,
+    updateOffense,
     setAllOffensesToMax,
     setAllOffensesToMin,
   ] = useInitOffense();
   const [earthquakeOrder, setEarthquakeOrder] = useInitEarthquakeOrder();
   const [
     defenseItemList,
-    updateDefenseItem,
+    updateDefense,
     setAllDefensesToMax,
     setAllDefensesToMin,
   ] = useInitDefense(
@@ -36,7 +36,7 @@ export function ZapquakeCalculator() {
         value={{
           offenseItemList,
           donatedLightningSpellItem,
-          updateOffenseItem,
+          updateOffense,
           setAllOffensesToMax,
           setAllOffensesToMin,
           earthquakeOrder,
@@ -51,7 +51,7 @@ export function ZapquakeCalculator() {
       <DefenseSectionContext.Provider
         value={{
           defenseItemList,
-          updateDefenseItem,
+          updateDefense,
           setAllDefensesToMax,
           setAllDefensesToMin,
         }}

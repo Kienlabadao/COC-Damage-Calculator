@@ -33,9 +33,9 @@ function createContent(
     case DISPLAYER_TYPE.EarthquakeDamage:
       return (
         <>
-          <ImageContainer imagePath={IMAGE_PATH.Attack} />
+          <ImageContainer imagePath={IMAGE_PATH.EarthquakeDamage} />
           <ContentContainer
-            content={`❤${content}%`}
+            content={`${content}%`}
             isModifierActive={isModifierActive}
           />
         </>

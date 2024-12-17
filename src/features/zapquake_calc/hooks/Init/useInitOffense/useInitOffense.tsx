@@ -1,17 +1,17 @@
 import { EQUIPMENT_TYPE, OFFENSE_TYPE, OffenseType, SPELL } from "data/game";
 import {
-  createDonatedLightningSpellItem,
-  setDonatedLightningSpellItemToMax,
-  setDonatedLightningSpellItemToMin,
-  updateDonatedLightningSpellItem,
-} from "features/zapquake_calc/objects/donatedLightningSpellItem";
+  initDonatedLightningSpellItem,
+  setDonatedLightningSpellToMax,
+  setDonatedLightningSpellToMin,
+  updateDonatedLightningSpell,
+} from "features/zapquake_calc/actions/DonatedLightningSpellItem";
 import {
-  createOffenseItem,
-  OffenseItem,
+  initOffenseItem,
   setAllOffenseItemsToMax,
   setAllOffenseItemsToMin,
-  updateOffenseItemInList,
-} from "features/zapquake_calc/objects/offenseItem";
+  updateOffenseItem,
+} from "features/zapquake_calc/actions/OffenseItem";
+import { OffenseItem } from "features/zapquake_calc/objects/offenseItem";
 import { useCallback, useState } from "react";
 import {
   getAllEquipmentIDs,
@@ -22,7 +22,7 @@ function getAllSpells(): OffenseItem[] {
   const spellIDList = getAllSpellIDs();
 
   return spellIDList.map((spellID) =>
-    createOffenseItem(spellID, OFFENSE_TYPE.Spell)
+    initOffenseItem(spellID, OFFENSE_TYPE.Spell)
   );
 }
 
@@ -30,7 +30,7 @@ function getAllEquipments(): OffenseItem[] {
   const equipmentIDList = getAllEquipmentIDs(new Set([EQUIPMENT_TYPE.Damage]));
 
   return equipmentIDList.map((equipmentID) =>
-    createOffenseItem(equipmentID, OFFENSE_TYPE.Equipment)
+    initOffenseItem(equipmentID, OFFENSE_TYPE.Equipment)
   );
 }
 
@@ -40,12 +40,13 @@ export function useInitOffense() {
     ...getAllEquipments(),
   ]);
   const [donatedLightningSpellItem, setDonatedLightningSpellItem] = useState(
-    createDonatedLightningSpellItem()
+    initDonatedLightningSpellItem()
   );
 
-  const updateOffenseItem = useCallback(
+  const updateOffense = useCallback(
     (
       offenseID: string,
+      type: OffenseType,
       isDonated: boolean = false,
       currentLevelPos?: number,
       useOffense?: boolean,
@@ -53,13 +54,8 @@ export function useInitOffense() {
     ) => {
       if (isDonated) {
         if (offenseID === SPELL.LightningSpell) {
-          setDonatedLightningSpellItem((prevDonatedLightningSpellItem) =>
-            updateDonatedLightningSpellItem(
-              prevDonatedLightningSpellItem,
-              currentLevelPos,
-              useOffense,
-              count
-            )
+          setDonatedLightningSpellItem(() =>
+            updateDonatedLightningSpell(currentLevelPos, useOffense, count)
           );
         } else {
           throw new Error(
@@ -68,9 +64,10 @@ export function useInitOffense() {
         }
       } else {
         setOffenseItemList((prevOffenseItemList) => {
-          return updateOffenseItemInList(
-            prevOffenseItemList,
+          return updateOffenseItem(
             offenseID,
+            type,
+            prevOffenseItemList,
             currentLevelPos,
             useOffense
           );
@@ -89,9 +86,7 @@ export function useInitOffense() {
     });
 
     if (offenseTypeFilterList.has(OFFENSE_TYPE.Spell)) {
-      setDonatedLightningSpellItem((prevDonatedLightningSpellItem) =>
-        setDonatedLightningSpellItemToMax(prevDonatedLightningSpellItem)
-      );
+      setDonatedLightningSpellItem(() => setDonatedLightningSpellToMax());
     }
   }
 
@@ -104,16 +99,14 @@ export function useInitOffense() {
     });
 
     if (offenseTypeFilterList.has(OFFENSE_TYPE.Spell)) {
-      setDonatedLightningSpellItem((prevDonatedLightningSpellItem) =>
-        setDonatedLightningSpellItemToMin(prevDonatedLightningSpellItem)
-      );
+      setDonatedLightningSpellItem(() => setDonatedLightningSpellToMin());
     }
   }
 
   return [
     offenseItemList,
     donatedLightningSpellItem,
-    updateOffenseItem,
+    updateOffense,
     setAllOffensesToMax,
     setAllOffensesToMin,
   ] as const;

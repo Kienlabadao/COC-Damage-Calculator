@@ -42,6 +42,8 @@ export const IMAGE_PATH = {
   AttackSpeed: "/images/other/attack_speed.webp",
   Repair: "/images/other/repair.webp",
   Supercharge: "/images/other/supercharge.webp",
+  EarthquakeDamage: "/images/other/earthquake_icon_heart.webp",
+  ImpossibleDestroy: "/images/other/raged-barbarian.png",
 } as const;
 
 export type ImagePath = ObjectValues<typeof IMAGE_PATH>;
