@@ -14,9 +14,14 @@ interface Props {
     useOffense?: boolean,
     count?: number
   ) => void;
+  className?: string;
 }
 
-export function UseDonatedSpellCheckbox({ spell, updateOffense }: Props) {
+export function UseDonatedSpellCheckbox({
+  spell,
+  updateOffense,
+  className = "",
+}: Props) {
   const id = spell.id;
   const spellID = spell.offenseID;
   const { getSpellName } = spellDataUtils(spellID);
@@ -37,6 +42,7 @@ export function UseDonatedSpellCheckbox({ spell, updateOffense }: Props) {
       label={`Use donated ${name.toLowerCase()}`}
       isChecked={useOffense}
       onInput={(isChecked: boolean) => updateUseOffense(isChecked)}
+      className={className}
     />
   );
 }

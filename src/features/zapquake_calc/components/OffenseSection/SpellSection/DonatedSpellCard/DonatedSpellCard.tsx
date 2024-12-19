@@ -1,9 +1,5 @@
 import { DAMAGE_TYPE, DamageType, OffenseType, SPELL } from "data/game";
-import {
-  BACKGROUND_TYPE,
-  OffenseCardImage,
-} from "components/CalculatorComponents/OffenseCard/OffenseCardImage";
-import { memo, useCallback } from "react";
+import { memo } from "react";
 import { spellDataUtils } from "utils/GameData/spellDataUtils";
 import {
   MAX_DONATED_SPELL_COUNT,
@@ -17,6 +13,11 @@ import {
 } from "components/CalculatorComponents/OffenseCard/StatDisplayer";
 import { OffenseCardContainer } from "components/CalculatorComponents/OffenseCard";
 import { DonatedLightningSpellItem } from "features/zapquake_calc/objects/donatedLightningSpellItem";
+import {
+  BACKGROUND_TYPE,
+  GameDataCardContainer,
+  SIZE,
+} from "components/CalculatorComponents/GameDataCardContainer";
 
 function convertToDisplayerType(damageType: DamageType): DisplayerType {
   switch (damageType) {
@@ -48,12 +49,12 @@ export const DonatedSpellCard = memo(function DonatedSpellCard({
   updateOffense,
 }: Props) {
   const isDonated = true;
-  const updateCurrentLevelPos = useCallback((newCurrentLevelPos: number) => {
+  const updateCurrentLevelPos = (newCurrentLevelPos: number) => {
     updateOffense(spellID, type, isDonated, newCurrentLevelPos);
-  }, []);
-  const updateCount = useCallback((newCount: number) => {
+  };
+  const updateCount = (newCount: number) => {
     updateOffense(spellID, type, isDonated, undefined, undefined, newCount);
-  }, []);
+  };
 
   const spellID = spell.offenseID;
   const {
@@ -64,6 +65,7 @@ export const DonatedSpellCard = memo(function DonatedSpellCard({
     getSpellLevel,
     getSpellDamage,
     getSpellDamageType,
+    isMaxLevelPos,
   } = spellDataUtils(spellID);
 
   const name = getSpellName();
@@ -90,11 +92,13 @@ export const DonatedSpellCard = memo(function DonatedSpellCard({
     <OffenseCardContainer>
       <h5>{`${name} (Donated)`}</h5>
       <div>
-        <OffenseCardImage
-          imagePath={imagePath}
+        <GameDataCardContainer
+          imgPath={imagePath}
+          backgroundType={backgroundType}
+          size={SIZE.Normal}
           level={currentLevel}
-          isMaxed={currentLevelPos === maxLevelPos}
-          backgroudType={backgroundType}
+          isMaxed={isMaxLevelPos(currentLevelPos)}
+          isDonated={true}
         />
       </div>
       <div className="mt-2">

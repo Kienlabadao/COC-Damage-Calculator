@@ -1,15 +1,17 @@
 import { DAMAGE_TYPE, DamageType, OffenseType } from "data/game";
 import { Checkbox, Slider } from "components";
 import {
-  BackgroundType,
-  OffenseCardImage,
-} from "components/CalculatorComponents/OffenseCard/OffenseCardImage";
-import {
   DISPLAYER_TYPE,
   DisplayerType,
   StatDisplayer,
 } from "components/CalculatorComponents/OffenseCard/StatDisplayer";
 import { OffenseCardContainer } from "components/CalculatorComponents/OffenseCard";
+import {
+  BACKGROUND_TYPE,
+  BackgroundType,
+  GameDataCardContainer,
+  SIZE,
+} from "components/CalculatorComponents/GameDataCardContainer";
 
 function convertToDisplayerType(damageType: DamageType): DisplayerType {
   switch (damageType) {
@@ -29,7 +31,6 @@ interface Props {
   name: string;
   type: OffenseType;
   imagePath: string;
-  backgroundType: BackgroundType;
   minLevelPos: number;
   maxLevelPos: number;
   currentLevelPos: number;
@@ -39,6 +40,9 @@ interface Props {
   updateUseOffense: (newUseOffense: boolean) => void;
   damage: number;
   damageType: DamageType;
+  backgroundType?: BackgroundType;
+  isMaxed?: boolean;
+  isEarthquake?: boolean;
 }
 
 export function OffenseCard({
@@ -46,7 +50,6 @@ export function OffenseCard({
   name,
   type,
   imagePath,
-  backgroundType,
   minLevelPos,
   maxLevelPos,
   currentLevelPos,
@@ -56,16 +59,19 @@ export function OffenseCard({
   updateUseOffense,
   damage,
   damageType,
+  backgroundType = BACKGROUND_TYPE.Normal,
+  isMaxed = false,
 }: Props) {
   return (
     <OffenseCardContainer>
       <h5>{name}</h5>
       <div>
-        <OffenseCardImage
-          imagePath={imagePath}
+        <GameDataCardContainer
+          imgPath={imagePath}
+          backgroundType={backgroundType}
+          size={SIZE.Normal}
           level={currentLevel}
-          isMaxed={currentLevelPos === maxLevelPos}
-          backgroudType={backgroundType}
+          isMaxed={isMaxed}
         />
       </div>
       <div className="mt-2">

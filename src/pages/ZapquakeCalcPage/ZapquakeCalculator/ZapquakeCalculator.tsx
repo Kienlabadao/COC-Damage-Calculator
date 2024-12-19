@@ -1,11 +1,8 @@
 import {
   DefenseSection,
-  FilterSection,
   OffenseSection,
 } from "features/zapquake_calc/components";
-import { DefenseSectionContext } from "features/zapquake_calc/context/DefenseSectionContext";
 import { OffenseSectionContext } from "features/zapquake_calc/context/OffenseSectionContext";
-import { useInitDefense } from "features/zapquake_calc/hooks/Init/useInitDefense";
 import { useInitEarthquakeOrder } from "features/zapquake_calc/hooks/Init/useInitEarthquakeOrder";
 import { useInitOffense } from "features/zapquake_calc/hooks/Init/useInitOffense";
 
@@ -18,18 +15,8 @@ export function ZapquakeCalculator() {
     setAllOffensesToMin,
   ] = useInitOffense();
   const [earthquakeOrder, setEarthquakeOrder] = useInitEarthquakeOrder();
-  const [
-    defenseItemList,
-    updateDefense,
-    setAllDefensesToMax,
-    setAllDefensesToMin,
-  ] = useInitDefense(
-    offenseItemList,
-    donatedLightningSpellItem,
-    earthquakeOrder
-  );
   console.log(earthquakeOrder);
-  console.log(defenseItemList);
+
   return (
     <>
       <OffenseSectionContext.Provider
@@ -43,21 +30,14 @@ export function ZapquakeCalculator() {
           setEarthquakeOrder,
         }}
       >
-        <OffenseSection></OffenseSection>
+        <OffenseSection />
       </OffenseSectionContext.Provider>
 
-      <FilterSection></FilterSection>
-
-      <DefenseSectionContext.Provider
-        value={{
-          defenseItemList,
-          updateDefense,
-          setAllDefensesToMax,
-          setAllDefensesToMin,
-        }}
-      >
-        <DefenseSection></DefenseSection>
-      </DefenseSectionContext.Provider>
+      <DefenseSection
+        offenseItemList={offenseItemList}
+        donatedLightningSpellItem={donatedLightningSpellItem}
+        earthquakeOrder={earthquakeOrder}
+      />
     </>
   );
 }

@@ -62,6 +62,10 @@ export function heroDataUtils(heroID: string) {
     return minLevelPos <= levelPos && levelPos <= maxLevelPos;
   }
 
+  function isMaxLevelPos(levelPos: number): boolean {
+    return getHeroMaxLevelPos() === levelPos;
+  }
+
   function isHeroDamageTypeDirect() {
     return getHeroDamageType() === DAMAGE_TYPE.Direct;
   }
@@ -82,6 +86,7 @@ export function heroDataUtils(heroID: string) {
     getHeroLevel,
     getHeroDPS,
     isValidHeroLevelPos,
+    isMaxLevelPos,
     isHeroDamageTypeDirect,
     isHeroDamageTypeEarthquake,
   };

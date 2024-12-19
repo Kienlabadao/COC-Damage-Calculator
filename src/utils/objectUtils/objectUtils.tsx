@@ -9,8 +9,9 @@ export function getArrayFirstElement<T>(arr: T[]): T {
     throw new Error(
       "objectUtils.getArrayFirstElement ERROR: The array is empty. Cannot get the first element."
     );
+  } else {
+    return arr[0];
   }
-  return arr[0];
 }
 
 export function getArrayLastElement<T>(arr: T[]): T {
@@ -18,8 +19,17 @@ export function getArrayLastElement<T>(arr: T[]): T {
     throw new Error(
       "objectUtils.getArrayLastElement ERROR: The array is empty. Cannot get the last element."
     );
+  } else {
+    return arr[arr.length - 1];
   }
-  return arr[arr.length - 1];
+}
+
+export function removeArrayElement<T>(array: T[], index: number): T[] {
+  if (index < 0 || index >= array.length) {
+    throw new Error("Index out of bounds");
+  }
+
+  return [...array.slice(0, index), ...array.slice(index + 1)];
 }
 
 export function isString(input: unknown): input is string {

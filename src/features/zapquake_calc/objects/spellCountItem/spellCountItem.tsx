@@ -1,6 +1,8 @@
 import { isValidSpellLevelPos } from "utils/GameData/gameDataUtils";
+import { v4 as uuidv4 } from "uuid";
 
 export interface SpellCountItem {
+  id: string;
   spellID: string;
   currentLevelPos: number;
   isDonated: boolean;
@@ -15,6 +17,7 @@ export function createSpellCountItem(
 ): SpellCountItem {
   if (isValidSpellLevelPos(spellID, currentLevelPos)) {
     return {
+      id: uuidv4(),
       spellID: spellID,
       isDonated: isDonated,
       currentLevelPos: currentLevelPos,

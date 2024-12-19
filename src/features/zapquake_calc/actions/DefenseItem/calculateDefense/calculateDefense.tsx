@@ -1,18 +1,25 @@
 import { EarthquakeOrder } from "features/zapquake_calc/data/constants";
-import {
-  DEFENSE_STATUS,
-  DefenseStatus,
-} from "features/zapquake_calc/objects/defenseItem";
 import { DonatedLightningSpellItem } from "features/zapquake_calc/objects/donatedLightningSpellItem";
-import { OffenseItem } from "features/zapquake_calc/objects/offenseItem";
+import {
+  filterOffenseItemList,
+  OffenseItem,
+} from "features/zapquake_calc/objects/offenseItem";
 import { SpellCountItem } from "features/zapquake_calc/objects/spellCountItem";
 import { canEquipmentDestroyDefense } from "../../canEquipmentDestroyDefense";
 import { MAX_SPELL_COUNT } from "features/zapquake_calc/config/config";
 import { createZapquakeActionList } from "../../ZapquakeActionItem";
 import { convertZapquakeActionList } from "../../ZapquakeDamageLogItem";
-import { getArrayLastElement } from "utils/objectUtils";
+import { getArrayLastElement, ObjectValues } from "utils/objectUtils";
 import { convertZapquakeDamageLogList } from "../../SpellCountItem";
 import { isValidDefenseLevelPos } from "utils/GameData/gameDataUtils";
+
+export const DEFENSE_STATUS = {
+  Normal: "normal",
+  EquipmentDestroyed: "equipment_destroyed",
+  ImpossibleDestroy: "Impossible_destroy",
+} as const;
+
+export type DefenseStatus = ObjectValues<typeof DEFENSE_STATUS>;
 
 export function calculateDefense(
   defenseID: string,
@@ -27,14 +34,23 @@ export function calculateDefense(
     );
   }
 
-  let defenseStatus: DefenseStatus;
+  const filteredOffenseItemList = filterOffenseItemList(
+    offenseItemList,
+    undefined,
+    true
+  );
   const spellCountList: SpellCountItem[][] = [];
+  let defenseStatus: DefenseStatus;
 
-  if (offenseItemList.every((offenseItem) => !offenseItem.use)) {
+  if (filteredOffenseItemList.length === 0) {
     // User didn't select any offense
     defenseStatus = DEFENSE_STATUS.ImpossibleDestroy;
   } else if (
-    canEquipmentDestroyDefense(defenseID, defenseLevelPos, offenseItemList)
+    canEquipmentDestroyDefense(
+      defenseID,
+      defenseLevelPos,
+      filteredOffenseItemList
+    )
   ) {
     // User selected equipment is enough to destroy this defense
     defenseStatus = DEFENSE_STATUS.EquipmentDestroyed;
@@ -45,7 +61,7 @@ export function calculateDefense(
       earthquakeSpellCount++
     ) {
       const actionList = createZapquakeActionList(
-        offenseItemList,
+        filteredOffenseItemList,
         donatedLightningSpellItem,
         earthquakeSpellCount,
         earthquakeOrder

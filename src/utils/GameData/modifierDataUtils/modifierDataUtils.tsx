@@ -68,6 +68,10 @@ export function modifierDataUtils(modifierID: string) {
     return minLevelPos <= levelPos && levelPos <= maxLevelPos;
   }
 
+  function isMaxLevelPos(levelPos: number): boolean {
+    return getModifierMaxLevelPos() === levelPos;
+  }
+
   return {
     modifierData,
     getModifierName,
@@ -81,5 +85,6 @@ export function modifierDataUtils(modifierID: string) {
     getModifierLevel,
     getModifierModify,
     isValidModifierLevelPos,
+    isMaxLevelPos,
   };
 }

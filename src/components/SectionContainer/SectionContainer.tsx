@@ -5,6 +5,6 @@ interface Props {
   className?: string;
 }
 
-export function SectionContainer({ children, className = "false" }: Props) {
+export function SectionContainer({ children, className = "" }: Props) {
   return <section className={className}>{children}</section>;
 }

@@ -1,5 +1,10 @@
 import { OFFENSE_TYPE, SPELL } from "data/game";
-import { createOffenseItem, OffenseItem } from "../offenseItem";
+import {
+  compareOffenseItem,
+  createOffenseItem,
+  OffenseItem,
+} from "../offenseItem";
+import { DONATED_STR } from "utils/calcLocalStorageKeyUtils";
 
 export interface DonatedLightningSpellItem extends OffenseItem {
   count: number;
@@ -11,10 +16,21 @@ export function createDonatedLightningSpellItem(
   count: number
 ): DonatedLightningSpellItem {
   const offenseID = SPELL.LightningSpell;
+  const id = `${offenseID}_${DONATED_STR}`;
   const type = OFFENSE_TYPE.Spell;
 
   return {
     ...createOffenseItem(offenseID, type, currentLevelPos, use),
+    id: id,
     count: count,
   };
+}
+
+export function compareDonatedLightningSpellItem(
+  dlsItem1: DonatedLightningSpellItem,
+  dlsItem2: DonatedLightningSpellItem
+): boolean {
+  return (
+    dlsItem1.count === dlsItem2.count && compareOffenseItem(dlsItem1, dlsItem2)
+  );
 }

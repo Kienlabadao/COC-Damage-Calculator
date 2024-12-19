@@ -1,4 +1,7 @@
-import { SpellCountItem } from "features/zapquake_calc/objects/spellCountItem";
+import {
+  createSpellCountItem,
+  SpellCountItem,
+} from "features/zapquake_calc/objects/spellCountItem";
 import { ZapquakeDamageLogItem } from "features/zapquake_calc/objects/zapquakeDamageLogItem";
 import { ACTION_TYPE } from "objects/actionItem";
 
@@ -19,13 +22,14 @@ export function convertZapquakeDamageLogList(
       if (existingItem) {
         existingItem.count += 1;
       } else {
-        const newItem: SpellCountItem = {
-          spellID: damageLogItem.actionID,
-          currentLevelPos: damageLogItem.currentLevelPos,
-          isDonated: damageLogItem.isDonated,
-          count: 1,
-        };
-        spellCountItemList.push(newItem);
+        const spellID = damageLogItem.actionID;
+        const currentLevelPos = damageLogItem.currentLevelPos;
+        const isDonated = damageLogItem.isDonated;
+        const count = 1;
+
+        spellCountItemList.push(
+          createSpellCountItem(spellID, isDonated, currentLevelPos, count)
+        );
       }
     }
   });

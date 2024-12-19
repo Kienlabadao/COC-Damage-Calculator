@@ -12,3 +12,4 @@ export * from "./Checkbox";
 export * from "./TextInputField";
 export * from "./NumberInputField";
 export * from "./Dropdown";
+export * from "./CollapseContainer";

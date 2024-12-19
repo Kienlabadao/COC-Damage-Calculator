@@ -54,6 +54,10 @@ export function repairDataUtils(repairID: string) {
     return minLevelPos <= levelPos && levelPos <= maxLevelPos;
   }
 
+  function isMaxLevelPos(levelPos: number): boolean {
+    return getRepairMaxLevelPos() === levelPos;
+  }
+
   return {
     repairData,
     getRepairName,
@@ -64,5 +68,6 @@ export function repairDataUtils(repairID: string) {
     getRepairLevel,
     getRepairRepair,
     isValidRepairLevelPos,
+    isMaxLevelPos,
   };
 }

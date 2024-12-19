@@ -58,6 +58,10 @@ export function spellDataUtils(spellID: string) {
     return minLevelPos <= levelPos && levelPos <= maxLevelPos;
   }
 
+  function isMaxLevelPos(levelPos: number): boolean {
+    return getSpellMaxLevelPos() === levelPos;
+  }
+
   function isSpellDamageTypeDirect() {
     return getSpellDamageType() === DAMAGE_TYPE.Direct;
   }
@@ -77,6 +81,7 @@ export function spellDataUtils(spellID: string) {
     getSpellLevel,
     getSpellDamage,
     isValidSpellLevelPos,
+    isMaxLevelPos,
     isSpellDamageTypeDirect,
     isSpellDamageTypeEarthquake,
   };

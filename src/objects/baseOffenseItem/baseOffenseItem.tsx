@@ -35,3 +35,15 @@ export function filterBaseOffenseItemList(
     return offenseTypeFilterList.has(offenseItem.type);
   });
 }
+
+export function compareBaseOffenseItem(
+  baseOF1: BaseOffenseItem,
+  baseOF2: BaseOffenseItem
+): boolean {
+  return (
+    baseOF1.id === baseOF2.id &&
+    baseOF1.offenseID === baseOF2.offenseID &&
+    baseOF1.type === baseOF2.type &&
+    baseOF1.currentLevelPos === baseOF2.currentLevelPos
+  );
+}

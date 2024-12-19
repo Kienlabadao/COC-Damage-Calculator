@@ -77,31 +77,37 @@ export function useInitOffense() {
     []
   );
 
-  function setAllOffensesToMax(offenseTypeFilterList: Set<OffenseType>) {
-    setOffenseItemList((prevOffenseItemList) => {
-      return setAllOffenseItemsToMax(
-        prevOffenseItemList,
-        offenseTypeFilterList
-      );
-    });
+  const setAllOffensesToMax = useCallback(
+    (offenseTypeFilterList: Set<OffenseType>) => {
+      setOffenseItemList((prevOffenseItemList) => {
+        return setAllOffenseItemsToMax(
+          prevOffenseItemList,
+          offenseTypeFilterList
+        );
+      });
 
-    if (offenseTypeFilterList.has(OFFENSE_TYPE.Spell)) {
-      setDonatedLightningSpellItem(() => setDonatedLightningSpellToMax());
-    }
-  }
+      if (offenseTypeFilterList.has(OFFENSE_TYPE.Spell)) {
+        setDonatedLightningSpellItem(() => setDonatedLightningSpellToMax());
+      }
+    },
+    []
+  );
 
-  function setAllOffensesToMin(offenseTypeFilterList: Set<OffenseType>) {
-    setOffenseItemList((prevOffenseItemList) => {
-      return setAllOffenseItemsToMin(
-        prevOffenseItemList,
-        offenseTypeFilterList
-      );
-    });
+  const setAllOffensesToMin = useCallback(
+    (offenseTypeFilterList: Set<OffenseType>) => {
+      setOffenseItemList((prevOffenseItemList) => {
+        return setAllOffenseItemsToMin(
+          prevOffenseItemList,
+          offenseTypeFilterList
+        );
+      });
 
-    if (offenseTypeFilterList.has(OFFENSE_TYPE.Spell)) {
-      setDonatedLightningSpellItem(() => setDonatedLightningSpellToMin());
-    }
-  }
+      if (offenseTypeFilterList.has(OFFENSE_TYPE.Spell)) {
+        setDonatedLightningSpellItem(() => setDonatedLightningSpellToMin());
+      }
+    },
+    []
+  );
 
   return [
     offenseItemList,

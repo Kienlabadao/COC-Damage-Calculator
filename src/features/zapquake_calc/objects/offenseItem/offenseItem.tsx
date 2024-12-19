@@ -1,6 +1,7 @@
 import { OffenseType } from "data/game";
 import {
   BaseOffenseItem,
+  compareBaseOffenseItem,
   createBaseOffenseItem,
 } from "objects/baseOffenseItem";
 
@@ -48,11 +49,11 @@ export function updateOffenseItemInList(
 
 export function filterOffenseItemList(
   offenseItemList: OffenseItem[],
-  offenseTypeFilterList: Set<OffenseType>,
+  offenseTypeFilterList?: Set<OffenseType>,
   use?: boolean
 ): OffenseItem[] {
   return offenseItemList.filter((offenseItem) => {
-    if (offenseTypeFilterList.has(offenseItem.type)) {
+    if (!offenseTypeFilterList || offenseTypeFilterList.has(offenseItem.type)) {
       return use !== undefined ? offenseItem.use === use : true;
     }
     return false;
@@ -91,4 +92,24 @@ export function removeOffenseItem(
   });
 
   return { removedOffenseItem, newOffenseItemList };
+}
+
+export function compareOffenseItem(
+  oF1: OffenseItem,
+  oF2: OffenseItem
+): boolean {
+  return oF1.use === oF2.use && compareBaseOffenseItem(oF1, oF2);
+}
+
+export function compareOffenseItemList(
+  oFItemList1: OffenseItem[],
+  oFItemList2: OffenseItem[]
+): boolean {
+  if (oFItemList1.length !== oFItemList2.length) {
+    return false;
+  }
+
+  return oFItemList1.every((oF, index) =>
+    compareOffenseItem(oF, oFItemList2[index])
+  );
 }

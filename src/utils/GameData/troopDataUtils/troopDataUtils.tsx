@@ -98,6 +98,10 @@ export function troopDataUtils(troopID: string) {
     return minLevelPos <= levelPos && levelPos <= maxLevelPos;
   }
 
+  function isMaxLevelPos(levelPos: number): boolean {
+    return getTroopMaxLevelPos() === levelPos;
+  }
+
   function isTroopDamageTypeDirect() {
     return getTroopDamageType() === DAMAGE_TYPE.Direct;
   }
@@ -121,6 +125,7 @@ export function troopDataUtils(troopID: string) {
     canDealDamage,
     canDealDeathDamage,
     isValidTroopLevelPos,
+    isMaxLevelPos,
     isTroopDamageTypeDirect,
     isTroopDamageTypeEarthquake,
   };

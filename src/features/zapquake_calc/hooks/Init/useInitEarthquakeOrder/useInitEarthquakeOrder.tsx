@@ -1,6 +1,7 @@
 import { EarthquakeOrder } from "features/zapquake_calc/data/constants";
 import { manageEarthquakeOrderLocalStorage } from "features/zapquake_calc/utils/LocalStorageData/manageEarthquakeOrderLocalStorage";
 import { usePersistedState } from "hooks";
+import { useCallback } from "react";
 
 export function useInitEarthquakeOrder() {
   const { getOrStoreEarthquakeOrder, storeEarthquakeOrder } =
@@ -11,5 +12,7 @@ export function useInitEarthquakeOrder() {
       storeEarthquakeOrder
     );
 
-  return [earthquakeOrder, setEarthquakeOrder] as const;
+  const memoizedSetEarthquakeOrder = useCallback(setEarthquakeOrder, []);
+
+  return [earthquakeOrder, memoizedSetEarthquakeOrder] as const;
 }

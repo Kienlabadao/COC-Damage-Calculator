@@ -2,6 +2,7 @@ import { ImageContainer } from "./ImageContainer";
 import { HPStatCell } from "./HPStatCell";
 import { LevelStatCell } from "./LevelStatCell";
 import { SuperchargeLevelStatCell } from "./SuperchargeLevelStatCell";
+import { memo } from "react";
 
 interface Props {
   name: string;
@@ -13,7 +14,7 @@ interface Props {
   maxHP: number;
 }
 
-export function StatDisplayer({
+export const StatDisplayer = memo(function StatDisplayer({
   name,
   imagePath,
   currentLevel,
@@ -41,4 +42,4 @@ export function StatDisplayer({
       </div>
     </div>
   );
-}
+});

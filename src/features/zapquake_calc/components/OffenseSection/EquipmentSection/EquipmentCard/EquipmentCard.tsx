@@ -1,9 +1,9 @@
 import { OffenseCard } from "../../OffenseCard";
-import { memo, useCallback } from "react";
+import { memo } from "react";
 import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
 import { OffenseType, RARITY } from "data/game";
-import { BACKGROUND_TYPE } from "components/CalculatorComponents/OffenseCard/OffenseCardImage";
 import { OffenseItem } from "features/zapquake_calc/objects/offenseItem";
+import { BACKGROUND_TYPE } from "components/CalculatorComponents/GameDataCardContainer";
 
 interface Props {
   equipment: OffenseItem;
@@ -21,12 +21,12 @@ export const EquipmentCard = memo(function EquipmentCard({
   equipment,
   updateOffense,
 }: Props) {
-  const updateCurrentLevelPos = useCallback((newCurrentLevelPos: number) => {
+  const updateCurrentLevelPos = (newCurrentLevelPos: number) => {
     updateOffense(equipmentID, type, undefined, newCurrentLevelPos);
-  }, []);
-  const updateUseOffense = useCallback((newUseOffense: boolean) => {
+  };
+  const updateUseOffense = (newUseOffense: boolean) => {
     updateOffense(equipmentID, type, undefined, undefined, newUseOffense);
-  }, []);
+  };
 
   const equipmentID = equipment.offenseID;
   const {
@@ -39,6 +39,7 @@ export const EquipmentCard = memo(function EquipmentCard({
     getEquipmentRarity,
     getEquipmentDamage,
     getEquipmentDamageType,
+    isMaxLevelPos,
   } = equipmentDataUtils(equipmentID);
 
   const name = getEquipmentName();
@@ -79,6 +80,7 @@ export const EquipmentCard = memo(function EquipmentCard({
       updateUseOffense={updateUseOffense}
       damage={damage}
       damageType={damageType}
+      isMaxed={isMaxLevelPos(currentLevelPos)}
     />
   );
 });

@@ -1,34 +1,15 @@
-import { SpellCountItem } from "../spellCountItem";
-import { ObjectValues } from "utils/objectUtils";
 import {
   BaseDefenseItem,
   createBaseDefenseItem,
 } from "objects/baseDefenseItem";
 
-export const DEFENSE_STATUS = {
-  Normal: "normal",
-  EquipmentDestroyed: "equipment_destroyed",
-  ImpossibleDestroy: "Impossible_destroy",
-} as const;
-
-export type DefenseStatus = ObjectValues<typeof DEFENSE_STATUS>;
-
-export interface DefenseItem extends BaseDefenseItem {
-  defenseStatus: DefenseStatus;
-  spellCountList: SpellCountItem[][];
-}
+export interface DefenseItem extends BaseDefenseItem {}
 
 export function createDefenseItem(
   defenseID: string,
-  currentLevelPos: number,
-  defenseStatus: DefenseStatus,
-  spellCountList: SpellCountItem[][]
+  currentLevelPos: number
 ): DefenseItem {
-  return {
-    ...createBaseDefenseItem(defenseID, currentLevelPos),
-    defenseStatus: defenseStatus,
-    spellCountList: spellCountList,
-  };
+  return createBaseDefenseItem(defenseID, currentLevelPos);
 }
 
 export function updateDefenseItemInList(

@@ -94,6 +94,10 @@ export function defenseDataUtils(defenseID: string) {
     return minLevelPos <= levelPos && levelPos <= maxLevelPos;
   }
 
+  function isMaxLevelPos(levelPos: number): boolean {
+    return getDefenseMaxLevelPos() === levelPos;
+  }
+
   function isImmune(offenseID: string): boolean {
     return getDefenseImmune().includes(offenseID);
   }
@@ -112,6 +116,7 @@ export function defenseDataUtils(defenseID: string) {
     getDefenseHP,
     isMaxLevel,
     isValidDefenseLevelPos,
+    isMaxLevelPos,
     isImmune,
   };
 }

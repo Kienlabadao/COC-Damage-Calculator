@@ -60,6 +60,10 @@ export function getHideImpossibleDestroyDefenseStorageKey(): string {
   return `${calculatorType}_hide_impossible_destroy_defense`;
 }
 
+export function getHideNormalDefenseStorageKey(): string {
+  return `${calculatorType}_hide_normal_defense`;
+}
+
 export function getEarthquakeOrderStorageKey(): string {
   return `${calculatorType}_earthquake_order`;
 }

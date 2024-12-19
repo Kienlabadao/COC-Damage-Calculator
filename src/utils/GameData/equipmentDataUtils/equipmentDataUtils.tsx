@@ -114,6 +114,10 @@ export function equipmentDataUtils(equipmentID: string) {
     return minLevelPos <= levelPos && levelPos <= maxLevelPos;
   }
 
+  function isMaxLevelPos(levelPos: number): boolean {
+    return getEquipmentMaxLevelPos() === levelPos;
+  }
+
   function isEquipmentTypeDamage() {
     return getEquipmentType().includes(EQUIPMENT_TYPE.Damage);
   }
@@ -151,6 +155,7 @@ export function equipmentDataUtils(equipmentID: string) {
     canDealDamage,
     canGiveDPSBoost,
     isValidEquipmentLevelPos,
+    isMaxLevelPos,
     isEquipmentTypeDamage,
     isEquipmentTypeAttack,
     isEquipmentTypeSupport,

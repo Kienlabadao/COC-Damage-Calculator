@@ -1,9 +1,9 @@
 import { OffenseType, SPELL } from "data/game";
-import { BACKGROUND_TYPE } from "components/CalculatorComponents/OffenseCard/OffenseCardImage";
-import { memo, useCallback } from "react";
+import { memo } from "react";
 import { spellDataUtils } from "utils/GameData/spellDataUtils";
 import { OffenseCard } from "../../OffenseCard";
 import { OffenseItem } from "features/zapquake_calc/objects/offenseItem";
+import { BACKGROUND_TYPE } from "components/CalculatorComponents/GameDataCardContainer";
 
 interface Props {
   spell: OffenseItem;
@@ -22,12 +22,12 @@ export const SpellCard = memo(function SpellCard({
   updateOffense,
 }: Props) {
   const isDonated = false;
-  const updateCurrentLevelPos = useCallback((newCurrentLevelPos: number) => {
+  const updateCurrentLevelPos = (newCurrentLevelPos: number) => {
     updateOffense(spellID, type, isDonated, newCurrentLevelPos);
-  }, []);
-  const updateUseOffense = useCallback((newUseOffense: boolean) => {
+  };
+  const updateUseOffense = (newUseOffense: boolean) => {
     updateOffense(spellID, type, isDonated, undefined, newUseOffense);
-  }, []);
+  };
 
   const spellID = spell.offenseID;
   const {
@@ -38,6 +38,7 @@ export const SpellCard = memo(function SpellCard({
     getSpellLevel,
     getSpellDamage,
     getSpellDamageType,
+    isMaxLevelPos,
   } = spellDataUtils(spellID);
 
   const name = getSpellName();
@@ -72,6 +73,7 @@ export const SpellCard = memo(function SpellCard({
       updateUseOffense={updateUseOffense}
       damage={damage}
       damageType={damageType}
+      isMaxed={isMaxLevelPos(currentLevelPos)}
     />
   );
 });
