@@ -15,6 +15,7 @@ import { convertZapquakeActionList } from "../../ZapquakeDamageLogItem";
 import { getArrayLastElement, ObjectValues } from "utils/objectUtils";
 import { convertZapquakeDamageLogList } from "../../SpellCountItem";
 import { isValidDefenseLevelPos } from "utils/GameData/gameDataUtils";
+import { SPELL } from "data/game";
 
 export const DEFENSE_STATUS = {
   Normal: "normal",
@@ -98,11 +99,14 @@ export function calculateDefense(
           // Defense is immune to everything in action list
           break;
         }
-        if (isListContainOneTypeOnly(spellCountItemList)) {
-          // User only select 1 spell type or this defense immune to all spells that user select except 1
+        if (
+          isListContainOneTypeOnly(spellCountItemList) &&
+          spellCountItemList[0].spellID !== SPELL.EarthquakeSpell
+        ) {
+          // User only select lightning spell or this defense immune to lightning spells
+          // For earthquake spell, keep continuing until at least a composition or none can destroy this defense
           break;
-        }
-        if (spellCountList.length !== 0) {
+        } else if (spellCountList.length !== 0) {
           // There is already a compositon that destroy this defense
           // No point continuing as other composition after this also won't be able to destroy this defense
           break;
