@@ -51,7 +51,7 @@ export function DefenseSection({
     hideNormalDefense,
     searchQuery
   );
-  console.log(defenseDisplayDataList);
+
   return (
     <>
       <SectionContainer className="card-custom p-4 shadow my-5">

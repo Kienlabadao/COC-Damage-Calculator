@@ -21,7 +21,7 @@ export function manageHideEquipmentDestroyedDefenseLocalStorage() {
       return hideEquipmentDestroyedDefense;
     } else {
       console.warn(
-        `manageHideEquipmentDestroyedDefenseLocalStorage.getHideEquipmentDestroyedDefense ERROR: Value in storage key (${key}) is not HideEquipmentDestroyedDefense type. hideEquipmentDestroyedDefense: ${hideEquipmentDestroyedDefense}`
+        `manageHideEquipmentDestroyedDefenseLocalStorage.getHideEquipmentDestroyedDefense ERROR: Value in storage key (${key}) is not boolean. hideEquipmentDestroyedDefense: ${hideEquipmentDestroyedDefense}`
       );
     }
 

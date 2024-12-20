@@ -21,7 +21,7 @@ export function manageHideImpossibleDestroyDefenseLocalStorage() {
       return hideImpossibleDestroyDefense;
     } else {
       console.warn(
-        `manageHideImpossibleDestroyDefenseLocalStorage.getHideImpossibleDestroyDefense ERROR: Value in storage key (${key}) is not HideImpossibleDestroyDefense type. hideImpossibleDestroyDefense: ${hideImpossibleDestroyDefense}`
+        `manageHideImpossibleDestroyDefenseLocalStorage.getHideImpossibleDestroyDefense ERROR: Value in storage key (${key}) is not boolean. hideImpossibleDestroyDefense: ${hideImpossibleDestroyDefense}`
       );
     }
 

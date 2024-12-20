@@ -31,13 +31,13 @@ export function getUseGameDataStorageKey(
   calculatorType: CalculatorType,
   isDonated = false
 ): string {
-  return `${calculatorType}_${gameDataType}_use_${
-    isDonated ? getDonatedGameDataID(gameDataID) : `${gameDataID}`
-  }`;
-}
-
-export function getHideDestroyedDefenseStorageKey(
-  calculatorType: CalculatorType
-): string {
-  return `${calculatorType}_hide_destroyed_defense`;
+  if (calculatorType === CALCULATOR_TYPE.Zapquake) {
+    return `${calculatorType}_${gameDataType}_use_${
+      isDonated ? getDonatedGameDataID(gameDataID) : `${gameDataID}`
+    }`;
+  } else {
+    throw new Error(
+      `calcLocalStorageKeyUtils.getUseGameDataStorageKey ERROR: calculatorType (${calculatorType}) is not supported.`
+    );
+  }
 }

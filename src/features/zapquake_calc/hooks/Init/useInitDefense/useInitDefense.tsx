@@ -9,12 +9,12 @@ import {
 import { DefenseItem } from "features/zapquake_calc/objects/defenseItem";
 import { useCallback, useState } from "react";
 import { getAllDefenseIDs } from "utils/GameData/gameDataUtils";
-import { DefenseLog, useCacheDefenseLog } from "../../useCacheDefenseLog";
 import { OffenseItem } from "features/zapquake_calc/objects/offenseItem";
 import { DonatedLightningSpellItem } from "features/zapquake_calc/objects/donatedLightningSpellItem";
 import { EarthquakeOrder } from "features/zapquake_calc/data/constants";
 import { SpellCountItem } from "features/zapquake_calc/objects/spellCountItem";
 import { defenseDataUtils } from "utils/GameData/defenseDataUtils";
+import { DefenseLog, useCacheDefenseLog } from "../../useCacheDefenseLog";
 
 export interface DefenseDisplayData {
   id: string;

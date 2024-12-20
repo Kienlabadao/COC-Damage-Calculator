@@ -18,7 +18,7 @@ export function manageHideNormalDefenseLocalStorage() {
       return hideNormalDefense;
     } else {
       console.warn(
-        `manageHideNormalDefenseLocalStorage.getHideNormalDefense ERROR: Value in storage key (${key}) is not HideNormalDefense type. hideNormalDefense: ${hideNormalDefense}`
+        `manageHideNormalDefenseLocalStorage.getHideNormalDefense ERROR: Value in storage key (${key}) is not boolean. hideNormalDefense: ${hideNormalDefense}`
       );
     }
 

@@ -47,6 +47,7 @@ export const IMAGE_PATH = {
   EquipmentDestroyed: "/images/other/champion_king.webp",
   Donated: "/images/other/donate.webp",
   NoDefenseFound: "/images/other/confused.webp",
+  DeathDamage: "/images/other/death.webp",
 } as const;
 
 export type ImagePath = ObjectValues<typeof IMAGE_PATH>;

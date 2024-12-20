@@ -27,6 +27,14 @@ export const SIZE = {
 } as const;
 export type Size = ObjectValues<typeof SIZE>;
 
+export const TOP_LEFT_OVERLAY_TYPE = {
+  None: "none",
+  Donated: "donated",
+  DeathDamage: "deathDamage",
+  Modifier: "modifier",
+} as const;
+export type TopLeftOverlayType = ObjectValues<typeof TOP_LEFT_OVERLAY_TYPE>;
+
 function renderBackgroundType(backgroudType: BackgroundType): string {
   switch (backgroudType) {
     case BACKGROUND_TYPE.Normal:
@@ -92,7 +100,8 @@ interface Props {
   headerContent?: string;
   headerOverlayType?: OverlayType;
   isMaxed?: boolean;
-  isDonated?: boolean;
+  topLeftOverlayType?: TopLeftOverlayType;
+  modifierImgPath?: string;
 }
 
 export function GameDataCardContainer({
@@ -103,7 +112,8 @@ export function GameDataCardContainer({
   headerContent,
   headerOverlayType = OVERLAY_TYPE.NumSpellCount,
   isMaxed = false,
-  isDonated = false,
+  topLeftOverlayType = TOP_LEFT_OVERLAY_TYPE.None,
+  modifierImgPath,
 }: Props) {
   function renderHeaderContent() {
     if (headerContent) {
@@ -114,6 +124,50 @@ export function GameDataCardContainer({
       }
     } else {
       return "";
+    }
+  }
+
+  function renderTopLeftOverlay() {
+    switch (topLeftOverlayType) {
+      case TOP_LEFT_OVERLAY_TYPE.None:
+        return null;
+      case TOP_LEFT_OVERLAY_TYPE.Donated:
+        return (
+          <Overlay
+            type={OVERLAY_TYPE.Img}
+            position={POSITION.TopLeft}
+            size={convertCardSize(size)}
+            imgPath={IMAGE_PATH.Donated}
+          />
+        );
+      case TOP_LEFT_OVERLAY_TYPE.DeathDamage:
+        return (
+          <Overlay
+            type={OVERLAY_TYPE.ImgDeath}
+            position={POSITION.TopLeft}
+            size={convertCardSize(size)}
+            imgPath={IMAGE_PATH.DeathDamage}
+          />
+        );
+      case TOP_LEFT_OVERLAY_TYPE.Modifier:
+        if (modifierImgPath) {
+          return (
+            <Overlay
+              type={OVERLAY_TYPE.Img}
+              position={POSITION.TopLeft}
+              size={convertCardSize(size)}
+              imgPath={modifierImgPath}
+            />
+          );
+        } else {
+          throw new Error(
+            `GameDataCardContainer.renderTopLeftOverlay ERROR: modifierImgPath (${modifierImgPath}) must be provided to use TOP_LEFT_OVERLAY_TYPE.Modifier.`
+          );
+        }
+      default:
+        throw new Error(
+          `GameDataCardContainer.renderTopLeftOverlay ERROR: topLeftOverlayType (${topLeftOverlayType}) is not supported.`
+        );
     }
   }
 
@@ -132,14 +186,7 @@ export function GameDataCardContainer({
           />
         </div>
       )}
-      {isDonated && (
-        <Overlay
-          type={OVERLAY_TYPE.Img}
-          position={POSITION.TopLeft}
-          size={convertCardSize(size)}
-          imgPath={IMAGE_PATH.Donated}
-        />
-      )}
+      {renderTopLeftOverlay()}
       {level && (
         <Overlay
           type={isMaxed ? OVERLAY_TYPE.NumLevelMaxed : OVERLAY_TYPE.Num}

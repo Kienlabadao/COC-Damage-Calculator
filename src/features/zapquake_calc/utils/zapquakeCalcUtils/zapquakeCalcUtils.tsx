@@ -2,7 +2,6 @@ import { GAME_DATA_TYPE, GameDataType, SPELL } from "data/game";
 import {
   CALCULATOR_TYPE,
   DONATED_STR,
-  getHideDestroyedDefenseStorageKey,
   getLevelPosGameDataStorageKey,
   getUseGameDataStorageKey,
 } from "utils/calcLocalStorageKeyUtils";
@@ -46,10 +45,6 @@ export function getZapquakeCalcUseOffenseStorageKey(
 
 export function getDonatedLightningSpellCountStorageKey(): string {
   return `${calculatorType}_${GAME_DATA_TYPE.Spell}_count_${SPELL.LightningSpell}_${DONATED_STR}`;
-}
-
-export function getZapquakeCalcHideDestroyedDefenseStorageKey(): string {
-  return getHideDestroyedDefenseStorageKey(calculatorType);
 }
 
 export function getHideEquipmentDestroyedDefenseStorageKey(): string {

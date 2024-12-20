@@ -1,6 +1,7 @@
 import {
   GameDataCardContainer,
   SIZE,
+  TOP_LEFT_OVERLAY_TYPE,
 } from "components/CalculatorComponents/GameDataCardContainer";
 import { IMAGE_PATH } from "data/constants";
 import { MAX_SPELL_COUNT } from "features/zapquake_calc/config";
@@ -36,7 +37,9 @@ function createSpellRow(spellCountItemList: SpellCountItem[]): {
         level={getSpellLevel(currentLevelPos)}
         headerContent={count.toString()}
         isMaxed={isMaxLevelPos(currentLevelPos)}
-        isDonated={isDonated}
+        topLeftOverlayType={
+          isDonated ? TOP_LEFT_OVERLAY_TYPE.Donated : TOP_LEFT_OVERLAY_TYPE.None
+        }
       />
     );
   });

@@ -33,7 +33,7 @@ export function manageDonatedLightningSpellCountLocalStorage() {
       }
     } else {
       console.warn(
-        `manageDonatedLightningSpellCountLocalStorage.getCount ERROR: Value in storage key (${key}) is not a number. count: ${count}`
+        `manageDonatedLightningSpellCountLocalStorage.getCount ERROR: Value in storage key (${key}) is not number. count: ${count}`
       );
     }
 

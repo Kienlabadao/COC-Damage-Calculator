@@ -42,7 +42,6 @@ interface Props {
   damageType: DamageType;
   backgroundType?: BackgroundType;
   isMaxed?: boolean;
-  isEarthquake?: boolean;
 }
 
 export function OffenseCard({

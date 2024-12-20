@@ -1,4 +1,10 @@
-import { DAMAGE_TYPE, DamageType, TroopData, TroopType } from "data/game";
+import {
+  DAMAGE_TYPE,
+  DamageType,
+  TROOP_TYPE,
+  TroopData,
+  TroopType,
+} from "data/game";
 import { OFFENSE_IMG_PATH } from "../gameDataUtils";
 
 export function troopDataUtils(troopID: string) {
@@ -14,7 +20,17 @@ export function troopDataUtils(troopID: string) {
   }
 
   function getTroopImage(levelPos: number): string {
-    return `${OFFENSE_IMG_PATH}/troops/${troopID}/${levelPos}.webp`;
+    if (isTroopTypeNormal()) {
+      const level = getTroopLevel(levelPos);
+
+      return `${OFFENSE_IMG_PATH}/troops/${troopID}/${level}.webp`;
+    } else if (isTroopTypeSuper()) {
+      return `${OFFENSE_IMG_PATH}/troops/${troopID}/${troopID}.webp`;
+    } else {
+      throw new Error(
+        `troopDataUtils.getTroopImage ERROR: troopType (${getTroopType()}) is not supported.`
+      );
+    }
   }
 
   function getTroopType(): TroopType {
@@ -110,6 +126,14 @@ export function troopDataUtils(troopID: string) {
     return getTroopDamageType() === DAMAGE_TYPE.Earthquake;
   }
 
+  function isTroopTypeNormal() {
+    return getTroopType() === TROOP_TYPE.Normal;
+  }
+
+  function isTroopTypeSuper() {
+    return getTroopType() === TROOP_TYPE.Super;
+  }
+
   return {
     troopData,
     getTroopName,
@@ -128,5 +152,7 @@ export function troopDataUtils(troopID: string) {
     isMaxLevelPos,
     isTroopDamageTypeDirect,
     isTroopDamageTypeEarthquake,
+    isTroopTypeNormal,
+    isTroopTypeSuper,
   };
 }

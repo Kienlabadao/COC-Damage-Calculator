@@ -1,13 +1,19 @@
-import { useRef } from "react";
-import { calculateDefense, DefenseStatus } from "../actions/DefenseItem";
-import { SpellCountItem } from "../objects/spellCountItem";
-import { isValidDefenseLevelPos } from "utils/GameData/gameDataUtils";
-import { compareOffenseItemList, OffenseItem } from "../objects/offenseItem";
+import {
+  calculateDefense,
+  DefenseStatus,
+} from "features/zapquake_calc/actions/DefenseItem";
+import { EarthquakeOrder } from "features/zapquake_calc/data/constants";
 import {
   compareDonatedLightningSpellItem,
   DonatedLightningSpellItem,
-} from "../objects/donatedLightningSpellItem";
-import { EarthquakeOrder } from "../data/constants";
+} from "features/zapquake_calc/objects/donatedLightningSpellItem";
+import {
+  compareOffenseItemList,
+  OffenseItem,
+} from "features/zapquake_calc/objects/offenseItem";
+import { SpellCountItem } from "features/zapquake_calc/objects/spellCountItem";
+import { useRef } from "react";
+import { isValidDefenseLevelPos } from "utils/GameData/gameDataUtils";
 
 function compareVariables(
   variables: Variables,

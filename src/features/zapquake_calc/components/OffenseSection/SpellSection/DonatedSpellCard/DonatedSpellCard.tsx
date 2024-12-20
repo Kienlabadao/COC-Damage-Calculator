@@ -17,6 +17,7 @@ import {
   BACKGROUND_TYPE,
   GameDataCardContainer,
   SIZE,
+  TOP_LEFT_OVERLAY_TYPE,
 } from "components/CalculatorComponents/GameDataCardContainer";
 
 function convertToDisplayerType(damageType: DamageType): DisplayerType {
@@ -98,7 +99,7 @@ export const DonatedSpellCard = memo(function DonatedSpellCard({
           size={SIZE.Normal}
           level={currentLevel}
           isMaxed={isMaxLevelPos(currentLevelPos)}
-          isDonated={true}
+          topLeftOverlayType={TOP_LEFT_OVERLAY_TYPE.Donated}
         />
       </div>
       <div className="mt-2">

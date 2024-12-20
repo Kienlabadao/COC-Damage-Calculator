@@ -29,7 +29,7 @@ export function updateOffenseItemInList(
   let isOffenseFound = false;
 
   const updatedList = offenseItemList.map((offense) => {
-    if (offense.id === offenseID) {
+    if (offense.offenseID === offenseID) {
       isOffenseFound = true;
       return {
         ...updatedOffenseItem,

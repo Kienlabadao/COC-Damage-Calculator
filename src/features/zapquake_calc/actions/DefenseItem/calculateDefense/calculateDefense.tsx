@@ -70,7 +70,7 @@ export function calculateDefense(
         earthquakeSpellCount,
         earthquakeOrder
       );
-      console.log(defenseID);
+
       const damageLogList = convertZapquakeActionList(
         defenseID,
         defenseLevelPos,
@@ -86,8 +86,7 @@ export function calculateDefense(
       ) {
         // Defense is destroy in this actionList composition
         spellCountList.push(spellCountItemList);
-        console.log(spellCountItemList);
-        console.log(isListContainOneTypeOnly(spellCountItemList));
+
         if (isListContainOneTypeOnly(spellCountItemList)) {
           // User either only select 1 spell type, or this defense immune to all spells that user select except 1, or only eq spell are needed to destroy it
           // Either way, return the list as there is no point continuing

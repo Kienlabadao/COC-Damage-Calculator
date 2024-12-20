@@ -16,7 +16,7 @@ export function manageUseOffenseLocalStorage(
       return useOffense;
     } else {
       console.warn(
-        `manageUseOffenseLocalStorage.getUseOffense ERROR: Value in storage key (${key}) is not a boolean. useOffense: ${useOffense}`
+        `manageUseOffenseLocalStorage.getUseOffense ERROR: Value in storage key (${key}) is not boolean. useOffense: ${useOffense}`
       );
     }
 

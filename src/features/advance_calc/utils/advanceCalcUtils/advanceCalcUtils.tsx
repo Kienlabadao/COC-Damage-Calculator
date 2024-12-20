@@ -1,9 +1,7 @@
 import { GAME_DATA_TYPE, GameDataType } from "data/game";
 import {
   CALCULATOR_TYPE,
-  getHideDestroyedDefenseStorageKey,
   getLevelPosGameDataStorageKey,
-  getUseGameDataStorageKey,
 } from "utils/calcLocalStorageKeyUtils";
 import { VALUE_BOUNDARY } from "data/constants";
 import { spellDataUtils } from "utils/GameData/spellDataUtils";
@@ -15,46 +13,33 @@ import { repairDataUtils } from "utils/GameData/repairDataUtils";
 import { defenseDataUtils } from "utils/GameData/defenseDataUtils";
 import { DEFAULT_LEVEL } from "features/advance_calc/config";
 
+const calculatorType = CALCULATOR_TYPE.Advance;
+
 export function getAdvanceCalcLevelPosGameDataStorageKey(
   gameDataID: string,
-  gameDataType: GameDataType,
-  isDonated = false
+  gameDataType: GameDataType
 ): string {
   return getLevelPosGameDataStorageKey(
     gameDataID,
     gameDataType,
-    CALCULATOR_TYPE.Advance,
-    isDonated
+    calculatorType
   );
 }
 
-export function getAdvanceCalcUseGameDataStorageKey(
-  gameDataID: string,
-  gameDataType: GameDataType,
-  isDonated = false
-): string {
-  return getUseGameDataStorageKey(
-    gameDataID,
-    gameDataType,
-    CALCULATOR_TYPE.Advance,
-    isDonated
-  );
-}
-
-export function getAdvanceCalcHideDestroyedDefenseStorageKey(): string {
-  return getHideDestroyedDefenseStorageKey(CALCULATOR_TYPE.Advance);
+export function getHideDestroyedDefenseStorageKey(): string {
+  return `${calculatorType}_hide_destroyed_defense`;
 }
 
 export function getHideSurvivedDefenseStorageKey(): string {
-  return `${CALCULATOR_TYPE.Advance}_hide_survived_defense`;
+  return `${calculatorType}_hide_survived_defense`;
 }
 
 export function getUseHardModeStorageKey(): string {
-  return `${CALCULATOR_TYPE.Advance}_use_hard_mode`;
+  return `${calculatorType}_use_hard_mode`;
 }
 
 export function getUseTroopDeathDamageStorageKey(): string {
-  return `${CALCULATOR_TYPE.Advance}_use_troop_death_damage`;
+  return `${calculatorType}_use_troop_death_damage`;
 }
 
 export function getSpellDefaultLevelPos(spellID: string): number {
