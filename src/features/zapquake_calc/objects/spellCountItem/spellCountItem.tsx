@@ -40,8 +40,6 @@ export function isListContainOneTypeOnly(
 
     if (!spellIDList.includes(spellID)) {
       spellIDList.push(spellID);
-    } else {
-      return true;
     }
   }
 

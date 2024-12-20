@@ -90,25 +90,13 @@ export function createZapquakeActionList(
     spellCount += earthquakeSpellCount;
   }
 
-  if (donatedLightningSpellItem.use && spellCount < MAX_SPELL_COUNT) {
-    let donatedLightningSpellCount = donatedLightningSpellItem.count;
-
-    spellCount += donatedLightningSpellCount;
-    if (spellCount > MAX_SPELL_COUNT) {
-      actionList.push(
-        ...convertDonatedLightningSpell(
-          donatedLightningSpellItem,
-          spellCount - MAX_SPELL_COUNT
-        )
-      );
-    } else {
-      actionList.push(
-        ...convertDonatedLightningSpell(
-          donatedLightningSpellItem,
-          donatedLightningSpellCount
-        )
-      );
-    }
+  if (donatedLightningSpellItem.use) {
+    actionList.push(
+      ...convertDonatedLightningSpell(
+        donatedLightningSpellItem,
+        donatedLightningSpellItem.count
+      )
+    );
   }
 
   if (lightingSpell) {

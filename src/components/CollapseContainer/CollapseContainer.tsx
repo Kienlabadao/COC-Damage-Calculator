@@ -16,8 +16,8 @@ export const CollapseContainer = ({
   id,
   children,
   buttonContainerClassName = "",
-  openText = "Show More",
-  closeText = "Show Less",
+  openText = "Show",
+  closeText = "Hide",
   defaultOpen = false,
 }: Props) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);

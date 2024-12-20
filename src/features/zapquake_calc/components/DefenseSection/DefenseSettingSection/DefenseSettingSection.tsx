@@ -67,7 +67,7 @@ export const DefenseSettingSection = memo(function DefenseSettingSection({
         id={`search_defense`}
         value={searchQuery}
         onChange={handleSearchDefense}
-        placeHolder={`Seach a defense`}
+        placeHolder={`Search a defense`}
       />
       <div className="d-flex flex-wrap gap-2 mt-3">
         <Button color={BS_COLOR.Gray} onClick={setAllDefensesToMax}>

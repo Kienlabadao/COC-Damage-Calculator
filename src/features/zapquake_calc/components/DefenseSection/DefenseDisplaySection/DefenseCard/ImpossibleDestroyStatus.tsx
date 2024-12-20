@@ -9,7 +9,7 @@ export function ImpossibleDestroyStatus() {
         src={IMAGE_PATH.ImpossibleDestroy}
       />
       <div className="info status-container__text">
-        It's impossible to destroy this defense with setup. Womp womp! 😔
+        It's impossible to destroy this defense with that setup. Womp womp! 😔
       </div>
     </div>
   );

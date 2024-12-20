@@ -1,6 +1,7 @@
 import { SpellSection } from "./SpellSection/SpellSection";
 import { EquipmentSection } from "./EquipmentSection/EquipmentSection";
 import { SectionContainer } from "components";
+import { InstructionSection } from "./InstructionSection";
 
 export function OffenseSection() {
   return (
@@ -12,6 +13,9 @@ export function OffenseSection() {
       <hr />
 
       <EquipmentSection />
+      <hr />
+
+      <InstructionSection />
     </SectionContainer>
   );
 }
