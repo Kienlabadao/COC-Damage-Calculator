@@ -31,7 +31,7 @@ export function getZapquakeCalcLevelPosGameDataStorageKey(
   );
 }
 
-export function getZapquakeCalcUseGameDataStorageKey(
+export function getZapquakeCalcUseOffenseStorageKey(
   gameDataID: string,
   gameDataType: GameDataType,
   isDonated = false

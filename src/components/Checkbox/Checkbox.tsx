@@ -2,7 +2,7 @@ interface Props {
   id: string;
   label: string;
   isChecked: boolean;
-  onInput: (isChecked: boolean) => void;
+  onChange: (isChecked: boolean) => void;
   className?: string;
 }
 
@@ -10,11 +10,11 @@ export function Checkbox({
   id,
   label,
   isChecked,
-  onInput,
+  onChange,
   className = "",
 }: Props) {
   function handleCheckboxChange(event: React.ChangeEvent<HTMLInputElement>) {
-    onInput(event.target.checked);
+    onChange(event.target.checked);
   }
 
   return (

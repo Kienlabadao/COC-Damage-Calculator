@@ -79,7 +79,7 @@ export function OffenseCard({
           min={minLevelPos}
           max={maxLevelPos}
           currentValue={currentLevelPos}
-          onInput={(newValue: number) => updateCurrentLevelPos(newValue)}
+          onChange={(newValue: number) => updateCurrentLevelPos(newValue)}
         />
       </div>
       <div className="d-flex justify-content-center align-items-center mt-2">
@@ -87,7 +87,7 @@ export function OffenseCard({
           id={`use_${id}`}
           label={`Use ${type}`}
           isChecked={useOffense}
-          onInput={(isChecked: boolean) => updateUseOffense(isChecked)}
+          onChange={(isChecked: boolean) => updateUseOffense(isChecked)}
         />
       </div>
       <div className="mt-2">

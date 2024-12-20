@@ -4,7 +4,10 @@ import {
   filterOffenseItemList,
   OffenseItem,
 } from "features/zapquake_calc/objects/offenseItem";
-import { SpellCountItem } from "features/zapquake_calc/objects/spellCountItem";
+import {
+  isListContainOneTypeOnly,
+  SpellCountItem,
+} from "features/zapquake_calc/objects/spellCountItem";
 import { canEquipmentDestroyDefense } from "../../canEquipmentDestroyDefense";
 import { MAX_SPELL_COUNT } from "features/zapquake_calc/config/config";
 import { createZapquakeActionList } from "../../ZapquakeActionItem";
@@ -73,20 +76,35 @@ export function calculateDefense(
         actionList
       );
 
+      const spellCountItemList = convertZapquakeDamageLogList(damageLogList);
+      spellCountItemList.reverse();
+
       if (
         damageLogList.length > 0 &&
         getArrayLastElement(damageLogList).remainingHP <= 0
       ) {
-        const spellCountItemList = convertZapquakeDamageLogList(damageLogList);
-        spellCountItemList.reverse();
+        // Defense is destroy in this actionList composition
         spellCountList.push(spellCountItemList);
 
-        if (spellCountItemList.length === 1) {
+        if (isListContainOneTypeOnly(spellCountItemList)) {
+          // User either only select 1 spell type, or this defense immune to all spells that user select except 1, or only eq spell are needed to destroy it
+          // Either way, return the list as there is no point continuing
           break;
         }
       } else {
-        // Defense is immune to everything in action list or action list combination is not enough to destroy defense
+        // Defense isn't destroy in this actionList composition
+
+        if (spellCountItemList.length === 0) {
+          // Defense is immune to everything in action list
+          break;
+        }
+        if (isListContainOneTypeOnly(spellCountItemList)) {
+          // User only select 1 spell type or this defense immune to all spells that user select except 1
+          break;
+        }
         if (spellCountList.length !== 0) {
+          // There is already a compositon that destroy this defense
+          // No point continuing as other composition after this also won't be able to destroy this defense
           break;
         }
       }

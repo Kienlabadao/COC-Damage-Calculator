@@ -4,6 +4,7 @@ import {
 } from "features/zapquake_calc/objects/spellCountItem";
 import { ZapquakeDamageLogItem } from "features/zapquake_calc/objects/zapquakeDamageLogItem";
 import { ACTION_TYPE } from "objects/actionItem";
+import { DAMAGE_LOG_TYPE } from "objects/damageLogItem";
 
 export function convertZapquakeDamageLogList(
   zapquakeDamageLogItem: ZapquakeDamageLogItem[]
@@ -11,7 +12,10 @@ export function convertZapquakeDamageLogList(
   const spellCountItemList: SpellCountItem[] = [];
 
   zapquakeDamageLogItem.forEach((damageLogItem) => {
-    if (damageLogItem.type === ACTION_TYPE.Spell) {
+    if (
+      damageLogItem.damageLogType !== DAMAGE_LOG_TYPE.Immune &&
+      damageLogItem.type === ACTION_TYPE.Spell
+    ) {
       const existingItem = spellCountItemList.find(
         (spellCountItem) =>
           spellCountItem.spellID === damageLogItem.actionID &&

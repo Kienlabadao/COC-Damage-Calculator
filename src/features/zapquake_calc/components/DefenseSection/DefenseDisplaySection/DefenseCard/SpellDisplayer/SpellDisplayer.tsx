@@ -26,7 +26,7 @@ export function SpellDisplayer({ id, spellCountList }: Props) {
           buttonContainerClassName={"text-center my-3"}
           defaultOpen={false}
         >
-          <div className="row row-cols-1 gy-2 gx-0">
+          <div className="row row-cols-1 gy-3">
             {newSpellCountList.map((spellCountItemList) => (
               <div key={uuidv4()} className="col">
                 <SpellRow spellCountItemList={spellCountItemList} />

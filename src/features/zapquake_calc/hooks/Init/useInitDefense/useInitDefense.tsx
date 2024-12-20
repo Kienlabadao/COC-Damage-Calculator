@@ -9,11 +9,12 @@ import {
 import { DefenseItem } from "features/zapquake_calc/objects/defenseItem";
 import { useCallback, useState } from "react";
 import { getAllDefenseIDs } from "utils/GameData/gameDataUtils";
-import { useCacheDefenseLog } from "../../useCacheDefenseLog";
+import { DefenseLog, useCacheDefenseLog } from "../../useCacheDefenseLog";
 import { OffenseItem } from "features/zapquake_calc/objects/offenseItem";
 import { DonatedLightningSpellItem } from "features/zapquake_calc/objects/donatedLightningSpellItem";
 import { EarthquakeOrder } from "features/zapquake_calc/data/constants";
 import { SpellCountItem } from "features/zapquake_calc/objects/spellCountItem";
+import { defenseDataUtils } from "utils/GameData/defenseDataUtils";
 
 export interface DefenseDisplayData {
   id: string;
@@ -23,24 +24,35 @@ export interface DefenseDisplayData {
   spellCountList: SpellCountItem[][];
 }
 
+export interface DefenseCountLog {
+  maxDefenseCount: number;
+  remainingDefense: number;
+  hiddenSettingDefenseCount: number;
+  hiddenSearchQueryDefenseCount: number;
+  hiddenImpossibleDestroyDefenseCount: number;
+  hiddenEquipmentDestroyedDefenseCount: number;
+  hiddenNormalDefenseCount: number;
+}
+
 function getAllDefenses(): DefenseItem[] {
   const defenseIDList = getAllDefenseIDs();
 
   return defenseIDList.map((defenseID) => initDefenseItem(defenseID));
 }
 
-export function useInitDefense(
+function initDefenseLog(
+  defenseItemList: DefenseItem[],
+  tryCalculateAndStoreDefenseLog: (
+    defenseID: string,
+    currentLevelPos: number,
+    offenseItemList: OffenseItem[],
+    donatedLightningSpellItem: DonatedLightningSpellItem,
+    earthquakeOrder: EarthquakeOrder
+  ) => void,
   filteredOffenseItemList: OffenseItem[],
   donatedLightningSpellItem: DonatedLightningSpellItem,
-  earthquakeOrder: EarthquakeOrder,
-  hideImpossibleDestroyDefense: boolean,
-  hideEquipmentDestroyedDefense: boolean,
-  hideNormalDefense: boolean
-) {
-  const [defenseItemList, setDefenseItemList] = useState(getAllDefenses());
-  const { tryCalculateAndStoreDefenseLog, retrieveOrRecalculateDefenseLog } =
-    useCacheDefenseLog();
-
+  earthquakeOrder: EarthquakeOrder
+): void {
   defenseItemList.forEach((defenseItem) => {
     const defenseID = defenseItem.defenseID;
     const currentLevelPos = defenseItem.currentLevelPos;
@@ -53,54 +65,94 @@ export function useInitDefense(
       earthquakeOrder
     );
   });
+}
 
-  let defenseDisplayDataList: DefenseDisplayData[] = defenseItemList.map(
-    (defense) => {
-      const id = defense.id;
-      const defenseID = defense.defenseID;
-      const currentLevelPos = defense.currentLevelPos;
+function initDefenseDisplayDataList(
+  defenseItemList: DefenseItem[],
+  retrieveOrRecalculateDefenseLog: (
+    defenseID: string,
+    currentLevelPos: number,
+    offenseItemList: OffenseItem[],
+    donatedLightningSpellItem: DonatedLightningSpellItem,
+    earthquakeOrder: EarthquakeOrder
+  ) => DefenseLog,
+  filteredOffenseItemList: OffenseItem[],
+  donatedLightningSpellItem: DonatedLightningSpellItem,
+  earthquakeOrder: EarthquakeOrder,
+  setDefenseItemList: React.Dispatch<React.SetStateAction<DefenseItem[]>>
+): DefenseDisplayData[] {
+  return defenseItemList.map((defense) => {
+    const id = defense.id;
+    const defenseID = defense.defenseID;
+    const currentLevelPos = defense.currentLevelPos;
 
-      const { defenseStatus, spellCountList } = retrieveOrRecalculateDefenseLog(
-        defenseID,
-        currentLevelPos,
-        filteredOffenseItemList,
-        donatedLightningSpellItem,
-        earthquakeOrder
-      );
+    const { defenseStatus, spellCountList } = retrieveOrRecalculateDefenseLog(
+      defenseID,
+      currentLevelPos,
+      filteredOffenseItemList,
+      donatedLightningSpellItem,
+      earthquakeOrder
+    );
 
-      return {
-        id: id,
-        defense: defense,
-        updateDefense: useCallback(
-          (defenseID: string, currentLevelPos: number) => {
-            setDefenseItemList((prevDefenseItemList) => {
-              return updateDefenseItem(
-                defenseID,
-                currentLevelPos,
-                prevDefenseItemList
-              );
-            });
-          },
-          []
-        ),
-        defenseStatus: defenseStatus,
-        spellCountList: spellCountList,
-      };
-    }
-  );
+    return {
+      id: id,
+      defense: defense,
+      updateDefense: useCallback(
+        (defenseID: string, currentLevelPos: number) => {
+          setDefenseItemList((prevDefenseItemList) => {
+            return updateDefenseItem(
+              defenseID,
+              currentLevelPos,
+              prevDefenseItemList
+            );
+          });
+        },
+        []
+      ),
+      defenseStatus: defenseStatus,
+      spellCountList: spellCountList,
+    };
+  });
+}
 
-  let hiddenImpossibleDestroyDefenseCount = 0;
-  let hiddenEquipmentDestroyedDefenseCount = 0;
-  let hiddenNormalDefenseCount = 0;
-  defenseDisplayDataList = defenseDisplayDataList.filter(
+function filterDefenseDisplayDataList(
+  defenseDisplayDataList: DefenseDisplayData[],
+  hideImpossibleDestroyDefense: boolean,
+  hideEquipmentDestroyedDefense: boolean,
+  hideNormalDefense: boolean,
+  searchQuery: string
+) {
+  const defenseCountLog: DefenseCountLog = {
+    maxDefenseCount: defenseDisplayDataList.length,
+    remainingDefense: 0,
+    hiddenSettingDefenseCount: 0,
+    hiddenSearchQueryDefenseCount: 0,
+    hiddenImpossibleDestroyDefenseCount: 0,
+    hiddenEquipmentDestroyedDefenseCount: 0,
+    hiddenNormalDefenseCount: 0,
+  };
+
+  const filteredDefenseDisplayDataList = defenseDisplayDataList.filter(
     (defenseDisplayData) => {
       const defenseStatus = defenseDisplayData.defenseStatus;
+
+      if (searchQuery) {
+        const defenseID = defenseDisplayData.defense.defenseID;
+        const { getDefenseName } = defenseDataUtils(defenseID);
+
+        if (
+          !getDefenseName().toLowerCase().includes(searchQuery.toLowerCase())
+        ) {
+          defenseCountLog.hiddenSearchQueryDefenseCount++;
+          return false;
+        }
+      }
 
       if (
         hideImpossibleDestroyDefense &&
         defenseStatus === DEFENSE_STATUS.ImpossibleDestroy
       ) {
-        hiddenImpossibleDestroyDefenseCount++;
+        defenseCountLog.hiddenImpossibleDestroyDefenseCount++;
         return false;
       }
 
@@ -108,24 +160,61 @@ export function useInitDefense(
         hideEquipmentDestroyedDefense &&
         defenseStatus === DEFENSE_STATUS.EquipmentDestroyed
       ) {
-        hiddenEquipmentDestroyedDefenseCount++;
+        defenseCountLog.hiddenEquipmentDestroyedDefenseCount++;
         return false;
       }
 
       if (hideNormalDefense && defenseStatus === DEFENSE_STATUS.Normal) {
-        hiddenNormalDefenseCount++;
+        defenseCountLog.hiddenNormalDefenseCount++;
         return false;
       }
 
       return true;
     }
   );
-  console.log("hiddenImpossibleDestroyDefenseCount");
-  console.log(hiddenImpossibleDestroyDefenseCount);
-  console.log("hiddenEquipmentDestroyedDefenseCount");
-  console.log(hiddenEquipmentDestroyedDefenseCount);
-  console.log("hiddenNormalDefenseCount");
-  console.log(hiddenNormalDefenseCount);
+  defenseCountLog.remainingDefense = filteredDefenseDisplayDataList.length;
+
+  return [filteredDefenseDisplayDataList, defenseCountLog] as const;
+}
+
+export function useInitDefense(
+  filteredOffenseItemList: OffenseItem[],
+  donatedLightningSpellItem: DonatedLightningSpellItem,
+  earthquakeOrder: EarthquakeOrder,
+  hideImpossibleDestroyDefense: boolean,
+  hideEquipmentDestroyedDefense: boolean,
+  hideNormalDefense: boolean,
+  searchQuery: string
+) {
+  const [defenseItemList, setDefenseItemList] = useState(getAllDefenses());
+  const { tryCalculateAndStoreDefenseLog, retrieveOrRecalculateDefenseLog } =
+    useCacheDefenseLog();
+
+  initDefenseLog(
+    defenseItemList,
+    tryCalculateAndStoreDefenseLog,
+    filteredOffenseItemList,
+    donatedLightningSpellItem,
+    earthquakeOrder
+  );
+
+  const defenseDisplayDataList = initDefenseDisplayDataList(
+    defenseItemList,
+    retrieveOrRecalculateDefenseLog,
+    filteredOffenseItemList,
+    donatedLightningSpellItem,
+    earthquakeOrder,
+    setDefenseItemList
+  );
+
+  const [filteredDefenseDisplayDataList, defenseCountLog] =
+    filterDefenseDisplayDataList(
+      defenseDisplayDataList,
+      hideImpossibleDestroyDefense,
+      hideEquipmentDestroyedDefense,
+      hideNormalDefense,
+      searchQuery
+    );
 
   const setAllDefensesToMax = useCallback(() => {
     setDefenseItemList((prevDefenseItemList) => {
@@ -140,7 +229,8 @@ export function useInitDefense(
   }, []);
 
   return [
-    defenseDisplayDataList,
+    filteredDefenseDisplayDataList,
+    defenseCountLog,
     setAllDefensesToMax,
     setAllDefensesToMin,
   ] as const;

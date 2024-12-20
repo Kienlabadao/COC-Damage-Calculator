@@ -31,7 +31,7 @@ function createSpellRow(spellCountItemList: SpellCountItem[]): {
         imgPath={imgPath}
         size={SIZE.Tall}
         level={getSpellLevel(currentLevelPos)}
-        count={count}
+        headerContent={count.toString()}
         isMaxed={isMaxLevelPos(currentLevelPos)}
         isDonated={isDonated}
       />
@@ -46,19 +46,24 @@ interface Props {
 }
 
 export function SpellRow({ spellCountItemList }: Props) {
-  if (spellCountItemList.length === 0) {
+  const spellCountItemListLength = spellCountItemList.length;
+  if (spellCountItemListLength === 0) {
     throw new Error(`SpellRow ERROR: spellCountItemList cannot be empty.`);
   }
 
   const { spellRowList, spellCount } = createSpellRow(spellCountItemList);
 
-  return (
-    <div className="row gy-2 gx-1 align-items-center">
-      <div className="col-9 col-sm-8 d-flex justify-content-end gap-2">
+  {
+    /* <div className="col-9 col-sm-8 d-flex justify-content-end gap-2">
         {spellRowList}
       </div>
-      <div className="col-3 col-sm-4">
-        <div className="row row-cols-1">
+      <div className="col-3 col-sm-4"></div> */
+  }
+  return (
+    <div className="d-flex justify-content-center align-items-center gap-2">
+      <div className="d-flex gap-2">{spellRowList}</div>
+      <div>
+        <div className="d-flex justify-content-center">
           <span className="col fs-5 fw-bold">{`(${spellCount}/${MAX_SPELL_COUNT})`}</span>
         </div>
       </div>

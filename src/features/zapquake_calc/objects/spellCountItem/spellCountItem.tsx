@@ -29,3 +29,21 @@ export function createSpellCountItem(
     );
   }
 }
+
+export function isListContainOneTypeOnly(
+  spellCountItemList: SpellCountItem[]
+): boolean {
+  const spellIDList: string[] = [];
+
+  for (const spellCountItem of spellCountItemList) {
+    const spellID = spellCountItem.spellID;
+
+    if (!spellIDList.includes(spellID)) {
+      spellIDList.push(spellID);
+    } else {
+      return true;
+    }
+  }
+
+  return spellIDList.length === 1;
+}

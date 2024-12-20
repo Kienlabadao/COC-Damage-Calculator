@@ -5,6 +5,7 @@ import {
   EquipmentData,
   EquipmentType,
   Hero,
+  RARITY,
   Rarity,
 } from "data/game";
 import { OFFENSE_IMG_PATH } from "../gameDataUtils";
@@ -138,6 +139,14 @@ export function equipmentDataUtils(equipmentID: string) {
     return getEquipmentDamageType() === DAMAGE_TYPE.Earthquake;
   }
 
+  function isEquipmentRarityCommon() {
+    return getEquipmentRarity() === RARITY.Common;
+  }
+
+  function isEquipmentRarityEpic() {
+    return getEquipmentRarity() === RARITY.Epic;
+  }
+
   return {
     equipmentData,
     getEquipmentName,
@@ -161,5 +170,7 @@ export function equipmentDataUtils(equipmentID: string) {
     isEquipmentTypeSupport,
     isEquipmentDamageTypeDirect,
     isEquipmentDamageTypeEarthquake,
+    isEquipmentRarityCommon,
+    isEquipmentRarityEpic,
   };
 }

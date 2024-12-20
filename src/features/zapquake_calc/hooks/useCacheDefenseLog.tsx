@@ -3,9 +3,11 @@ import { calculateDefense, DefenseStatus } from "../actions/DefenseItem";
 import { SpellCountItem } from "../objects/spellCountItem";
 import { isValidDefenseLevelPos } from "utils/GameData/gameDataUtils";
 import { compareOffenseItemList, OffenseItem } from "../objects/offenseItem";
-import { DonatedLightningSpellItem } from "../objects/donatedLightningSpellItem";
+import {
+  compareDonatedLightningSpellItem,
+  DonatedLightningSpellItem,
+} from "../objects/donatedLightningSpellItem";
 import { EarthquakeOrder } from "../data/constants";
-import { compareBaseOffenseItem } from "objects/baseOffenseItem";
 
 function compareVariables(
   variables: Variables,
@@ -17,7 +19,7 @@ function compareVariables(
   return (
     variables.currentLevelPos === currentLevelPos &&
     compareOffenseItemList(variables.offenseItemList, offenseItemList) &&
-    compareBaseOffenseItem(
+    compareDonatedLightningSpellItem(
       variables.donatedLightningSpellItem,
       donatedLightningSpellItem
     ) &&
@@ -32,7 +34,7 @@ interface Variables {
   earthquakeOrder: EarthquakeOrder;
 }
 
-interface DefenseLog {
+export interface DefenseLog {
   defenseStatus: DefenseStatus;
   spellCountList: SpellCountItem[][];
 }

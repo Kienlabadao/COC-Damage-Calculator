@@ -5,6 +5,7 @@ import {
   POSITION,
   OverlaySize,
   OVERLAY_SIZE,
+  OverlayType,
 } from "./Overlay";
 import { IMAGE_PATH } from "data/constants";
 
@@ -12,6 +13,8 @@ export const BACKGROUND_TYPE = {
   Normal: "normal",
   Epic: "epic",
   Earthquake: "earthquake",
+  Immune: "immune",
+  HardMode: "hardMode",
 } as const;
 export type BackgroundType = ObjectValues<typeof BACKGROUND_TYPE>;
 
@@ -32,6 +35,10 @@ function renderBackgroundType(backgroudType: BackgroundType): string {
       return " object-container--earthquake";
     case BACKGROUND_TYPE.Epic:
       return " object-container--epic";
+    case BACKGROUND_TYPE.Immune:
+      return " object-container--immune";
+    case BACKGROUND_TYPE.HardMode:
+      return " object-container--hardmode";
     default:
       throw new Error(
         `GameDataCardContainer.renderBackgroundType ERROR: BackgroundType (${backgroudType}) is not supported.`
@@ -82,7 +89,8 @@ interface Props {
   backgroundType?: BackgroundType;
   size?: Size;
   level?: number;
-  count?: number;
+  headerContent?: string;
+  headerOverlayType?: OverlayType;
   isMaxed?: boolean;
   isDonated?: boolean;
 }
@@ -92,10 +100,23 @@ export function GameDataCardContainer({
   backgroundType = BACKGROUND_TYPE.Normal,
   size = SIZE.Normal,
   level,
-  count,
+  headerContent,
+  headerOverlayType = OVERLAY_TYPE.NumSpellCount,
   isMaxed = false,
   isDonated = false,
 }: Props) {
+  function renderHeaderContent() {
+    if (headerContent) {
+      if (headerOverlayType === OVERLAY_TYPE.NumSpellCount) {
+        return `x${headerContent}`;
+      } else {
+        return `${headerContent}`;
+      }
+    } else {
+      return "";
+    }
+  }
+
   return (
     <div
       className={`object-container${renderContainerType(
@@ -105,9 +126,9 @@ export function GameDataCardContainer({
       {size === SIZE.Tall && (
         <div className="object-container__header">
           <Overlay
-            type={OVERLAY_TYPE.NumSpellCount}
+            type={headerOverlayType}
             position={POSITION.None}
-            content={count ? `x${count}` : ""}
+            content={renderHeaderContent()}
           />
         </div>
       )}

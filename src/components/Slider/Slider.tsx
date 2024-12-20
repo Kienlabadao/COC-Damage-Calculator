@@ -6,7 +6,7 @@ interface Props {
   min: number;
   max: number;
   currentValue: number;
-  onInput: (newValue: number) => void;
+  onChange: (newValue: number) => void;
   useTheme?: boolean;
   className?: string;
 }
@@ -15,12 +15,12 @@ export function Slider({
   min,
   max,
   currentValue,
-  onInput,
+  onChange,
   useTheme = true,
   className = "",
 }: Props) {
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    onInput(event.target.valueAsNumber);
+    onChange(event.target.valueAsNumber);
   }
 
   return (
@@ -30,7 +30,7 @@ export function Slider({
       value={currentValue}
       type="range"
       className={`slider${getSliderThemeClass(useTheme)} ${className}`}
-      onInput={handleChange}
+      onChange={handleChange}
     />
   );
 }

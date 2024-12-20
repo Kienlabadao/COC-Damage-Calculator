@@ -11,12 +11,19 @@ import {
   DEFENSE_STATUS,
   DefenseStatus,
 } from "features/zapquake_calc/actions/DefenseItem";
+import {
+  filterOffenseItemList,
+  OffenseItem,
+} from "features/zapquake_calc/objects/offenseItem";
+import { OFFENSE_TYPE } from "data/game";
+import { UsedEquipmentDisplayer } from "./UsedEquipmentDisplayer/UsedEquipmentDisplayer";
 
 export interface Props {
   defense: DefenseItem;
   updateDefense: (defenseID: string, currentLevelPos: number) => void;
   defenseStatus: DefenseStatus;
   spellCountList: SpellCountItem[][];
+  offenseItemList: OffenseItem[];
 }
 
 export const DefenseCard = memo(function DefenseCard({
@@ -24,10 +31,16 @@ export const DefenseCard = memo(function DefenseCard({
   updateDefense,
   defenseStatus,
   spellCountList,
+  offenseItemList,
 }: Props) {
   const updateCurrentLevelPos = (newCurrentLevelPos: number) => {
     updateDefense(defenseID, newCurrentLevelPos);
   };
+  const equipmentItemList = filterOffenseItemList(
+    offenseItemList,
+    new Set([OFFENSE_TYPE.Equipment]),
+    true
+  );
 
   const defenseID = defense.defenseID;
   const {
@@ -39,6 +52,7 @@ export const DefenseCard = memo(function DefenseCard({
     getDefenseSuperchargeLevel,
     isMaxLevel,
     getDefenseHP,
+    isImmune,
   } = defenseDataUtils(defenseID);
 
   const name = getDefenseName();
@@ -83,37 +97,18 @@ export const DefenseCard = memo(function DefenseCard({
           min={minLevelPos}
           max={maxLevelPos}
           currentValue={currentLevelPos}
-          onInput={updateCurrentLevelPos}
+          onChange={updateCurrentLevelPos}
           useTheme={false}
           className="mt-3"
         />
         <div className="my-3">
-          <div className="equipment-div d-none">
-            <h5>Heroes Equipment used:</h5>
-            <div className="equipment-list d-flex justify-content-center align-items-center flex-wrap gap-2"></div>
-          </div>
+          {equipmentItemList.length > 0 && (
+            <UsedEquipmentDisplayer
+              equipmentItemList={equipmentItemList}
+              isImmune={isImmune}
+            />
+          )}
           {renderDefenseStatus()}
-          <div className="defense-div container-fluid mt-3 d-none">
-            <h5>Defense needed:</h5>
-            <div className="defense-main-display row gy-2 gx-1 align-items-center"></div>
-            <div className="collapse-btn text-center my-3 d-none">
-              <button
-                className="show-more-btn btn btn-secondary collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#showMore-townhall"
-                aria-controls="showMore-townhall"
-                aria-expanded="false"
-                onClick={() => console.log("pressed")}
-              >
-                Show More
-              </button>
-            </div>
-            <div
-              className="defense-display row row-cols-1 gy-2 gx-0 collapse"
-              id="showMore-townhall"
-            ></div>
-          </div>
         </div>
       </div>
     </div>

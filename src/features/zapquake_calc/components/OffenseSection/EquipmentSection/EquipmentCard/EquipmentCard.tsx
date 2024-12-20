@@ -1,7 +1,7 @@
 import { OffenseCard } from "../../OffenseCard";
 import { memo } from "react";
 import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
-import { OffenseType, RARITY } from "data/game";
+import { OffenseType } from "data/game";
 import { OffenseItem } from "features/zapquake_calc/objects/offenseItem";
 import { BACKGROUND_TYPE } from "components/CalculatorComponents/GameDataCardContainer";
 
@@ -36,20 +36,19 @@ export const EquipmentCard = memo(function EquipmentCard({
     getEquipmentMinLevelPos,
     getEquipmentMaxLevelPos,
     getEquipmentLevel,
-    getEquipmentRarity,
     getEquipmentDamage,
     getEquipmentDamageType,
     isMaxLevelPos,
+    isEquipmentRarityEpic,
   } = equipmentDataUtils(equipmentID);
 
   const name = getEquipmentName();
   const id = equipment.id;
   const type = equipment.type;
   const imagePath = getEquipmentImage();
-  const backgroundType =
-    getEquipmentRarity() === RARITY.Epic
-      ? BACKGROUND_TYPE.Epic
-      : BACKGROUND_TYPE.Normal;
+  const backgroundType = isEquipmentRarityEpic()
+    ? BACKGROUND_TYPE.Epic
+    : BACKGROUND_TYPE.Normal;
   const minLevelPos = getEquipmentMinLevelPos();
   const maxLevelPos = getEquipmentMaxLevelPos();
   const currentLevelPos = equipment.currentLevelPos;

@@ -106,7 +106,7 @@ export const DonatedSpellCard = memo(function DonatedSpellCard({
           min={minLevelPos}
           max={maxLevelPos}
           currentValue={currentLevelPos}
-          onInput={(newValue: number) => updateCurrentLevelPos(newValue)}
+          onChange={(newValue: number) => updateCurrentLevelPos(newValue)}
         />
       </div>
       <div>

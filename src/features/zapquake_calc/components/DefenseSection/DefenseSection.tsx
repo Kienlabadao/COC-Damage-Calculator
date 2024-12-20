@@ -31,19 +31,26 @@ export function DefenseSection({
     hideImpossibleDestroyDefense,
     hideEquipmentDestroyedDefense,
     hideNormalDefense,
+    searchQuery,
     setHideImpossibleDestroyDefense,
     setHideEquipmentDestroyedDefense,
     setHideNormalDefense,
+    setSearchQuery,
   ] = useInitDefenseSetting();
-  const [defenseDisplayDataList, setAllDefensesToMax, setAllDefensesToMin] =
-    useInitDefense(
-      filteredOffenseItemList,
-      donatedLightningSpellItem,
-      earthquakeOrder,
-      hideImpossibleDestroyDefense,
-      hideEquipmentDestroyedDefense,
-      hideNormalDefense
-    );
+  const [
+    defenseDisplayDataList,
+    defenseCountLog,
+    setAllDefensesToMax,
+    setAllDefensesToMin,
+  ] = useInitDefense(
+    filteredOffenseItemList,
+    donatedLightningSpellItem,
+    earthquakeOrder,
+    hideImpossibleDestroyDefense,
+    hideEquipmentDestroyedDefense,
+    hideNormalDefense,
+    searchQuery
+  );
 
   return (
     <>
@@ -52,16 +59,20 @@ export function DefenseSection({
           hideImpossibleDestroyDefense={hideImpossibleDestroyDefense}
           hideEquipmentDestroyedDefense={hideEquipmentDestroyedDefense}
           hideNormalDefense={hideNormalDefense}
+          searchQuery={searchQuery}
           setHideImpossibleDestroyDefense={setHideImpossibleDestroyDefense}
           setHideEquipmentDestroyedDefense={setHideEquipmentDestroyedDefense}
           setHideNormalDefense={setHideNormalDefense}
+          setSearchQuery={setSearchQuery}
           setAllDefensesToMax={setAllDefensesToMax}
           setAllDefensesToMin={setAllDefensesToMin}
+          defenseCountLog={defenseCountLog}
         />
       </SectionContainer>
 
       <SectionContainer>
         <DefenseDisplaySection
+          offenseItemList={offenseItemList}
           defenseDisplayDataList={defenseDisplayDataList}
         />
       </SectionContainer>

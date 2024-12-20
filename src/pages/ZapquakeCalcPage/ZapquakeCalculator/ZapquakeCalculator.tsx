@@ -15,7 +15,6 @@ export function ZapquakeCalculator() {
     setAllOffensesToMin,
   ] = useInitOffense();
   const [earthquakeOrder, setEarthquakeOrder] = useInitEarthquakeOrder();
-  console.log(earthquakeOrder);
 
   return (
     <>

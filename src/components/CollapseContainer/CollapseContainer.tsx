@@ -5,8 +5,8 @@ import { Button } from "components/Button";
 
 interface Props {
   id: string;
-  buttonContainerClassName: string;
   children: ReactNode;
+  buttonContainerClassName?: string;
   openText?: string;
   closeText?: string; // Optional: Text when the collapse is closed
   defaultOpen?: boolean;
@@ -14,11 +14,11 @@ interface Props {
 
 export const CollapseContainer = ({
   id,
-  buttonContainerClassName,
   children,
-  openText = "Show More", // Default open text
-  closeText = "Show Less", // Default close text
-  defaultOpen = true,
+  buttonContainerClassName = "",
+  openText = "Show More",
+  closeText = "Show Less",
+  defaultOpen = false,
 }: Props) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [isContentLoaded, setIsContentLoaded] = useState(defaultOpen);

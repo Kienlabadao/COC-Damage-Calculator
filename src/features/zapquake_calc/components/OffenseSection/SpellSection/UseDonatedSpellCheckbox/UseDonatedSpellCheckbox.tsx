@@ -41,7 +41,7 @@ export function UseDonatedSpellCheckbox({
       id={`use_${id}`}
       label={`Use donated ${name.toLowerCase()}`}
       isChecked={useOffense}
-      onInput={(isChecked: boolean) => updateUseOffense(isChecked)}
+      onChange={(isChecked: boolean) => updateUseOffense(isChecked)}
       className={className}
     />
   );
