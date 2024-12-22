@@ -4,18 +4,13 @@ import {
   EquipmentType,
   GAME_DATA_TYPE,
   GameDataType,
+  Hero,
   HeroData,
   ModifierData,
   RepairData,
   SpellData,
   TroopData,
 } from "data/game";
-import {
-  calculatePercentage,
-  percentageToDecimal,
-  roundToN,
-} from "utils/numberUtils";
-import { ROUNDING_PRECISION } from "config/config";
 import { getAllObjectKeys } from "utils/objectUtils";
 import { spellDataUtils } from "../spellDataUtils";
 import { troopDataUtils } from "../troopDataUtils";
@@ -25,31 +20,31 @@ import { modifierDataUtils } from "../modifierDataUtils";
 import { repairDataUtils } from "../repairDataUtils";
 import { defenseDataUtils } from "../defenseDataUtils";
 
-export const OFFENSE_IMG_PATH = "/images/offense/";
-export const MODIFIER_IMG_PATH = "/images/modifier/";
-export const REPAIR_IMG_PATH = "/images/repairs/";
-export const DEFENSE_IMG_PATH = "/images/defense/";
-
 export function getAllHeroIDs(): string[] {
   return getAllObjectKeys(HeroData);
 }
 
 export function getAllEquipmentIDs(
-  equipmentTypeFilterList?: Set<EquipmentType>
+  equipmentTypeFilterList?: Set<EquipmentType>,
+  user?: Hero
 ): string[] {
   const equipmentIDList = getAllObjectKeys(EquipmentData);
 
-  if (equipmentTypeFilterList) {
-    return equipmentIDList.filter((id) => {
-      const equipmentTypeArray = EquipmentData[id].equipment_type;
+  return equipmentIDList.filter((equipmentID) => {
+    const { getEquipmentType, getEquipmentUser } =
+      equipmentDataUtils(equipmentID);
+    const equipmentTypeList = getEquipmentType();
 
-      return [...equipmentTypeFilterList].every((item) =>
-        equipmentTypeArray.includes(item)
+    const matchesType =
+      !equipmentTypeFilterList ||
+      [...equipmentTypeFilterList].every((type) =>
+        equipmentTypeList.includes(type)
       );
-    });
-  } else {
-    return equipmentIDList;
-  }
+
+    const matchesUser = !user || user === getEquipmentUser();
+
+    return matchesType && matchesUser;
+  });
 }
 
 export function getAllSpellIDs(): string[] {
@@ -241,36 +236,5 @@ export function isValidGameDataLevelPos(
       throw new Error(
         `gameDataUtils.isValidGameDataLevelPos ERROR: GameData Type (${type}) is not supported in this function.`
       );
-  }
-}
-
-export function calculateDirectDamage(hp: number, damage: number): number {
-  const remainingHP = hp - damage;
-  return roundToN(remainingHP, ROUNDING_PRECISION);
-}
-
-export function calculateEarthquakeDamage(
-  hp: number,
-  maxHP: number,
-  damage: number,
-  earthquakeCount: number
-) {
-  if (earthquakeCount >= 0) {
-    const maxEarthquakeDamage = calculatePercentage(
-      maxHP,
-      percentageToDecimal(damage)
-    );
-    const repeatedEarthquakeModifier = 1 / (2 * earthquakeCount + 1);
-    const reducedEarthquakeDamage = calculatePercentage(
-      maxEarthquakeDamage,
-      repeatedEarthquakeModifier
-    );
-
-    const remainingHP = hp - reducedEarthquakeDamage;
-    return roundToN(remainingHP, ROUNDING_PRECISION);
-  } else {
-    throw new Error(
-      `gameDataUtils.calculateEarthquakeDamage ERROR: earthquakeCount (${earthquakeCount}) must be 0 or larger.`
-    );
   }
 }

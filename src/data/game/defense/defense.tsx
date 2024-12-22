@@ -1,10 +1,37 @@
 import { ObjectValues } from "utils/objectUtils";
 
+export const DEFENSE = {
+  Cannon: "cannon",
+  ArcherTower: "archer_tower",
+  Mortar: "mortar",
+  AirDefense: "air_defense",
+  WizardTower: "wizard_tower",
+  AirSweeper: "air_sweeper",
+  HiddenTesla: "hidden_tesla",
+  BombTower: "bomb_tower",
+  Xbow: "xbow",
+  InfernoTower: "inferno_tower",
+  EagleArtillery: "eagle_artillery",
+  Scattershot: "scattershot",
+  BuildersHut: "builders_hut",
+  SpellTower: "spell_tower",
+  Monolith: "monolith",
+  RicochetCannon: "ricochet_cannon",
+  MultiArcherTower: "multiarcher_tower",
+  Firespitter: "firespitter",
+  Townhall: "townhall",
+  ClanCastle: "clan_castle",
+  ArcherQueen: "archer_queen",
+  MinionPrince: "minion_prince",
+  GrandWarden: "grand_warden",
+  RoyalChampion: "royal_champion",
+} as const;
+export type Defense = ObjectValues<typeof DEFENSE>;
+
 export const DEFENSE_TYPE = {
   Building: "building",
   Hero: "hero",
 } as const;
-
 export type DefenseType = ObjectValues<typeof DEFENSE_TYPE>;
 
 interface LevelHP {

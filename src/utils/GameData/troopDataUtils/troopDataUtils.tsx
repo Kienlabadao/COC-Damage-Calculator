@@ -5,7 +5,7 @@ import {
   TroopData,
   TroopType,
 } from "data/game";
-import { OFFENSE_IMG_PATH } from "../gameDataUtils";
+import { OFFENSE_IMG_PATH } from "data/constants";
 
 export function troopDataUtils(troopID: string) {
   const troopData = TroopData[troopID];

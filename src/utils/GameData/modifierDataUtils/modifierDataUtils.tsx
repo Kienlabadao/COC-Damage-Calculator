@@ -1,5 +1,5 @@
 import { GameDataType, ModifierData } from "data/game";
-import { MODIFIER_IMG_PATH } from "../gameDataUtils";
+import { MODIFIER_IMG_PATH } from "data/constants";
 
 export function modifierDataUtils(modifierID: string) {
   const modifierData = ModifierData[modifierID];
@@ -13,12 +13,12 @@ export function modifierDataUtils(modifierID: string) {
     return modifierData.name;
   }
 
-  function getModifierImage(modifierID: string): string {
-    return `${MODIFIER_IMG_PATH}/modifier/${modifierID}.webp`;
+  function getModifierImage(): string {
+    return `${MODIFIER_IMG_PATH}/${modifierID}.webp`;
   }
 
-  function getModifierAffectOnlyType(): GameDataType[] {
-    return modifierData.affect_offense_type;
+  function getModifierAffectType(): GameDataType[] {
+    return modifierData.affect_type;
   }
 
   function getModifierAffectOnly(): string[] {
@@ -76,7 +76,7 @@ export function modifierDataUtils(modifierID: string) {
     modifierData,
     getModifierName,
     getModifierImage,
-    getModifierAffectOnlyType,
+    getModifierAffectType,
     getModifierAffectOnly,
     getModifierDoesntAffect,
     getModifierLevelCount,

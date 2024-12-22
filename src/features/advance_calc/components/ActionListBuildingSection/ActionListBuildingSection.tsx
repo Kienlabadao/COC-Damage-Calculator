@@ -1,22 +1,43 @@
 import { SectionContainer } from "components";
-import { OffenseSection } from "./OffenseSection";
-import { RepairSection } from "./RepairSection";
+import { OffensesSection } from "./OffensesSection";
+import { RepairsSection } from "./RepairsSection";
 import { InstructionSection } from "./InstructionSection";
-import { ModifierSection } from "./ModifierSection";
+import { ModifiersSection } from "./ModifiersSection";
+import { useInitModifier } from "features/advance_calc/hooks/Init";
+import { OffensesSectionContext } from "features/advance_calc/contexts";
 
 export function ActionListBuildingSection() {
+  const [
+    modifierItemList,
+    updateModifier,
+    setAllModifiersToMax,
+    setAllModifiersToMin,
+  ] = useInitModifier();
+
   return (
     <SectionContainer className="card-custom p-4 shadow">
       <h2 className="text-center">Action List Building Section</h2>
       <hr />
 
-      <OffenseSection />
+      <OffensesSectionContext.Provider
+        value={{
+          modifierItemList,
+        }}
+      >
+        <OffensesSection />
+      </OffensesSectionContext.Provider>
+
       <hr />
 
-      <RepairSection />
+      <RepairsSection modifierItemList={modifierItemList} />
       <hr />
 
-      <ModifierSection />
+      <ModifiersSection
+        modifierItemList={modifierItemList}
+        updateModifier={updateModifier}
+        setAllModifiersToMax={setAllModifiersToMax}
+        setAllModifiersToMin={setAllModifiersToMin}
+      />
       <hr />
 
       <InstructionSection />

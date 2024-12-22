@@ -1,5 +1,5 @@
 import { RepairData } from "data/game";
-import { REPAIR_IMG_PATH } from "../gameDataUtils";
+import { REPAIR_IMG_PATH } from "data/constants";
 
 export function repairDataUtils(repairID: string) {
   const repairData = RepairData[repairID];
@@ -12,7 +12,7 @@ export function repairDataUtils(repairID: string) {
   }
 
   function getRepairImage(levelPos: number): string {
-    return `${REPAIR_IMG_PATH}/repair/${repairID}/${levelPos}.webp`;
+    return `${REPAIR_IMG_PATH}/${repairID}/${levelPos}.webp`;
   }
 
   function getRepairLevelCount(): number {

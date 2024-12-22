@@ -1,11 +1,17 @@
 import { ObjectValues } from "utils/objectUtils";
-import { DAMAGE_TYPE, DamageType } from "./sharedEnums";
+import { DAMAGE_TYPE, DamageType } from "./constants";
+
+export const TROOP = {
+  Barbarian: "barbarian",
+  Balloon: "balloon",
+  RocketBalloon: "rocket_balloon",
+} as const;
+export type Troop = ObjectValues<typeof TROOP>;
 
 export const TROOP_TYPE = {
   Normal: "normal",
   Super: "super",
 } as const;
-
 export type TroopType = ObjectValues<typeof TROOP_TYPE>;
 
 interface LevelDamage {

@@ -1,6 +1,6 @@
 import { ActionListBuildingSection } from "features/advance_calc/components/ActionListBuildingSection";
 import { ActionListEditingSection } from "features/advance_calc/components/ActionListEditingSection";
-import { DefenseSection } from "features/advance_calc/components/DefenseSection";
+import { DefensesSection } from "features/advance_calc/components/DefensesSection";
 
 export function AdvanceCalculator() {
   return (
@@ -9,7 +9,7 @@ export function AdvanceCalculator() {
 
       <ActionListEditingSection />
 
-      <DefenseSection />
+      <DefensesSection />
     </>
   );
 }

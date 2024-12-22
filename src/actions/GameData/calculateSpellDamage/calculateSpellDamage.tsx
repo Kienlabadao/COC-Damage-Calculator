@@ -9,7 +9,7 @@ import { spellDataUtils } from "utils/GameData/spellDataUtils";
 import {
   calculateDirectDamage,
   calculateEarthquakeDamage,
-} from "utils/GameData/gameDataUtils";
+} from "utils/GameData/gameDataCalculatorUtils";
 
 export function calculateSpellDamage(
   action: ActionItem,

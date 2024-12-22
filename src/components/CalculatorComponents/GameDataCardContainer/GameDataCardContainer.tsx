@@ -15,6 +15,7 @@ export const BACKGROUND_TYPE = {
   Earthquake: "earthquake",
   Immune: "immune",
   HardMode: "hardMode",
+  Modifier: "modifier",
 } as const;
 export type BackgroundType = ObjectValues<typeof BACKGROUND_TYPE>;
 
@@ -47,6 +48,8 @@ function renderBackgroundType(backgroudType: BackgroundType): string {
       return " object-container--immune";
     case BACKGROUND_TYPE.HardMode:
       return " object-container--hardmode";
+    case BACKGROUND_TYPE.Modifier:
+      return " object-container--modifier";
     default:
       throw new Error(
         `GameDataCardContainer.renderBackgroundType ERROR: BackgroundType (${backgroudType}) is not supported.`
@@ -153,7 +156,7 @@ export function GameDataCardContainer({
         if (modifierImgPath) {
           return (
             <Overlay
-              type={OVERLAY_TYPE.Img}
+              type={OVERLAY_TYPE.ImgRaged}
               position={POSITION.TopLeft}
               size={convertCardSize(size)}
               imgPath={modifierImgPath}

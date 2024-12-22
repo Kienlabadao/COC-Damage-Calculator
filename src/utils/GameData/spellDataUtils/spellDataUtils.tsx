@@ -1,5 +1,5 @@
 import { DAMAGE_TYPE, DamageType, SpellData } from "data/game";
-import { OFFENSE_IMG_PATH } from "../gameDataUtils";
+import { OFFENSE_IMG_PATH } from "data/constants";
 
 export function spellDataUtils(spellID: string) {
   const spellData = SpellData[spellID];

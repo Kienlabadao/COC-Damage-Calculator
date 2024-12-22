@@ -1,2 +1,2 @@
-export * from "./OffenseSection";
-export * from "./DefenseSection";
+export * from "./OffensesSection";
+export * from "./DefensesSection";

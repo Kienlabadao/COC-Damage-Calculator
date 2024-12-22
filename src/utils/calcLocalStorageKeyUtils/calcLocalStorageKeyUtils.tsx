@@ -31,13 +31,7 @@ export function getUseGameDataStorageKey(
   calculatorType: CalculatorType,
   isDonated = false
 ): string {
-  if (calculatorType === CALCULATOR_TYPE.Zapquake) {
-    return `${calculatorType}_${gameDataType}_use_${
-      isDonated ? getDonatedGameDataID(gameDataID) : `${gameDataID}`
-    }`;
-  } else {
-    throw new Error(
-      `calcLocalStorageKeyUtils.getUseGameDataStorageKey ERROR: calculatorType (${calculatorType}) is not supported.`
-    );
-  }
+  return `${calculatorType}_${gameDataType}_use_${
+    isDonated ? getDonatedGameDataID(gameDataID) : `${gameDataID}`
+  }`;
 }

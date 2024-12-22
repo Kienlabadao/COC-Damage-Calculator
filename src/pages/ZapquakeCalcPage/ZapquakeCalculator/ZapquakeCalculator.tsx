@@ -1,8 +1,8 @@
 import {
-  DefenseSection,
-  OffenseSection,
+  DefensesSection,
+  OffensesSection,
 } from "features/zapquake_calc/components";
-import { OffenseSectionContext } from "features/zapquake_calc/context/OffenseSectionContext";
+import { OffensesSectionContext } from "features/zapquake_calc/contexts/OffensesSectionContext";
 import { useInitEarthquakeOrder } from "features/zapquake_calc/hooks/Init/useInitEarthquakeOrder";
 import { useInitOffense } from "features/zapquake_calc/hooks/Init/useInitOffense";
 
@@ -18,7 +18,7 @@ export function ZapquakeCalculator() {
 
   return (
     <>
-      <OffenseSectionContext.Provider
+      <OffensesSectionContext.Provider
         value={{
           offenseItemList,
           donatedLightningSpellItem,
@@ -29,10 +29,10 @@ export function ZapquakeCalculator() {
           setEarthquakeOrder,
         }}
       >
-        <OffenseSection />
-      </OffenseSectionContext.Provider>
+        <OffensesSection />
+      </OffensesSectionContext.Provider>
 
-      <DefenseSection
+      <DefensesSection
         offenseItemList={offenseItemList}
         donatedLightningSpellItem={donatedLightningSpellItem}
         earthquakeOrder={earthquakeOrder}

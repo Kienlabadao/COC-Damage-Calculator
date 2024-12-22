@@ -8,7 +8,7 @@ import {
 import {
   calculateDirectDamage,
   calculateEarthquakeDamage,
-} from "utils/GameData/gameDataUtils";
+} from "utils/GameData/gameDataCalculatorUtils";
 import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
 
 export function calculateEquipmentDamage(

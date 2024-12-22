@@ -1,16 +1,19 @@
 import { ObjectValues } from "utils/objectUtils";
 
+export const OFFENSE_IMG_PATH = "/images/offense/";
+export const MODIFIER_IMG_PATH = "/images/modifier/";
+export const REPAIR_IMG_PATH = "/images/repair/";
+export const DEFENSE_IMG_PATH = "/images/defense/";
+
 export const VALUE_BOUNDARY = {
   MIN: "min",
   MAX: "max",
 } as const;
-
 export type ValueBoundary = ObjectValues<typeof VALUE_BOUNDARY>;
 
 export const LOCAL_STORAGE_KEY = {
   ThemePref: "theme_pref",
 } as const;
-
 export type LocalStorageKey = ObjectValues<typeof LOCAL_STORAGE_KEY>;
 
 export const PAGE_URLS = {
@@ -21,7 +24,6 @@ export const PAGE_URLS = {
   SettingPage: "/setting",
   ErrorPage: "/error",
 } as const;
-
 export type PageURLS = ObjectValues<typeof PAGE_URLS>;
 
 export const EXTERNAL_URLS = {
@@ -34,7 +36,6 @@ export const EXTERNAL_URLS = {
   Zapquaker: "https://github.com/Kienlabadao/COC-Damage-Calculator",
   COCWiki: "https://buymeacoffee.com/kienlabadao",
 } as const;
-
 export type ExternalURLS = ObjectValues<typeof EXTERNAL_URLS>;
 
 export const IMAGE_PATH = {
@@ -49,14 +50,12 @@ export const IMAGE_PATH = {
   NoDefenseFound: "/images/other/confused.webp",
   DeathDamage: "/images/other/death.webp",
 } as const;
-
 export type ImagePath = ObjectValues<typeof IMAGE_PATH>;
 
 export const THEME = {
   Light: "light",
   Dark: "dark",
 } as const;
-
 export type Theme = ObjectValues<typeof THEME>;
 
 export const BS_COLOR = {
@@ -72,5 +71,4 @@ export const BS_COLOR = {
   LightGreen: "light-green btn-success",
   None: "none",
 } as const;
-
 export type BSColor = ObjectValues<typeof BS_COLOR>;

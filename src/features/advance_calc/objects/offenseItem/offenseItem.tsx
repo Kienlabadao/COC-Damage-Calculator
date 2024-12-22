@@ -33,7 +33,7 @@ export function updateOffenseItemInList(
 
   if (!isOffenseFound) {
     throw new Error(
-      `useInitOffense.updateOffenseItemInList ERROR: No offense found with id ${offenseID}`
+      `offenseItem.updateOffenseItemInList ERROR: No offense found with id ${offenseID}`
     );
   }
 

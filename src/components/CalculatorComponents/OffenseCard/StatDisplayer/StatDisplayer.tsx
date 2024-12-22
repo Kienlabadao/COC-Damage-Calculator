@@ -2,17 +2,30 @@ import { IMAGE_PATH } from "data/constants";
 import { ObjectValues } from "utils/objectUtils";
 import { ContentContainer } from "./ContentContainer";
 import { ImageContainer } from "./ImageContainer";
+import { DAMAGE_TYPE, DamageType } from "data/game";
 
 export const DISPLAYER_TYPE = {
   Damage: "damage",
   EarthquakeDamage: "earthquakeDamage",
   Repair: "repair",
   AtackSpeed: "attackSpeed",
-  DamageModify: "damageModify",
-  RepairModify: "repairModify",
+  Modify: "modify",
 } as const;
 
 export type DisplayerType = ObjectValues<typeof DISPLAYER_TYPE>;
+
+export function convertToDisplayerType(damageType: DamageType): DisplayerType {
+  switch (damageType) {
+    case DAMAGE_TYPE.Direct:
+      return DISPLAYER_TYPE.Damage;
+    case DAMAGE_TYPE.Earthquake:
+      return DISPLAYER_TYPE.EarthquakeDamage;
+    default:
+      throw new Error(
+        `OffenseCard.convertToDisplayerType ERROR: DamageType (${damageType}) not supported.`
+      );
+  }
+}
 
 function createContent(
   displayerType: string,
@@ -60,17 +73,10 @@ function createContent(
           />
         </>
       );
-    case DISPLAYER_TYPE.DamageModify:
+    case DISPLAYER_TYPE.Modify:
       return (
         <>
           <ImageContainer imagePath={IMAGE_PATH.Attack} />
-          <ContentContainer content={`+${content}%`} isModifierActive={true} />
-        </>
-      );
-    case DISPLAYER_TYPE.RepairModify:
-      return (
-        <>
-          <ImageContainer imagePath={IMAGE_PATH.Repair} />
           <ContentContainer content={`+${content}%`} isModifierActive={true} />
         </>
       );

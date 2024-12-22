@@ -17,3 +17,29 @@ export function createModifierItem(
     use: use,
   };
 }
+
+export function updateModifierItemInList(
+  updatedModifierItem: ModifierItem,
+  modifierItemList: ModifierItem[]
+): ModifierItem[] {
+  const modifierID = updatedModifierItem.modifierID;
+  let isModifierFound = false;
+
+  const updatedList = modifierItemList.map((modifier) => {
+    if (modifier.modifierID === modifierID) {
+      isModifierFound = true;
+      return {
+        ...updatedModifierItem,
+      };
+    }
+    return modifier;
+  });
+
+  if (!isModifierFound) {
+    throw new Error(
+      `modifierItem.updateModifierItemInList ERROR: No modifier found with id ${modifierID}`
+    );
+  }
+
+  return updatedList;
+}

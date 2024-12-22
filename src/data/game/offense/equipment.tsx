@@ -1,18 +1,34 @@
 import { ObjectValues } from "utils/objectUtils";
 import { Hero, HERO } from "./hero";
-import { DAMAGE_TYPE, DamageType } from "./sharedEnums";
+import { DAMAGE_TYPE, DamageType } from "./constants";
 
 export const EQUIPMENT = {
   EarthquakeBoots: "earthquake_boots",
+  SpikyBall: "spiky_ball",
+  GiantArrow: "giant_arrow",
+  Fireball: "fireball",
+  SeekingShield: "seeking_shield",
+  DarkOrb: "dark_orb",
+  RageVial: "rage_vial",
+  Vampstache: "vampstache",
+  GiantGauntlet: "giant_gauntlet",
+  ArcherPuppet: "archer_puppet",
+  InvisibilityVial: "invisibility_vial",
+  FrozenArrow: "frozen_arrow",
+  HenchmenPuppet: "henchmen_puppet",
+  LifeGem: "life_gem",
+  RageGem: "rage_gem",
+  LavaloonPuppet: "lavaloon_puppet",
+  RoyalGem: "royal_gem",
+  HasteVial: "haste_vial",
+  RocketSpear: "rocket_spear",
 } as const;
-
 export type Equipment = ObjectValues<typeof EQUIPMENT>;
 
 export const RARITY = {
   Common: "common",
   Epic: "epic",
 } as const;
-
 export type Rarity = ObjectValues<typeof RARITY>;
 
 // Note: Damage and Attack type are mutually exclusive

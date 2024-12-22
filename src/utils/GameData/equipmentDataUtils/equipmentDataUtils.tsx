@@ -8,7 +8,7 @@ import {
   RARITY,
   Rarity,
 } from "data/game";
-import { OFFENSE_IMG_PATH } from "../gameDataUtils";
+import { OFFENSE_IMG_PATH } from "data/constants";
 
 export function equipmentDataUtils(equipmentID: string) {
   const equipmentData = EquipmentData[equipmentID];
@@ -124,11 +124,11 @@ export function equipmentDataUtils(equipmentID: string) {
   }
 
   function isEquipmentTypeAttack() {
-    return getEquipmentType().includes(EQUIPMENT_TYPE.Damage);
+    return getEquipmentType().includes(EQUIPMENT_TYPE.Attack);
   }
 
   function isEquipmentTypeSupport() {
-    return getEquipmentType().includes(EQUIPMENT_TYPE.Damage);
+    return getEquipmentType().includes(EQUIPMENT_TYPE.Support);
   }
 
   function isEquipmentDamageTypeDirect() {

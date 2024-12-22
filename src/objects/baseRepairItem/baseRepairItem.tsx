@@ -1,6 +1,7 @@
 import { isValidRepairLevelPos } from "utils/GameData/gameDataUtils";
 
 export interface BaseRepairItem {
+  id: string;
   repairID: string;
   currentLevelPos: number;
 }
@@ -11,6 +12,7 @@ export function createBaseRepairItem(
 ): BaseRepairItem {
   if (isValidRepairLevelPos(repairID, currentLevelPos)) {
     return {
+      id: repairID,
       repairID: repairID,
       currentLevelPos: currentLevelPos,
     };

@@ -1,3 +1,10 @@
+import { ObjectValues } from "utils/objectUtils";
+
+export const REPAIR = {
+  BuildersHut: "builders_hut",
+} as const;
+export type Repair = ObjectValues<typeof REPAIR>;
+
 interface LevelRepair {
   level: number;
   repair: number;

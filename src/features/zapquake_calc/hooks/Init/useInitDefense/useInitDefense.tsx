@@ -6,7 +6,10 @@ import {
   setAllDefenseItemsToMin,
   updateDefenseItem,
 } from "features/zapquake_calc/actions/DefenseItem";
-import { DefenseItem } from "features/zapquake_calc/objects/defenseItem";
+import {
+  DefenseItem,
+  updateDefenseItemInList,
+} from "features/zapquake_calc/objects/defenseItem";
 import { useCallback, useState } from "react";
 import { getAllDefenseIDs } from "utils/GameData/gameDataUtils";
 import { OffenseItem } from "features/zapquake_calc/objects/offenseItem";
@@ -100,9 +103,13 @@ function initDefenseDisplayDataList(
       updateDefense: useCallback(
         (defenseID: string, currentLevelPos: number) => {
           setDefenseItemList((prevDefenseItemList) => {
-            return updateDefenseItem(
+            const updatedDefenseItem = updateDefenseItem(
               defenseID,
-              currentLevelPos,
+              currentLevelPos
+            );
+
+            return updateDefenseItemInList(
+              updatedDefenseItem,
               prevDefenseItemList
             );
           });

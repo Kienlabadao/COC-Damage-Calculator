@@ -1,11 +1,10 @@
 import { ObjectValues } from "utils/objectUtils";
-import { DAMAGE_TYPE, DamageType } from "./sharedEnums";
+import { DAMAGE_TYPE, DamageType } from "./constants";
 
 export const SPELL = {
   LightningSpell: "lightning_spell",
   EarthquakeSpell: "earthquake_spell",
 } as const;
-
 export type Spell = ObjectValues<typeof SPELL>;
 
 interface LevelDamage {

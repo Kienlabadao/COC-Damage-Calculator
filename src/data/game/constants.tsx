@@ -7,5 +7,4 @@ export const GAME_DATA_TYPE = {
   Defense: "defense",
   Repair: "repair",
 } as const;
-
 export type GameDataType = ObjectValues<typeof GAME_DATA_TYPE>;

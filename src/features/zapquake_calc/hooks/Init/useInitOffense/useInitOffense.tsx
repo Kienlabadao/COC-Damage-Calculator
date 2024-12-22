@@ -11,7 +11,10 @@ import {
   setAllOffenseItemsToMin,
   updateOffenseItem,
 } from "features/zapquake_calc/actions/OffenseItem";
-import { OffenseItem } from "features/zapquake_calc/objects/offenseItem";
+import {
+  OffenseItem,
+  updateOffenseItemInList,
+} from "features/zapquake_calc/objects/offenseItem";
 import { useCallback, useState } from "react";
 import {
   getAllEquipmentIDs,
@@ -64,12 +67,16 @@ export function useInitOffense() {
         }
       } else {
         setOffenseItemList((prevOffenseItemList) => {
-          return updateOffenseItem(
+          const updatedOffenseItem = updateOffenseItem(
             offenseID,
             type,
-            prevOffenseItemList,
             currentLevelPos,
             useOffense
+          );
+
+          return updateOffenseItemInList(
+            updatedOffenseItem,
+            prevOffenseItemList
           );
         });
       }

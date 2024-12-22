@@ -1,7 +1,8 @@
-import { GAME_DATA_TYPE, GameDataType } from "data/game";
+import { GAME_DATA_TYPE, GameDataType, OFFENSE_TYPE } from "data/game";
 import {
   CALCULATOR_TYPE,
   getLevelPosGameDataStorageKey,
+  getUseGameDataStorageKey,
 } from "utils/calcLocalStorageKeyUtils";
 import { VALUE_BOUNDARY } from "data/constants";
 import { spellDataUtils } from "utils/GameData/spellDataUtils";
@@ -24,6 +25,17 @@ export function getAdvanceCalcLevelPosGameDataStorageKey(
     gameDataType,
     calculatorType
   );
+}
+
+export function getAdvanceCalcUseGameDataStorageKey(
+  gameDataID: string,
+  gameDataType: GameDataType
+): string {
+  return getUseGameDataStorageKey(gameDataID, gameDataType, calculatorType);
+}
+
+export function getUseAbilityHeroStorageKey(heroID: string): string {
+  return `${calculatorType}_${OFFENSE_TYPE.Hero}_use_ability_${heroID}`;
 }
 
 export function getHideDestroyedDefenseStorageKey(): string {

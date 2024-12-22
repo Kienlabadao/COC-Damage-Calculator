@@ -1,5 +1,5 @@
 import { DAMAGE_TYPE, DamageType, HeroData } from "data/game";
-import { OFFENSE_IMG_PATH } from "../gameDataUtils";
+import { OFFENSE_IMG_PATH } from "data/constants";
 
 export function heroDataUtils(heroID: string) {
   const heroData = HeroData[heroID];

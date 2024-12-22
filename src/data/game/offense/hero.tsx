@@ -1,5 +1,5 @@
 import { ObjectValues } from "utils/objectUtils";
-import { DAMAGE_TYPE, DamageType } from "./sharedEnums";
+import { DAMAGE_TYPE, DamageType } from "./constants";
 
 export const HERO = {
   BarbarianKing: "barbarian_king",
