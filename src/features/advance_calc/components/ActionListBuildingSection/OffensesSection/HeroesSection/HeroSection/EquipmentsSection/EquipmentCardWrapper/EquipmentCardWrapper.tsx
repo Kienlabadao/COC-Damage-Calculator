@@ -5,6 +5,7 @@ import { EquipmentItem } from "features/advance_calc/objects/equipmentItem";
 import { SupportEquipmentCard } from "./SupportEquipmentCard";
 import { DamageEquipmentCard } from "./DamageEquipmentCard";
 import { AttackEquipmentCard } from "./AttackEquipmentCard";
+import { BACKGROUND_TYPE } from "components/CalculatorComponents/GameDataCardContainer";
 
 interface Props {
   equipmentItem: EquipmentItem;
@@ -44,6 +45,7 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
     isEquipmentTypeAttack,
     isEquipmentTypeDamage,
     isEquipmentTypeSupport,
+    isEquipmentRarityEpic,
   } = equipmentDataUtils(equipmentID);
 
   const id = equipmentItem.id;
@@ -54,6 +56,9 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
   const currentLevel = getEquipmentLevel(currentLevelPos);
   const useEquipment = equipmentItem.use;
   const imagePath = getEquipmentImage();
+  const backgroundType = isEquipmentRarityEpic()
+    ? BACKGROUND_TYPE.Epic
+    : BACKGROUND_TYPE.Normal;
 
   function renderEquipmentCard() {
     if (isEquipmentTypeDamage()) {
@@ -84,6 +89,7 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
           damage={damage}
           damageType={damageType}
           dpsBoost={dpsBoost}
+          backgroundType={backgroundType}
           isMaxed={isMaxLevelPos(currentLevelPos)}
         />
       );
@@ -115,6 +121,7 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
           extraDamage={extraDamage}
           damageType={damageType}
           dpsBoost={dpsBoost}
+          backgroundType={backgroundType}
           isMaxed={isMaxLevelPos(currentLevelPos)}
         />
       );
@@ -134,6 +141,7 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
           updateCurrentLevelPos={updateCurrentLevelPos}
           updateUseEquipment={updateUseEquipment}
           dpsBoost={dpsBoost}
+          backgroundType={backgroundType}
           isMaxed={isMaxLevelPos(currentLevelPos)}
         />
       );
