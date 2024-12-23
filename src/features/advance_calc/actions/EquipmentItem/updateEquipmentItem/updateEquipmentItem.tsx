@@ -7,6 +7,7 @@ import { initEquipmentItem } from "../initEquipmentItem";
 const type = OFFENSE_TYPE.Equipment;
 export function updateEquipmentItem(
   equipmentID: string,
+  useHardMode: boolean,
   newCurrentLevelPos?: number,
   use?: boolean
 ): EquipmentItem {
@@ -26,5 +27,5 @@ export function updateEquipmentItem(
     storeUseOffense(use);
   }
 
-  return initEquipmentItem(equipmentID);
+  return initEquipmentItem(equipmentID, useHardMode);
 }

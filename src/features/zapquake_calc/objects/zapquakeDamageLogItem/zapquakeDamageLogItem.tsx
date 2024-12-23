@@ -17,11 +17,7 @@ export function createZapquakeDamageLogItem(
   damageLogType: DamageLogType,
   remainingHP: number,
   earthquakeCount: number,
-  isDonated: boolean,
-  modifierID?: string,
-  modifiedDamage?: number,
-  noHardModeDamage?: number,
-  earthquakeReducedDamage?: number
+  isDonated: boolean
 ): ZapquakeDamageLogItem {
   return {
     ...createDamageLogItem(
@@ -31,11 +27,7 @@ export function createZapquakeDamageLogItem(
       damage,
       damageLogType,
       remainingHP,
-      earthquakeCount,
-      modifierID,
-      modifiedDamage,
-      noHardModeDamage,
-      earthquakeReducedDamage
+      earthquakeCount
     ),
     isDonated: isDonated,
   };

@@ -4,7 +4,8 @@ import { initEquipmentItem } from "../initEquipmentItem";
 import { EquipmentItem } from "features/advance_calc/objects/equipmentItem";
 
 export function setAllEquipmentItemsToMin(
-  equipmentItemList: EquipmentItem[]
+  equipmentItemList: EquipmentItem[],
+  useHardMode: boolean
 ): EquipmentItem[] {
   return equipmentItemList.map((equipment) => {
     const equipmentID = equipment.offenseID;
@@ -17,6 +18,6 @@ export function setAllEquipmentItemsToMin(
     );
     storeLevelPos(minLevelPos);
 
-    return initEquipmentItem(equipmentID);
+    return initEquipmentItem(equipmentID, useHardMode);
   });
 }

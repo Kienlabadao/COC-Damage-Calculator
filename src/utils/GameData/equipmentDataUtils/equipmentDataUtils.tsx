@@ -4,6 +4,7 @@ import {
   EQUIPMENT_TYPE,
   EquipmentData,
   EquipmentType,
+  HARD_MODE_LEVEL_CAP,
   Hero,
   RARITY,
   Rarity,
@@ -48,8 +49,20 @@ export function equipmentDataUtils(equipmentID: string) {
       : equipmentData.dps_boost.length;
   }
 
-  function getEquipmentMaxLevelPos(): number {
-    return getEquipmentLevelCount() - 1;
+  function getEquipmentMaxLevelPos(useHardMode = false): number {
+    if (useHardMode) {
+      if (isEquipmentRarityCommon()) {
+        return HARD_MODE_LEVEL_CAP.Common - 1;
+      } else if (isEquipmentRarityEpic()) {
+        return HARD_MODE_LEVEL_CAP.Epic - 1;
+      } else {
+        throw new Error(
+          `equipmentDataUtils.getEquipmentMaxLevelPos ERROR: Rarity (${getEquipmentRarity()}) is not supported.`
+        );
+      }
+    } else {
+      return getEquipmentLevelCount() - 1;
+    }
   }
 
   function getEquipmentMinLevelPos(): number {
@@ -100,12 +113,59 @@ export function equipmentDataUtils(equipmentID: string) {
     }
   }
 
+  function getEquipmentAttackSpeedBoost(levelPos: number): number {
+    if (isValidEquipmentLevelPos(levelPos)) {
+      if (canGiveAttackSpeedBoost()) {
+        return equipmentData.atk_speed_boost[levelPos].atk_speed_boost;
+      } else {
+        throw new Error(
+          `equipmentDataUtils.getEquipmentAttackSpeedBoost ERROR: Equipment can't give attack speed boost. EquipmentID: ${equipmentID}.`
+        );
+      }
+    } else {
+      throw new Error(
+        `equipmentDataUtils.getEquipmentAttackSpeedBoost ERROR: Invalid level pos. EquipmentID: ${equipmentID}. LevelPos: ${levelPos}`
+      );
+    }
+  }
+
+  function getEquipmentAbilityAttackSpeedBoost(levelPos: number): number {
+    if (isValidEquipmentLevelPos(levelPos)) {
+      if (canGiveAbilityAttackSpeedBoost()) {
+        return equipmentData.ability_boost!.atk_speed_boost[levelPos]
+          .atk_speed_boost;
+      } else {
+        throw new Error(
+          `equipmentDataUtils.getEquipmentAttackSpeedBoost ERROR: Equipment can't give attack speed boost. EquipmentID: ${equipmentID}.`
+        );
+      }
+    } else {
+      throw new Error(
+        `equipmentDataUtils.getEquipmentAttackSpeedBoost ERROR: Invalid level pos. EquipmentID: ${equipmentID}. LevelPos: ${levelPos}`
+      );
+    }
+  }
+
   function canDealDamage(): boolean {
     return equipmentData.damage.length !== 0;
   }
 
   function canGiveDPSBoost(): boolean {
     return equipmentData.dps_boost.length !== 0;
+  }
+
+  function canGiveAttackSpeedBoost(): boolean {
+    return equipmentData.atk_speed_boost.length !== 0;
+  }
+
+  function canGiveAbilityBoost(): boolean {
+    return equipmentData.ability_boost !== null;
+  }
+
+  function canGiveAbilityAttackSpeedBoost(): boolean {
+    return canGiveAbilityBoost()
+      ? equipmentData.ability_boost!.atk_speed_boost.length !== 0
+      : false;
   }
 
   function isValidEquipmentLevelPos(levelPos: number): boolean {
@@ -161,8 +221,13 @@ export function equipmentDataUtils(equipmentID: string) {
     getEquipmentLevel,
     getEquipmentDamage,
     getEquipmentDPSBoost,
+    getEquipmentAttackSpeedBoost,
+    getEquipmentAbilityAttackSpeedBoost,
     canDealDamage,
     canGiveDPSBoost,
+    canGiveAttackSpeedBoost,
+    canGiveAbilityBoost,
+    canGiveAbilityAttackSpeedBoost,
     isValidEquipmentLevelPos,
     isMaxLevelPos,
     isEquipmentTypeDamage,

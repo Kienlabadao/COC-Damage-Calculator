@@ -1,6 +1,7 @@
 import { ObjectValues } from "utils/objectUtils";
 import { isValidGameDataLevelPos } from "utils/GameData/gameDataUtils";
 import { ActionType } from "objects/actionItem";
+import { BaseModifierItem } from "objects/baseModifierItem";
 
 export const DAMAGE_LOG_TYPE = {
   Attack: "attack",
@@ -8,7 +9,6 @@ export const DAMAGE_LOG_TYPE = {
   Repair: "repair",
   Immune: "immune",
 } as const;
-
 export type DamageLogType = ObjectValues<typeof DAMAGE_LOG_TYPE>;
 
 export interface DamageLogItem {
@@ -19,7 +19,7 @@ export interface DamageLogItem {
   damageLogType: DamageLogType;
   remainingHP: number;
   earthquakeCount: number;
-  modifierID?: string;
+  activeBaseModifierItem?: BaseModifierItem;
   modifiedDamage?: number;
   noHardModeDamage?: number;
   earthquakeReducedDamage?: number;
@@ -33,10 +33,10 @@ export function createDamageLogItem(
   damageLogType: DamageLogType,
   remainingHP: number,
   earthquakeCount: number,
-  modifierID?: string,
-  modifiedDamage?: number,
-  noHardModeDamage?: number,
-  earthquakeReducedDamage?: number
+  activeBaseModifierItem?: BaseModifierItem,
+  modifiedDamage = 0,
+  noHardModeDamage = 0,
+  earthquakeReducedDamage = 0
 ): DamageLogItem {
   if (isValidGameDataLevelPos(currentLevelPos, actionID, type)) {
     return {
@@ -47,7 +47,7 @@ export function createDamageLogItem(
       damageLogType: damageLogType,
       remainingHP: remainingHP,
       earthquakeCount: earthquakeCount,
-      modifierID: modifierID,
+      activeBaseModifierItem: activeBaseModifierItem,
       modifiedDamage: modifiedDamage,
       noHardModeDamage: noHardModeDamage,
       earthquakeReducedDamage: earthquakeReducedDamage,

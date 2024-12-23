@@ -31,6 +31,12 @@ export const RARITY = {
 } as const;
 export type Rarity = ObjectValues<typeof RARITY>;
 
+export const HARD_MODE_LEVEL_CAP = {
+  Common: 15,
+  Epic: 21,
+} as const;
+export type HardModeLevelCap = ObjectValues<typeof HARD_MODE_LEVEL_CAP>;
+
 // Note: Damage and Attack type are mutually exclusive
 export const EQUIPMENT_TYPE = {
   Support: "support", // Provide dps boost to hero
@@ -50,6 +56,15 @@ interface LevelDPSBoost {
   dps_boost: number;
 }
 
+interface LevelAttackSpeedBoost {
+  level: number;
+  atk_speed_boost: number;
+}
+
+interface AbilityBoost {
+  atk_speed_boost: LevelAttackSpeedBoost[];
+}
+
 export interface EquipmentStats {
   name: string;
   user: Hero;
@@ -58,6 +73,8 @@ export interface EquipmentStats {
   damage_type: DamageType | null;
   damage: LevelDamage[];
   dps_boost: LevelDPSBoost[];
+  atk_speed_boost: LevelAttackSpeedBoost[];
+  ability_boost: AbilityBoost | null;
 }
 
 // Note: This only include Equipment that either deal damage or provide dps boost for hero
@@ -89,6 +106,8 @@ export const EquipmentData: Record<string, EquipmentStats> = {
       { level: 17, dps_boost: 120 },
       { level: 18, dps_boost: 128 },
     ],
+    atk_speed_boost: [],
+    ability_boost: null,
   },
   earthquake_boots: {
     name: "Earthquake Boots",
@@ -136,6 +155,8 @@ export const EquipmentData: Record<string, EquipmentStats> = {
       { level: 17, dps_boost: 94 },
       { level: 18, dps_boost: 102 },
     ],
+    atk_speed_boost: [],
+    ability_boost: null,
   },
   vampstache: {
     name: "Vampstache",
@@ -164,6 +185,27 @@ export const EquipmentData: Record<string, EquipmentStats> = {
       { level: 17, dps_boost: 63 },
       { level: 18, dps_boost: 68 },
     ],
+    atk_speed_boost: [
+      { level: 1, atk_speed_boost: 5 },
+      { level: 2, atk_speed_boost: 6 },
+      { level: 3, atk_speed_boost: 7 },
+      { level: 4, atk_speed_boost: 8 },
+      { level: 5, atk_speed_boost: 9 },
+      { level: 6, atk_speed_boost: 10 },
+      { level: 7, atk_speed_boost: 11 },
+      { level: 8, atk_speed_boost: 12 },
+      { level: 9, atk_speed_boost: 13 },
+      { level: 10, atk_speed_boost: 14 },
+      { level: 11, atk_speed_boost: 15 },
+      { level: 12, atk_speed_boost: 16 },
+      { level: 13, atk_speed_boost: 17 },
+      { level: 14, atk_speed_boost: 18 },
+      { level: 15, atk_speed_boost: 19 },
+      { level: 16, atk_speed_boost: 20 },
+      { level: 17, atk_speed_boost: 21 },
+      { level: 18, atk_speed_boost: 22 },
+    ],
+    ability_boost: null,
   },
   giant_gauntlet: {
     name: "Giant Gauntlet",
@@ -201,6 +243,8 @@ export const EquipmentData: Record<string, EquipmentStats> = {
       { level: 26, dps_boost: 155 },
       { level: 27, dps_boost: 160 },
     ],
+    atk_speed_boost: [],
+    ability_boost: null,
   },
   spiky_ball: {
     name: "Spiky Ball",
@@ -266,6 +310,8 @@ export const EquipmentData: Record<string, EquipmentStats> = {
       { level: 26, dps_boost: 217 },
       { level: 27, dps_boost: 222 },
     ],
+    atk_speed_boost: [],
+    ability_boost: null,
   },
   archer_puppet: {
     name: "Archer Puppet",
@@ -294,6 +340,8 @@ export const EquipmentData: Record<string, EquipmentStats> = {
       { level: 17, dps_boost: 140 },
       { level: 18, dps_boost: 144 },
     ],
+    atk_speed_boost: [],
+    ability_boost: null,
   },
   invisibility_vial: {
     name: "Invisibility Vial",
@@ -322,6 +370,8 @@ export const EquipmentData: Record<string, EquipmentStats> = {
       { level: 18, damage: 1740 },
     ],
     dps_boost: [],
+    atk_speed_boost: [],
+    ability_boost: null,
   },
   giant_arrow: {
     name: "Giant Arrow",
@@ -369,6 +419,8 @@ export const EquipmentData: Record<string, EquipmentStats> = {
       { level: 17, dps_boost: 123 },
       { level: 18, dps_boost: 132 },
     ],
+    atk_speed_boost: [],
+    ability_boost: null,
   },
   frozen_arrow: {
     name: "Frozen Arrow",
@@ -406,6 +458,8 @@ export const EquipmentData: Record<string, EquipmentStats> = {
       { level: 26, dps_boost: 164 },
       { level: 27, dps_boost: 168 },
     ],
+    atk_speed_boost: [],
+    ability_boost: null,
   },
   life_gem: {
     name: "Life Gem",
@@ -434,6 +488,8 @@ export const EquipmentData: Record<string, EquipmentStats> = {
       { level: 17, dps_boost: 62 },
       { level: 18, dps_boost: 66 },
     ],
+    atk_speed_boost: [],
+    ability_boost: null,
   },
   rage_gem: {
     name: "Rage Gem",
@@ -462,6 +518,27 @@ export const EquipmentData: Record<string, EquipmentStats> = {
       { level: 17, dps_boost: 82 },
       { level: 18, dps_boost: 88 },
     ],
+    atk_speed_boost: [
+      { level: 1, atk_speed_boost: 5 },
+      { level: 2, atk_speed_boost: 6 },
+      { level: 3, atk_speed_boost: 7 },
+      { level: 4, atk_speed_boost: 8 },
+      { level: 5, atk_speed_boost: 9 },
+      { level: 6, atk_speed_boost: 10 },
+      { level: 7, atk_speed_boost: 11 },
+      { level: 8, atk_speed_boost: 12 },
+      { level: 9, atk_speed_boost: 13 },
+      { level: 10, atk_speed_boost: 14 },
+      { level: 11, atk_speed_boost: 15 },
+      { level: 12, atk_speed_boost: 16 },
+      { level: 13, atk_speed_boost: 17 },
+      { level: 14, atk_speed_boost: 18 },
+      { level: 15, atk_speed_boost: 19 },
+      { level: 16, atk_speed_boost: 20 },
+      { level: 17, atk_speed_boost: 21 },
+      { level: 18, atk_speed_boost: 22 },
+    ],
+    ability_boost: null,
   },
   fireball: {
     name: "Fireball",
@@ -527,6 +604,8 @@ export const EquipmentData: Record<string, EquipmentStats> = {
       { level: 26, dps_boost: 99 },
       { level: 27, dps_boost: 101 },
     ],
+    atk_speed_boost: [],
+    ability_boost: null,
   },
   lavaloon_puppet: {
     name: "Lavaloon Puppet",
@@ -564,6 +643,8 @@ export const EquipmentData: Record<string, EquipmentStats> = {
       { level: 26, dps_boost: 49 },
       { level: 27, dps_boost: 50 },
     ],
+    atk_speed_boost: [],
+    ability_boost: null,
   },
   royal_gem: {
     name: "Royal Gem",
@@ -592,6 +673,8 @@ export const EquipmentData: Record<string, EquipmentStats> = {
       { level: 17, dps_boost: 100 },
       { level: 18, dps_boost: 105 },
     ],
+    atk_speed_boost: [],
+    ability_boost: null,
   },
   seeking_shield: {
     name: "Seeking Shield",
@@ -620,6 +703,8 @@ export const EquipmentData: Record<string, EquipmentStats> = {
       { level: 18, damage: 2500 },
     ],
     dps_boost: [],
+    atk_speed_boost: [],
+    ability_boost: null,
   },
   haste_vial: {
     name: "Haste Vial",
@@ -648,6 +733,48 @@ export const EquipmentData: Record<string, EquipmentStats> = {
       { level: 17, dps_boost: 84 },
       { level: 18, dps_boost: 88 },
     ],
+    atk_speed_boost: [
+      { level: 1, atk_speed_boost: 5 },
+      { level: 2, atk_speed_boost: 6 },
+      { level: 3, atk_speed_boost: 6 },
+      { level: 4, atk_speed_boost: 7 },
+      { level: 5, atk_speed_boost: 8 },
+      { level: 6, atk_speed_boost: 8 },
+      { level: 7, atk_speed_boost: 9 },
+      { level: 8, atk_speed_boost: 10 },
+      { level: 9, atk_speed_boost: 10 },
+      { level: 10, atk_speed_boost: 11 },
+      { level: 11, atk_speed_boost: 12 },
+      { level: 12, atk_speed_boost: 12 },
+      { level: 13, atk_speed_boost: 13 },
+      { level: 14, atk_speed_boost: 14 },
+      { level: 15, atk_speed_boost: 14 },
+      { level: 16, atk_speed_boost: 15 },
+      { level: 17, atk_speed_boost: 16 },
+      { level: 18, atk_speed_boost: 16 },
+    ],
+    ability_boost: {
+      atk_speed_boost: [
+        { level: 1, atk_speed_boost: 60 },
+        { level: 2, atk_speed_boost: 60 },
+        { level: 3, atk_speed_boost: 60 },
+        { level: 4, atk_speed_boost: 60 },
+        { level: 5, atk_speed_boost: 60 },
+        { level: 6, atk_speed_boost: 80 },
+        { level: 7, atk_speed_boost: 80 },
+        { level: 8, atk_speed_boost: 80 },
+        { level: 9, atk_speed_boost: 80 },
+        { level: 10, atk_speed_boost: 80 },
+        { level: 11, atk_speed_boost: 80 },
+        { level: 12, atk_speed_boost: 80 },
+        { level: 13, atk_speed_boost: 80 },
+        { level: 14, atk_speed_boost: 80 },
+        { level: 15, atk_speed_boost: 100 },
+        { level: 16, atk_speed_boost: 100 },
+        { level: 17, atk_speed_boost: 100 },
+        { level: 18, atk_speed_boost: 100 },
+      ],
+    },
   },
   rocket_spear: {
     name: "Rocket Spear",
@@ -713,6 +840,8 @@ export const EquipmentData: Record<string, EquipmentStats> = {
       { level: 26, dps_boost: 164 },
       { level: 27, dps_boost: 168 },
     ],
+    atk_speed_boost: [],
+    ability_boost: null,
   },
   henchmen_puppet: {
     name: "Henchmen Puppet",
@@ -741,6 +870,8 @@ export const EquipmentData: Record<string, EquipmentStats> = {
       { level: 17, dps_boost: 176 },
       { level: 18, dps_boost: 188 },
     ],
+    atk_speed_boost: [],
+    ability_boost: null,
   },
   dark_orb: {
     name: "Dark Orb",
@@ -788,5 +919,7 @@ export const EquipmentData: Record<string, EquipmentStats> = {
       { level: 17, dps_boost: 68 },
       { level: 18, dps_boost: 73 },
     ],
+    atk_speed_boost: [],
+    ability_boost: null,
   },
 };

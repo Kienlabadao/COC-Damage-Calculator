@@ -24,7 +24,7 @@ export const HeroSection = memo(function HeroSection({
     updateEquipment,
     setAllEquipmentsToMax,
     setAllEquipmentsToMin,
-  ] = useInitEquipment(hero);
+  ] = useInitEquipment(hero, useHardMode);
 
   const { getHeroName } = heroDataUtils(heroItem.offenseID);
 

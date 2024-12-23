@@ -27,7 +27,6 @@ interface Props {
   useEquipment: boolean;
   updateCurrentLevelPos: (newCurrentLevelPos: number) => void;
   updateUseEquipment: (newUseEquipment: boolean) => void;
-  dph: number;
   extraDamage: number;
   damageType: DamageType;
   dpsBoost?: number;
@@ -46,7 +45,6 @@ export const AttackEquipmentCard = memo(function AttackEquipmentCard({
   useEquipment,
   updateCurrentLevelPos,
   updateUseEquipment,
-  dph,
   extraDamage,
   damageType,
   dpsBoost,
@@ -82,12 +80,6 @@ export const AttackEquipmentCard = memo(function AttackEquipmentCard({
         />
       </div>
       <div className="mt-2">
-        <StatDisplayer
-          displayerType={DISPLAYER_TYPE.Damage}
-          label={"DPH"}
-          content={dph.toString()}
-          isModifierActive={false}
-        ></StatDisplayer>
         <StatDisplayer
           displayerType={DISPLAYER_TYPE.Damage}
           label={"Extra Damage"}

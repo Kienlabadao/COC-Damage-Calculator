@@ -81,14 +81,14 @@ export const DamageEquipmentCard = memo(function DamageEquipmentCard({
       </div>
       <div className="mt-2">
         <StatDisplayer
-          displayerType={DISPLAYER_TYPE.Damage}
+          displayerType={convertToDisplayerType(damageType)}
           label={"Damage"}
           content={damage.toString()}
           isModifierActive={false}
         ></StatDisplayer>
         {dpsBoost && (
           <StatDisplayer
-            displayerType={convertToDisplayerType(damageType)}
+            displayerType={DISPLAYER_TYPE.Damage}
             label={"DPS Boost"}
             content={dpsBoost.toString()}
             isModifierActive={false}

@@ -9,25 +9,35 @@ import {
   EquipmentItem,
   updateEquipmentItemInList,
 } from "features/advance_calc/objects/equipmentItem";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getAllEquipmentIDs } from "utils/GameData/gameDataUtils";
 
-function getEquipmentItemList(hero: Hero): EquipmentItem[] {
+function getEquipmentItemList(
+  hero: Hero,
+  useHardMode: boolean
+): EquipmentItem[] {
   const equipmentIDList = getAllEquipmentIDs(undefined, hero);
 
-  return equipmentIDList.map((equipmentID) => initEquipmentItem(equipmentID));
+  return equipmentIDList.map((equipmentID) =>
+    initEquipmentItem(equipmentID, useHardMode)
+  );
 }
 
-export function useInitEquipment(hero: Hero) {
+export function useInitEquipment(hero: Hero, useHardMode: boolean) {
   const [equipmentItemList, setEquipmentItemList] = useState(
-    getEquipmentItemList(hero)
+    getEquipmentItemList(hero, useHardMode)
   );
+
+  useEffect(() => {
+    setEquipmentItemList(getEquipmentItemList(hero, useHardMode));
+  }, [useHardMode]);
 
   const updateEquipment = useCallback(
     (equipmentID: string, currentLevelPos?: number, use?: boolean) => {
       setEquipmentItemList((prevEquipmentItemList) => {
         const updatedEquipmentItem = updateEquipmentItem(
           equipmentID,
+          useHardMode,
           currentLevelPos,
           use
         );
@@ -38,20 +48,20 @@ export function useInitEquipment(hero: Hero) {
         );
       });
     },
-    []
+    [useHardMode]
   );
 
   const setAllEquipmentsToMax = useCallback(() => {
     setEquipmentItemList((prevEquipmentItemList) => {
-      return setAllEquipmentItemsToMax(prevEquipmentItemList);
+      return setAllEquipmentItemsToMax(prevEquipmentItemList, useHardMode);
     });
-  }, []);
+  }, [useHardMode]);
 
   const setAllEquipmentsToMin = useCallback(() => {
     setEquipmentItemList((prevEquipmentItemList) => {
-      return setAllEquipmentItemsToMin(prevEquipmentItemList);
+      return setAllEquipmentItemsToMin(prevEquipmentItemList, useHardMode);
     });
-  }, []);
+  }, [useHardMode]);
 
   return [
     equipmentItemList,

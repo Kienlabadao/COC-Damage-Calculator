@@ -37,6 +37,16 @@ export function calculateEarthquakeDamage(
   }
 }
 
+export function calculateRepair(
+  hp: number,
+  maxHP: number,
+  repair: number
+): number {
+  const remainingHP = roundToN(hp + repair, ROUNDING_PRECISION);
+
+  return remainingHP < maxHP ? remainingHP : maxHP;
+}
+
 export function calculateModifiedValue(
   baseValue: number,
   modifyPercentage: number

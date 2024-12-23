@@ -4,6 +4,7 @@ import {
   DamageLogType,
 } from "objects/damageLogItem";
 import { ActionType } from "objects/actionItem";
+import { BaseModifierItem } from "objects/baseModifierItem";
 
 export interface ZapquakeDamageLogItem extends DamageLogItem {}
 
@@ -15,7 +16,7 @@ export function createZapquakeDamageLogItem(
   damageLogType: DamageLogType,
   remainingHP: number,
   earthquakeCount: number,
-  modifierID?: string,
+  activeBaseModifierItem?: BaseModifierItem,
   modifiedDamage?: number,
   noHardModeDamage?: number,
   earthquakeReducedDamage?: number
@@ -29,7 +30,7 @@ export function createZapquakeDamageLogItem(
       damageLogType,
       remainingHP,
       earthquakeCount,
-      modifierID,
+      activeBaseModifierItem,
       modifiedDamage,
       noHardModeDamage,
       earthquakeReducedDamage
