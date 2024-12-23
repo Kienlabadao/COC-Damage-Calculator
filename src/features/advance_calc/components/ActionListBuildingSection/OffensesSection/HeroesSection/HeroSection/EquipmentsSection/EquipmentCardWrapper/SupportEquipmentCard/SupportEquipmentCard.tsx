@@ -4,6 +4,7 @@ import {
   BackgroundType,
   GameDataCardContainer,
   SIZE,
+  TOP_LEFT_OVERLAY_TYPE,
 } from "components/CalculatorComponents/GameDataCardContainer";
 import {
   OffenseCardContainer,
@@ -24,8 +25,11 @@ interface Props {
   updateCurrentLevelPos: (newCurrentLevelPos: number) => void;
   updateUseEquipment: (newUseEquipment: boolean) => void;
   dpsBoost: number;
+  dphBoost: number;
+  useHardMode: boolean;
   backgroundType?: BackgroundType;
   isMaxed?: boolean;
+  modifierImgPath?: string;
 }
 
 export const SupportEquipmentCard = memo(function SupportEquipmentCard({
@@ -40,9 +44,17 @@ export const SupportEquipmentCard = memo(function SupportEquipmentCard({
   updateCurrentLevelPos,
   updateUseEquipment,
   dpsBoost,
+  dphBoost,
+  useHardMode,
   backgroundType = BACKGROUND_TYPE.Normal,
   isMaxed = false,
+  modifierImgPath,
 }: Props) {
+  const isModifierActive = modifierImgPath !== undefined;
+  const topLeftOverlayType = isModifierActive
+    ? TOP_LEFT_OVERLAY_TYPE.Modifier
+    : undefined;
+
   return (
     <OffenseCardContainer>
       <h5>{name}</h5>
@@ -53,6 +65,8 @@ export const SupportEquipmentCard = memo(function SupportEquipmentCard({
           size={SIZE.Normal}
           level={currentLevel}
           isMaxed={isMaxed}
+          topLeftOverlayType={topLeftOverlayType}
+          modifierImgPath={modifierImgPath}
         />
       </div>
       <div className="mt-2">
@@ -76,7 +90,15 @@ export const SupportEquipmentCard = memo(function SupportEquipmentCard({
           displayerType={DISPLAYER_TYPE.Damage}
           label={"DPS Boost"}
           content={dpsBoost.toString()}
-          isModifierActive={false}
+          isModifierActive={isModifierActive}
+          useHardMode={useHardMode}
+        ></StatDisplayer>
+        <StatDisplayer
+          displayerType={DISPLAYER_TYPE.Damage}
+          label={"DPH Boost"}
+          content={dphBoost.toString()}
+          isModifierActive={isModifierActive}
+          useHardMode={useHardMode}
         ></StatDisplayer>
       </div>
     </OffenseCardContainer>

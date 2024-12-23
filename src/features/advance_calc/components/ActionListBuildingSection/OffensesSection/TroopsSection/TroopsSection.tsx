@@ -5,6 +5,7 @@ import {
 import { TroopSetting } from "./TroopSetting";
 import { TroopCardWrapper } from "./TroopCardWrapper";
 import { useOffensesSectionContext } from "features/advance_calc/contexts";
+import { getActiveModifier } from "features/advance_calc/actions/ModifierItem";
 
 export function TroopsSection() {
   const { modifierItemList } = useOffensesSectionContext();
@@ -26,15 +27,23 @@ export function TroopsSection() {
       />
 
       <div className="row row-cols-6 justify-content-evenly gap-3 mt-5">
-        {troopItemList.map((troop) => (
-          <TroopCardWrapper
-            key={troop.id}
-            troopItem={troop}
-            modifierItemList={modifierItemList}
-            updateTroop={updateTroop}
-            useTroopDeathDamage={useTroopDeathDamage}
-          />
-        ))}
+        {troopItemList.map((troop) => {
+          const activeModifier = getActiveModifier(
+            troop.offenseID,
+            troop.type,
+            modifierItemList
+          );
+
+          return (
+            <TroopCardWrapper
+              key={troop.id}
+              troopItem={troop}
+              activeModifier={activeModifier}
+              updateTroop={updateTroop}
+              useTroopDeathDamage={useTroopDeathDamage}
+            />
+          );
+        })}
       </div>
     </div>
   );

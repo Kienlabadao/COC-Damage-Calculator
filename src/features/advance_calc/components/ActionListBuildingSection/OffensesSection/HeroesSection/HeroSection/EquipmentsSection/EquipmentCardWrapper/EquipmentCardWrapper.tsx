@@ -1,28 +1,32 @@
 import { memo } from "react";
 import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
-import { OffenseItem } from "features/advance_calc/objects/offenseItem";
 import { EquipmentItem } from "features/advance_calc/objects/equipmentItem";
 import { SupportEquipmentCard } from "./SupportEquipmentCard";
 import { DamageEquipmentCard } from "./DamageEquipmentCard";
 import { AttackEquipmentCard } from "./AttackEquipmentCard";
 import { BACKGROUND_TYPE } from "components/CalculatorComponents/GameDataCardContainer";
+import { ModifierItem } from "features/advance_calc/objects/modifierItem";
+import { getBaseModifiedImage } from "objects/baseModifierItem";
+import { EquipmentDamageLog } from "features/advance_calc/objects/equipmentDamageLog";
 
 interface Props {
   equipmentItem: EquipmentItem;
-  heroItem: OffenseItem;
   updateEquipment: (
     equipmentID: string,
     currentLevelPos?: number,
     use?: boolean
   ) => void;
+  equipmentDamageLog: EquipmentDamageLog;
   useHardMode: boolean;
+  activeModifier?: ModifierItem;
 }
 
 export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
   equipmentItem,
-  heroItem,
   updateEquipment,
+  equipmentDamageLog,
   useHardMode,
+  activeModifier,
 }: Props) {
   const updateCurrentLevelPos = (newCurrentLevelPos: number) => {
     updateEquipment(equipmentID, newCurrentLevelPos);
@@ -38,8 +42,6 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
     getEquipmentMinLevelPos,
     getEquipmentMaxLevelPos,
     getEquipmentLevel,
-    getEquipmentDPSBoost,
-    getEquipmentDamage,
     getEquipmentDamageType,
     isMaxLevelPos,
     isEquipmentTypeAttack,
@@ -59,20 +61,21 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
   const backgroundType = isEquipmentRarityEpic()
     ? BACKGROUND_TYPE.Epic
     : BACKGROUND_TYPE.Normal;
+  const modifierImgPath = activeModifier
+    ? getBaseModifiedImage(activeModifier)
+    : undefined;
 
   function renderEquipmentCard() {
     if (isEquipmentTypeDamage()) {
-      const damage = getEquipmentDamage(currentLevelPos);
+      const damage = equipmentDamageLog.damage!;
       const damageType = getEquipmentDamageType();
       if (!damageType) {
         throw new Error(
           `EquipmentCardWrapper.renderEquipmentCard ERROR: damageType of a equipment damage type cannot be null. EquipmentID: ${equipmentID}`
         );
       }
-      let dpsBoost: number | undefined;
-      if (isEquipmentTypeSupport()) {
-        dpsBoost = getEquipmentDPSBoost(currentLevelPos);
-      }
+      const dpsBoost = equipmentDamageLog.dps;
+      const dphBoost = equipmentDamageLog.dph;
 
       return (
         <DamageEquipmentCard
@@ -88,23 +91,24 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
           updateUseEquipment={updateUseEquipment}
           damage={damage}
           damageType={damageType}
+          useHardMode={useHardMode}
           dpsBoost={dpsBoost}
+          dphBoost={dphBoost}
           backgroundType={backgroundType}
           isMaxed={isMaxLevelPos(currentLevelPos)}
+          modifierImgPath={modifierImgPath}
         />
       );
     } else if (isEquipmentTypeAttack()) {
-      const extraDamage = getEquipmentDamage(currentLevelPos);
+      const extraDamage = equipmentDamageLog.extraDamage!;
       const damageType = getEquipmentDamageType();
       if (!damageType) {
         throw new Error(
           `EquipmentCardWrapper.renderEquipmentCard ERROR: damageType of a equipment damage type cannot be null. EquipmentID: ${equipmentID}`
         );
       }
-      let dpsBoost: number | undefined;
-      if (isEquipmentTypeSupport()) {
-        dpsBoost = getEquipmentDPSBoost(currentLevelPos);
-      }
+      const dpsBoost = equipmentDamageLog.dps;
+      const dphBoost = equipmentDamageLog.dph;
 
       return (
         <AttackEquipmentCard
@@ -120,13 +124,22 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
           updateUseEquipment={updateUseEquipment}
           extraDamage={extraDamage}
           damageType={damageType}
+          useHardMode={useHardMode}
           dpsBoost={dpsBoost}
+          dphBoost={dphBoost}
           backgroundType={backgroundType}
           isMaxed={isMaxLevelPos(currentLevelPos)}
+          modifierImgPath={modifierImgPath}
         />
       );
     } else if (isEquipmentTypeSupport()) {
-      const dpsBoost = getEquipmentDPSBoost(currentLevelPos);
+      const dpsBoost = equipmentDamageLog.dps!;
+      const dphBoost = equipmentDamageLog.dph!;
+      if (!dpsBoost) {
+        throw new Error(
+          `EquipmentCardWrapper.renderEquipmentCard ERROR: equipment support type must give dps boost. EquipmentID: ${equipmentID}`
+        );
+      }
 
       return (
         <SupportEquipmentCard
@@ -141,8 +154,11 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
           updateCurrentLevelPos={updateCurrentLevelPos}
           updateUseEquipment={updateUseEquipment}
           dpsBoost={dpsBoost}
+          dphBoost={dphBoost}
+          useHardMode={useHardMode}
           backgroundType={backgroundType}
           isMaxed={isMaxLevelPos(currentLevelPos)}
+          modifierImgPath={modifierImgPath}
         />
       );
     } else {

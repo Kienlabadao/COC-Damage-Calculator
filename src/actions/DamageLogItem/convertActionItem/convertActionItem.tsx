@@ -1,4 +1,4 @@
-import { calculateDamage } from "actions/calculateDamage";
+import { calculateDamage } from "actions/ActionItem";
 import { ActionItem } from "objects/actionItem";
 import { createDamageLogItem, DamageLogItem } from "objects/damageLogItem";
 

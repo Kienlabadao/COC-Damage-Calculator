@@ -1,8 +1,10 @@
-import {
-  calculateDefense,
-  DefenseStatus,
-} from "features/zapquake_calc/actions/DefenseItem";
+import { calculateDefense } from "features/zapquake_calc/actions/DefenseItem";
 import { EarthquakeOrder } from "features/zapquake_calc/data/constants";
+import {
+  compareDefenseItem,
+  DefenseItem,
+} from "features/zapquake_calc/objects/defenseItem";
+import { DefenseLog } from "features/zapquake_calc/objects/defenseLog";
 import {
   compareDonatedLightningSpellItem,
   DonatedLightningSpellItem,
@@ -11,19 +13,17 @@ import {
   compareOffenseItemList,
   OffenseItem,
 } from "features/zapquake_calc/objects/offenseItem";
-import { SpellCountItem } from "features/zapquake_calc/objects/spellCountItem";
 import { useRef } from "react";
-import { isValidDefenseLevelPos } from "utils/GameData/gameDataUtils";
 
 function compareVariables(
   variables: Variables,
-  currentLevelPos: number,
+  defenseItem: DefenseItem,
   offenseItemList: OffenseItem[],
   donatedLightningSpellItem: DonatedLightningSpellItem,
   earthquakeOrder: EarthquakeOrder
 ) {
   return (
-    variables.currentLevelPos === currentLevelPos &&
+    compareDefenseItem(variables.defenseItem, defenseItem) &&
     compareOffenseItemList(variables.offenseItemList, offenseItemList) &&
     compareDonatedLightningSpellItem(
       variables.donatedLightningSpellItem,
@@ -34,15 +34,10 @@ function compareVariables(
 }
 
 interface Variables {
-  currentLevelPos: number;
+  defenseItem: DefenseItem;
   offenseItemList: OffenseItem[];
   donatedLightningSpellItem: DonatedLightningSpellItem;
   earthquakeOrder: EarthquakeOrder;
-}
-
-export interface DefenseLog {
-  defenseStatus: DefenseStatus;
-  spellCountList: SpellCountItem[][];
 }
 
 export function useCacheDefenseLog() {
@@ -51,62 +46,44 @@ export function useCacheDefenseLog() {
   >({});
 
   function retrieveOrRecalculateDefenseLog(
-    defenseID: string,
-    currentLevelPos: number,
+    defenseItem: DefenseItem,
     offenseItemList: OffenseItem[],
     donatedLightningSpellItem: DonatedLightningSpellItem,
     earthquakeOrder: EarthquakeOrder
   ): DefenseLog {
-    if (!isValidDefenseLevelPos(defenseID, currentLevelPos)) {
-      throw new Error(`useCacheDefense`);
-    }
+    const defenseID = defenseItem.defenseID;
 
-    const prevEntry = defenseLogMemoRef.current[defenseID];
-
-    if (
-      prevEntry === undefined ||
-      !compareVariables(
-        prevEntry.variables,
-        currentLevelPos,
-        offenseItemList,
-        donatedLightningSpellItem,
-        earthquakeOrder
-      )
-    ) {
-      calculateAndStoreDefenseLog(
-        defenseID,
-        currentLevelPos,
-        offenseItemList,
-        donatedLightningSpellItem,
-        earthquakeOrder
-      );
-    }
+    tryCalculateAndStoreDefenseLog(
+      defenseItem,
+      offenseItemList,
+      donatedLightningSpellItem,
+      earthquakeOrder
+    );
 
     return defenseLogMemoRef.current[defenseID].defenseLog;
   }
 
   function tryCalculateAndStoreDefenseLog(
-    defenseID: string,
-    currentLevelPos: number,
+    defenseItem: DefenseItem,
     offenseItemList: OffenseItem[],
     donatedLightningSpellItem: DonatedLightningSpellItem,
     earthquakeOrder: EarthquakeOrder
   ): void {
+    const defenseID = defenseItem.defenseID;
     const prevEntry = defenseLogMemoRef.current[defenseID];
 
     if (
       prevEntry === undefined ||
       !compareVariables(
         prevEntry.variables,
-        currentLevelPos,
+        defenseItem,
         offenseItemList,
         donatedLightningSpellItem,
         earthquakeOrder
       )
     ) {
       calculateAndStoreDefenseLog(
-        defenseID,
-        currentLevelPos,
+        defenseItem,
         offenseItemList,
         donatedLightningSpellItem,
         earthquakeOrder
@@ -115,15 +92,14 @@ export function useCacheDefenseLog() {
   }
 
   function calculateAndStoreDefenseLog(
-    defenseID: string,
-    currentLevelPos: number,
+    defenseItem: DefenseItem,
     offenseItemList: OffenseItem[],
     donatedLightningSpellItem: DonatedLightningSpellItem,
     earthquakeOrder: EarthquakeOrder
   ): void {
+    const defenseID = defenseItem.defenseID;
     const defenseLog = calculateDefense(
-      defenseID,
-      currentLevelPos,
+      defenseItem,
       offenseItemList,
       donatedLightningSpellItem,
       earthquakeOrder
@@ -131,14 +107,14 @@ export function useCacheDefenseLog() {
 
     defenseLogMemoRef.current[defenseID] = {
       variables: {
-        currentLevelPos: currentLevelPos,
-        offenseItemList: offenseItemList,
-        donatedLightningSpellItem: donatedLightningSpellItem,
-        earthquakeOrder: earthquakeOrder,
+        defenseItem,
+        offenseItemList,
+        donatedLightningSpellItem,
+        earthquakeOrder,
       },
       defenseLog: defenseLog,
     };
   }
 
-  return { retrieveOrRecalculateDefenseLog, tryCalculateAndStoreDefenseLog };
+  return retrieveOrRecalculateDefenseLog;
 }

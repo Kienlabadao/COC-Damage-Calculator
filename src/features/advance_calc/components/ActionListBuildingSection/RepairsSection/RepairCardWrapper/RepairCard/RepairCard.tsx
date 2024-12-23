@@ -65,6 +65,7 @@ export const RepairCard = memo(function RepairCard({
       </div>
       <div className="mt-2">
         <StatDisplayer
+          label={`Repair`}
           displayerType={DISPLAYER_TYPE.Repair}
           content={repair.toString()}
           isModifierActive={isModifierActive}

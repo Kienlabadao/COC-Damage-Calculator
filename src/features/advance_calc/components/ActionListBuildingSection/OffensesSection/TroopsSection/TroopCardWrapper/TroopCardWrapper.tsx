@@ -4,19 +4,19 @@ import { BACKGROUND_TYPE } from "components/CalculatorComponents/GameDataCardCon
 import { OffenseItem } from "features/advance_calc/objects/offenseItem";
 import { TroopCard } from "./TroopCard";
 import { ModifierItem } from "features/advance_calc/objects/modifierItem";
-import { calculateTroopModifiedValue } from "features/advance_calc/actions/ModifierItem";
 import { getBaseModifiedImage } from "objects/baseModifierItem";
+import { getTroopDamage } from "features/advance_calc/actions/OffenseItem";
 
 interface Props {
   troopItem: OffenseItem;
-  modifierItemList: ModifierItem[];
+  activeModifier?: ModifierItem;
   updateTroop: (offenseID: string, currentLevelPos?: number) => void;
   useTroopDeathDamage: boolean;
 }
 
 export const TroopCardWrapper = memo(function TroopCardWrapper({
   troopItem,
-  modifierItemList,
+  activeModifier,
   updateTroop,
   useTroopDeathDamage,
 }: Props) {
@@ -43,11 +43,7 @@ export const TroopCardWrapper = memo(function TroopCardWrapper({
   const currentLevelPos = troopItem.currentLevelPos;
   const currentLevel = getTroopLevel(currentLevelPos);
   const imagePath = getTroopImage(currentLevelPos);
-  const [damage, activeModifier] = calculateTroopModifiedValue(
-    troopItem,
-    useTroopDeathDamage,
-    modifierItemList
-  );
+  const damage = getTroopDamage(troopItem, useTroopDeathDamage, activeModifier);
   const modifierImgPath = activeModifier
     ? getBaseModifiedImage(activeModifier)
     : undefined;

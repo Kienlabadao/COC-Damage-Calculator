@@ -1,5 +1,6 @@
 import {
   BaseModifierItem,
+  compareBaseModifierItem,
   createBaseModifierItem,
 } from "objects/baseModifierItem";
 
@@ -42,4 +43,11 @@ export function updateModifierItemInList(
   }
 
   return updatedList;
+}
+
+export function compareModifierItem(
+  mo1: ModifierItem,
+  mo2: ModifierItem
+): boolean {
+  return mo1.use === mo2.use && compareBaseModifierItem(mo1, mo2);
 }

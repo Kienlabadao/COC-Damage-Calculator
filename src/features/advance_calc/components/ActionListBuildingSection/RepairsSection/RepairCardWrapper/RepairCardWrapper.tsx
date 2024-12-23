@@ -3,18 +3,18 @@ import { repairDataUtils } from "utils/GameData/repairDataUtils";
 import { RepairCard } from "./RepairCard";
 import { RepairItem } from "features/advance_calc/objects/repairItem";
 import { ModifierItem } from "features/advance_calc/objects/modifierItem";
-import { calculateRepairModifiedValue } from "features/advance_calc/actions/ModifierItem";
 import { getBaseModifiedImage } from "objects/baseModifierItem";
+import { getRepairRepair } from "features/advance_calc/actions/RepairItem";
 
 interface Props {
   repairItem: RepairItem;
-  modifierItemList: ModifierItem[];
+  activeModifier?: ModifierItem;
   updateRepair: (offenseID: string, currentLevelPos?: number) => void;
 }
 
 export const RepairCardWrapper = memo(function RepairCardWrapper({
   repairItem,
-  modifierItemList,
+  activeModifier,
   updateRepair,
 }: Props) {
   const updateCurrentLevelPos = (newCurrentLevelPos: number) => {
@@ -38,10 +38,7 @@ export const RepairCardWrapper = memo(function RepairCardWrapper({
   const currentLevelPos = repairItem.currentLevelPos;
   const currentLevel = getRepairLevel(currentLevelPos);
   const imagePath = getRepairImage(currentLevel);
-  const [repair, activeModifier] = calculateRepairModifiedValue(
-    repairItem,
-    modifierItemList
-  );
+  const repair = getRepairRepair(repairItem, activeModifier);
   const modifierImgPath = activeModifier
     ? getBaseModifiedImage(activeModifier)
     : undefined;

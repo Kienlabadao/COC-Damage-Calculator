@@ -6,8 +6,8 @@ export function getActiveModifier(
   gameDataID: string,
   type: GameDataType,
   modifierItemList: ModifierItem[]
-): ModifierItem | null {
-  let activeModifier: ModifierItem | null = null;
+): ModifierItem | undefined {
+  let activeModifier: ModifierItem | undefined = undefined;
   let activeModifierModify = 0;
 
   for (const modifierItem of modifierItemList) {

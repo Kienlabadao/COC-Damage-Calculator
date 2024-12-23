@@ -14,29 +14,24 @@ import { createZapquakeActionList } from "../../ZapquakeActionItem";
 import { convertZapquakeActionList } from "../../ZapquakeDamageLogItem";
 import { getArrayLastElement, ObjectValues } from "utils/objectUtils";
 import { convertZapquakeDamageLogList } from "../../SpellCountItem";
-import { isValidDefenseLevelPos } from "utils/GameData/gameDataUtils";
 import { SPELL } from "data/game";
+import { DefenseItem } from "features/zapquake_calc/objects/defenseItem";
 
 export const DEFENSE_STATUS = {
   Normal: "normal",
   EquipmentDestroyed: "equipment_destroyed",
   ImpossibleDestroy: "Impossible_destroy",
 } as const;
-
 export type DefenseStatus = ObjectValues<typeof DEFENSE_STATUS>;
 
 export function calculateDefense(
-  defenseID: string,
-  defenseLevelPos: number,
+  defenseItem: DefenseItem,
   offenseItemList: OffenseItem[],
   donatedLightningSpellItem: DonatedLightningSpellItem,
   earthquakeOrder: EarthquakeOrder
 ): { defenseStatus: DefenseStatus; spellCountList: SpellCountItem[][] } {
-  if (!isValidDefenseLevelPos(defenseID, defenseLevelPos)) {
-    throw new Error(
-      `calculateDefense ERROR: Invalid defenseLevelPos ${defenseLevelPos}. DefenseID: ${defenseID}.`
-    );
-  }
+  const defenseID = defenseItem.defenseID;
+  const defenseLevelPos = defenseItem.currentLevelPos;
 
   const filteredOffenseItemList = filterOffenseItemList(
     offenseItemList,

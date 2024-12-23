@@ -22,3 +22,14 @@ export function createBaseDefenseItem(
     );
   }
 }
+
+export function compareBaseDefenseItem(
+  baseDF1: BaseDefenseItem,
+  baseDF2: BaseDefenseItem
+): boolean {
+  return (
+    baseDF1.id === baseDF2.id &&
+    baseDF1.defenseID === baseDF2.defenseID &&
+    baseDF1.currentLevelPos === baseDF2.currentLevelPos
+  );
+}

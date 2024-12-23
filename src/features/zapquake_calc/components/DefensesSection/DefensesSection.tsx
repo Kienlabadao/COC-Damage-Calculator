@@ -9,6 +9,8 @@ import { EarthquakeOrder } from "features/zapquake_calc/data/constants";
 import { DefenseDisplaySection } from "./DefenseDisplaySection";
 import { DefenseSettingSection } from "./DefenseSettingSection";
 import { useInitDefenseSetting } from "features/zapquake_calc/hooks/Init/useInitDefenseSetting";
+import { useInitDefenseDisplayDataList } from "features/zapquake_calc/hooks/Init/useInitDefenseDisplayDataList";
+import { filterDefenseDisplayDataList } from "features/zapquake_calc/actions/DefenseDisplayData";
 
 interface Props {
   offenseItemList: OffenseItem[];
@@ -37,20 +39,30 @@ export function DefensesSection({
     setHideNormalDefense,
     setSearchQuery,
   ] = useInitDefenseSetting();
+
   const [
-    defenseDisplayDataList,
-    defenseCountLog,
+    defenseItemList,
+    updateDefense,
     setAllDefensesToMax,
     setAllDefensesToMin,
-  ] = useInitDefense(
+  ] = useInitDefense();
+
+  const defenseDisplayDataList = useInitDefenseDisplayDataList(
+    defenseItemList,
+    updateDefense,
     filteredOffenseItemList,
     donatedLightningSpellItem,
-    earthquakeOrder,
-    hideImpossibleDestroyDefense,
-    hideEquipmentDestroyedDefense,
-    hideNormalDefense,
-    searchQuery
+    earthquakeOrder
   );
+
+  const { filteredDefenseDisplayDataList, defenseCountLog } =
+    filterDefenseDisplayDataList(
+      defenseDisplayDataList,
+      hideImpossibleDestroyDefense,
+      hideEquipmentDestroyedDefense,
+      hideNormalDefense,
+      searchQuery
+    );
 
   return (
     <>
@@ -72,8 +84,8 @@ export function DefensesSection({
 
       <SectionContainer>
         <DefenseDisplaySection
-          offenseItemList={offenseItemList}
-          defenseDisplayDataList={defenseDisplayDataList}
+          offenseItemList={filteredOffenseItemList}
+          defenseDisplayDataList={filteredDefenseDisplayDataList}
         />
       </SectionContainer>
     </>

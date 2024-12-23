@@ -72,7 +72,7 @@ export const HeroCard = memo(function HeroCard({
       <div className="mt-2">
         <StatDisplayer
           displayerType={convertToDisplayerType(damageType)}
-          label={"Damage"}
+          label={"DPS"}
           content={dps.toString()}
           isModifierActive={false}
         ></StatDisplayer>

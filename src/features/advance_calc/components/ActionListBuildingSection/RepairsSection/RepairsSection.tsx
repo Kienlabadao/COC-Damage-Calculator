@@ -2,6 +2,8 @@ import { ModifierItem } from "features/advance_calc/objects/modifierItem";
 import { RepairCardWrapper } from "./RepairCardWrapper";
 import { RepairSetting } from "./RepairSetting";
 import { useInitRepair } from "features/advance_calc/hooks/Init";
+import { getActiveModifier } from "features/advance_calc/actions/ModifierItem";
+import { GAME_DATA_TYPE } from "data/game";
 
 interface Props {
   modifierItemList: ModifierItem[];
@@ -22,14 +24,22 @@ export function RepairsSection({ modifierItemList }: Props) {
       />
 
       <div className="row row-cols-6 justify-content-evenly gap-3 mt-5">
-        {repairItemList.map((repair) => (
-          <RepairCardWrapper
-            key={repair.id}
-            repairItem={repair}
-            modifierItemList={modifierItemList}
-            updateRepair={updateRepair}
-          />
-        ))}
+        {repairItemList.map((repair) => {
+          const activeModifier = getActiveModifier(
+            repair.repairID,
+            GAME_DATA_TYPE.Repair,
+            modifierItemList
+          );
+
+          return (
+            <RepairCardWrapper
+              key={repair.id}
+              repairItem={repair}
+              activeModifier={activeModifier}
+              updateRepair={updateRepair}
+            />
+          );
+        })}
       </div>
     </div>
   );

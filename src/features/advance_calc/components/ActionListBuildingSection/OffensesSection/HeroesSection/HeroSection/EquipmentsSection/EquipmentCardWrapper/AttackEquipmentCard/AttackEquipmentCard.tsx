@@ -4,6 +4,7 @@ import {
   BackgroundType,
   GameDataCardContainer,
   SIZE,
+  TOP_LEFT_OVERLAY_TYPE,
 } from "components/CalculatorComponents/GameDataCardContainer";
 import {
   OffenseCardContainer,
@@ -29,9 +30,12 @@ interface Props {
   updateUseEquipment: (newUseEquipment: boolean) => void;
   extraDamage: number;
   damageType: DamageType;
+  useHardMode: boolean;
   dpsBoost?: number;
+  dphBoost?: number;
   backgroundType?: BackgroundType;
   isMaxed?: boolean;
+  modifierImgPath?: string;
 }
 
 export const AttackEquipmentCard = memo(function AttackEquipmentCard({
@@ -47,10 +51,19 @@ export const AttackEquipmentCard = memo(function AttackEquipmentCard({
   updateUseEquipment,
   extraDamage,
   damageType,
+  useHardMode,
   dpsBoost,
+  dphBoost,
   backgroundType = BACKGROUND_TYPE.Normal,
   isMaxed = false,
+  modifierImgPath,
 }: Props) {
+  const isModifierActive =
+    dpsBoost !== undefined && modifierImgPath !== undefined;
+  const topLeftOverlayType = isModifierActive
+    ? TOP_LEFT_OVERLAY_TYPE.Modifier
+    : undefined;
+
   return (
     <OffenseCardContainer>
       <h5>{name}</h5>
@@ -61,6 +74,8 @@ export const AttackEquipmentCard = memo(function AttackEquipmentCard({
           size={SIZE.Normal}
           level={currentLevel}
           isMaxed={isMaxed}
+          topLeftOverlayType={topLeftOverlayType}
+          modifierImgPath={modifierImgPath}
         />
       </div>
       <div className="mt-2">
@@ -91,7 +106,17 @@ export const AttackEquipmentCard = memo(function AttackEquipmentCard({
             displayerType={convertToDisplayerType(damageType)}
             label={"DPS Boost"}
             content={dpsBoost.toString()}
-            isModifierActive={false}
+            isModifierActive={isModifierActive}
+            useHardMode={useHardMode}
+          ></StatDisplayer>
+        )}
+        {dphBoost && (
+          <StatDisplayer
+            displayerType={DISPLAYER_TYPE.Damage}
+            label={"DPH Boost"}
+            content={dphBoost.toString()}
+            isModifierActive={isModifierActive}
+            useHardMode={useHardMode}
           ></StatDisplayer>
         )}
       </div>

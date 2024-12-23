@@ -1,7 +1,7 @@
 import { Button, Checkbox, CollapseContainer } from "components";
 import { LiveTextInput } from "components/LiveTextInput";
 import { BS_COLOR } from "data/constants";
-import { DefenseCountLog } from "features/zapquake_calc/hooks/Init";
+import { DefenseCountLog } from "features/zapquake_calc/objects/defenseCountLog";
 import { memo } from "react";
 
 interface Props {

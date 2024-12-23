@@ -1,17 +1,21 @@
 import { OFFENSE_TYPE } from "data/game";
-import { createOffenseItem, OffenseItem } from "../offenseItem";
+import {
+  compareOffenseItem,
+  createOffenseItem,
+  OffenseItem,
+} from "../offenseItem";
 
 export interface EquipmentItem extends OffenseItem {
   use: boolean;
 }
 
 export function createEquipmentItem(
-  offenseID: string,
+  equipmentID: string,
   currentLevelPos: number,
   use: boolean
 ): EquipmentItem {
   return {
-    ...createOffenseItem(offenseID, OFFENSE_TYPE.Equipment, currentLevelPos),
+    ...createOffenseItem(equipmentID, OFFENSE_TYPE.Equipment, currentLevelPos),
     use: use,
   };
 }
@@ -40,4 +44,11 @@ export function updateEquipmentItemInList(
   }
 
   return updatedList;
+}
+
+export function compareEquipmentItem(
+  eT1: EquipmentItem,
+  eT2: EquipmentItem
+): boolean {
+  return eT1.use === eT2.use && compareOffenseItem(eT1, eT2);
 }

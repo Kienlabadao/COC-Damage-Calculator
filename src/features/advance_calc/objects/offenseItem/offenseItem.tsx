@@ -1,6 +1,7 @@
 import { OffenseType } from "data/game";
 import {
   BaseOffenseItem,
+  compareBaseOffenseItem,
   createBaseOffenseItem,
 } from "objects/baseOffenseItem";
 
@@ -50,4 +51,11 @@ export function filterOffenseItemList(
     }
     return false;
   });
+}
+
+export function compareOffenseItem(
+  oF1: OffenseItem,
+  oF2: OffenseItem
+): boolean {
+  return compareBaseOffenseItem(oF1, oF2);
 }

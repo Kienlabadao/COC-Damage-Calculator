@@ -1,4 +1,4 @@
-import { DefenseDisplayData } from "features/zapquake_calc/hooks/Init";
+import { DefenseDisplayData } from "features/zapquake_calc/objects/defenseDisplayData";
 import { DefenseCard } from "./DefenseCard";
 import { NoDefenseFoundStatus } from "./NoDefenseFoundStatus";
 import { OffenseItem } from "features/zapquake_calc/objects/offenseItem";
@@ -12,6 +12,7 @@ export function DefenseDisplaySection({
   offenseItemList,
   defenseDisplayDataList,
 }: Props) {
+  console.log(offenseItemList);
   function renderDefenseDisplayDataList() {
     if (defenseDisplayDataList.length > 0) {
       return (
@@ -19,10 +20,10 @@ export function DefenseDisplaySection({
           {defenseDisplayDataList.map((defenseDisplayData) => (
             <DefenseCard
               key={defenseDisplayData.id}
-              defense={defenseDisplayData.defense}
+              defenseItem={defenseDisplayData.defenseItem}
               updateDefense={defenseDisplayData.updateDefense}
-              defenseStatus={defenseDisplayData.defenseStatus}
-              spellCountList={defenseDisplayData.spellCountList}
+              defenseStatus={defenseDisplayData.defenseLog.defenseStatus}
+              spellCountList={defenseDisplayData.defenseLog.spellCountList}
               offenseItemList={offenseItemList}
             />
           ))}

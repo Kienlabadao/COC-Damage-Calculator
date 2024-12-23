@@ -79,6 +79,7 @@ export const ModifierCard = memo(function ModifierCard({
       </div>
       <div className="mt-2">
         <StatDisplayer
+          label={`Modify`}
           displayerType={DISPLAYER_TYPE.Modify}
           isModifierActive={false}
           content={modify.toString()}

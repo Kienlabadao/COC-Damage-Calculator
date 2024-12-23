@@ -19,7 +19,7 @@ import { OFFENSE_TYPE } from "data/game";
 import { UsedEquipmentDisplayer } from "./UsedEquipmentDisplayer/UsedEquipmentDisplayer";
 
 export interface Props {
-  defense: DefenseItem;
+  defenseItem: DefenseItem;
   updateDefense: (defenseID: string, currentLevelPos: number) => void;
   defenseStatus: DefenseStatus;
   spellCountList: SpellCountItem[][];
@@ -27,7 +27,7 @@ export interface Props {
 }
 
 export const DefenseCard = memo(function DefenseCard({
-  defense,
+  defenseItem,
   updateDefense,
   defenseStatus,
   spellCountList,
@@ -42,7 +42,7 @@ export const DefenseCard = memo(function DefenseCard({
     true
   );
 
-  const defenseID = defense.defenseID;
+  const defenseID = defenseItem.defenseID;
   const {
     getDefenseName,
     getDefenseImage,
@@ -56,10 +56,10 @@ export const DefenseCard = memo(function DefenseCard({
   } = defenseDataUtils(defenseID);
 
   const name = getDefenseName();
-  const id = defense.id;
+  const id = defenseItem.id;
   const minLevelPos = getDefenseMinLevelPos();
   const maxLevelPos = getDefenseMaxLevelPos();
-  const currentLevelPos = defense.currentLevelPos;
+  const currentLevelPos = defenseItem.currentLevelPos;
   const currentLevel = getDefenseLevel(currentLevelPos);
   const superchargeLevel = getDefenseSuperchargeLevel(currentLevelPos);
   const isMaxed = isMaxLevel(currentLevelPos);

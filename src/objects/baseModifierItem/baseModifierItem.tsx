@@ -42,3 +42,14 @@ export function getBaseModifiedImage(baseModifierItem: BaseModifierItem) {
 
   return getModifierImage();
 }
+
+export function compareBaseModifierItem(
+  baseMO1: BaseModifierItem,
+  baseMO2: BaseModifierItem
+): boolean {
+  return (
+    baseMO1.id === baseMO2.id &&
+    baseMO1.modifierID === baseMO2.modifierID &&
+    baseMO1.currentLevelPos === baseMO2.currentLevelPos
+  );
+}

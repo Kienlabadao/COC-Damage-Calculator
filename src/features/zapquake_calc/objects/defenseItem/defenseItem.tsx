@@ -1,5 +1,6 @@
 import {
   BaseDefenseItem,
+  compareBaseDefenseItem,
   createBaseDefenseItem,
 } from "objects/baseDefenseItem";
 
@@ -36,4 +37,11 @@ export function updateDefenseItemInList(
   }
 
   return updatedList;
+}
+
+export function compareDefenseItem(
+  df1: DefenseItem,
+  df2: DefenseItem
+): boolean {
+  return compareBaseDefenseItem(df1, df2);
 }

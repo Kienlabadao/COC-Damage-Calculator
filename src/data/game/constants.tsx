@@ -1,6 +1,8 @@
 import { ObjectValues } from "utils/objectUtils";
 import { OFFENSE_TYPE } from "./offense";
 
+export const HARD_MODE_HERO_DAMAGE_MODIFIER = 0.95;
+
 export const GAME_DATA_TYPE = {
   ...OFFENSE_TYPE,
   Modifier: "modifier",

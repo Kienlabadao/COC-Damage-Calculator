@@ -1,22 +1,28 @@
-import { Hero } from "data/game";
+import { Hero, OFFENSE_TYPE } from "data/game";
 import { HeroCardWrapper } from "./HeroCardWrapper";
 import { heroDataUtils } from "utils/GameData/heroDataUtils";
 import { EquipmentsSection } from "./EquipmentsSection";
 import {
   useInitEquipment,
+  useInitEquipmentDisplayDataList,
   useInitHero,
 } from "features/advance_calc/hooks/Init";
 import { HeroSetting } from "./HeroSetting";
 import { memo } from "react";
+import { ModifierItem } from "features/advance_calc/objects/modifierItem";
+import { getActiveModifier } from "features/advance_calc/actions/ModifierItem";
+import { calculateHeroAttackSpeed } from "features/advance_calc/actions/EquipmentItem";
 
 interface Props {
   hero: Hero;
   useHardMode: boolean;
+  modifierItemList: ModifierItem[];
 }
 
 export const HeroSection = memo(function HeroSection({
   hero,
   useHardMode,
+  modifierItemList,
 }: Props) {
   const [heroItem, updateHero] = useInitHero(hero);
   const [
@@ -26,7 +32,28 @@ export const HeroSection = memo(function HeroSection({
     setAllEquipmentsToMin,
   ] = useInitEquipment(hero, useHardMode);
 
-  const { getHeroName } = heroDataUtils(heroItem.offenseID);
+  const heroID = heroItem.offenseID;
+  const { getHeroName, getHeroAttackSpeed } = heroDataUtils(heroID);
+
+  const activeModifier = getActiveModifier(
+    heroID,
+    OFFENSE_TYPE.Hero,
+    modifierItemList
+  );
+  const { attackSpeed, attackSpeedModify } = calculateHeroAttackSpeed(
+    getHeroAttackSpeed(),
+    equipmentItemList,
+    heroItem.useAbility
+  );
+
+  const equipmentDisplayDataList = useInitEquipmentDisplayDataList(
+    equipmentItemList,
+    updateEquipment,
+    attackSpeed,
+    attackSpeedModify,
+    useHardMode,
+    activeModifier
+  );
 
   return (
     <>
@@ -52,10 +79,9 @@ export const HeroSection = memo(function HeroSection({
           </div>
           <div className="col-lg-8 col-xl-9">
             <EquipmentsSection
-              heroItem={heroItem}
-              equipmentItemList={equipmentItemList}
-              updateEquipment={updateEquipment}
+              equipmentDisplayDataList={equipmentDisplayDataList}
               useHardMode={useHardMode}
+              activeModifier={activeModifier}
             />
           </div>
         </div>

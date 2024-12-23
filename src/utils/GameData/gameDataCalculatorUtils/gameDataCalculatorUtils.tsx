@@ -1,10 +1,12 @@
 import {
   calculatePercentage,
+  inverseScaleAndRoundValue,
   percentageToDecimal,
   roundToN,
   scaleAndRoundValue,
 } from "utils/numberUtils";
 import { ROUNDING_PRECISION } from "config/config";
+import { HARD_MODE_HERO_DAMAGE_MODIFIER } from "data/game";
 
 export function calculateDirectDamage(hp: number, damage: number): number {
   const remainingHP = hp - damage;
@@ -54,4 +56,34 @@ export function calculateModifiedValue(
   const modifyDecimal = percentageToDecimal(modifyPercentage);
 
   return scaleAndRoundValue(baseValue, modifyDecimal, ROUNDING_PRECISION);
+}
+
+export function calculateModifiedAttackSpeed(
+  baseAttackSpeed: number,
+  attackSpeedModifyPercentage: number
+) {
+  const modifyDecimal = percentageToDecimal(attackSpeedModifyPercentage);
+
+  return inverseScaleAndRoundValue(
+    baseAttackSpeed,
+    modifyDecimal,
+    ROUNDING_PRECISION
+  );
+}
+
+export function calculateDPSAfterAttackSpeedModified(
+  dps: number,
+  attackSpeedModifyPercentage: number
+) {
+  const modifyDecimal = percentageToDecimal(attackSpeedModifyPercentage);
+
+  return scaleAndRoundValue(dps, modifyDecimal, ROUNDING_PRECISION);
+}
+
+export function calculateHardModeHeroDPS(dps: number) {
+  return roundToN(dps * HARD_MODE_HERO_DAMAGE_MODIFIER, ROUNDING_PRECISION);
+}
+
+export function calculateDPH(dps: number, attackSpeed: number) {
+  return roundToN(dps * attackSpeed, ROUNDING_PRECISION);
 }
