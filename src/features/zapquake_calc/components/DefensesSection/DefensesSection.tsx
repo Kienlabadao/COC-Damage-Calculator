@@ -8,9 +8,12 @@ import { DonatedLightningSpellItem } from "features/zapquake_calc/objects/donate
 import { EarthquakeOrder } from "features/zapquake_calc/data/constants";
 import { DefenseDisplaySection } from "./DefenseDisplaySection";
 import { DefenseSettingSection } from "./DefenseSettingSection";
-import { useInitDefenseSetting } from "features/zapquake_calc/hooks/Init/useInitDefenseSetting";
-import { useInitDefenseDisplayDataList } from "features/zapquake_calc/hooks/Init/useInitDefenseDisplayDataList";
-import { filterDefenseDisplayDataList } from "features/zapquake_calc/actions/DefenseDisplayData";
+import { useInitDefenseSetting } from "features/zapquake_calc/hooks/Init";
+import {
+  filterDefenseDisplayDataList,
+  initDefenseDisplayDataList,
+} from "features/zapquake_calc/actions/DefenseDisplayData";
+import { useCacheDefenseLog } from "features/zapquake_calc/hooks";
 
 interface Props {
   offenseItemList: OffenseItem[];
@@ -47,12 +50,17 @@ export function DefensesSection({
     setAllDefensesToMin,
   ] = useInitDefense();
 
-  const defenseDisplayDataList = useInitDefenseDisplayDataList(
+  const defenseLogList = useCacheDefenseLog(
     defenseItemList,
-    updateDefense,
     filteredOffenseItemList,
     donatedLightningSpellItem,
     earthquakeOrder
+  );
+
+  const defenseDisplayDataList = initDefenseDisplayDataList(
+    defenseItemList,
+    defenseLogList,
+    updateDefense
   );
 
   const { filteredDefenseDisplayDataList, defenseCountLog } =

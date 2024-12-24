@@ -14,6 +14,7 @@ import {
   OffenseItem,
 } from "features/zapquake_calc/objects/offenseItem";
 import { useRef } from "react";
+import { transformRecord } from "utils/objectUtils";
 
 function compareVariables(
   variables: Variables,
@@ -40,20 +41,20 @@ interface Variables {
   earthquakeOrder: EarthquakeOrder;
 }
 
-export function useCacheDefenseLog() {
+export function useCacheDefenseLog(
+  defenseItemList: DefenseItem[],
+  offenseItemList: OffenseItem[],
+  donatedLightningSpellItem: DonatedLightningSpellItem,
+  earthquakeOrder: EarthquakeOrder
+): Record<string, DefenseLog> {
   const defenseLogMemoRef = useRef<
     Record<string, { variables: Variables; defenseLog: DefenseLog }>
   >({});
 
-  function retrieveOrRecalculateDefenseLog(
-    defenseItem: DefenseItem,
-    offenseItemList: OffenseItem[],
-    donatedLightningSpellItem: DonatedLightningSpellItem,
-    earthquakeOrder: EarthquakeOrder
-  ): DefenseLog {
+  defenseItemList.forEach((defenseItem) => {
     const defenseID = defenseItem.defenseID;
 
-    tryCalculateAndStoreDefenseLog(
+    tryStoreDefenseLog(
       defenseItem,
       offenseItemList,
       donatedLightningSpellItem,
@@ -61,9 +62,9 @@ export function useCacheDefenseLog() {
     );
 
     return defenseLogMemoRef.current[defenseID].defenseLog;
-  }
+  });
 
-  function tryCalculateAndStoreDefenseLog(
+  function tryStoreDefenseLog(
     defenseItem: DefenseItem,
     offenseItemList: OffenseItem[],
     donatedLightningSpellItem: DonatedLightningSpellItem,
@@ -82,8 +83,16 @@ export function useCacheDefenseLog() {
         earthquakeOrder
       )
     ) {
-      calculateAndStoreDefenseLog(
+      const defenseLog = calculateDefense(
         defenseItem,
+        offenseItemList,
+        donatedLightningSpellItem,
+        earthquakeOrder
+      );
+
+      storeDefenseLog(
+        defenseItem,
+        defenseLog,
         offenseItemList,
         donatedLightningSpellItem,
         earthquakeOrder
@@ -91,19 +100,14 @@ export function useCacheDefenseLog() {
     }
   }
 
-  function calculateAndStoreDefenseLog(
+  function storeDefenseLog(
     defenseItem: DefenseItem,
+    defenseLog: DefenseLog,
     offenseItemList: OffenseItem[],
     donatedLightningSpellItem: DonatedLightningSpellItem,
     earthquakeOrder: EarthquakeOrder
   ): void {
     const defenseID = defenseItem.defenseID;
-    const defenseLog = calculateDefense(
-      defenseItem,
-      offenseItemList,
-      donatedLightningSpellItem,
-      earthquakeOrder
-    );
 
     defenseLogMemoRef.current[defenseID] = {
       variables: {
@@ -116,5 +120,8 @@ export function useCacheDefenseLog() {
     };
   }
 
-  return retrieveOrRecalculateDefenseLog;
+  return transformRecord(
+    defenseLogMemoRef.current,
+    (entry) => entry.defenseLog
+  );
 }

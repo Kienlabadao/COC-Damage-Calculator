@@ -16,6 +16,7 @@ import { getArrayLastElement, ObjectValues } from "utils/objectUtils";
 import { convertZapquakeDamageLogList } from "../../SpellCountItem";
 import { SPELL } from "data/game";
 import { DefenseItem } from "features/zapquake_calc/objects/defenseItem";
+import { DefenseLog } from "features/zapquake_calc/objects/defenseLog";
 
 export const DEFENSE_STATUS = {
   Normal: "normal",
@@ -29,7 +30,7 @@ export function calculateDefense(
   offenseItemList: OffenseItem[],
   donatedLightningSpellItem: DonatedLightningSpellItem,
   earthquakeOrder: EarthquakeOrder
-): { defenseStatus: DefenseStatus; spellCountList: SpellCountItem[][] } {
+): DefenseLog {
   const defenseID = defenseItem.defenseID;
   const defenseLevelPos = defenseItem.currentLevelPos;
 

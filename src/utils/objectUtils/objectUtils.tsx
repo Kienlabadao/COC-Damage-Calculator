@@ -1,5 +1,19 @@
 export type ObjectValues<T> = T[keyof T];
 
+type RecordTransformer<TInput, TOutput> = (
+  value: TInput,
+  key: string
+) => TOutput;
+
+export function transformRecord<TInput, TOutput>(
+  input: Record<string, TInput>,
+  transformer: RecordTransformer<TInput, TOutput>
+): Record<string, TOutput> {
+  return Object.fromEntries(
+    Object.entries(input).map(([key, value]) => [key, transformer(value, key)])
+  );
+}
+
 export function getAllObjectKeys<T>(data: Record<string, T>): string[] {
   return Object.keys(data);
 }

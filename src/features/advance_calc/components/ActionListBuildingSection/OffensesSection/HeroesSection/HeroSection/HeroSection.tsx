@@ -4,7 +4,6 @@ import { heroDataUtils } from "utils/GameData/heroDataUtils";
 import { EquipmentsSection } from "./EquipmentsSection";
 import {
   useInitEquipment,
-  useInitEquipmentDisplayDataList,
   useInitHero,
 } from "features/advance_calc/hooks/Init";
 import { HeroSetting } from "./HeroSetting";
@@ -12,6 +11,8 @@ import { memo } from "react";
 import { ModifierItem } from "features/advance_calc/objects/modifierItem";
 import { getActiveModifier } from "features/advance_calc/actions/ModifierItem";
 import { calculateHeroAttackSpeed } from "features/advance_calc/actions/EquipmentItem";
+import { useCacheEquipmentDamageLog } from "features/advance_calc/hooks";
+import { initEquipmentDisplayDataList } from "features/advance_calc/actions/EquipmentDisplayDataList";
 
 interface Props {
   hero: Hero;
@@ -46,13 +47,18 @@ export const HeroSection = memo(function HeroSection({
     heroItem.useAbility
   );
 
-  const equipmentDisplayDataList = useInitEquipmentDisplayDataList(
+  const equipmentDamageLogList = useCacheEquipmentDamageLog(
     equipmentItemList,
-    updateEquipment,
     attackSpeed,
     attackSpeedModify,
     useHardMode,
     activeModifier
+  );
+
+  const equipmentDisplayDataList = initEquipmentDisplayDataList(
+    equipmentItemList,
+    equipmentDamageLogList,
+    updateEquipment
   );
 
   return (

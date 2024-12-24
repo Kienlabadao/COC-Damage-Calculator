@@ -12,7 +12,6 @@ export function DefenseDisplaySection({
   offenseItemList,
   defenseDisplayDataList,
 }: Props) {
-  console.log(offenseItemList);
   function renderDefenseDisplayDataList() {
     if (defenseDisplayDataList.length > 0) {
       return (

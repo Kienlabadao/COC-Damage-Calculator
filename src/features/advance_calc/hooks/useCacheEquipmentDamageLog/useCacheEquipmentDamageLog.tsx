@@ -9,6 +9,7 @@ import {
   ModifierItem,
 } from "features/advance_calc/objects/modifierItem";
 import { useRef } from "react";
+import { transformRecord } from "utils/objectUtils";
 
 function compareVariables(
   variables: Variables,
@@ -43,7 +44,13 @@ interface Variables {
   activeModifier?: ModifierItem;
 }
 
-export function useCacheEquipmentDamageLog() {
+export function useCacheEquipmentDamageLog(
+  equipmentItemList: EquipmentItem[],
+  attackSpeed: number,
+  attackSpeedModify: number,
+  useHardMode: boolean,
+  activeModifier?: ModifierItem
+): Record<string, EquipmentDamageLog> {
   const equipmentDamageLogMemoRef = useRef<
     Record<
       string,
@@ -51,16 +58,10 @@ export function useCacheEquipmentDamageLog() {
     >
   >({});
 
-  function retrieveOrRecalculateEquipmentDamageLog(
-    equipmentItem: EquipmentItem,
-    attackSpeed: number,
-    attackSpeedModify: number,
-    useHardMode: boolean,
-    activeModifier?: ModifierItem
-  ): EquipmentDamageLog {
+  equipmentItemList.forEach((equipmentItem) => {
     const equipmentID = equipmentItem.offenseID;
 
-    tryCalculateAndStoreEquipmentDamageLog(
+    tryStoreEquipmentDamageLog(
       equipmentItem,
       attackSpeed,
       attackSpeedModify,
@@ -69,9 +70,9 @@ export function useCacheEquipmentDamageLog() {
     );
 
     return equipmentDamageLogMemoRef.current[equipmentID].equipmentDamageLog;
-  }
+  });
 
-  function tryCalculateAndStoreEquipmentDamageLog(
+  function tryStoreEquipmentDamageLog(
     equipmentItem: EquipmentItem,
     attackSpeed: number,
     attackSpeedModify: number,
@@ -92,8 +93,17 @@ export function useCacheEquipmentDamageLog() {
         activeModifier
       )
     ) {
-      calculateAndStoreEquipmentDamageLog(
+      const equipmentDamageLog = calculateEquipmentDamageLog(
         equipmentItem,
+        attackSpeed,
+        attackSpeedModify,
+        useHardMode,
+        activeModifier
+      );
+
+      storeEquipmentDamageLog(
+        equipmentItem,
+        equipmentDamageLog,
         attackSpeed,
         attackSpeedModify,
         useHardMode,
@@ -102,21 +112,15 @@ export function useCacheEquipmentDamageLog() {
     }
   }
 
-  function calculateAndStoreEquipmentDamageLog(
+  function storeEquipmentDamageLog(
     equipmentItem: EquipmentItem,
+    equipmentDamageLog: EquipmentDamageLog,
     attackSpeed: number,
     attackSpeedModify: number,
     useHardMode: boolean,
     activeModifier?: ModifierItem
   ): void {
     const equipmentID = equipmentItem.offenseID;
-    const equipmentDamageLog = calculateEquipmentDamageLog(
-      equipmentItem,
-      attackSpeed,
-      attackSpeedModify,
-      useHardMode,
-      activeModifier
-    );
 
     equipmentDamageLogMemoRef.current[equipmentID] = {
       variables: {
@@ -130,5 +134,8 @@ export function useCacheEquipmentDamageLog() {
     };
   }
 
-  return retrieveOrRecalculateEquipmentDamageLog;
+  return transformRecord(
+    equipmentDamageLogMemoRef.current,
+    (entry) => entry.equipmentDamageLog
+  );
 }
