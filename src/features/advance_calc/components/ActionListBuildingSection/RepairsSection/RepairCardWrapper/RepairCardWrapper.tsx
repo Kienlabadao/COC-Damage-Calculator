@@ -4,7 +4,7 @@ import { RepairCard } from "./RepairCard";
 import { RepairItem } from "features/advance_calc/objects/repairItem";
 import { ModifierItem } from "features/advance_calc/objects/modifierItem";
 import { getBaseModifiedImage } from "objects/baseModifierItem";
-import { getRepairRepair } from "features/advance_calc/actions/RepairItem";
+import { calculateRepairRepair } from "actions/BaseRepairItem";
 
 interface Props {
   repairItem: RepairItem;
@@ -38,7 +38,7 @@ export const RepairCardWrapper = memo(function RepairCardWrapper({
   const currentLevelPos = repairItem.currentLevelPos;
   const currentLevel = getRepairLevel(currentLevelPos);
   const imagePath = getRepairImage(currentLevel);
-  const repair = getRepairRepair(repairItem, activeModifier);
+  const repair = calculateRepairRepair(repairItem, activeModifier);
   const modifierImgPath = activeModifier
     ? getBaseModifiedImage(activeModifier)
     : undefined;

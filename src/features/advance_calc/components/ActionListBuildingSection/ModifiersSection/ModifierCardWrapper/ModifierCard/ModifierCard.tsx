@@ -10,6 +10,10 @@ import {
 } from "components/CalculatorComponents/OffenseCard";
 import { Checkbox, Slider } from "components";
 import { DISPLAYER_TYPE } from "components/CalculatorComponents/OffenseCard/StatDisplayer";
+import {
+  OVERLAY_TYPE,
+  OverlayType,
+} from "components/CalculatorComponents/GameDataCardContainer/Overlay";
 
 interface Props {
   id: string;
@@ -40,11 +44,19 @@ export const ModifierCard = memo(function ModifierCard({
   modify,
   isMaxed = false,
 }: Props) {
-  let displayLevel: number | undefined = currentLevel;
-  let displayMaxed: boolean | undefined = isMaxed;
-  if (currentLevel === 1 && displayMaxed) {
-    displayLevel = undefined;
-    displayMaxed = undefined;
+  function createBottomLeftOverlay() {
+    if (currentLevel === 1 && isMaxed) {
+      return undefined;
+    } else {
+      const bottomLeftOverlayType: OverlayType = isMaxed
+        ? OVERLAY_TYPE.NumLevelMaxed
+        : OVERLAY_TYPE.Num;
+
+      return {
+        type: bottomLeftOverlayType,
+        content: currentLevel.toString(),
+      };
+    }
   }
 
   return (
@@ -55,8 +67,7 @@ export const ModifierCard = memo(function ModifierCard({
           imgPath={imagePath}
           backgroundType={BACKGROUND_TYPE.Modifier}
           size={SIZE.Normal}
-          level={displayLevel}
-          isMaxed={displayMaxed}
+          bottomLeftOverlay={createBottomLeftOverlay()}
         />
       </div>
       <div className="mt-2">

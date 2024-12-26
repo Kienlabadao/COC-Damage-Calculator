@@ -14,6 +14,7 @@ export const DISPLAYER_TYPE = {
   Repair: "repair",
   AtackSpeed: "attackSpeed",
   Modify: "modify",
+  AtackSpeedModify: "atackSpeedModify",
 } as const;
 export type DisplayerType = ObjectValues<typeof DISPLAYER_TYPE>;
 
@@ -21,10 +22,10 @@ export function convertToContentType(
   isModifierActive: boolean,
   useHardMode: boolean
 ) {
-  if (useHardMode) {
-    return CONTENT_TYPE.HardMode;
+  if (isModifierActive) {
+    return CONTENT_TYPE.Raged;
   } else {
-    return isModifierActive ? CONTENT_TYPE.Raged : CONTENT_TYPE.Normal;
+    return useHardMode ? CONTENT_TYPE.HardMode : CONTENT_TYPE.Normal;
   }
 }
 
@@ -79,6 +80,16 @@ function createContent(
       return (
         <>
           <ImageContainer imagePath={IMAGE_PATH.Attack} />
+          <ContentContainer
+            content={`+${content}%`}
+            contentType={contentType}
+          />
+        </>
+      );
+    case DISPLAYER_TYPE.AtackSpeedModify:
+      return (
+        <>
+          <ImageContainer imagePath={IMAGE_PATH.AttackSpeed} />
           <ContentContainer
             content={`+${content}%`}
             contentType={contentType}

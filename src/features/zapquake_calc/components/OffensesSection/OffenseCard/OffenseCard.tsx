@@ -11,6 +11,10 @@ import {
   GameDataCardContainer,
   SIZE,
 } from "components/CalculatorComponents/GameDataCardContainer";
+import {
+  OVERLAY_TYPE,
+  OverlayType,
+} from "components/CalculatorComponents/GameDataCardContainer/Overlay";
 
 interface Props {
   id: string;
@@ -47,6 +51,10 @@ export function OffenseCard({
   backgroundType = BACKGROUND_TYPE.Normal,
   isMaxed = false,
 }: Props) {
+  const bottomLeftOverlayType: OverlayType = isMaxed
+    ? OVERLAY_TYPE.NumLevelMaxed
+    : OVERLAY_TYPE.Num;
+
   return (
     <OffenseCardContainer>
       <h5>{name}</h5>
@@ -55,8 +63,10 @@ export function OffenseCard({
           imgPath={imagePath}
           backgroundType={backgroundType}
           size={SIZE.Normal}
-          level={currentLevel}
-          isMaxed={isMaxed}
+          bottomLeftOverlay={{
+            type: bottomLeftOverlayType,
+            content: currentLevel.toString(),
+          }}
         />
       </div>
       <div className="mt-2">

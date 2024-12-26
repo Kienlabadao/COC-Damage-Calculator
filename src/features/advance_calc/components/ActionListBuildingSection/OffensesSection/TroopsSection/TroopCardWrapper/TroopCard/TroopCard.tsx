@@ -5,8 +5,6 @@ import {
   BackgroundType,
   GameDataCardContainer,
   SIZE,
-  TOP_LEFT_OVERLAY_TYPE,
-  TopLeftOverlayType,
 } from "components/CalculatorComponents/GameDataCardContainer";
 import {
   OffenseCardContainer,
@@ -14,6 +12,11 @@ import {
 } from "components/CalculatorComponents/OffenseCard";
 import { Slider } from "components";
 import { convertToDisplayerType } from "components/CalculatorComponents/OffenseCard/StatDisplayer";
+import {
+  OVERLAY_TYPE,
+  OverlayType,
+} from "components/CalculatorComponents/GameDataCardContainer/Overlay";
+import { IMAGE_PATH } from "data/constants";
 
 interface Props {
   id: string;
@@ -33,7 +36,6 @@ interface Props {
 }
 
 export const TroopCard = memo(function TroopCard({
-  id,
   name,
   imagePath,
   minLevelPos,
@@ -48,21 +50,21 @@ export const TroopCard = memo(function TroopCard({
   modifierImgPath,
   useTroopDeathDamage = false,
 }: Props) {
-  const isModifierActive = modifierImgPath !== undefined;
+  const isModifierActive =
+    modifierImgPath !== undefined && !useTroopDeathDamage;
 
-  if (isModifierActive && useTroopDeathDamage) {
-    throw new Error(
-      `TroopCard ERROR: TroopCard cannot use both modifier and death damage at the same time. id: ${id}`
-    );
+  let topLeftOverlay = undefined;
+  if (useTroopDeathDamage) {
+    topLeftOverlay = {
+      type: OVERLAY_TYPE.ImgDeath,
+      imgPath: IMAGE_PATH.DeathDamage,
+    };
+  } else if (isModifierActive) {
+    topLeftOverlay = { type: OVERLAY_TYPE.ImgRaged, imgPath: modifierImgPath };
   }
-  let topLeftOverlayType: TopLeftOverlayType;
-  if (isModifierActive) {
-    topLeftOverlayType = TOP_LEFT_OVERLAY_TYPE.Modifier;
-  } else if (useTroopDeathDamage) {
-    topLeftOverlayType = TOP_LEFT_OVERLAY_TYPE.DeathDamage;
-  } else {
-    topLeftOverlayType = TOP_LEFT_OVERLAY_TYPE.None;
-  }
+  const bottomLeftOverlayType: OverlayType = isMaxed
+    ? OVERLAY_TYPE.NumLevelMaxed
+    : OVERLAY_TYPE.Num;
 
   return (
     <OffenseCardContainer>
@@ -72,10 +74,11 @@ export const TroopCard = memo(function TroopCard({
           imgPath={imagePath}
           backgroundType={backgroundType}
           size={SIZE.Normal}
-          level={currentLevel}
-          isMaxed={isMaxed}
-          topLeftOverlayType={topLeftOverlayType}
-          modifierImgPath={modifierImgPath}
+          topLeftOverlay={topLeftOverlay}
+          bottomLeftOverlay={{
+            type: bottomLeftOverlayType,
+            content: currentLevel.toString(),
+          }}
         />
       </div>
       <div className="mt-2">

@@ -4,9 +4,12 @@ import {
 } from "features/advance_calc/objects/equipmentDamageLog";
 import { EquipmentItem } from "features/advance_calc/objects/equipmentItem";
 import { ModifierItem } from "features/advance_calc/objects/modifierItem";
-import { getEquipmentDPS } from "../../EquipmentItem";
-import { calculateDPH } from "utils/GameData/gameDataCalculatorUtils";
+import {
+  calculateDPH,
+  calculateHeroHardModeDamage,
+} from "utils/GameData/gameDataCalculatorUtils";
 import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
+import { calculateEquipmentDPS } from "actions/BaseOffenseItem";
 
 export function calculateEquipmentDamageLog(
   equipmentItem: EquipmentItem,
@@ -20,19 +23,25 @@ export function calculateEquipmentDamageLog(
   const { getEquipmentDamage, isEquipmentTypeAttack, isEquipmentTypeDamage } =
     equipmentDataUtils(equipmentID);
 
-  const dpsBoost = getEquipmentDPS(
+  const dpsBoost = calculateEquipmentDPS(
     equipmentItem,
     activeModifier,
     attackSpeedModify,
     useHardMode
   );
+
   const dphBoost = dpsBoost ? calculateDPH(dpsBoost, attackSpeed) : undefined;
+
   const damage = isEquipmentTypeDamage()
     ? getEquipmentDamage(currentLevelPos)
     : undefined;
-  const extraDamage = isEquipmentTypeAttack()
+
+  let extraDamage = isEquipmentTypeAttack()
     ? getEquipmentDamage(currentLevelPos)
     : undefined;
+  if (extraDamage && useHardMode) {
+    extraDamage = calculateHeroHardModeDamage(extraDamage);
+  }
 
   return createEquipmentDamageLog(dpsBoost, dphBoost, damage, extraDamage);
 }

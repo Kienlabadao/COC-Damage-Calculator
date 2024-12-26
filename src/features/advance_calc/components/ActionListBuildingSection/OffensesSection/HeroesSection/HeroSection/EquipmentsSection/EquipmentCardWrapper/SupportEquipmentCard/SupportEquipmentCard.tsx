@@ -4,7 +4,6 @@ import {
   BackgroundType,
   GameDataCardContainer,
   SIZE,
-  TOP_LEFT_OVERLAY_TYPE,
 } from "components/CalculatorComponents/GameDataCardContainer";
 import {
   OffenseCardContainer,
@@ -12,6 +11,10 @@ import {
 } from "components/CalculatorComponents/OffenseCard";
 import { Checkbox, Slider } from "components";
 import { DISPLAYER_TYPE } from "components/CalculatorComponents/OffenseCard/StatDisplayer";
+import {
+  OVERLAY_TYPE,
+  OverlayType,
+} from "components/CalculatorComponents/GameDataCardContainer/Overlay";
 
 interface Props {
   id: string;
@@ -27,6 +30,7 @@ interface Props {
   dpsBoost: number;
   dphBoost: number;
   useHardMode: boolean;
+  attackSpeedBoost?: number;
   backgroundType?: BackgroundType;
   isMaxed?: boolean;
   modifierImgPath?: string;
@@ -46,14 +50,18 @@ export const SupportEquipmentCard = memo(function SupportEquipmentCard({
   dpsBoost,
   dphBoost,
   useHardMode,
+  attackSpeedBoost,
   backgroundType = BACKGROUND_TYPE.Normal,
   isMaxed = false,
   modifierImgPath,
 }: Props) {
   const isModifierActive = modifierImgPath !== undefined;
-  const topLeftOverlayType = isModifierActive
-    ? TOP_LEFT_OVERLAY_TYPE.Modifier
+  const topLeftOverlay = isModifierActive
+    ? { type: OVERLAY_TYPE.ImgRaged, imgPath: modifierImgPath }
     : undefined;
+  const bottomLeftOverlayType: OverlayType = isMaxed
+    ? OVERLAY_TYPE.NumLevelMaxed
+    : OVERLAY_TYPE.Num;
 
   return (
     <OffenseCardContainer>
@@ -63,10 +71,11 @@ export const SupportEquipmentCard = memo(function SupportEquipmentCard({
           imgPath={imagePath}
           backgroundType={backgroundType}
           size={SIZE.Normal}
-          level={currentLevel}
-          isMaxed={isMaxed}
-          topLeftOverlayType={topLeftOverlayType}
-          modifierImgPath={modifierImgPath}
+          topLeftOverlay={topLeftOverlay}
+          bottomLeftOverlay={{
+            type: bottomLeftOverlayType,
+            content: currentLevel.toString(),
+          }}
         />
       </div>
       <div className="mt-2">
@@ -100,6 +109,13 @@ export const SupportEquipmentCard = memo(function SupportEquipmentCard({
           isModifierActive={isModifierActive}
           useHardMode={useHardMode}
         ></StatDisplayer>
+        {attackSpeedBoost && (
+          <StatDisplayer
+            displayerType={DISPLAYER_TYPE.AtackSpeedModify}
+            label={"Atk Speed"}
+            content={attackSpeedBoost.toString()}
+          ></StatDisplayer>
+        )}
       </div>
     </OffenseCardContainer>
   );

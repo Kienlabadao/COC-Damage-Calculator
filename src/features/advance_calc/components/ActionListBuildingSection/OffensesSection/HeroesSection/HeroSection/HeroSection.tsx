@@ -13,6 +13,7 @@ import { getActiveModifier } from "features/advance_calc/actions/ModifierItem";
 import { calculateHeroAttackSpeed } from "features/advance_calc/actions/EquipmentItem";
 import { useCacheEquipmentDamageLog } from "features/advance_calc/hooks";
 import { initEquipmentDisplayDataList } from "features/advance_calc/actions/EquipmentDisplayDataList";
+import { filterEquipmentItemList } from "features/advance_calc/objects/equipmentItem";
 
 interface Props {
   hero: Hero;
@@ -34,6 +35,7 @@ export const HeroSection = memo(function HeroSection({
   ] = useInitEquipment(hero, useHardMode);
 
   const heroID = heroItem.offenseID;
+  const useAbility = heroItem.useAbility;
   const { getHeroName, getHeroAttackSpeed } = heroDataUtils(heroID);
 
   const activeModifier = getActiveModifier(
@@ -44,7 +46,7 @@ export const HeroSection = memo(function HeroSection({
   const { attackSpeed, attackSpeedModify } = calculateHeroAttackSpeed(
     getHeroAttackSpeed(),
     equipmentItemList,
-    heroItem.useAbility
+    useAbility
   );
 
   const equipmentDamageLogList = useCacheEquipmentDamageLog(
@@ -60,6 +62,11 @@ export const HeroSection = memo(function HeroSection({
     equipmentDamageLogList,
     updateEquipment
   );
+
+  const selectedEquipmentCount = filterEquipmentItemList(
+    equipmentItemList,
+    true
+  ).length;
 
   return (
     <>
@@ -78,15 +85,21 @@ export const HeroSection = memo(function HeroSection({
               <HeroCardWrapper
                 heroItem={heroItem}
                 equipmentItemList={equipmentItemList}
+                equipmentDamageLogList={equipmentDamageLogList}
                 updateHero={updateHero}
+                attackSpeed={attackSpeed}
+                attackSpeedModify={attackSpeedModify}
                 useHardMode={useHardMode}
+                activeModifier={activeModifier}
               />
             </div>
           </div>
           <div className="col-lg-8 col-xl-9">
             <EquipmentsSection
               equipmentDisplayDataList={equipmentDisplayDataList}
+              selectedEquipmentCount={selectedEquipmentCount}
               useHardMode={useHardMode}
+              useAbility={useAbility}
               activeModifier={activeModifier}
             />
           </div>

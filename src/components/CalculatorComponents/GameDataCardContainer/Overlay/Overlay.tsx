@@ -8,6 +8,8 @@ export const OVERLAY_TYPE = {
   Img: "img",
   ImgDeath: "imgDeath",
   ImgRaged: "imgRaged",
+  ImgCommon: "imgCommon",
+  ImgEpic: "imgEpic",
 } as const;
 export type OverlayType = ObjectValues<typeof OVERLAY_TYPE>;
 
@@ -20,7 +22,7 @@ export const OVERLAY_SIZE = {
 export type OverlaySize = ObjectValues<typeof OVERLAY_SIZE>;
 
 export const POSITION = {
-  None: "none",
+  Header: "header",
   TopRight: "topRight",
   TopLeft: "topLeft",
   BottomRight: "bottomRight",
@@ -43,7 +45,7 @@ export function Overlay({
   content,
   imgPath,
 }: Props) {
-  const renderOverlayType = (): string => {
+  function renderOverlayType(): string {
     switch (type) {
       case OVERLAY_TYPE.Num:
         return " overlay__number";
@@ -59,16 +61,20 @@ export function Overlay({
         return " overlay__img overlay__img--death";
       case OVERLAY_TYPE.ImgRaged:
         return " overlay__img overlay__img--raged";
+      case OVERLAY_TYPE.ImgCommon:
+        return " overlay__img overlay__img--common";
+      case OVERLAY_TYPE.ImgEpic:
+        return " overlay__img overlay__img--epic";
       default:
         throw new Error(
           `renderOverlayType ERROR: Type (${type}) is not supported.`
         );
     }
-  };
+  }
 
-  const renderContainerPosition = (): string => {
+  function renderContainerPosition(): string {
     switch (position) {
-      case POSITION.None:
+      case POSITION.Header:
         return "";
       case POSITION.TopRight:
         return " overlay--top-right";
@@ -83,9 +89,9 @@ export function Overlay({
           `Overlay.renderContainerSize ERROR: Position (${position}) is not supported.`
         );
     }
-  };
+  }
 
-  const renderContainerSize = (): string => {
+  function renderContainerSize(): string {
     switch (size) {
       case OVERLAY_SIZE.Normal:
         return "";
@@ -100,7 +106,7 @@ export function Overlay({
           `Overlay.renderContainerSize ERROR: Size (${size}) is not supported.`
         );
     }
-  };
+  }
 
   return (
     <div

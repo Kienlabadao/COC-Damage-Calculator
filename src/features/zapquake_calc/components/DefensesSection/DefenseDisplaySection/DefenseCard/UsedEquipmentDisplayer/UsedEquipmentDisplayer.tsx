@@ -26,26 +26,31 @@ function createEquipmentRow(
       getEquipmentLevel,
       isEquipmentRarityEpic,
     } = equipmentDataUtils(equipmentID);
+
     const imgPath = getEquipmentImage();
+    const currentLevel = getEquipmentLevel(currentLevelPos);
+    const isMaxed = isMaxLevelPos(currentLevelPos);
+
     let backgroundType: BackgroundType = BACKGROUND_TYPE.Normal;
     if (isImmune(equipmentID)) {
       backgroundType = BACKGROUND_TYPE.Immune;
     } else if (isEquipmentRarityEpic()) {
       backgroundType = BACKGROUND_TYPE.Epic;
     }
-    let headerOverlayType: OverlayType = OVERLAY_TYPE.Num;
-    if (isMaxLevelPos(currentLevelPos)) {
-      headerOverlayType = OVERLAY_TYPE.NumLevelMaxed;
-    }
+    const headerOverlayType: OverlayType = isMaxed
+      ? OVERLAY_TYPE.NumLevelMaxed
+      : OVERLAY_TYPE.Num;
 
     return (
       <GameDataCardContainer
         key={id}
-        backgroundType={backgroundType}
         imgPath={imgPath}
+        backgroundType={backgroundType}
         size={SIZE.Tall}
-        headerContent={getEquipmentLevel(currentLevelPos).toString()}
-        headerOverlayType={headerOverlayType}
+        headerOverlay={{
+          type: headerOverlayType,
+          content: currentLevel.toString(),
+        }}
       />
     );
   });

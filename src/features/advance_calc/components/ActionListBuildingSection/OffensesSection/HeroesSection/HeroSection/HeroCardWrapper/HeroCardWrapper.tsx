@@ -1,36 +1,49 @@
-import { OFFENSE_TYPE } from "data/game";
 import { memo } from "react";
 import { heroDataUtils } from "utils/GameData/heroDataUtils";
 import { HeroCard } from "./HeroCard";
-import { EquipmentItem } from "features/advance_calc/objects/equipmentItem";
+import {
+  EquipmentItem,
+  filterEquipmentItemList,
+} from "features/advance_calc/objects/equipmentItem";
 import { HeroItem } from "features/advance_calc/objects/heroItem";
+import { EquipmentDamageLog } from "features/advance_calc/objects/equipmentDamageLog";
+import { ModifierItem } from "features/advance_calc/objects/modifierItem";
+import { calculateHeroDamage } from "features/advance_calc/actions/HeroItem";
+import { getBaseModifiedImage } from "objects/baseModifierItem";
 
 interface Props {
   heroItem: HeroItem;
   equipmentItemList: EquipmentItem[];
+  equipmentDamageLogList: Record<string, EquipmentDamageLog>;
   updateHero: (
     heroID: string,
     currentLevelPos?: number,
     useAbility?: boolean
   ) => void;
+  attackSpeed: number;
+  attackSpeedModify: number;
   useHardMode: boolean;
+  activeModifier?: ModifierItem;
 }
 
 export const HeroCardWrapper = memo(function HeroCardWrapper({
   heroItem,
   equipmentItemList,
+  equipmentDamageLogList,
   updateHero,
+  attackSpeed,
+  attackSpeedModify,
   useHardMode,
+  activeModifier,
 }: Props) {
-  const type = heroItem.type;
-  if (type !== OFFENSE_TYPE.Hero) {
-    throw new Error(`HeroCardWrapper ERROR: type (${type}) must be hero type.`);
-  }
+  const filteredEquipmentItemList = filterEquipmentItemList(
+    equipmentItemList,
+    true
+  );
 
   const updateCurrentLevelPos = (newCurrentLevelPos: number) => {
     updateHero(heroID, newCurrentLevelPos);
   };
-
   const updateUseAbility = (useAbility: boolean) => {
     updateHero(heroID, undefined, useAbility);
   };
@@ -42,7 +55,6 @@ export const HeroCardWrapper = memo(function HeroCardWrapper({
     getHeroMinLevelPos,
     getHeroMaxLevelPos,
     getHeroLevel,
-    getHeroDPS,
     getHeroDamageType,
     isMaxLevelPos,
   } = heroDataUtils(heroID);
@@ -55,8 +67,20 @@ export const HeroCardWrapper = memo(function HeroCardWrapper({
   const currentLevel = getHeroLevel(currentLevelPos);
   const useAbility = heroItem.useAbility;
   const imagePath = getHeroImage();
-  const dps = getHeroDPS(currentLevelPos);
   const damageType = getHeroDamageType();
+  const { dps, dph, activeAttackEquipmentItem } = calculateHeroDamage(
+    heroItem,
+    filteredEquipmentItemList,
+    equipmentDamageLogList,
+    attackSpeed,
+    attackSpeedModify,
+    useHardMode,
+    activeModifier
+  );
+  const modifierImgPath = activeModifier
+    ? getBaseModifiedImage(activeModifier)
+    : undefined;
+  const isAttackSpeedModified = attackSpeedModify > 0;
 
   return (
     <HeroCard
@@ -71,8 +95,14 @@ export const HeroCardWrapper = memo(function HeroCardWrapper({
       updateCurrentLevelPos={updateCurrentLevelPos}
       updateUseAbility={updateUseAbility}
       dps={dps}
+      dph={dph}
       damageType={damageType}
+      attackSpeed={attackSpeed}
+      isAttackSpeedModified={isAttackSpeedModified}
+      useHardMode={useHardMode}
       isMaxed={isMaxLevelPos(currentLevelPos)}
+      modifierImgPath={modifierImgPath}
+      activeAttackEquipmentItem={activeAttackEquipmentItem}
     />
   );
 });

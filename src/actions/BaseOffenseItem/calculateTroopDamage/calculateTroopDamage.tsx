@@ -1,18 +1,20 @@
-import { BaseModifierItem, getModifiedValue } from "objects/baseModifierItem";
+import { BaseModifierItem } from "objects/baseModifierItem";
 import { troopDataUtils } from "utils/GameData/troopDataUtils";
 import { GAME_DATA_TYPE } from "data/game";
 import { BaseOffenseItem } from "objects/baseOffenseItem";
+import { ACTION_TYPE } from "objects/actionItem";
+import { calculateModifiedActionValue } from "actions/BaseModifierItem";
 
 const type = GAME_DATA_TYPE.Troop;
 
-export function calculateTroopItemModifiedDamage(
+export function calculateTroopDamage(
   troopItem: BaseOffenseItem,
   useTroopDeathDamage: boolean,
-  activeModifier: BaseModifierItem
+  activeModifier?: BaseModifierItem
 ): number {
   if (troopItem.type !== type) {
     throw new Error(
-      `calculateTroopModifiedValue ERROR: troopItem must be troop type. troopItem: ${troopItem}`
+      `calculateTroopDamage ERROR: troopItem must be troop type. troopItem: ${troopItem}`
     );
   }
 
@@ -24,8 +26,16 @@ export function calculateTroopItemModifiedDamage(
   if (useTroopDeathDamage && canDealDeathDamage()) {
     return getTroopDeathDamage(currentLevelPos);
   } else {
-    const damage = getTroopDamage(currentLevelPos);
+    let damage = getTroopDamage(currentLevelPos);
 
-    return getModifiedValue(damage, activeModifier);
+    if (activeModifier) {
+      damage = calculateModifiedActionValue(
+        damage,
+        ACTION_TYPE.Troop,
+        activeModifier
+      );
+    }
+
+    return damage;
   }
 }

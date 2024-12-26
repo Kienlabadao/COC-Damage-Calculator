@@ -9,7 +9,17 @@ import {
   StatDisplayer,
 } from "components/CalculatorComponents/OffenseCard";
 import { Checkbox, Slider } from "components";
-import { convertToDisplayerType } from "components/CalculatorComponents/OffenseCard/StatDisplayer";
+import {
+  convertToDisplayerType,
+  DISPLAYER_TYPE,
+} from "components/CalculatorComponents/OffenseCard/StatDisplayer";
+import { IMAGE_PATH } from "data/constants";
+import {
+  OVERLAY_TYPE,
+  OverlayType,
+} from "components/CalculatorComponents/GameDataCardContainer/Overlay";
+import { EquipmentItem } from "features/advance_calc/objects/equipmentItem";
+import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
 
 interface Props {
   id: string;
@@ -23,8 +33,14 @@ interface Props {
   updateCurrentLevelPos: (newCurrentLevelPos: number) => void;
   updateUseAbility: (newUseAbility: boolean) => void;
   dps: number;
+  dph: number;
   damageType: DamageType;
-  isMaxed?: boolean;
+  attackSpeed: number;
+  isAttackSpeedModified: boolean;
+  useHardMode: boolean;
+  isMaxed: boolean;
+  modifierImgPath?: string;
+  activeAttackEquipmentItem?: EquipmentItem;
 }
 
 export const HeroCard = memo(function HeroCard({
@@ -39,18 +55,65 @@ export const HeroCard = memo(function HeroCard({
   updateCurrentLevelPos,
   updateUseAbility,
   dps,
+  dph,
+  attackSpeed,
+  isAttackSpeedModified,
   damageType,
-  isMaxed = false,
+  useHardMode,
+  isMaxed,
+  modifierImgPath,
+  activeAttackEquipmentItem,
 }: Props) {
+  const isModifierActive = modifierImgPath !== undefined;
+
+  function createTopRightOverlay() {
+    if (activeAttackEquipmentItem) {
+      const {
+        isEquipmentRarityCommon,
+        isEquipmentRarityEpic,
+        getEquipmentImage,
+      } = equipmentDataUtils(activeAttackEquipmentItem.offenseID);
+
+      const imgPath = getEquipmentImage();
+      let type: OverlayType = OVERLAY_TYPE.Img;
+      if (isEquipmentRarityCommon()) {
+        type = OVERLAY_TYPE.ImgCommon;
+      } else if (isEquipmentRarityEpic()) {
+        type = OVERLAY_TYPE.ImgEpic;
+      }
+
+      return {
+        type: type,
+        imgPath: imgPath,
+      };
+    } else {
+      return undefined;
+    }
+  }
+
+  const topLeftOverlay = isModifierActive
+    ? { type: OVERLAY_TYPE.ImgRaged, imgPath: modifierImgPath }
+    : undefined;
+  const bottomLeftOverlayType: OverlayType = isMaxed
+    ? OVERLAY_TYPE.NumLevelMaxed
+    : OVERLAY_TYPE.Num;
+
   return (
     <OffenseCardContainer>
-      <h5>{name}</h5>
-      <div>
+      <div className="d-flex align-items-center justify-content-center gap-2">
+        <h5>{name}</h5>
+        {useHardMode && <img height={30} src={IMAGE_PATH.HardModeIcon} />}
+      </div>
+      <div className="mt-2">
         <GameDataCardContainer
           imgPath={imagePath}
           size={SIZE.Large}
-          level={currentLevel}
-          isMaxed={isMaxed}
+          bottomLeftOverlay={{
+            type: bottomLeftOverlayType,
+            content: currentLevel.toString(),
+          }}
+          topLeftOverlay={topLeftOverlay}
+          topRightOverlay={createTopRightOverlay()}
         />
       </div>
       <div className="mt-2">
@@ -74,7 +137,21 @@ export const HeroCard = memo(function HeroCard({
           displayerType={convertToDisplayerType(damageType)}
           label={"DPS"}
           content={dps.toString()}
-          isModifierActive={false}
+          isModifierActive={isModifierActive}
+          useHardMode={useHardMode}
+        ></StatDisplayer>
+        <StatDisplayer
+          displayerType={convertToDisplayerType(damageType)}
+          label={"DPH"}
+          content={dph.toString()}
+          isModifierActive={isModifierActive}
+          useHardMode={useHardMode}
+        ></StatDisplayer>
+        <StatDisplayer
+          displayerType={DISPLAYER_TYPE.AtackSpeed}
+          label={"Attack Speed"}
+          content={attackSpeed.toString()}
+          isModifierActive={isAttackSpeedModified}
         ></StatDisplayer>
       </div>
     </OffenseCardContainer>

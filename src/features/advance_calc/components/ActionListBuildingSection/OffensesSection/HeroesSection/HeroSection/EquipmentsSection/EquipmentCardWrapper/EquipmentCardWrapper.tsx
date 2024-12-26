@@ -18,6 +18,7 @@ interface Props {
   ) => void;
   equipmentDamageLog: EquipmentDamageLog;
   useHardMode: boolean;
+  useAbility: boolean;
   activeModifier?: ModifierItem;
 }
 
@@ -26,6 +27,7 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
   updateEquipment,
   equipmentDamageLog,
   useHardMode,
+  useAbility,
   activeModifier,
 }: Props) {
   const updateCurrentLevelPos = (newCurrentLevelPos: number) => {
@@ -48,6 +50,10 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
     isEquipmentTypeDamage,
     isEquipmentTypeSupport,
     isEquipmentRarityEpic,
+    getEquipmentAttackSpeedBoost,
+    getEquipmentAbilityAttackSpeedBoost,
+    canGiveAttackSpeedBoost,
+    canGiveAbilityAttackSpeedBoost,
   } = equipmentDataUtils(equipmentID);
 
   const id = equipmentItem.id;
@@ -64,6 +70,15 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
   const modifierImgPath = activeModifier
     ? getBaseModifiedImage(activeModifier)
     : undefined;
+
+  let attackSpeedBoost: number;
+  if (canGiveAttackSpeedBoost()) {
+    attackSpeedBoost = getEquipmentAttackSpeedBoost(currentLevelPos);
+
+    if (useAbility && canGiveAbilityAttackSpeedBoost()) {
+      attackSpeedBoost += getEquipmentAbilityAttackSpeedBoost(currentLevelPos);
+    }
+  }
 
   function renderEquipmentCard() {
     if (isEquipmentTypeDamage()) {
@@ -94,6 +109,7 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
           useHardMode={useHardMode}
           dpsBoost={dpsBoost}
           dphBoost={dphBoost}
+          attackSpeedBoost={attackSpeedBoost}
           backgroundType={backgroundType}
           isMaxed={isMaxLevelPos(currentLevelPos)}
           modifierImgPath={modifierImgPath}
@@ -127,6 +143,7 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
           useHardMode={useHardMode}
           dpsBoost={dpsBoost}
           dphBoost={dphBoost}
+          attackSpeedBoost={attackSpeedBoost}
           backgroundType={backgroundType}
           isMaxed={isMaxLevelPos(currentLevelPos)}
           modifierImgPath={modifierImgPath}
@@ -155,6 +172,7 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
           updateUseEquipment={updateUseEquipment}
           dpsBoost={dpsBoost}
           dphBoost={dphBoost}
+          attackSpeedBoost={attackSpeedBoost}
           useHardMode={useHardMode}
           backgroundType={backgroundType}
           isMaxed={isMaxLevelPos(currentLevelPos)}

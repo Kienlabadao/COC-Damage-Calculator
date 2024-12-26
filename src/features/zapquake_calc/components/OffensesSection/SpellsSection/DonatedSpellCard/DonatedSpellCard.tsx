@@ -16,8 +16,12 @@ import {
   BACKGROUND_TYPE,
   GameDataCardContainer,
   SIZE,
-  TOP_LEFT_OVERLAY_TYPE,
 } from "components/CalculatorComponents/GameDataCardContainer";
+import {
+  OVERLAY_TYPE,
+  OverlayType,
+} from "components/CalculatorComponents/GameDataCardContainer/Overlay";
+import { IMAGE_PATH } from "data/constants";
 
 interface Props {
   spell: DonatedLightningSpellItem;
@@ -59,14 +63,11 @@ export const DonatedSpellCard = memo(function DonatedSpellCard({
   const id = spell.id;
   const type = spell.type;
   const imagePath = getSpellImage();
-  const backgroundType =
-    spellID === SPELL.EarthquakeSpell
-      ? BACKGROUND_TYPE.Earthquake
-      : BACKGROUND_TYPE.Normal;
   const minLevelPos = getSpellMinLevelPos();
   const maxLevelPos = getSpellMaxLevelPos();
   const currentLevelPos = spell.currentLevelPos;
   const currentLevel = getSpellLevel(currentLevelPos);
+  const isMaxed = isMaxLevelPos(currentLevelPos);
   const minCount = MIN_DONATED_SPELL_COUNT;
   const maxCount = MAX_DONATED_SPELL_COUNT;
   const currentCount = spell.count;
@@ -74,6 +75,13 @@ export const DonatedSpellCard = memo(function DonatedSpellCard({
   const damageType = getSpellDamageType();
 
   const donateCountID = `donate_count_${id}`;
+  const backgroundType =
+    spellID === SPELL.EarthquakeSpell
+      ? BACKGROUND_TYPE.Earthquake
+      : BACKGROUND_TYPE.Normal;
+  const bottomLeftOverlayType: OverlayType = isMaxed
+    ? OVERLAY_TYPE.NumLevelMaxed
+    : OVERLAY_TYPE.Num;
 
   return (
     <OffenseCardContainer>
@@ -83,9 +91,14 @@ export const DonatedSpellCard = memo(function DonatedSpellCard({
           imgPath={imagePath}
           backgroundType={backgroundType}
           size={SIZE.Normal}
-          level={currentLevel}
-          isMaxed={isMaxLevelPos(currentLevelPos)}
-          topLeftOverlayType={TOP_LEFT_OVERLAY_TYPE.Donated}
+          topLeftOverlay={{
+            type: OVERLAY_TYPE.Img,
+            imgPath: IMAGE_PATH.Donated,
+          }}
+          bottomLeftOverlay={{
+            type: bottomLeftOverlayType,
+            content: currentLevel.toString(),
+          }}
         />
       </div>
       <div className="mt-2">

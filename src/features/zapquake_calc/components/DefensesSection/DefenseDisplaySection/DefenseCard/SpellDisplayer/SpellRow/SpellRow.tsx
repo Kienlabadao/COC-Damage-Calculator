@@ -1,8 +1,11 @@
 import {
   GameDataCardContainer,
   SIZE,
-  TOP_LEFT_OVERLAY_TYPE,
 } from "components/CalculatorComponents/GameDataCardContainer";
+import {
+  OVERLAY_TYPE,
+  OverlayType,
+} from "components/CalculatorComponents/GameDataCardContainer/Overlay";
 import { IMAGE_PATH } from "data/constants";
 import { MAX_SPELL_COUNT } from "features/zapquake_calc/config";
 import { SpellCountItem } from "features/zapquake_calc/objects/spellCountItem";
@@ -26,7 +29,20 @@ function createSpellRow(spellCountItemList: SpellCountItem[]): {
 
     const { getSpellImage, isMaxLevelPos, getSpellLevel } =
       spellDataUtils(spellID);
+
     const imgPath = getSpellImage();
+    const currentLevel = getSpellLevel(currentLevelPos);
+    const isMaxed = isMaxLevelPos(currentLevelPos);
+
+    const topLeftOverlay = isDonated
+      ? {
+          type: OVERLAY_TYPE.Img,
+          imgPath: IMAGE_PATH.Donated,
+        }
+      : undefined;
+    const bottomLeftOverlayType: OverlayType = isMaxed
+      ? OVERLAY_TYPE.NumLevelMaxed
+      : OVERLAY_TYPE.Num;
 
     isDonated ? (donatedSpellCount += count) : (spellCount += count);
     spellRowList.push(
@@ -34,12 +50,15 @@ function createSpellRow(spellCountItemList: SpellCountItem[]): {
         key={id}
         imgPath={imgPath}
         size={SIZE.Tall}
-        level={getSpellLevel(currentLevelPos)}
-        headerContent={count.toString()}
-        isMaxed={isMaxLevelPos(currentLevelPos)}
-        topLeftOverlayType={
-          isDonated ? TOP_LEFT_OVERLAY_TYPE.Donated : TOP_LEFT_OVERLAY_TYPE.None
-        }
+        headerOverlay={{
+          type: OVERLAY_TYPE.NumSpellCount,
+          content: `x${count}`,
+        }}
+        topLeftOverlay={topLeftOverlay}
+        bottomLeftOverlay={{
+          type: bottomLeftOverlayType,
+          content: currentLevel.toString(),
+        }}
       />
     );
   });

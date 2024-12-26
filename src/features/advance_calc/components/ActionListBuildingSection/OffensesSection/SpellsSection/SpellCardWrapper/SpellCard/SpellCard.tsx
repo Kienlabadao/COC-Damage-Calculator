@@ -12,6 +12,10 @@ import {
 } from "components/CalculatorComponents/OffenseCard";
 import { Slider } from "components";
 import { convertToDisplayerType } from "components/CalculatorComponents/OffenseCard/StatDisplayer";
+import {
+  OVERLAY_TYPE,
+  OverlayType,
+} from "components/CalculatorComponents/GameDataCardContainer/Overlay";
 
 interface Props {
   id: string;
@@ -41,6 +45,10 @@ export const SpellCard = memo(function SpellCard({
   backgroundType = BACKGROUND_TYPE.Normal,
   isMaxed = false,
 }: Props) {
+  const bottomLeftOverlayType: OverlayType = isMaxed
+    ? OVERLAY_TYPE.NumLevelMaxed
+    : OVERLAY_TYPE.Num;
+
   return (
     <OffenseCardContainer>
       <h5>{name}</h5>
@@ -49,8 +57,10 @@ export const SpellCard = memo(function SpellCard({
           imgPath={imagePath}
           backgroundType={backgroundType}
           size={SIZE.Normal}
-          level={currentLevel}
-          isMaxed={isMaxed}
+          bottomLeftOverlay={{
+            type: bottomLeftOverlayType,
+            content: currentLevel.toString(),
+          }}
         />
       </div>
       <div className="mt-2">

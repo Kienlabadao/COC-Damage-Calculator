@@ -80,8 +80,8 @@ export function calculateDPSAfterAttackSpeedModified(
   return scaleAndRoundValue(dps, modifyDecimal, ROUNDING_PRECISION);
 }
 
-export function calculateHardModeHeroDPS(dps: number) {
-  return roundToN(dps * HARD_MODE_HERO_DAMAGE_MODIFIER, ROUNDING_PRECISION);
+export function calculateHeroHardModeDamage(damage: number) {
+  return roundToN(damage * HARD_MODE_HERO_DAMAGE_MODIFIER, ROUNDING_PRECISION);
 }
 
 export function calculateDPH(dps: number, attackSpeed: number) {

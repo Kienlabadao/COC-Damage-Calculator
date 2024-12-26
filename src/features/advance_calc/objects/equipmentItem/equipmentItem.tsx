@@ -4,6 +4,7 @@ import {
   createOffenseItem,
   OffenseItem,
 } from "../offenseItem";
+import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
 
 export interface EquipmentItem extends OffenseItem {
   use: boolean;
@@ -46,9 +47,27 @@ export function updateEquipmentItemInList(
   return updatedList;
 }
 
+export function filterEquipmentItemList(
+  equipmentItemList: EquipmentItem[],
+  use?: boolean
+): EquipmentItem[] {
+  return equipmentItemList.filter((equipmentItem) => {
+    if (use === undefined || equipmentItem.use === use) {
+      return true;
+    }
+    return false;
+  });
+}
+
 export function compareEquipmentItem(
   eT1: EquipmentItem,
   eT2: EquipmentItem
 ): boolean {
   return eT1.use === eT2.use && compareOffenseItem(eT1, eT2);
+}
+
+export function getEquipmentImage(equipmentItem: EquipmentItem) {
+  const { getEquipmentImage } = equipmentDataUtils(equipmentItem.offenseID);
+
+  return getEquipmentImage();
 }
