@@ -1,8 +1,11 @@
+import { useOffensesSectionContext } from "features/advance_calc/contexts";
 import { SpellCardWrapper } from "./SpellCardWrapper";
 import { SpellSetting } from "./SpellSetting";
 import { useInitSpell } from "features/advance_calc/hooks/Init";
 
 export function SpellsSection() {
+  const { addAction } = useOffensesSectionContext();
+
   const [spellItemList, updateSpell, setAllSpellsToMax, setAllSpellsToMin] =
     useInitSpell();
 
@@ -22,6 +25,7 @@ export function SpellsSection() {
             key={spell.id}
             spellItem={spell}
             updateSpell={updateSpell}
+            addAction={addAction}
           />
         ))}
       </div>

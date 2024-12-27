@@ -16,6 +16,7 @@ import {
   OVERLAY_TYPE,
   OverlayType,
 } from "components/CalculatorComponents/GameDataCardContainer/Overlay";
+import { ActionAdderButtons } from "features/advance_calc/components/ActionListBuildingSection/ActionAdderButtons";
 
 interface Props {
   id: string;
@@ -28,6 +29,7 @@ interface Props {
   updateCurrentLevelPos: (newCurrentLevelPos: number) => void;
   damage: number;
   damageType: DamageType;
+  createAction: (count: number) => void;
   backgroundType?: BackgroundType;
   isMaxed?: boolean;
 }
@@ -42,6 +44,7 @@ export const SpellCard = memo(function SpellCard({
   updateCurrentLevelPos,
   damage,
   damageType,
+  createAction,
   backgroundType = BACKGROUND_TYPE.Normal,
   isMaxed = false,
 }: Props) {
@@ -70,6 +73,9 @@ export const SpellCard = memo(function SpellCard({
           currentValue={currentLevelPos}
           onChange={(newValue: number) => updateCurrentLevelPos(newValue)}
         />
+      </div>
+      <div className="mt-2">
+        <ActionAdderButtons createAction={createAction} />
       </div>
       <div className="mt-2">
         <NumberStatDisplayer

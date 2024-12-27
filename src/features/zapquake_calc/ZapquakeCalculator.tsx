@@ -1,10 +1,6 @@
-import {
-  DefensesSection,
-  OffensesSection,
-} from "features/zapquake_calc/components";
-import { OffensesSectionContext } from "features/zapquake_calc/contexts/OffensesSectionContext";
-import { useInitEarthquakeOrder } from "features/zapquake_calc/hooks/Init/useInitEarthquakeOrder";
-import { useInitOffense } from "features/zapquake_calc/hooks/Init/useInitOffense";
+import { DefensesSection, OffensesSection } from "./components";
+import { OffensesSectionContext } from "./contexts";
+import { useInitEarthquakeOrder, useInitOffense } from "./hooks/Init";
 
 export function ZapquakeCalculator() {
   const [

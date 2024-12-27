@@ -1,4 +1,4 @@
-import { EQUIPMENT, HERO, Hero, MODIFIER, OFFENSE_TYPE } from "data/game";
+import { Hero, OFFENSE_TYPE } from "data/game";
 import { HeroCardWrapper } from "./HeroCardWrapper";
 import { heroDataUtils } from "utils/GameData/heroDataUtils";
 import { EquipmentsSection } from "./EquipmentsSection";
@@ -7,11 +7,14 @@ import {
   useInitHero,
 } from "features/advance_calc/hooks/Init";
 import { HeroSetting } from "./HeroSetting";
-import { memo, useEffect } from "react";
+import { memo } from "react";
 import { ModifierItem } from "features/advance_calc/objects/modifierItem";
 import { getActiveModifier } from "features/advance_calc/actions/ModifierItem";
 import { calculateHeroAttackSpeed } from "features/advance_calc/actions/EquipmentItem";
-import { useCacheEquipmentDamageLog } from "features/advance_calc/hooks";
+import {
+  useCacheEquipmentDamageLog,
+  useUpdateRageVialModifier,
+} from "features/advance_calc/hooks";
 import { initEquipmentDisplayDataList } from "features/advance_calc/actions/EquipmentDisplayDataList";
 import { filterEquipmentItemList } from "features/advance_calc/objects/equipmentItem";
 
@@ -41,30 +44,11 @@ export const HeroSection = memo(function HeroSection({
     setAllEquipmentsToUse,
     setAllEquipmentsToUnuse,
   ] = useInitEquipment(hero, useHardMode);
+  useUpdateRageVialModifier(heroItem, equipmentItemList, updateModifier);
 
   const heroID = heroItem.offenseID;
   const useAbility = heroItem.useAbility;
   const { getHeroName, getHeroAttackSpeed } = heroDataUtils(heroID);
-
-  useEffect(() => {
-    if (heroID === HERO.BarbarianKing) {
-      const rageVial = equipmentItemList.find(
-        (equipmentItem) => equipmentItem.offenseID === EQUIPMENT.RageVial
-      );
-
-      if (rageVial) {
-        if (useAbility) {
-          updateModifier(MODIFIER.RageVial, undefined, rageVial.use);
-        } else {
-          updateModifier(MODIFIER.RageVial, undefined, false);
-        }
-      } else {
-        throw new Error(
-          `HeroSection ERROR: Barbarian King doesn't have rage vial equipment. equipmentItemList: ${equipmentItemList}`
-        );
-      }
-    }
-  }, [heroItem, equipmentItemList]);
 
   const activeModifier = getActiveModifier(
     heroID,

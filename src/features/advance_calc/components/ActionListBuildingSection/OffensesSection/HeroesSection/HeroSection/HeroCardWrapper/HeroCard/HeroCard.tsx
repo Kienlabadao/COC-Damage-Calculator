@@ -133,7 +133,7 @@ export const HeroCard = memo(function HeroCard({
           onChange={(isChecked: boolean) => updateUseAbility(isChecked)}
         />
       </div>
-      <div className="my-3">
+      <div className="mt-2">
         {usedEquipmentItemList.length > 0 && (
           <UsedEquipmentDisplayer equipmentItemList={usedEquipmentItemList} />
         )}

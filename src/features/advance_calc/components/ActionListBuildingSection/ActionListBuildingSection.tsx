@@ -5,8 +5,13 @@ import { InstructionSection } from "./InstructionSection";
 import { ModifiersSection } from "./ModifiersSection";
 import { useInitModifier } from "features/advance_calc/hooks/Init";
 import { OffensesSectionContext } from "features/advance_calc/contexts";
+import { AdvanceActionItem } from "features/advance_calc/objects/advanceActionItem";
 
-export function ActionListBuildingSection() {
+interface Props {
+  addAction: (actionItem: AdvanceActionItem, count: number) => void;
+}
+
+export function ActionListBuildingSection({ addAction }: Props) {
   const [
     modifierItemList,
     updateModifier,
@@ -23,6 +28,7 @@ export function ActionListBuildingSection() {
         value={{
           modifierItemList,
           updateModifier,
+          addAction,
         }}
       >
         <OffensesSection />

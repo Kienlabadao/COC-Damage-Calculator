@@ -1,3 +1,4 @@
+import { AdvanceActionItem } from "features/advance_calc/objects/advanceActionItem";
 import { ModifierItem } from "features/advance_calc/objects/modifierItem";
 import { createContext, useContext } from "react";
 
@@ -8,6 +9,7 @@ interface OffensesSectionContextProps {
     currentLevelPos?: number,
     use?: boolean
   ) => void;
+  addAction: (actionItem: AdvanceActionItem, count: number) => void;
 }
 
 export const OffensesSectionContext = createContext<

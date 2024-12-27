@@ -6,3 +6,4 @@ export * from "./useInitHeroSetting";
 export * from "./useInitSpell";
 export * from "./useInitRepair";
 export * from "./useInitModifier";
+export * from "./useInitAction";
