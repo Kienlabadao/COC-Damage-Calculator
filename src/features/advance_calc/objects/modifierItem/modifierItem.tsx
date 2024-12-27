@@ -46,8 +46,11 @@ export function updateModifierItemInList(
 }
 
 export function compareModifierItem(
-  mo1: ModifierItem,
-  mo2: ModifierItem
+  mo1: ModifierItem | undefined,
+  mo2: ModifierItem | undefined
 ): boolean {
+  if (mo1 === mo2) return true;
+  if (!mo1 || !mo2) return false;
+
   return mo1.use === mo2.use && compareBaseModifierItem(mo1, mo2);
 }

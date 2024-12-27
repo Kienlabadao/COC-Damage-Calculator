@@ -11,34 +11,44 @@ import {
 } from "features/zapquake_calc/objects/donatedLightningSpellItem";
 import {
   compareOffenseItemList,
+  filterOffenseItemList,
   OffenseItem,
 } from "features/zapquake_calc/objects/offenseItem";
 import { useRef } from "react";
 import { transformRecord } from "utils/objectUtils";
 
-function compareVariables(
-  variables: Variables,
-  defenseItem: DefenseItem,
-  offenseItemList: OffenseItem[],
-  donatedLightningSpellItem: DonatedLightningSpellItem,
-  earthquakeOrder: EarthquakeOrder
-) {
-  return (
-    compareDefenseItem(variables.defenseItem, defenseItem) &&
-    compareOffenseItemList(variables.offenseItemList, offenseItemList) &&
-    compareDonatedLightningSpellItem(
-      variables.donatedLightningSpellItem,
-      donatedLightningSpellItem
-    ) &&
-    variables.earthquakeOrder === earthquakeOrder
-  );
+interface InternalVariable {
+  defenseItem: DefenseItem;
 }
 
-interface Variables {
-  defenseItem: DefenseItem;
+interface ExternalVariable {
   offenseItemList: OffenseItem[];
   donatedLightningSpellItem: DonatedLightningSpellItem;
   earthquakeOrder: EarthquakeOrder;
+}
+
+function compareInternalVariable(
+  internalVariable: InternalVariable,
+  defenseItem: DefenseItem
+) {
+  return compareDefenseItem(internalVariable.defenseItem, defenseItem);
+}
+
+function compareExternalVariable(
+  externalVariable1: ExternalVariable,
+  externalVariable2: ExternalVariable
+) {
+  return (
+    compareOffenseItemList(
+      externalVariable1.offenseItemList,
+      externalVariable2.offenseItemList
+    ) &&
+    compareDonatedLightningSpellItem(
+      externalVariable1.donatedLightningSpellItem,
+      externalVariable2.donatedLightningSpellItem
+    ) &&
+    externalVariable1.earthquakeOrder === externalVariable2.earthquakeOrder
+  );
 }
 
 export function useCacheDefenseLog(
@@ -47,22 +57,50 @@ export function useCacheDefenseLog(
   donatedLightningSpellItem: DonatedLightningSpellItem,
   earthquakeOrder: EarthquakeOrder
 ): Record<string, DefenseLog> {
+  const filteredOffenseItemList = filterOffenseItemList(
+    offenseItemList,
+    undefined,
+    true
+  );
+
   const defenseLogMemoRef = useRef<
-    Record<string, { variables: Variables; defenseLog: DefenseLog }>
+    Record<
+      string,
+      { internalVariable: InternalVariable; defenseLog: DefenseLog }
+    >
   >({});
+  const externalVariableMemoRef = useRef<ExternalVariable>();
 
-  defenseItemList.forEach((defenseItem) => {
-    const defenseID = defenseItem.defenseID;
+  const externalVariable: ExternalVariable = {
+    offenseItemList: filteredOffenseItemList,
+    donatedLightningSpellItem,
+    earthquakeOrder,
+  };
 
-    tryStoreDefenseLog(
-      defenseItem,
-      offenseItemList,
-      donatedLightningSpellItem,
-      earthquakeOrder
-    );
+  if (
+    externalVariableMemoRef.current &&
+    compareExternalVariable(externalVariableMemoRef.current, externalVariable)
+  ) {
+    defenseItemList.forEach((defenseItem) => {
+      tryStoreDefenseLog(
+        defenseItem,
+        filteredOffenseItemList,
+        donatedLightningSpellItem,
+        earthquakeOrder
+      );
+    });
+  } else {
+    defenseItemList.forEach((defenseItem) => {
+      calculateAndStoreDefenseLog(
+        defenseItem,
+        filteredOffenseItemList,
+        donatedLightningSpellItem,
+        earthquakeOrder
+      );
+    });
 
-    return defenseLogMemoRef.current[defenseID].defenseLog;
-  });
+    storeExternalVariableRef(externalVariable);
+  }
 
   function tryStoreDefenseLog(
     defenseItem: DefenseItem,
@@ -75,24 +113,10 @@ export function useCacheDefenseLog(
 
     if (
       prevEntry === undefined ||
-      !compareVariables(
-        prevEntry.variables,
-        defenseItem,
-        offenseItemList,
-        donatedLightningSpellItem,
-        earthquakeOrder
-      )
+      !compareInternalVariable(prevEntry.internalVariable, defenseItem)
     ) {
-      const defenseLog = calculateDefense(
+      calculateAndStoreDefenseLog(
         defenseItem,
-        offenseItemList,
-        donatedLightningSpellItem,
-        earthquakeOrder
-      );
-
-      storeDefenseLog(
-        defenseItem,
-        defenseLog,
         offenseItemList,
         donatedLightningSpellItem,
         earthquakeOrder
@@ -100,24 +124,38 @@ export function useCacheDefenseLog(
     }
   }
 
-  function storeDefenseLog(
+  function calculateAndStoreDefenseLog(
     defenseItem: DefenseItem,
-    defenseLog: DefenseLog,
     offenseItemList: OffenseItem[],
     donatedLightningSpellItem: DonatedLightningSpellItem,
     earthquakeOrder: EarthquakeOrder
+  ) {
+    const defenseLog = calculateDefense(
+      defenseItem,
+      offenseItemList,
+      donatedLightningSpellItem,
+      earthquakeOrder
+    );
+
+    storeDefenseLog(defenseItem, defenseLog);
+  }
+
+  function storeDefenseLog(
+    defenseItem: DefenseItem,
+    defenseLog: DefenseLog
   ): void {
     const defenseID = defenseItem.defenseID;
 
     defenseLogMemoRef.current[defenseID] = {
-      variables: {
+      internalVariable: {
         defenseItem,
-        offenseItemList,
-        donatedLightningSpellItem,
-        earthquakeOrder,
       },
       defenseLog: defenseLog,
     };
+  }
+
+  function storeExternalVariableRef(externalVariable: ExternalVariable): void {
+    externalVariableMemoRef.current = externalVariable;
   }
 
   return transformRecord(

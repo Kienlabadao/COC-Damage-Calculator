@@ -7,3 +7,6 @@ export * from "./useInitSpell";
 export * from "./useInitRepair";
 export * from "./useInitModifier";
 export * from "./useInitAction";
+export * from "./useInitActionSetting";
+export * from "./useInitDefenseSetting";
+export * from "./useInitDefense";

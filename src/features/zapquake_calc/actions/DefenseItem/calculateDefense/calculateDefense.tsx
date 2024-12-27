@@ -12,18 +12,15 @@ import { canEquipmentDestroyDefense } from "../../canEquipmentDestroyDefense";
 import { MAX_SPELL_COUNT } from "features/zapquake_calc/config/config";
 import { createZapquakeActionList } from "../../ZapquakeActionItem";
 import { convertZapquakeActionList } from "../../ZapquakeDamageLogItem";
-import { getArrayLastElement, ObjectValues } from "utils/objectUtils";
+import { getArrayLastElement } from "utils/objectUtils";
 import { convertZapquakeDamageLogList } from "../../SpellCountItem";
 import { SPELL } from "data/game";
 import { DefenseItem } from "features/zapquake_calc/objects/defenseItem";
-import { DefenseLog } from "features/zapquake_calc/objects/defenseLog";
-
-export const DEFENSE_STATUS = {
-  Normal: "normal",
-  EquipmentDestroyed: "equipment_destroyed",
-  ImpossibleDestroy: "Impossible_destroy",
-} as const;
-export type DefenseStatus = ObjectValues<typeof DEFENSE_STATUS>;
+import {
+  DEFENSE_STATUS,
+  DefenseLog,
+  DefenseStatus,
+} from "features/zapquake_calc/objects/defenseLog";
 
 export function calculateDefense(
   defenseItem: DefenseItem,

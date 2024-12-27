@@ -60,9 +60,12 @@ export function filterEquipmentItemList(
 }
 
 export function compareEquipmentItem(
-  eT1: EquipmentItem,
-  eT2: EquipmentItem
+  eT1: EquipmentItem | undefined,
+  eT2: EquipmentItem | undefined
 ): boolean {
+  if (eT1 === eT2) return true;
+  if (!eT1 || !eT2) return false;
+
   return eT1.use === eT2.use && compareOffenseItem(eT1, eT2);
 }
 

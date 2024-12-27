@@ -37,13 +37,32 @@ export function filterBaseOffenseItemList(
 }
 
 export function compareBaseOffenseItem(
-  baseOF1: BaseOffenseItem,
-  baseOF2: BaseOffenseItem
+  baseOF1: BaseOffenseItem | undefined,
+  baseOF2: BaseOffenseItem | undefined
 ): boolean {
+  if (baseOF1 === baseOF2) return true;
+  if (!baseOF1 || !baseOF2) return false;
+
   return (
     baseOF1.id === baseOF2.id &&
     baseOF1.offenseID === baseOF2.offenseID &&
     baseOF1.type === baseOF2.type &&
     baseOF1.currentLevelPos === baseOF2.currentLevelPos
+  );
+}
+
+export function compareBaseOffenseItemList(
+  baseOFItemList1: BaseOffenseItem[] | undefined,
+  baseOFItemList2: BaseOffenseItem[] | undefined
+): boolean {
+  if (baseOFItemList1 === baseOFItemList2) return true;
+  if (!baseOFItemList1 || !baseOFItemList2) return false;
+
+  if (baseOFItemList1.length !== baseOFItemList2.length) {
+    return false;
+  }
+
+  return baseOFItemList1.every((oF, index) =>
+    compareBaseOffenseItem(oF, baseOFItemList2[index])
   );
 }

@@ -8,15 +8,15 @@ import { EquipmentDestroyedStatus } from "./EquipmentDestroyedStatus";
 import { SpellDisplayer } from "./SpellDisplayer";
 import { SpellCountItem } from "features/zapquake_calc/objects/spellCountItem";
 import {
-  DEFENSE_STATUS,
-  DefenseStatus,
-} from "features/zapquake_calc/actions/DefenseItem";
-import {
   filterOffenseItemList,
   OffenseItem,
 } from "features/zapquake_calc/objects/offenseItem";
 import { OFFENSE_TYPE } from "data/game";
 import { UsedEquipmentDisplayer } from "components/CalculatorComponents/DefenseCard/UsedEquipmentDisplayer/UsedEquipmentDisplayer";
+import {
+  DEFENSE_STATUS,
+  DefenseStatus,
+} from "features/zapquake_calc/objects/defenseLog";
 
 export interface Props {
   defenseItem: DefenseItem;

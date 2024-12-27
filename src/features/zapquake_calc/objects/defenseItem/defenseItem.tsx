@@ -40,8 +40,11 @@ export function updateDefenseItemInList(
 }
 
 export function compareDefenseItem(
-  df1: DefenseItem,
-  df2: DefenseItem
+  df1: DefenseItem | undefined,
+  df2: DefenseItem | undefined
 ): boolean {
+  if (df1 === df2) return true;
+  if (!df1 || !df2) return false;
+
   return compareBaseDefenseItem(df1, df2);
 }

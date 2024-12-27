@@ -1,8 +1,14 @@
 import { DAMAGE_TYPE, GAME_DATA_TYPE, OFFENSE_TYPE } from "data/game";
 import { ObjectValues } from "utils/objectUtils";
 import { isValidGameDataLevelPos } from "utils/GameData/gameDataUtils";
-import { BaseOffenseItem } from "objects/baseOffenseItem";
-import { BaseModifierItem } from "objects/baseModifierItem";
+import {
+  BaseOffenseItem,
+  compareBaseOffenseItemList,
+} from "objects/baseOffenseItem";
+import {
+  BaseModifierItem,
+  compareBaseModifierItem,
+} from "objects/baseModifierItem";
 
 export const ACTION_TYPE = {
   ...OFFENSE_TYPE,
@@ -59,4 +65,40 @@ export function createActionItem(
       `actionItem.createActionItem ERROR: currentLevelPos (${currentLevelPos}) is invalid. ActionID: ${actionID}`
     );
   }
+}
+
+export function compareActionItem(
+  aI1: ActionItem | undefined,
+  aI2: ActionItem | undefined
+): boolean {
+  if (aI1 === aI2) return true;
+  if (!aI1 || !aI2) return false;
+
+  if (
+    aI1.actionID !== aI2.actionID ||
+    aI1.type !== aI2.type ||
+    aI1.currentLevelPos !== aI2.currentLevelPos ||
+    aI1.damage !== aI2.damage ||
+    aI1.modifiedDamage !== aI2.modifiedDamage ||
+    aI1.noHardModeDamage !== aI2.noHardModeDamage ||
+    aI1.useTroopDeathDamage !== aI2.useTroopDeathDamage ||
+    aI1.damageType !== aI2.damageType
+  ) {
+    return false;
+  }
+
+  if (
+    !compareBaseOffenseItemList(
+      aI1.baseOffenseItemList,
+      aI2.baseOffenseItemList
+    ) ||
+    !compareBaseModifierItem(
+      aI1.activeBaseModifierItem,
+      aI2.activeBaseModifierItem
+    )
+  ) {
+    return false;
+  }
+
+  return true;
 }

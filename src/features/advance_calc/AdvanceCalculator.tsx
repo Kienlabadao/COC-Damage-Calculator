@@ -8,7 +8,7 @@ import { useInitAction } from "./hooks/Init";
 export function AdvanceCalculator() {
   const [actionList, addAction, removeAction, removeAllAction] =
     useInitAction();
-  console.log(actionList);
+
   return (
     <>
       <ActionListBuildingSection addAction={addAction} />
@@ -19,7 +19,7 @@ export function AdvanceCalculator() {
         removeAllAction={removeAllAction}
       />
 
-      <DefensesSection />
+      <DefensesSection actionList={actionList} />
     </>
   );
 }

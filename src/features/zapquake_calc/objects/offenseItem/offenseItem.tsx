@@ -95,16 +95,22 @@ export function removeOffenseItem(
 }
 
 export function compareOffenseItem(
-  oF1: OffenseItem,
-  oF2: OffenseItem
+  oF1: OffenseItem | undefined,
+  oF2: OffenseItem | undefined
 ): boolean {
+  if (oF1 === oF2) return true;
+  if (!oF1 || !oF2) return false;
+
   return oF1.use === oF2.use && compareBaseOffenseItem(oF1, oF2);
 }
 
 export function compareOffenseItemList(
-  oFItemList1: OffenseItem[],
-  oFItemList2: OffenseItem[]
+  oFItemList1: OffenseItem[] | undefined,
+  oFItemList2: OffenseItem[] | undefined
 ): boolean {
+  if (oFItemList1 === oFItemList2) return true;
+  if (!oFItemList1 || !oFItemList2) return false;
+
   if (oFItemList1.length !== oFItemList2.length) {
     return false;
   }

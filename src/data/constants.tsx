@@ -51,6 +51,7 @@ export const IMAGE_PATH = {
   DeathDamage: "/images/other/death.webp",
   HardModeIcon: "/images/other/hardmodeicon.webp",
   HardModeText: "/images/other/hardmode.webp",
+  BuildingDestroyed: "/images/other/building_destroyed.webp",
 } as const;
 export type ImagePath = ObjectValues<typeof IMAGE_PATH>;
 

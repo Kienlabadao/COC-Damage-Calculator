@@ -24,9 +24,12 @@ export function createBaseDefenseItem(
 }
 
 export function compareBaseDefenseItem(
-  baseDF1: BaseDefenseItem,
-  baseDF2: BaseDefenseItem
+  baseDF1: BaseDefenseItem | undefined,
+  baseDF2: BaseDefenseItem | undefined
 ): boolean {
+  if (baseDF1 === baseDF2) return true;
+  if (!baseDF1 || !baseDF2) return false;
+
   return (
     baseDF1.id === baseDF2.id &&
     baseDF1.defenseID === baseDF2.defenseID &&

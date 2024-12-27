@@ -54,8 +54,11 @@ export function filterOffenseItemList(
 }
 
 export function compareOffenseItem(
-  oF1: OffenseItem,
-  oF2: OffenseItem
+  oF1: OffenseItem | undefined,
+  oF2: OffenseItem | undefined
 ): boolean {
+  if (oF1 === oF2) return true;
+  if (!oF1 || !oF2) return false;
+
   return compareBaseOffenseItem(oF1, oF2);
 }

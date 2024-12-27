@@ -1,9 +1,6 @@
 import { SectionContainer } from "components";
 import { useInitDefense } from "features/zapquake_calc/hooks/Init";
-import {
-  filterOffenseItemList,
-  OffenseItem,
-} from "features/zapquake_calc/objects/offenseItem";
+import { OffenseItem } from "features/zapquake_calc/objects/offenseItem";
 import { DonatedLightningSpellItem } from "features/zapquake_calc/objects/donatedLightningSpellItem/donatedLightningSpellItem";
 import { EarthquakeOrder } from "features/zapquake_calc/data/constants";
 import { DefenseDisplaySection } from "./DefenseDisplaySection";
@@ -26,12 +23,6 @@ export function DefensesSection({
   donatedLightningSpellItem,
   earthquakeOrder,
 }: Props) {
-  const filteredOffenseItemList = filterOffenseItemList(
-    offenseItemList,
-    undefined,
-    true
-  );
-
   const [
     hideImpossibleDestroyDefense,
     hideEquipmentDestroyedDefense,
@@ -52,7 +43,7 @@ export function DefensesSection({
 
   const defenseLogList = useCacheDefenseLog(
     defenseItemList,
-    filteredOffenseItemList,
+    offenseItemList,
     donatedLightningSpellItem,
     earthquakeOrder
   );
@@ -92,7 +83,7 @@ export function DefensesSection({
 
       <SectionContainer>
         <DefenseDisplaySection
-          offenseItemList={filteredOffenseItemList}
+          offenseItemList={offenseItemList}
           defenseDisplayDataList={filteredDefenseDisplayDataList}
         />
       </SectionContainer>

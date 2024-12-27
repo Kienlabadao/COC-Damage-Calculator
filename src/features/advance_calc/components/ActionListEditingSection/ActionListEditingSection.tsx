@@ -1,7 +1,7 @@
 import { SectionContainer } from "components";
 import { ActionListSetting } from "./ActionListSetting";
 import { ActionListDisplayer } from "./ActionListDisplayer";
-import { useInitActionSetting } from "features/advance_calc/hooks/Init/useInitActionSetting";
+import { useInitActionSetting } from "features/advance_calc/hooks/Init";
 import { AdvanceActionItem } from "features/advance_calc/objects/advanceActionItem";
 import { MAX_ACTION_COUNT } from "features/advance_calc/config";
 

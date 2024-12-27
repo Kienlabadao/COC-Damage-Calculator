@@ -2,6 +2,7 @@ import {
   ActionDamageType,
   ActionItem,
   ActionType,
+  compareActionItem,
   createActionItem,
 } from "objects/actionItem";
 import { BaseModifierItem } from "objects/baseModifierItem";
@@ -35,4 +36,30 @@ export function createAdvanceActionItem(
       useTroopDeathDamage
     ),
   };
+}
+
+export function compareAdvanceActionItem(
+  aI1: AdvanceActionItem | undefined,
+  aI2: AdvanceActionItem | undefined
+): boolean {
+  if (aI1 === aI2) return true;
+  if (!aI1 || !aI2) return false;
+
+  return compareActionItem(aI1, aI2);
+}
+
+export function compareAdvanceActionItemList(
+  atList1: AdvanceActionItem[] | undefined,
+  atList2: AdvanceActionItem[] | undefined
+): boolean {
+  if (atList1 === atList2) return true;
+  if (!atList1 || !atList2) return false;
+
+  if (atList1.length !== atList2.length) {
+    return false;
+  }
+
+  return atList1.every((oF, index) =>
+    compareAdvanceActionItem(oF, atList2[index])
+  );
 }

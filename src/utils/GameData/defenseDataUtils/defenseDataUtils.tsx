@@ -1,4 +1,4 @@
-import { DEFENSE_IMG_PATH, OFFENSE_IMG_PATH } from "data/constants";
+import { DEFENSE_IMG_PATH, IMAGE_PATH, OFFENSE_IMG_PATH } from "data/constants";
 import { DEFENSE_TYPE, DefenseData, DefenseType } from "data/game";
 
 export function defenseDataUtils(defenseID: string) {
@@ -23,6 +23,21 @@ export function defenseDataUtils(defenseID: string) {
         return `${DEFENSE_IMG_PATH}${defenseID}/${level}.webp`;
       case DEFENSE_TYPE.Hero:
         return `${OFFENSE_IMG_PATH}/heroes/${defenseID}/${defenseID}.webp`;
+      default:
+        throw new Error(
+          `gameDataUtils.getDefenseImage ERROR: Defense type (${type}) is not supported.`
+        );
+    }
+  }
+
+  function getDefenseDestroyedImage(): string {
+    const type = getDefenseType();
+
+    switch (type) {
+      case DEFENSE_TYPE.Building:
+        return IMAGE_PATH.BuildingDestroyed;
+      case DEFENSE_TYPE.Hero:
+        return `${OFFENSE_IMG_PATH}/heroes/${defenseID}/ko.webp`;
       default:
         throw new Error(
           `gameDataUtils.getDefenseImage ERROR: Defense type (${type}) is not supported.`
@@ -106,6 +121,7 @@ export function defenseDataUtils(defenseID: string) {
     defenseData,
     getDefenseName,
     getDefenseImage,
+    getDefenseDestroyedImage,
     getDefenseType,
     getDefenseImmune,
     getDefenseLevelCount,

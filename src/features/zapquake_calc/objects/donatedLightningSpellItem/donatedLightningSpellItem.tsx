@@ -27,9 +27,12 @@ export function createDonatedLightningSpellItem(
 }
 
 export function compareDonatedLightningSpellItem(
-  dlsItem1: DonatedLightningSpellItem,
-  dlsItem2: DonatedLightningSpellItem
+  dlsItem1: DonatedLightningSpellItem | undefined,
+  dlsItem2: DonatedLightningSpellItem | undefined
 ): boolean {
+  if (dlsItem1 === dlsItem2) return true;
+  if (!dlsItem1 || !dlsItem2) return false;
+
   return (
     dlsItem1.count === dlsItem2.count && compareOffenseItem(dlsItem1, dlsItem2)
   );

@@ -3,8 +3,8 @@ import {
   DefenseCountLog,
 } from "features/zapquake_calc/objects/defenseCountLog";
 import { DefenseDisplayData } from "features/zapquake_calc/objects/defenseDisplayData";
+import { DEFENSE_STATUS } from "features/zapquake_calc/objects/defenseLog";
 import { defenseDataUtils } from "utils/GameData/defenseDataUtils";
-import { DEFENSE_STATUS } from "../../DefenseItem";
 
 export function filterDefenseDisplayDataList(
   defenseDisplayDataList: DefenseDisplayData[],

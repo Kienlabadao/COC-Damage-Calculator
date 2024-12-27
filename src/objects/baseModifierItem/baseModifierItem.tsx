@@ -31,9 +31,12 @@ export function getBaseModifiedImage(baseModifierItem: BaseModifierItem) {
 }
 
 export function compareBaseModifierItem(
-  baseMO1: BaseModifierItem,
-  baseMO2: BaseModifierItem
+  baseMO1: BaseModifierItem | undefined,
+  baseMO2: BaseModifierItem | undefined
 ): boolean {
+  if (baseMO1 === baseMO2) return true;
+  if (!baseMO1 || !baseMO2) return false;
+
   return (
     baseMO1.id === baseMO2.id &&
     baseMO1.modifierID === baseMO2.modifierID &&

@@ -6,9 +6,9 @@ import {
 import { ActionType } from "objects/actionItem";
 import { BaseModifierItem } from "objects/baseModifierItem";
 
-export interface ZapquakeDamageLogItem extends DamageLogItem {}
+export interface AdvanceDamageLogItem extends DamageLogItem {}
 
-export function createZapquakeDamageLogItem(
+export function createAdvanceDamageLogItem(
   actionID: string,
   type: ActionType,
   currentLevelPos: number,
@@ -20,7 +20,7 @@ export function createZapquakeDamageLogItem(
   modifiedDamage?: number,
   noHardModeDamage?: number,
   earthquakeReducedDamage?: number
-): ZapquakeDamageLogItem {
+): AdvanceDamageLogItem {
   return {
     ...createDamageLogItem(
       actionID,

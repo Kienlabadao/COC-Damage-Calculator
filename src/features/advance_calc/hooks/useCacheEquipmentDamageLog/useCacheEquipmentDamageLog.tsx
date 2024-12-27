@@ -11,37 +11,38 @@ import {
 import { useRef } from "react";
 import { transformRecord } from "utils/objectUtils";
 
-function compareVariables(
-  variables: Variables,
-  equipmentItem: EquipmentItem,
-  attackSpeed: number,
-  attackSpeedModify: number,
-  useHardMode: boolean,
-  activeModifier?: ModifierItem
-) {
-  const { activeModifier: variablesActiveModifier } = variables;
-
-  if (
-    compareEquipmentItem(variables.equipmentItem, equipmentItem) &&
-    variables.attackSpeed === attackSpeed &&
-    variables.attackSpeedModify === attackSpeedModify &&
-    variables.useHardMode === useHardMode
-  ) {
-    return variablesActiveModifier
-      ? activeModifier
-        ? compareModifierItem(variablesActiveModifier, activeModifier)
-        : false
-      : !activeModifier;
-  }
-  return false;
+interface InternalVariable {
+  equipmentItem: EquipmentItem;
 }
 
-interface Variables {
-  equipmentItem: EquipmentItem;
+interface ExternalVariable {
   attackSpeed: number;
   attackSpeedModify: number;
   useHardMode: boolean;
   activeModifier?: ModifierItem;
+}
+
+function compareInternalVariable(
+  internalVariable: InternalVariable,
+  equipmentItem: EquipmentItem
+) {
+  return compareEquipmentItem(internalVariable.equipmentItem, equipmentItem);
+}
+
+function compareExternalVariable(
+  externalVariable1: ExternalVariable,
+  externalVariable2: ExternalVariable
+) {
+  return (
+    externalVariable1.attackSpeed === externalVariable2.attackSpeed &&
+    externalVariable1.attackSpeedModify ===
+      externalVariable2.attackSpeedModify &&
+    externalVariable1.useHardMode === externalVariable2.useHardMode &&
+    compareModifierItem(
+      externalVariable1.activeModifier,
+      externalVariable2.activeModifier
+    )
+  );
 }
 
 export function useCacheEquipmentDamageLog(
@@ -54,23 +55,47 @@ export function useCacheEquipmentDamageLog(
   const equipmentDamageLogMemoRef = useRef<
     Record<
       string,
-      { variables: Variables; equipmentDamageLog: EquipmentDamageLog }
+      {
+        internalVariable: InternalVariable;
+        equipmentDamageLog: EquipmentDamageLog;
+      }
     >
   >({});
+  const externalVariableMemoRef = useRef<ExternalVariable>();
 
-  equipmentItemList.forEach((equipmentItem) => {
-    const equipmentID = equipmentItem.offenseID;
+  const externalVariable: ExternalVariable = {
+    attackSpeed,
+    attackSpeedModify,
+    useHardMode,
+    activeModifier,
+  };
 
-    tryStoreEquipmentDamageLog(
-      equipmentItem,
-      attackSpeed,
-      attackSpeedModify,
-      useHardMode,
-      activeModifier
-    );
+  if (
+    externalVariableMemoRef.current &&
+    compareExternalVariable(externalVariableMemoRef.current, externalVariable)
+  ) {
+    equipmentItemList.forEach((equipmentItem) => {
+      tryStoreEquipmentDamageLog(
+        equipmentItem,
+        attackSpeed,
+        attackSpeedModify,
+        useHardMode,
+        activeModifier
+      );
+    });
+  } else {
+    equipmentItemList.forEach((equipmentItem) => {
+      calculateAndStoreEquipmentDamageLog(
+        equipmentItem,
+        attackSpeed,
+        attackSpeedModify,
+        useHardMode,
+        activeModifier
+      );
+    });
 
-    return equipmentDamageLogMemoRef.current[equipmentID].equipmentDamageLog;
-  });
+    storeExternalVariableRef(externalVariable);
+  }
 
   function tryStoreEquipmentDamageLog(
     equipmentItem: EquipmentItem,
@@ -84,26 +109,10 @@ export function useCacheEquipmentDamageLog(
 
     if (
       prevEntry === undefined ||
-      !compareVariables(
-        prevEntry.variables,
-        equipmentItem,
-        attackSpeed,
-        attackSpeedModify,
-        useHardMode,
-        activeModifier
-      )
+      !compareInternalVariable(prevEntry.internalVariable, equipmentItem)
     ) {
-      const equipmentDamageLog = calculateEquipmentDamageLog(
+      calculateAndStoreEquipmentDamageLog(
         equipmentItem,
-        attackSpeed,
-        attackSpeedModify,
-        useHardMode,
-        activeModifier
-      );
-
-      storeEquipmentDamageLog(
-        equipmentItem,
-        equipmentDamageLog,
         attackSpeed,
         attackSpeedModify,
         useHardMode,
@@ -112,26 +121,40 @@ export function useCacheEquipmentDamageLog(
     }
   }
 
-  function storeEquipmentDamageLog(
+  function calculateAndStoreEquipmentDamageLog(
     equipmentItem: EquipmentItem,
-    equipmentDamageLog: EquipmentDamageLog,
     attackSpeed: number,
     attackSpeedModify: number,
     useHardMode: boolean,
     activeModifier?: ModifierItem
+  ) {
+    const equipmentDamageLog = calculateEquipmentDamageLog(
+      equipmentItem,
+      attackSpeed,
+      attackSpeedModify,
+      useHardMode,
+      activeModifier
+    );
+
+    storeEquipmentDamageLog(equipmentItem, equipmentDamageLog);
+  }
+
+  function storeEquipmentDamageLog(
+    equipmentItem: EquipmentItem,
+    equipmentDamageLog: EquipmentDamageLog
   ): void {
     const equipmentID = equipmentItem.offenseID;
 
     equipmentDamageLogMemoRef.current[equipmentID] = {
-      variables: {
+      internalVariable: {
         equipmentItem,
-        attackSpeed,
-        attackSpeedModify,
-        useHardMode,
-        activeModifier,
       },
       equipmentDamageLog: equipmentDamageLog,
     };
+  }
+
+  function storeExternalVariableRef(externalVariable: ExternalVariable): void {
+    externalVariableMemoRef.current = externalVariable;
   }
 
   return transformRecord(

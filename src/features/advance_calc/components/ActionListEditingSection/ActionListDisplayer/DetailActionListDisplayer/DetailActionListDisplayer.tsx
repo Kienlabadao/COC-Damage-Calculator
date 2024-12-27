@@ -4,6 +4,6 @@ interface Props {
   actionList: AdvanceActionItem[];
 }
 
-export function DetailActionListDisplayer({ actionList }: Props) {
+export function DetailActionListDisplayer({}: Props) {
   return <div>DetailActionListDisplayer</div>;
 }
