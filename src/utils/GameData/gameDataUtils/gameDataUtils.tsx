@@ -111,7 +111,7 @@ export function getGameDataMaxLevelPos(
       return getDefenseMaxLevelPos();
     default:
       throw new Error(
-        `gameDataUtils.getGameDataMaxLevelPos ERROR: GameData Type (${type}) is not supported in this function.`
+        `gameDataUtils.getGameDataMaxLevelPos ERROR: GameData Type (${type}) is not supported.`
       );
   }
 }
@@ -151,7 +151,7 @@ export function getGameDataMinLevelPos(
       return getDefenseMinLevelPos();
     default:
       throw new Error(
-        `gameDataUtils.getGameDataMinLevelPos ERROR: GameData Type (${type}) is not supported in this function.`
+        `gameDataUtils.getGameDataMinLevelPos ERROR: GameData Type (${type}) is not supported.`
       );
   }
 }
@@ -234,7 +234,137 @@ export function isValidGameDataLevelPos(
       return isValidDefenseLevelPos(gameDataID, levelPos);
     default:
       throw new Error(
-        `gameDataUtils.isValidGameDataLevelPos ERROR: GameData Type (${type}) is not supported in this function.`
+        `gameDataUtils.isValidGameDataLevelPos ERROR: GameData Type (${type}) is not supported.`
+      );
+  }
+}
+
+export function isMaxGameDataLevelPos(
+  gameDataID: string,
+  type: GameDataType,
+  levelPos: number
+): boolean {
+  switch (type) {
+    case GAME_DATA_TYPE.Spell: {
+      const { isMaxLevelPos } = spellDataUtils(gameDataID);
+
+      return isMaxLevelPos(levelPos);
+    }
+    case GAME_DATA_TYPE.Troop: {
+      const { isMaxLevelPos } = troopDataUtils(gameDataID);
+
+      return isMaxLevelPos(levelPos);
+    }
+    case GAME_DATA_TYPE.Hero: {
+      const { isMaxLevelPos } = heroDataUtils(gameDataID);
+
+      return isMaxLevelPos(levelPos);
+    }
+    case GAME_DATA_TYPE.Equipment: {
+      const { isMaxLevelPos } = equipmentDataUtils(gameDataID);
+
+      return isMaxLevelPos(levelPos);
+    }
+    case GAME_DATA_TYPE.Modifier: {
+      const { isMaxLevelPos } = modifierDataUtils(gameDataID);
+
+      return isMaxLevelPos(levelPos);
+    }
+    case GAME_DATA_TYPE.Repair: {
+      const { isMaxLevelPos } = repairDataUtils(gameDataID);
+
+      return isMaxLevelPos(levelPos);
+    }
+    case GAME_DATA_TYPE.Defense: {
+      const { isMaxLevelPos } = defenseDataUtils(gameDataID);
+
+      return isMaxLevelPos(levelPos);
+    }
+    default:
+      throw new Error(
+        `gameDataUtils.isMaxGameDataLevelPos ERROR: GameData Type (${type}) is not supported.`
+      );
+  }
+}
+
+export function getGameDataLevel(
+  gameDataID: string,
+  type: GameDataType,
+  levelPos: number
+): number {
+  switch (type) {
+    case GAME_DATA_TYPE.Spell:
+      const { getSpellLevel } = spellDataUtils(gameDataID);
+
+      return getSpellLevel(levelPos);
+    case GAME_DATA_TYPE.Troop:
+      const { getTroopLevel } = troopDataUtils(gameDataID);
+
+      return getTroopLevel(levelPos);
+    case GAME_DATA_TYPE.Hero:
+      const { getHeroLevel } = heroDataUtils(gameDataID);
+
+      return getHeroLevel(levelPos);
+    case GAME_DATA_TYPE.Equipment:
+      const { getEquipmentLevel } = equipmentDataUtils(gameDataID);
+
+      return getEquipmentLevel(levelPos);
+    case GAME_DATA_TYPE.Modifier:
+      const { getModifierModify } = modifierDataUtils(gameDataID);
+
+      return getModifierModify(levelPos);
+    case GAME_DATA_TYPE.Repair:
+      const { getRepairLevel } = repairDataUtils(gameDataID);
+
+      return getRepairLevel(levelPos);
+    case GAME_DATA_TYPE.Defense:
+      const { getDefenseLevel } = defenseDataUtils(gameDataID);
+
+      return getDefenseLevel(levelPos);
+    default:
+      throw new Error(
+        `gameDataUtils.getGameDataMaxLevelPos ERROR: GameData Type (${type}) is not supported.`
+      );
+  }
+}
+
+export function getGameDataImgPath(
+  gameDataID: string,
+  type: GameDataType,
+  levelPos: number
+): string {
+  switch (type) {
+    case GAME_DATA_TYPE.Spell:
+      const { getSpellImage } = spellDataUtils(gameDataID);
+
+      return getSpellImage();
+    case GAME_DATA_TYPE.Troop:
+      const { getTroopImage } = troopDataUtils(gameDataID);
+
+      return getTroopImage(levelPos);
+    case GAME_DATA_TYPE.Hero:
+      const { getHeroImage } = heroDataUtils(gameDataID);
+
+      return getHeroImage();
+    case GAME_DATA_TYPE.Equipment:
+      const { getEquipmentImage } = equipmentDataUtils(gameDataID);
+
+      return getEquipmentImage();
+    case GAME_DATA_TYPE.Modifier:
+      const { getModifierImage } = modifierDataUtils(gameDataID);
+
+      return getModifierImage();
+    case GAME_DATA_TYPE.Repair:
+      const { getRepairImage } = repairDataUtils(gameDataID);
+
+      return getRepairImage(levelPos);
+    case GAME_DATA_TYPE.Defense:
+      const { getDefenseImage } = defenseDataUtils(gameDataID);
+
+      return getDefenseImage(levelPos);
+    default:
+      throw new Error(
+        `gameDataUtils.getGameDataImgPath ERROR: GameData Type (${type}) is not supported.`
       );
   }
 }

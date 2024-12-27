@@ -7,18 +7,18 @@ export function manageUseHardModeLocalStorage() {
   const key = getUseHardModeStorageKey();
   const defaultUseHardMode = DEFAULT_USE_HARD_MODE;
 
-  function storeUseHardMode(hideSurvivedDefense: boolean): void {
-    setItem(key, hideSurvivedDefense);
+  function storeUseHardMode(useHardMode: boolean): void {
+    setItem(key, useHardMode);
   }
 
   function getUseHardMode(): boolean | null {
-    const hideSurvivedDefense = getItem(key);
+    const useHardMode = getItem(key);
 
-    if (isBoolean(hideSurvivedDefense)) {
-      return hideSurvivedDefense;
+    if (isBoolean(useHardMode)) {
+      return useHardMode;
     } else {
       console.warn(
-        `manageUseHardModeLocalStorage.getUseHardMode ERROR: Value in storage key (${key}) is not boolean. hideSurvivedDefense: ${hideSurvivedDefense}`
+        `manageUseHardModeLocalStorage.getUseHardMode ERROR: Value in storage key (${key}) is not boolean. useHardMode: ${useHardMode}`
       );
     }
 
@@ -26,10 +26,10 @@ export function manageUseHardModeLocalStorage() {
   }
 
   function getOrStoreUseHardMode(): boolean {
-    const hideSurvivedDefense = getUseHardMode();
+    const useHardMode = getUseHardMode();
 
-    if (hideSurvivedDefense !== null) {
-      return hideSurvivedDefense;
+    if (useHardMode !== null) {
+      return useHardMode;
     } else {
       console.log(
         `manageUseHardModeLocalStorage.getOrStoreUseHardMode log: Value in storage key (${key}) is null. Set defaultUseHardMode.`

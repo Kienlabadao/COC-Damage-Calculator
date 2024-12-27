@@ -54,6 +54,10 @@ export function getUseTroopDeathDamageStorageKey(): string {
   return `${calculatorType}_use_troop_death_damage`;
 }
 
+export function getShowDetailActionListStorageKey(): string {
+  return `${calculatorType}_show_detail_action_list`;
+}
+
 export function getSpellDefaultLevelPos(spellID: string): number {
   switch (DEFAULT_LEVEL) {
     case VALUE_BOUNDARY.MAX:

@@ -13,7 +13,11 @@ export function AdvanceCalculator() {
     <>
       <ActionListBuildingSection addAction={addAction} />
 
-      <ActionListEditingSection />
+      <ActionListEditingSection
+        actionList={actionList}
+        removeAction={removeAction}
+        removeAllAction={removeAllAction}
+      />
 
       <DefensesSection />
     </>

@@ -7,18 +7,18 @@ export function manageUseTroopDeathDamageLocalStorage() {
   const key = getUseTroopDeathDamageStorageKey();
   const defaultUseTroopDeathDamage = DEFAULT_USE_TROOP_DEATH_DAMAGE;
 
-  function storeUseTroopDeathDamage(hideSurvivedDefense: boolean): void {
-    setItem(key, hideSurvivedDefense);
+  function storeUseTroopDeathDamage(useTroopDeathDamage: boolean): void {
+    setItem(key, useTroopDeathDamage);
   }
 
   function getUseTroopDeathDamage(): boolean | null {
-    const hideSurvivedDefense = getItem(key);
+    const useTroopDeathDamage = getItem(key);
 
-    if (isBoolean(hideSurvivedDefense)) {
-      return hideSurvivedDefense;
+    if (isBoolean(useTroopDeathDamage)) {
+      return useTroopDeathDamage;
     } else {
       console.warn(
-        `manageUseTroopDeathDamageLocalStorage.getUseTroopDeathDamage ERROR: Value in storage key (${key}) is not boolean. hideSurvivedDefense: ${hideSurvivedDefense}`
+        `manageUseTroopDeathDamageLocalStorage.getUseTroopDeathDamage ERROR: Value in storage key (${key}) is not boolean. useTroopDeathDamage: ${useTroopDeathDamage}`
       );
     }
 
@@ -26,10 +26,10 @@ export function manageUseTroopDeathDamageLocalStorage() {
   }
 
   function getOrStoreUseTroopDeathDamage(): boolean {
-    const hideSurvivedDefense = getUseTroopDeathDamage();
+    const useTroopDeathDamage = getUseTroopDeathDamage();
 
-    if (hideSurvivedDefense !== null) {
-      return hideSurvivedDefense;
+    if (useTroopDeathDamage !== null) {
+      return useTroopDeathDamage;
     } else {
       console.log(
         `manageUseTroopDeathDamageLocalStorage.getOrStoreUseTroopDeathDamage log: Value in storage key (${key}) is null. Set defaultUseTroopDeathDamage.`
