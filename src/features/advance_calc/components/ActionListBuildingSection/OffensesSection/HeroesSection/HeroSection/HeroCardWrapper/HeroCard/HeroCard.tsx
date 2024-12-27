@@ -18,7 +18,7 @@ import {
 } from "components/CalculatorComponents/GameDataCardContainer/Overlay";
 import { EquipmentItem } from "features/advance_calc/objects/equipmentItem";
 import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
-import { UsedEquipmentDisplayer } from "components/CalculatorComponents/DefenseCard/UsedEquipmentDisplayer/UsedEquipmentDisplayer";
+import { UsedEquipmentDisplayer } from "components/CalculatorComponents/DefenseCard";
 
 interface Props {
   id: string;
