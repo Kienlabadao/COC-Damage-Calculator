@@ -1,3 +1,5 @@
+import { ROUNDING_PRECISION } from "config";
+
 export function roundToN(number: number, decimalPlaces: number): number {
   return parseFloat(number.toFixed(decimalPlaces));
 }
@@ -69,6 +71,26 @@ export function calculatePercentage(
   return decimalPlaces !== undefined ? roundToN(result, decimalPlaces) : result;
 }
 
+export function calculateCombinedPercentageIncrease(
+  a: number,
+  b: number
+): number {
+  // Convert percentage increases to decimal multipliers
+  const multiplierA = 1 + percentageToDecimal(a);
+  const multiplierB = 1 + percentageToDecimal(b);
+
+  // Apply both percentage increases sequentially
+  const finalMultiplier = multiplierA * multiplierB;
+
+  // Calculate total percentage increase
+  const totalIncrease = decimalToPercentage(
+    finalMultiplier - 1,
+    ROUNDING_PRECISION
+  );
+
+  return totalIncrease;
+}
+
 /**
  * Converts a percentage number to its decimal equivalent.
  * Optionally rounds the result to a specified number of decimal places.
@@ -84,6 +106,37 @@ export function percentageToDecimal(
   return decimalPlaces !== undefined ? roundToN(result, decimalPlaces) : result;
 }
 
+export function decimalToPercentage(
+  decimal: number,
+  decimalPlaces?: number
+): number {
+  const result = decimal * 100;
+  return decimalPlaces !== undefined ? roundToN(result, decimalPlaces) : result;
+}
+
 export function clampNumber(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
+}
+
+export function formatNumber(
+  num: number,
+  minDecimals: number,
+  maxDecimals: number
+): string {
+  const parts = num.toString().split(".");
+
+  if (parts.length === 1) {
+    // No decimal part, return as is (apply minDecimals if needed)
+    return minDecimals > 0 ? `${num.toFixed(minDecimals)}` : `${num}`;
+  }
+
+  const integerPart = parts[0];
+  let decimalPart = parts[1].slice(0, maxDecimals); // Truncate to maxDecimals
+
+  // Ensure minimum decimals by padding with zeros if necessary
+  while (decimalPart.length < minDecimals) {
+    decimalPart += "0";
+  }
+
+  return `${integerPart}.${decimalPart}`;
 }

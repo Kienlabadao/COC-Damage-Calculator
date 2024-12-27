@@ -22,6 +22,7 @@ export function ActionListBuildingSection() {
       <OffensesSectionContext.Provider
         value={{
           modifierItemList,
+          updateModifier,
         }}
       >
         <OffensesSection />

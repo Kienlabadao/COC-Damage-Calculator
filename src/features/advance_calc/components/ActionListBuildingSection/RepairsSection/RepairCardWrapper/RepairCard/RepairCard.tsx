@@ -5,7 +5,7 @@ import {
 } from "components/CalculatorComponents/GameDataCardContainer";
 import {
   OffenseCardContainer,
-  StatDisplayer,
+  NumberStatDisplayer,
 } from "components/CalculatorComponents/OffenseCard";
 import { Slider } from "components";
 import { DISPLAYER_TYPE } from "components/CalculatorComponents/OffenseCard/StatDisplayer";
@@ -71,12 +71,12 @@ export const RepairCard = memo(function RepairCard({
         />
       </div>
       <div className="mt-2">
-        <StatDisplayer
+        <NumberStatDisplayer
           label={`Repair`}
           displayerType={DISPLAYER_TYPE.Repair}
-          content={repair.toString()}
+          content={repair}
           isModifierActive={isModifierActive}
-        ></StatDisplayer>
+        />
       </div>
     </OffenseCardContainer>
   );

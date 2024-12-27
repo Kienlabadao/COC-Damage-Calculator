@@ -6,13 +6,11 @@ import {
 } from "components/CalculatorComponents/GameDataCardContainer";
 import {
   OffenseCardContainer,
-  StatDisplayer,
-} from "components/CalculatorComponents/OffenseCard";
-import { Checkbox, Slider } from "components";
-import {
+  NumberStatDisplayer,
   convertToDisplayerType,
   DISPLAYER_TYPE,
-} from "components/CalculatorComponents/OffenseCard/StatDisplayer";
+} from "components/CalculatorComponents/OffenseCard";
+import { Checkbox, Slider } from "components";
 import { IMAGE_PATH } from "data/constants";
 import {
   OVERLAY_TYPE,
@@ -20,6 +18,7 @@ import {
 } from "components/CalculatorComponents/GameDataCardContainer/Overlay";
 import { EquipmentItem } from "features/advance_calc/objects/equipmentItem";
 import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
+import { UsedEquipmentDisplayer } from "components/CalculatorComponents/DefenseCard/UsedEquipmentDisplayer/UsedEquipmentDisplayer";
 
 interface Props {
   id: string;
@@ -37,6 +36,7 @@ interface Props {
   damageType: DamageType;
   attackSpeed: number;
   isAttackSpeedModified: boolean;
+  usedEquipmentItemList: EquipmentItem[];
   useHardMode: boolean;
   isMaxed: boolean;
   modifierImgPath?: string;
@@ -56,9 +56,10 @@ export const HeroCard = memo(function HeroCard({
   updateUseAbility,
   dps,
   dph,
+  damageType,
   attackSpeed,
   isAttackSpeedModified,
-  damageType,
+  usedEquipmentItemList,
   useHardMode,
   isMaxed,
   modifierImgPath,
@@ -132,27 +133,32 @@ export const HeroCard = memo(function HeroCard({
           onChange={(isChecked: boolean) => updateUseAbility(isChecked)}
         />
       </div>
+      <div className="my-3">
+        {usedEquipmentItemList.length > 0 && (
+          <UsedEquipmentDisplayer equipmentItemList={usedEquipmentItemList} />
+        )}
+      </div>
       <div className="mt-2">
-        <StatDisplayer
+        <NumberStatDisplayer
           displayerType={convertToDisplayerType(damageType)}
           label={"DPS"}
-          content={dps.toString()}
+          content={dps}
           isModifierActive={isModifierActive}
           useHardMode={useHardMode}
-        ></StatDisplayer>
-        <StatDisplayer
+        />
+        <NumberStatDisplayer
           displayerType={convertToDisplayerType(damageType)}
           label={"DPH"}
-          content={dph.toString()}
+          content={dph}
           isModifierActive={isModifierActive}
           useHardMode={useHardMode}
-        ></StatDisplayer>
-        <StatDisplayer
+        />
+        <NumberStatDisplayer
           displayerType={DISPLAYER_TYPE.AtackSpeed}
           label={"Attack Speed"}
-          content={attackSpeed.toString()}
+          content={attackSpeed}
           isModifierActive={isAttackSpeedModified}
-        ></StatDisplayer>
+        />
       </div>
     </OffenseCardContainer>
   );

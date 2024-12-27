@@ -7,19 +7,25 @@ import {
 } from "components/CalculatorComponents/GameDataCardContainer";
 import {
   OffenseCardContainer,
-  StatDisplayer,
+  NumberStatDisplayer,
 } from "components/CalculatorComponents/OffenseCard";
 import { Checkbox, Slider } from "components";
-import { DISPLAYER_TYPE } from "components/CalculatorComponents/OffenseCard/StatDisplayer";
+import {
+  DISPLAYER_TYPE,
+  StatDisplayer,
+} from "components/CalculatorComponents/OffenseCard/StatDisplayer";
 import {
   OVERLAY_TYPE,
   OverlayType,
 } from "components/CalculatorComponents/GameDataCardContainer/Overlay";
+import { EquipmentType } from "data/game";
+import { capitalizeFirstLetter } from "utils/stringUtils";
 
 interface Props {
   id: string;
   name: string;
   imagePath: string;
+  equipmentTypeList: EquipmentType[];
   minLevelPos: number;
   maxLevelPos: number;
   currentLevelPos: number;
@@ -31,6 +37,7 @@ interface Props {
   dphBoost: number;
   useHardMode: boolean;
   attackSpeedBoost?: number;
+  modify?: number;
   backgroundType?: BackgroundType;
   isMaxed?: boolean;
   modifierImgPath?: string;
@@ -40,6 +47,7 @@ export const SupportEquipmentCard = memo(function SupportEquipmentCard({
   id,
   name,
   imagePath,
+  equipmentTypeList,
   minLevelPos,
   maxLevelPos,
   currentLevelPos,
@@ -51,6 +59,7 @@ export const SupportEquipmentCard = memo(function SupportEquipmentCard({
   dphBoost,
   useHardMode,
   attackSpeedBoost,
+  modify,
   backgroundType = BACKGROUND_TYPE.Normal,
   isMaxed = false,
   modifierImgPath,
@@ -95,27 +104,43 @@ export const SupportEquipmentCard = memo(function SupportEquipmentCard({
         />
       </div>
       <div className="mt-2">
-        <StatDisplayer
+        <NumberStatDisplayer
           displayerType={DISPLAYER_TYPE.Damage}
           label={"DPS Boost"}
-          content={dpsBoost.toString()}
+          content={dpsBoost}
           isModifierActive={isModifierActive}
           useHardMode={useHardMode}
-        ></StatDisplayer>
-        <StatDisplayer
+        />
+        <NumberStatDisplayer
           displayerType={DISPLAYER_TYPE.Damage}
           label={"DPH Boost"}
-          content={dphBoost.toString()}
+          content={dphBoost}
           isModifierActive={isModifierActive}
           useHardMode={useHardMode}
-        ></StatDisplayer>
+        />
         {attackSpeedBoost && (
-          <StatDisplayer
+          <NumberStatDisplayer
             displayerType={DISPLAYER_TYPE.AtackSpeedModify}
             label={"Atk Speed"}
-            content={attackSpeedBoost.toString()}
-          ></StatDisplayer>
+            content={attackSpeedBoost}
+          />
         )}
+        {modify && (
+          <NumberStatDisplayer
+            displayerType={DISPLAYER_TYPE.Modify}
+            label={"Modify"}
+            content={modify}
+          />
+        )}
+        <StatDisplayer
+          displayerType={DISPLAYER_TYPE.Type}
+          label={"Type"}
+          content={equipmentTypeList
+            .map((equipmentType) =>
+              capitalizeFirstLetter(equipmentType.toLowerCase())
+            )
+            .join(", ")}
+        />
       </div>
     </OffenseCardContainer>
   );

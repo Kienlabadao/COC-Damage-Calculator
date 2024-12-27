@@ -3,6 +3,11 @@ import { createContext, useContext } from "react";
 
 interface OffensesSectionContextProps {
   modifierItemList: ModifierItem[];
+  updateModifier: (
+    modifierID: string,
+    currentLevelPos?: number,
+    use?: boolean
+  ) => void;
 }
 
 export const OffensesSectionContext = createContext<

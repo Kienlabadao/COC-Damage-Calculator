@@ -5,7 +5,7 @@ import { HERO } from "data/game";
 import { useOffensesSectionContext } from "features/advance_calc/contexts";
 
 export function HeroesSection() {
-  const { modifierItemList } = useOffensesSectionContext();
+  const { modifierItemList, updateModifier } = useOffensesSectionContext();
 
   const [useHardMode, setUseHardMode] = useInitHeroSetting();
   const heroList = Object.values(HERO);
@@ -20,16 +20,19 @@ export function HeroesSection() {
         setUseHardMode={setUseHardMode}
       />
 
-      {heroList.map((heroID, index) => (
-        <div key={heroID} className="mb-5">
-          <HeroSection
-            hero={heroID}
-            useHardMode={useHardMode}
-            modifierItemList={modifierItemList}
-          />
-          {index < heroCount - 1 && <hr />}
-        </div>
-      ))}
+      <div className="mt-5">
+        {heroList.map((heroID, index) => (
+          <div key={heroID} className="mb-4">
+            <HeroSection
+              hero={heroID}
+              useHardMode={useHardMode}
+              modifierItemList={modifierItemList}
+              updateModifier={updateModifier}
+            />
+            {index < heroCount - 1 && <hr />}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

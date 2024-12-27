@@ -94,8 +94,8 @@ export const ModifierData: Record<string, ModifierStats> = {
   rage_vial: {
     name: "Rage Vial",
     affect_type: [],
-    affect_only: [],
-    doesnt_affect: [HERO.BarbarianKing],
+    affect_only: [HERO.BarbarianKing],
+    doesnt_affect: [],
     modify: [
       { level: 1, modify: 120 },
       { level: 2, modify: 120 },

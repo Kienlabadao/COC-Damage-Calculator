@@ -8,10 +8,10 @@ import {
 } from "components/CalculatorComponents/GameDataCardContainer";
 import {
   OffenseCardContainer,
-  StatDisplayer,
+  NumberStatDisplayer,
+  convertToDisplayerType,
 } from "components/CalculatorComponents/OffenseCard";
 import { Slider } from "components";
-import { convertToDisplayerType } from "components/CalculatorComponents/OffenseCard/StatDisplayer";
 import {
   OVERLAY_TYPE,
   OverlayType,
@@ -72,12 +72,12 @@ export const SpellCard = memo(function SpellCard({
         />
       </div>
       <div className="mt-2">
-        <StatDisplayer
+        <NumberStatDisplayer
           displayerType={convertToDisplayerType(damageType)}
           label={"Damage"}
-          content={damage.toString()}
+          content={damage}
           isModifierActive={false}
-        ></StatDisplayer>
+        />
       </div>
     </OffenseCardContainer>
   );

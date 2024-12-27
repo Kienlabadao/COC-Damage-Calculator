@@ -61,8 +61,14 @@ interface LevelAttackSpeedBoost {
   atk_speed_boost: number;
 }
 
+interface LevelModify {
+  level: number;
+  modify: number;
+}
+
 interface AbilityBoost {
   atk_speed_boost: LevelAttackSpeedBoost[];
+  modify: LevelModify[];
 }
 
 export interface EquipmentStats {
@@ -107,7 +113,29 @@ export const EquipmentData: Record<string, EquipmentStats> = {
       { level: 18, dps_boost: 128 },
     ],
     atk_speed_boost: [],
-    ability_boost: null,
+    ability_boost: {
+      atk_speed_boost: [],
+      modify: [
+        { level: 1, modify: 120 },
+        { level: 2, modify: 120 },
+        { level: 3, modify: 130 },
+        { level: 4, modify: 130 },
+        { level: 5, modify: 130 },
+        { level: 6, modify: 135 },
+        { level: 7, modify: 135 },
+        { level: 8, modify: 135 },
+        { level: 9, modify: 140 },
+        { level: 10, modify: 140 },
+        { level: 11, modify: 140 },
+        { level: 12, modify: 145 },
+        { level: 13, modify: 145 },
+        { level: 14, modify: 145 },
+        { level: 15, modify: 150 },
+        { level: 16, modify: 150 },
+        { level: 17, modify: 150 },
+        { level: 18, modify: 155 },
+      ],
+    },
   },
   earthquake_boots: {
     name: "Earthquake Boots",
@@ -774,6 +802,7 @@ export const EquipmentData: Record<string, EquipmentStats> = {
         { level: 17, atk_speed_boost: 100 },
         { level: 18, atk_speed_boost: 100 },
       ],
+      modify: [],
     },
   },
   rocket_spear: {

@@ -1,4 +1,4 @@
-import { Hero, OFFENSE_TYPE } from "data/game";
+import { EQUIPMENT, HERO, Hero, MODIFIER, OFFENSE_TYPE } from "data/game";
 import { HeroCardWrapper } from "./HeroCardWrapper";
 import { heroDataUtils } from "utils/GameData/heroDataUtils";
 import { EquipmentsSection } from "./EquipmentsSection";
@@ -7,7 +7,7 @@ import {
   useInitHero,
 } from "features/advance_calc/hooks/Init";
 import { HeroSetting } from "./HeroSetting";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { ModifierItem } from "features/advance_calc/objects/modifierItem";
 import { getActiveModifier } from "features/advance_calc/actions/ModifierItem";
 import { calculateHeroAttackSpeed } from "features/advance_calc/actions/EquipmentItem";
@@ -19,12 +19,18 @@ interface Props {
   hero: Hero;
   useHardMode: boolean;
   modifierItemList: ModifierItem[];
+  updateModifier: (
+    modifierID: string,
+    currentLevelPos?: number,
+    use?: boolean
+  ) => void;
 }
 
 export const HeroSection = memo(function HeroSection({
   hero,
   useHardMode,
   modifierItemList,
+  updateModifier,
 }: Props) {
   const [heroItem, updateHero] = useInitHero(hero);
   const [
@@ -32,11 +38,33 @@ export const HeroSection = memo(function HeroSection({
     updateEquipment,
     setAllEquipmentsToMax,
     setAllEquipmentsToMin,
+    setAllEquipmentsToUse,
+    setAllEquipmentsToUnuse,
   ] = useInitEquipment(hero, useHardMode);
 
   const heroID = heroItem.offenseID;
   const useAbility = heroItem.useAbility;
   const { getHeroName, getHeroAttackSpeed } = heroDataUtils(heroID);
+
+  useEffect(() => {
+    if (heroID === HERO.BarbarianKing) {
+      const rageVial = equipmentItemList.find(
+        (equipmentItem) => equipmentItem.offenseID === EQUIPMENT.RageVial
+      );
+
+      if (rageVial) {
+        if (useAbility) {
+          updateModifier(MODIFIER.RageVial, undefined, rageVial.use);
+        } else {
+          updateModifier(MODIFIER.RageVial, undefined, false);
+        }
+      } else {
+        throw new Error(
+          `HeroSection ERROR: Barbarian King doesn't have rage vial equipment. equipmentItemList: ${equipmentItemList}`
+        );
+      }
+    }
+  }, [heroItem, equipmentItemList]);
 
   const activeModifier = getActiveModifier(
     heroID,
@@ -70,14 +98,14 @@ export const HeroSection = memo(function HeroSection({
 
   return (
     <>
-      <div className="collapse-btn my-3 d-flex align-items-center">
-        <h3 className="mb-0 me-3">{getHeroName()}</h3>
-      </div>
-      <div>
+      <h2 className="text-center">{getHeroName()}</h2>
+      <div className="mt-3">
         <HeroSetting
           className="setting-container"
           setAllEquipmentsToMax={setAllEquipmentsToMax}
           setAllEquipmentsToMin={setAllEquipmentsToMin}
+          setAllEquipmentsToUse={setAllEquipmentsToUse}
+          setAllEquipmentsToUnuse={setAllEquipmentsToUnuse}
         />
         <div className="row align-items-center gy-5 gy-lg-0 mt-3">
           <div className="col-lg-4 col-xl-3">

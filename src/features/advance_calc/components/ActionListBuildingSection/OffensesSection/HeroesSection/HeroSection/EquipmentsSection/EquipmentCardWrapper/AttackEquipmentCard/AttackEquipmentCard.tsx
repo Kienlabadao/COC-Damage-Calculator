@@ -7,23 +7,24 @@ import {
 } from "components/CalculatorComponents/GameDataCardContainer";
 import {
   OffenseCardContainer,
+  NumberStatDisplayer,
+  DISPLAYER_TYPE,
+  convertToDisplayerType,
   StatDisplayer,
 } from "components/CalculatorComponents/OffenseCard";
 import { Checkbox, Slider } from "components";
-import {
-  convertToDisplayerType,
-  DISPLAYER_TYPE,
-} from "components/CalculatorComponents/OffenseCard/StatDisplayer";
-import { DamageType } from "data/game";
+import { DamageType, EquipmentType } from "data/game";
 import {
   OVERLAY_TYPE,
   OverlayType,
 } from "components/CalculatorComponents/GameDataCardContainer/Overlay";
+import { capitalizeFirstLetter } from "utils/stringUtils";
 
 interface Props {
   id: string;
   name: string;
   imagePath: string;
+  equipmentTypeList: EquipmentType[];
   minLevelPos: number;
   maxLevelPos: number;
   currentLevelPos: number;
@@ -46,6 +47,7 @@ export const AttackEquipmentCard = memo(function AttackEquipmentCard({
   id,
   name,
   imagePath,
+  equipmentTypeList,
   minLevelPos,
   maxLevelPos,
   currentLevelPos,
@@ -104,37 +106,46 @@ export const AttackEquipmentCard = memo(function AttackEquipmentCard({
         />
       </div>
       <div className="mt-2">
-        <StatDisplayer
+        <NumberStatDisplayer
           displayerType={DISPLAYER_TYPE.Damage}
           label={"Extra Damage"}
-          content={extraDamage.toString()}
+          content={extraDamage}
           useHardMode={useHardMode}
-        ></StatDisplayer>
+        />
         {dpsBoost && (
-          <StatDisplayer
+          <NumberStatDisplayer
             displayerType={convertToDisplayerType(damageType)}
             label={"DPS Boost"}
-            content={dpsBoost.toString()}
+            content={dpsBoost}
             isModifierActive={isModifierActive}
             useHardMode={useHardMode}
-          ></StatDisplayer>
+          />
         )}
         {dphBoost && (
-          <StatDisplayer
+          <NumberStatDisplayer
             displayerType={DISPLAYER_TYPE.Damage}
             label={"DPH Boost"}
-            content={dphBoost.toString()}
+            content={dphBoost}
             isModifierActive={isModifierActive}
             useHardMode={useHardMode}
-          ></StatDisplayer>
+          />
         )}
         {attackSpeedBoost && (
-          <StatDisplayer
+          <NumberStatDisplayer
             displayerType={DISPLAYER_TYPE.AtackSpeedModify}
             label={"Atk Speed"}
-            content={attackSpeedBoost.toString()}
-          ></StatDisplayer>
+            content={attackSpeedBoost}
+          />
         )}
+        <StatDisplayer
+          displayerType={DISPLAYER_TYPE.Type}
+          label={"Type"}
+          content={equipmentTypeList
+            .map((equipmentType) =>
+              capitalizeFirstLetter(equipmentType.toLowerCase())
+            )
+            .join(", ")}
+        />
       </div>
     </OffenseCardContainer>
   );

@@ -1,2 +1,3 @@
-export { StatDisplayer } from "./StatDisplayer";
+export * from "./StatDisplayer";
 export * from "./OffenseCardContainer";
+export * from "./NumberStatDisplayer";

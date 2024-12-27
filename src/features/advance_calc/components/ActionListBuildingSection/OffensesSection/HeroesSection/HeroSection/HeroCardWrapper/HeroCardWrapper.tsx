@@ -36,7 +36,7 @@ export const HeroCardWrapper = memo(function HeroCardWrapper({
   useHardMode,
   activeModifier,
 }: Props) {
-  const filteredEquipmentItemList = filterEquipmentItemList(
+  const usedEquipmentItemList = filterEquipmentItemList(
     equipmentItemList,
     true
   );
@@ -70,7 +70,7 @@ export const HeroCardWrapper = memo(function HeroCardWrapper({
   const damageType = getHeroDamageType();
   const { dps, dph, activeAttackEquipmentItem } = calculateHeroDamage(
     heroItem,
-    filteredEquipmentItemList,
+    usedEquipmentItemList,
     equipmentDamageLogList,
     attackSpeed,
     attackSpeedModify,
@@ -99,6 +99,7 @@ export const HeroCardWrapper = memo(function HeroCardWrapper({
       damageType={damageType}
       attackSpeed={attackSpeed}
       isAttackSpeedModified={isAttackSpeedModified}
+      usedEquipmentItemList={usedEquipmentItemList}
       useHardMode={useHardMode}
       isMaxed={isMaxLevelPos(currentLevelPos)}
       modifierImgPath={modifierImgPath}

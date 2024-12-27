@@ -9,6 +9,7 @@ import { ImageContainer } from "./ImageContainer";
 import { DAMAGE_TYPE, DamageType } from "data/game";
 
 export const DISPLAYER_TYPE = {
+  Type: "type",
   Damage: "damage",
   EarthquakeDamage: "earthquakeDamage",
   Repair: "repair",
@@ -18,11 +19,16 @@ export const DISPLAYER_TYPE = {
 } as const;
 export type DisplayerType = ObjectValues<typeof DISPLAYER_TYPE>;
 
-export function convertToContentType(
+function convertToContentType(
+  displayerType: DisplayerType,
   isModifierActive: boolean,
   useHardMode: boolean
 ) {
-  if (isModifierActive) {
+  if (
+    isModifierActive ||
+    displayerType === DISPLAYER_TYPE.AtackSpeedModify ||
+    displayerType === DISPLAYER_TYPE.Modify
+  ) {
     return CONTENT_TYPE.Raged;
   } else {
     return useHardMode ? CONTENT_TYPE.HardMode : CONTENT_TYPE.Normal;
@@ -43,11 +49,17 @@ export function convertToDisplayerType(damageType: DamageType): DisplayerType {
 }
 
 function createContent(
-  displayerType: string,
+  displayerType: DisplayerType,
   content: string,
   contentType: ContentType
 ) {
   switch (displayerType) {
+    case DISPLAYER_TYPE.Type:
+      return (
+        <>
+          <ContentContainer content={content} contentType={contentType} />
+        </>
+      );
     case DISPLAYER_TYPE.Damage:
       return (
         <>
@@ -124,7 +136,7 @@ export function StatDisplayer({
       {createContent(
         displayerType,
         content,
-        convertToContentType(isModifierActive, useHardMode)
+        convertToContentType(displayerType, isModifierActive, useHardMode)
       )}
     </div>
   );

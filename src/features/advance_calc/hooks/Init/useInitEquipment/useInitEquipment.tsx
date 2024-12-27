@@ -5,6 +5,8 @@ import {
   setAllEquipmentItemsToMin,
   updateEquipmentItem,
 } from "features/advance_calc/actions/EquipmentItem";
+import { setAllEquipmentItemsToUnuse } from "features/advance_calc/actions/EquipmentItem/setAllEquipmentItemsToUnuse";
+import { setAllEquipmentItemsToUse } from "features/advance_calc/actions/EquipmentItem/setAllEquipmentItemsToUse";
 import {
   EquipmentItem,
   updateEquipmentItemInList,
@@ -63,10 +65,24 @@ export function useInitEquipment(hero: Hero, useHardMode: boolean) {
     });
   }, [useHardMode]);
 
+  const setAllEquipmentsToUse = useCallback(() => {
+    setEquipmentItemList((prevEquipmentItemList) => {
+      return setAllEquipmentItemsToUse(prevEquipmentItemList, useHardMode);
+    });
+  }, [useHardMode]);
+
+  const setAllEquipmentsToUnuse = useCallback(() => {
+    setEquipmentItemList((prevEquipmentItemList) => {
+      return setAllEquipmentItemsToUnuse(prevEquipmentItemList, useHardMode);
+    });
+  }, [useHardMode]);
+
   return [
     equipmentItemList,
     updateEquipment,
     setAllEquipmentsToMax,
     setAllEquipmentsToMin,
+    setAllEquipmentsToUse,
+    setAllEquipmentsToUnuse,
   ] as const;
 }

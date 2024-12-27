@@ -8,6 +8,7 @@ import { BACKGROUND_TYPE } from "components/CalculatorComponents/GameDataCardCon
 import { ModifierItem } from "features/advance_calc/objects/modifierItem";
 import { getBaseModifiedImage } from "objects/baseModifierItem";
 import { EquipmentDamageLog } from "features/advance_calc/objects/equipmentDamageLog";
+import { calculateCombinedPercentageIncrease } from "utils/numberUtils";
 
 interface Props {
   equipmentItem: EquipmentItem;
@@ -45,6 +46,7 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
     getEquipmentMaxLevelPos,
     getEquipmentLevel,
     getEquipmentDamageType,
+    getEquipmentType,
     isMaxLevelPos,
     isEquipmentTypeAttack,
     isEquipmentTypeDamage,
@@ -52,12 +54,15 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
     isEquipmentRarityEpic,
     getEquipmentAttackSpeedBoost,
     getEquipmentAbilityAttackSpeedBoost,
+    getEquipmentAbilityModify,
     canGiveAttackSpeedBoost,
+    canGiveAbilityModify,
     canGiveAbilityAttackSpeedBoost,
   } = equipmentDataUtils(equipmentID);
 
   const id = equipmentItem.id;
   const name = getEquipmentName();
+  const equipmentTypeList = getEquipmentType();
   const minLevelPos = getEquipmentMinLevelPos();
   const maxLevelPos = getEquipmentMaxLevelPos(useHardMode);
   const currentLevelPos = equipmentItem.currentLevelPos;
@@ -76,8 +81,18 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
     attackSpeedBoost = getEquipmentAttackSpeedBoost(currentLevelPos);
 
     if (useAbility && canGiveAbilityAttackSpeedBoost()) {
-      attackSpeedBoost += getEquipmentAbilityAttackSpeedBoost(currentLevelPos);
+      attackSpeedBoost = attackSpeedBoost ? attackSpeedBoost : 0;
+
+      attackSpeedBoost = calculateCombinedPercentageIncrease(
+        attackSpeedBoost,
+        getEquipmentAbilityAttackSpeedBoost(currentLevelPos)
+      );
     }
+  }
+
+  let modify: number;
+  if (useAbility && canGiveAbilityModify()) {
+    modify = getEquipmentAbilityModify(currentLevelPos);
   }
 
   function renderEquipmentCard() {
@@ -97,6 +112,7 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
           id={id}
           name={name}
           imagePath={imagePath}
+          equipmentTypeList={equipmentTypeList}
           minLevelPos={minLevelPos}
           maxLevelPos={maxLevelPos}
           currentLevelPos={currentLevelPos}
@@ -131,6 +147,7 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
           id={id}
           name={name}
           imagePath={imagePath}
+          equipmentTypeList={equipmentTypeList}
           minLevelPos={minLevelPos}
           maxLevelPos={maxLevelPos}
           currentLevelPos={currentLevelPos}
@@ -163,6 +180,7 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
           id={id}
           name={name}
           imagePath={imagePath}
+          equipmentTypeList={equipmentTypeList}
           minLevelPos={minLevelPos}
           maxLevelPos={maxLevelPos}
           currentLevelPos={currentLevelPos}
@@ -173,6 +191,7 @@ export const EquipmentCardWrapper = memo(function EquipmentCardWrapper({
           dpsBoost={dpsBoost}
           dphBoost={dphBoost}
           attackSpeedBoost={attackSpeedBoost}
+          modify={modify}
           useHardMode={useHardMode}
           backgroundType={backgroundType}
           isMaxed={isMaxLevelPos(currentLevelPos)}

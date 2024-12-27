@@ -9,8 +9,8 @@ import { NumberInputField, Slider } from "components";
 import {
   convertToDisplayerType,
   StatDisplayer,
-} from "components/CalculatorComponents/OffenseCard/StatDisplayer";
-import { OffenseCardContainer } from "components/CalculatorComponents/OffenseCard";
+  OffenseCardContainer,
+} from "components/CalculatorComponents/OffenseCard";
 import { DonatedLightningSpellItem } from "features/zapquake_calc/objects/donatedLightningSpellItem";
 import {
   BACKGROUND_TYPE,

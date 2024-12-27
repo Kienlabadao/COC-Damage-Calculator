@@ -32,9 +32,9 @@ export function EquipmentsSection({
 
   return (
     <div>
-      <h3 className="mb-0 me-3 text-center">Equipments</h3>
+      <h3 className="mb-0 text-center">Equipments</h3>
       {renderSelectedEquipmentWarning()}
-      <div className="equipment-list row row-cols-5 justify-content-evenly gap-3 mt-3">
+      <div className="equipment-list row row-cols-5 justify-content-evenly gap-3 mt-4">
         {equipmentDisplayDataList.map((equipmentDisplayData) => (
           <EquipmentCardWrapper
             key={equipmentDisplayData.id}

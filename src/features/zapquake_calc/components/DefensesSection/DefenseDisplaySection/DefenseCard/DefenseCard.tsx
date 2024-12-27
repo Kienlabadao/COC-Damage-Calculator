@@ -16,7 +16,7 @@ import {
   OffenseItem,
 } from "features/zapquake_calc/objects/offenseItem";
 import { OFFENSE_TYPE } from "data/game";
-import { UsedEquipmentDisplayer } from "./UsedEquipmentDisplayer/UsedEquipmentDisplayer";
+import { UsedEquipmentDisplayer } from "components/CalculatorComponents/DefenseCard/UsedEquipmentDisplayer/UsedEquipmentDisplayer";
 
 export interface Props {
   defenseItem: DefenseItem;

@@ -2,9 +2,9 @@ import { DamageType, OffenseType } from "data/game";
 import { Checkbox, Slider } from "components";
 import {
   convertToDisplayerType,
-  StatDisplayer,
-} from "components/CalculatorComponents/OffenseCard/StatDisplayer";
-import { OffenseCardContainer } from "components/CalculatorComponents/OffenseCard";
+  NumberStatDisplayer,
+  OffenseCardContainer,
+} from "components/CalculatorComponents/OffenseCard";
 import {
   BACKGROUND_TYPE,
   BackgroundType,
@@ -86,12 +86,12 @@ export function OffenseCard({
         />
       </div>
       <div className="mt-2">
-        <StatDisplayer
+        <NumberStatDisplayer
           displayerType={convertToDisplayerType(damageType)}
           label={"Damage"}
-          content={damage.toString()}
+          content={damage}
           isModifierActive={false}
-        ></StatDisplayer>
+        />
       </div>
     </OffenseCardContainer>
   );

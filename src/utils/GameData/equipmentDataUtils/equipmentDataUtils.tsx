@@ -146,6 +146,22 @@ export function equipmentDataUtils(equipmentID: string) {
     }
   }
 
+  function getEquipmentAbilityModify(levelPos: number): number {
+    if (isValidEquipmentLevelPos(levelPos)) {
+      if (canGiveAbilityModify()) {
+        return equipmentData.ability_boost!.modify[levelPos].modify;
+      } else {
+        throw new Error(
+          `equipmentDataUtils.getEquipmentAttackSpeedBoost ERROR: Equipment can't give attack speed boost. EquipmentID: ${equipmentID}.`
+        );
+      }
+    } else {
+      throw new Error(
+        `equipmentDataUtils.getEquipmentAttackSpeedBoost ERROR: Invalid level pos. EquipmentID: ${equipmentID}. LevelPos: ${levelPos}`
+      );
+    }
+  }
+
   function canDealDamage(): boolean {
     return equipmentData.damage.length !== 0;
   }
@@ -165,6 +181,12 @@ export function equipmentDataUtils(equipmentID: string) {
   function canGiveAbilityAttackSpeedBoost(): boolean {
     return canGiveAbilityBoost()
       ? equipmentData.ability_boost!.atk_speed_boost.length !== 0
+      : false;
+  }
+
+  function canGiveAbilityModify(): boolean {
+    return canGiveAbilityBoost()
+      ? equipmentData.ability_boost!.modify.length !== 0
       : false;
   }
 
@@ -223,11 +245,13 @@ export function equipmentDataUtils(equipmentID: string) {
     getEquipmentDPSBoost,
     getEquipmentAttackSpeedBoost,
     getEquipmentAbilityAttackSpeedBoost,
+    getEquipmentAbilityModify,
     canDealDamage,
     canGiveDPSBoost,
     canGiveAttackSpeedBoost,
     canGiveAbilityBoost,
     canGiveAbilityAttackSpeedBoost,
+    canGiveAbilityModify,
     isValidEquipmentLevelPos,
     isMaxLevelPos,
     isEquipmentTypeDamage,

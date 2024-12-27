@@ -1,5 +1,6 @@
 import { EquipmentItem } from "features/advance_calc/objects/equipmentItem";
 import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
+import { calculateCombinedPercentageIncrease } from "utils/numberUtils";
 
 export function getAttackSpeedModify(
   equipmentItemList: EquipmentItem[],
@@ -18,11 +19,16 @@ export function getAttackSpeedModify(
       } = equipmentDataUtils(equipmentItem.offenseID);
 
       if (canGiveAttackSpeedBoost()) {
-        attackSpeedModify += getEquipmentAttackSpeedBoost(currentLevelPos);
+        attackSpeedModify = calculateCombinedPercentageIncrease(
+          attackSpeedModify,
+          getEquipmentAttackSpeedBoost(currentLevelPos)
+        );
       }
       if (useAbility && canGiveAbilityAttackSpeedBoost()) {
-        attackSpeedModify +=
-          getEquipmentAbilityAttackSpeedBoost(currentLevelPos);
+        attackSpeedModify = calculateCombinedPercentageIncrease(
+          attackSpeedModify,
+          getEquipmentAbilityAttackSpeedBoost(currentLevelPos)
+        );
       }
     }
   });

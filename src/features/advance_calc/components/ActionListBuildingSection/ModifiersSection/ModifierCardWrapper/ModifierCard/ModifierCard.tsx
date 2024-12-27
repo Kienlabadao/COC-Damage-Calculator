@@ -6,7 +6,7 @@ import {
 } from "components/CalculatorComponents/GameDataCardContainer";
 import {
   OffenseCardContainer,
-  StatDisplayer,
+  NumberStatDisplayer,
 } from "components/CalculatorComponents/OffenseCard";
 import { Checkbox, Slider } from "components";
 import { DISPLAYER_TYPE } from "components/CalculatorComponents/OffenseCard/StatDisplayer";
@@ -89,12 +89,11 @@ export const ModifierCard = memo(function ModifierCard({
         />
       </div>
       <div className="mt-2">
-        <StatDisplayer
+        <NumberStatDisplayer
           label={`Modify`}
           displayerType={DISPLAYER_TYPE.Modify}
-          isModifierActive={false}
-          content={modify.toString()}
-        ></StatDisplayer>
+          content={modify}
+        />
       </div>
     </OffenseCardContainer>
   );
