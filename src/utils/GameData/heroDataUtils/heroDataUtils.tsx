@@ -1,4 +1,4 @@
-import { DAMAGE_TYPE, DamageType, HeroData } from "data/game";
+import { DAMAGE_TYPE, DamageType, HeroData } from "data/Game";
 import { OFFENSE_IMG_PATH } from "data/constants";
 
 export function heroDataUtils(heroID: string) {

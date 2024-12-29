@@ -1,2 +1,2 @@
 export * from "./config";
-export * from "./errorHandler";
+export * from "./setupGlobalErrorHandler";

@@ -4,13 +4,18 @@ import {
   useLocation,
 } from "react-router-dom";
 
-import { HomePage, ChangelogPage, PageNotFoundPage, ErrorPage } from "pages";
-import { AutoScrollToggler } from "components/AutoScrollToggler";
+import {
+  HomePage,
+  ChangelogPage,
+  PageNotFoundPage,
+  ErrorPage,
+  ZapquakeCalcPage,
+  AdvanceCalcPage,
+  SettingPage,
+} from "pages";
 import { ToastContainer } from "react-toastify";
-import { ZapquakeCalcPage } from "pages/ZapquakeCalcPage";
 import { PAGE_URLS } from "data/constants";
-import { AdvanceCalcPage } from "pages/AdvanceCalcPage";
-import { SettingPage } from "pages/SettingPage";
+import { AutoScrollToggler } from "components/Layout";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -80,7 +85,7 @@ export default function App() {
 }
 
 const AutoScrollWrapper = () => {
-  const location = useLocation(); // Now this is within the Router context
+  const location = useLocation();
 
   return <AutoScrollToggler key={location.pathname} />;
 };
