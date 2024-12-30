@@ -1,16 +1,16 @@
-import { Hero } from "data/game";
+import { Hero } from "data/Game";
 import {
   initEquipmentItem,
   setAllEquipmentItemsToMax,
   setAllEquipmentItemsToMin,
   updateEquipmentItem,
-} from "features/advance_calc/actions/EquipmentItem";
-import { setAllEquipmentItemsToUnuse } from "features/advance_calc/actions/EquipmentItem/setAllEquipmentItemsToUnuse";
-import { setAllEquipmentItemsToUse } from "features/advance_calc/actions/EquipmentItem/setAllEquipmentItemsToUse";
+} from "features/AdvanceCalculator/actions/EquipmentItem";
+import { setAllEquipmentItemsToUnuse } from "features/AdvanceCalculator/actions/EquipmentItem/setAllEquipmentItemsToUnuse";
+import { setAllEquipmentItemsToUse } from "features/AdvanceCalculator/actions/EquipmentItem/setAllEquipmentItemsToUse";
 import {
   EquipmentItem,
   updateEquipmentItemInList,
-} from "features/advance_calc/objects/equipmentItem";
+} from "features/AdvanceCalculator/objects/equipmentItem";
 import { useCallback, useEffect, useState } from "react";
 import { getAllEquipmentIDs } from "utils/GameData/gameDataUtils";
 

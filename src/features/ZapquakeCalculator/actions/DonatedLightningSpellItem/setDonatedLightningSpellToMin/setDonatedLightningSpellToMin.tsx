@@ -1,8 +1,8 @@
-import { OFFENSE_TYPE, SPELL } from "data/game";
-import { manageZapquakeCalcLevelPosGameDataLocalStorage } from "features/zapquake_calc/utils/LocalStorageData/manageZapquakeCalcLevelPosGameDataLocalStorage";
+import { OFFENSE_TYPE, SPELL } from "data/Game";
+import { manageZapquakeCalcLevelPosGameDataLocalStorage } from "features/ZapquakeCalculator/utils/LocalStorageData/manageZapquakeCalcLevelPosGameDataLocalStorage";
 import { getGameDataMinLevelPos } from "utils/GameData/gameDataUtils";
 import { initDonatedLightningSpellItem } from "../initDonatedLightningSpellItem";
-import { DonatedLightningSpellItem } from "features/zapquake_calc/objects/donatedLightningSpellItem";
+import { DonatedLightningSpellItem } from "features/ZapquakeCalculator/objects/donatedLightningSpellItem";
 
 export function setDonatedLightningSpellToMin(): DonatedLightningSpellItem {
   const offenseID = SPELL.LightningSpell;

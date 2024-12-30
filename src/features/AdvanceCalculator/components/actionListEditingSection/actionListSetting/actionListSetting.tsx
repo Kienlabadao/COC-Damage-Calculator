@@ -1,6 +1,6 @@
-import { Button, Checkbox } from "components";
+import { Button, Checkbox } from "components/UI";
 import { BS_COLOR } from "data/constants";
-import { getShowDetailActionListStorageKey } from "features/advance_calc/utils/advanceCalcUtils";
+import { getShowDetailActionListStorageKey } from "features/AdvanceCalculator/utils/advanceCalcUtils";
 import { memo } from "react";
 
 interface Props {

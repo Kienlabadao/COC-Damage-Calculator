@@ -7,7 +7,7 @@ import {
   MAX_DISPLAYING_DECIMAL_PLACE,
   MIN_DISPLAYING_DECIMAL_PLACE,
 } from "config";
-import { DAMAGE_TYPE, DamageType } from "data/game";
+import { DAMAGE_TYPE, DamageType } from "data/Game";
 
 function getTextType(
   isModifierActive: boolean,

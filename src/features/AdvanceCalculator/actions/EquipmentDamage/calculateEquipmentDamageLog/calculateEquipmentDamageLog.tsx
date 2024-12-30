@@ -1,9 +1,9 @@
 import {
   createEquipmentDamageLog,
   EquipmentDamageLog,
-} from "features/advance_calc/objects/equipmentDamageLog";
-import { EquipmentItem } from "features/advance_calc/objects/equipmentItem";
-import { ModifierItem } from "features/advance_calc/objects/modifierItem";
+} from "features/AdvanceCalculator/objects/equipmentDamageLog";
+import { EquipmentItem } from "features/AdvanceCalculator/objects/equipmentItem";
+import { ModifierItem } from "features/AdvanceCalculator/objects/modifierItem";
 import {
   calculateDPH,
   calculateHeroHardModeDamage,

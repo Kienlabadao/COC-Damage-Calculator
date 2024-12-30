@@ -1,9 +1,9 @@
-import { GAME_DATA_TYPE } from "data/game";
+import { GAME_DATA_TYPE } from "data/Game";
 import {
   createRepairItem,
   RepairItem,
-} from "features/advance_calc/objects/repairItem";
-import { manageAdvanceCalcLevelPosGameDataLocalStorage } from "features/advance_calc/utils/LocalStorageData/manageAdvanceCalcLevelPosGameDataLocalStorage";
+} from "features/AdvanceCalculator/objects/repairItem";
+import { manageAdvanceCalcLevelPosGameDataLocalStorage } from "features/AdvanceCalculator/utils/LocalStorageData/manageAdvanceCalcLevelPosGameDataLocalStorage";
 
 export function initRepairItem(repairID: string): RepairItem {
   const { getOrStoreLevelPos } = manageAdvanceCalcLevelPosGameDataLocalStorage(

@@ -1,9 +1,9 @@
-import { OFFENSE_TYPE, SPELL } from "data/game";
-import { manageZapquakeCalcLevelPosGameDataLocalStorage } from "features/zapquake_calc/utils/LocalStorageData/manageZapquakeCalcLevelPosGameDataLocalStorage";
-import { manageZapquakeCalcUseOffenseLocalStorage } from "features/zapquake_calc/utils/LocalStorageData/manageZapquakeCalcUseOffenseLocalStorage";
-import { manageDonatedLightningSpellCountLocalStorage } from "features/zapquake_calc/utils/LocalStorageData/manageDonatedLightningSpellCountLocalStorage";
+import { OFFENSE_TYPE, SPELL } from "data/Game";
+import { manageZapquakeCalcLevelPosGameDataLocalStorage } from "features/ZapquakeCalculator/utils/LocalStorageData/manageZapquakeCalcLevelPosGameDataLocalStorage";
+import { manageZapquakeCalcUseOffenseLocalStorage } from "features/ZapquakeCalculator/utils/LocalStorageData/manageZapquakeCalcUseOffenseLocalStorage";
+import { manageDonatedLightningSpellCountLocalStorage } from "features/ZapquakeCalculator/utils/LocalStorageData/manageDonatedLightningSpellCountLocalStorage";
 import { initDonatedLightningSpellItem } from "../initDonatedLightningSpellItem";
-import { DonatedLightningSpellItem } from "features/zapquake_calc/objects/donatedLightningSpellItem";
+import { DonatedLightningSpellItem } from "features/ZapquakeCalculator/objects/donatedLightningSpellItem";
 
 export function updateDonatedLightningSpell(
   newCurrentLevelPos?: number,

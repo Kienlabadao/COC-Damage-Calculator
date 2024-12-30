@@ -1,5 +1,5 @@
 import { calculateModifiedActionValue } from "actions/BaseModifierItem";
-import { ModifierItem } from "features/advance_calc/objects/modifierItem";
+import { ModifierItem } from "features/AdvanceCalculator/objects/modifierItem";
 import { ACTION_TYPE } from "objects/actionItem";
 import { BaseRepairItem } from "objects/baseRepairItem";
 import { repairDataUtils } from "utils/GameData/repairDataUtils";

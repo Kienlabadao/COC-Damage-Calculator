@@ -1,4 +1,4 @@
-import { EquipmentItem } from "features/advance_calc/objects/equipmentItem";
+import { EquipmentItem } from "features/AdvanceCalculator/objects/equipmentItem";
 import { getAttackSpeedModify } from "../getAttackSpeedModify";
 import { calculateModifiedAttackSpeed } from "utils/GameData/gameDataCalculatorUtils";
 

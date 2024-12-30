@@ -1,7 +1,7 @@
 import { BaseModifierItem } from "objects/baseModifierItem";
 import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
 import { BaseOffenseItem } from "objects/baseOffenseItem";
-import { GAME_DATA_TYPE } from "data/game";
+import { GAME_DATA_TYPE } from "data/Game";
 import { ACTION_TYPE } from "objects/actionItem";
 import { calculateModifiedActionValue } from "actions/BaseModifierItem";
 import {

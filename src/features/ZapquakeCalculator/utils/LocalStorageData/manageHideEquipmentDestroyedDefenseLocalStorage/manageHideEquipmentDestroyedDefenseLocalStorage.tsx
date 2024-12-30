@@ -1,6 +1,6 @@
 import { clearItem, getItem, setItem } from "utils/localStorage";
 import { getHideEquipmentDestroyedDefenseStorageKey } from "../../zapquakeCalcUtils";
-import { DEFAULT_HIDE_EQUIPMENT_DESTROYED_DEFENSE } from "features/zapquake_calc/config/config";
+import { DEFAULT_HIDE_EQUIPMENT_DESTROYED_DEFENSE } from "features/ZapquakeCalculator/config/config";
 import { isBoolean } from "utils/objectUtils";
 
 export function manageHideEquipmentDestroyedDefenseLocalStorage() {

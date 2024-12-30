@@ -19,8 +19,8 @@ export type LocalStorageKey = ObjectValues<typeof LOCAL_STORAGE_KEY>;
 export const PAGE_TITLE = {
   HomePage: "COC Damage Calculator",
   ChangelogPage: "Changelog | COC Damage Calculator",
-  ZapquakeCalcPage: "Zapquake Calculator | COC Damage Calculator",
-  AdvanceCalcPage: "Advance Calculator | COC Damage Calculator",
+  ZapquakeCalculatorPage: "Zapquake Calculator | COC Damage Calculator",
+  AdvanceCalculatorPage: "Advance Calculator | COC Damage Calculator",
   SettingPage: "Setting | COC Damage Calculator",
   ErrorPage: "Error",
   NotFoundPage: "404 | Page Not Found",

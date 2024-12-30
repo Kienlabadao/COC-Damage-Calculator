@@ -3,11 +3,11 @@ import {
   setAllDefenseItemsToMax,
   setAllDefenseItemsToMin,
   updateDefenseItem,
-} from "features/zapquake_calc/actions/DefenseItem";
+} from "features/ZapquakeCalculator/actions/DefenseItem";
 import {
   DefenseItem,
   updateDefenseItemInList,
-} from "features/zapquake_calc/objects/defenseItem";
+} from "features/ZapquakeCalculator/objects/defenseItem";
 import { useCallback, useState } from "react";
 import { getAllDefenseIDs } from "utils/GameData/gameDataUtils";
 

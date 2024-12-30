@@ -1,4 +1,4 @@
-import { GAME_DATA_TYPE, GameDataType, OFFENSE_TYPE } from "data/game";
+import { GAME_DATA_TYPE, GameDataType, OFFENSE_TYPE } from "data/Game";
 import {
   CALCULATOR_TYPE,
   getLevelPosGameDataStorageKey,
@@ -12,7 +12,7 @@ import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
 import { modifierDataUtils } from "utils/GameData/modifierDataUtils";
 import { repairDataUtils } from "utils/GameData/repairDataUtils";
 import { defenseDataUtils } from "utils/GameData/defenseDataUtils";
-import { DEFAULT_LEVEL } from "features/advance_calc/config";
+import { DEFAULT_LEVEL } from "features/AdvanceCalculator/config";
 
 const calculatorType = CALCULATOR_TYPE.Advance;
 

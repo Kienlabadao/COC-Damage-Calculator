@@ -1,7 +1,7 @@
 import { clearItem, getItem, setItem } from "utils/localStorage";
 import { getEarthquakeOrderStorageKey } from "../../zapquakeCalcUtils";
-import { DEFAULT_EARTHQUAKE_ORDER } from "features/zapquake_calc/config/config";
-import { EarthquakeOrder } from "features/zapquake_calc/data/constants";
+import { DEFAULT_EARTHQUAKE_ORDER } from "features/ZapquakeCalculator/config/config";
+import { EarthquakeOrder } from "features/ZapquakeCalculator/data/constants";
 import { isEarthquakeOrderType } from "../../customObjectUtils";
 
 export function manageEarthquakeOrderLocalStorage() {

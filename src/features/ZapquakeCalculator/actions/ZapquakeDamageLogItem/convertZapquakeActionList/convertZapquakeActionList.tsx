@@ -1,6 +1,6 @@
 import { convertActionItem } from "actions/DamageLogItem";
-import { ZapquakeActionItem } from "features/zapquake_calc/objects/zapquakeActionItem";
-import { ZapquakeDamageLogItem } from "features/zapquake_calc/objects/zapquakeDamageLogItem";
+import { ZapquakeActionItem } from "features/ZapquakeCalculator/objects/zapquakeActionItem";
+import { ZapquakeDamageLogItem } from "features/ZapquakeCalculator/objects/zapquakeDamageLogItem";
 import { defenseDataUtils } from "utils/GameData/defenseDataUtils";
 
 export function convertZapquakeActionList(

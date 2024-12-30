@@ -1,7 +1,7 @@
-import { OffenseType } from "data/game";
-import { OffenseItem } from "features/zapquake_calc/objects/offenseItem";
-import { manageZapquakeCalcLevelPosGameDataLocalStorage } from "features/zapquake_calc/utils/LocalStorageData/manageZapquakeCalcLevelPosGameDataLocalStorage";
-import { manageZapquakeCalcUseOffenseLocalStorage } from "features/zapquake_calc/utils/LocalStorageData/manageZapquakeCalcUseOffenseLocalStorage";
+import { OffenseType } from "data/Game";
+import { OffenseItem } from "features/ZapquakeCalculator/objects/offenseItem";
+import { manageZapquakeCalcLevelPosGameDataLocalStorage } from "features/ZapquakeCalculator/utils/LocalStorageData/manageZapquakeCalcLevelPosGameDataLocalStorage";
+import { manageZapquakeCalcUseOffenseLocalStorage } from "features/ZapquakeCalculator/utils/LocalStorageData/manageZapquakeCalcUseOffenseLocalStorage";
 import { initOffenseItem } from "../initOffenseItem";
 
 export function updateOffenseItem(

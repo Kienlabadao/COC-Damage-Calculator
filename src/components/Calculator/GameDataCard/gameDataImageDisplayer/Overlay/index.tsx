@@ -6,3 +6,4 @@ export * from "./deathDamageOverlay";
 export * from "./donatedOverlay";
 export * from "./headerOverlayWrapper";
 export * from "./orderOverlay";
+export * from "./spellCountOverlay";

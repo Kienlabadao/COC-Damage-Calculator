@@ -1,9 +1,9 @@
-import { ModifierItem } from "features/advance_calc/objects/modifierItem";
-import { RepairCardWrapper } from "./RepairCardWrapper";
-import { RepairSetting } from "./RepairSetting";
-import { useInitRepair } from "features/advance_calc/hooks/Init";
-import { getActiveModifier } from "features/advance_calc/actions/ModifierItem";
-import { GAME_DATA_TYPE } from "data/game";
+import { ModifierItem } from "features/AdvanceCalculator/objects/modifierItem";
+import { RepairCardContainer } from "./repairCardContainer";
+import { RepairSetting } from "./repairSetting";
+import { useInitRepair } from "features/AdvanceCalculator/hooks/Init";
+import { getActiveModifier } from "features/AdvanceCalculator/actions/ModifierItem";
+import { GAME_DATA_TYPE } from "data/Game";
 
 interface Props {
   modifierItemList: ModifierItem[];
@@ -18,7 +18,6 @@ export function RepairsSection({ modifierItemList }: Props) {
       <h3 className="text-center">Repair</h3>
 
       <RepairSetting
-        className="setting-container"
         setAllRepairsToMax={setAllRepairsToMax}
         setAllRepairsToMin={setAllRepairsToMin}
       />
@@ -32,7 +31,7 @@ export function RepairsSection({ modifierItemList }: Props) {
           );
 
           return (
-            <RepairCardWrapper
+            <RepairCardContainer
               key={repair.id}
               repairItem={repair}
               activeModifier={activeModifier}

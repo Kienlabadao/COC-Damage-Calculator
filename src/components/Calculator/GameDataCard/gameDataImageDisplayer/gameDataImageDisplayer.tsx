@@ -81,8 +81,8 @@ export function GameDataImageDisplayer({
       )}${renderBackgroundType(backgroundType)}`}
     >
       <GameDataImageDisplayerContext.Provider value={{ size }}>
-        <img className="object-container__img" src={imgPath} />
         {children}
+        <img className="object-container__img" src={imgPath} />
       </GameDataImageDisplayerContext.Provider>
     </div>
   );

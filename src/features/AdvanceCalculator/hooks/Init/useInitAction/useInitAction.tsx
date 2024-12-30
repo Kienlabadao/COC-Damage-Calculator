@@ -1,4 +1,4 @@
-import { AdvanceActionItem } from "features/advance_calc/objects/advanceActionItem";
+import { AdvanceActionItem } from "features/AdvanceCalculator/objects/advanceActionItem";
 import { useCallback, useState } from "react";
 
 export function useInitAction() {

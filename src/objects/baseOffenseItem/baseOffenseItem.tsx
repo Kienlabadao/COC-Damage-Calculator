@@ -1,4 +1,4 @@
-import { OffenseType } from "data/game";
+import { OffenseType } from "data/Game";
 import { isValidGameDataLevelPos } from "utils/GameData/gameDataUtils";
 
 export interface BaseOffenseItem {

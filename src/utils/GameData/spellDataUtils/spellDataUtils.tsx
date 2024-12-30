@@ -1,4 +1,4 @@
-import { DAMAGE_TYPE, DamageType, SpellData } from "data/game";
+import { DAMAGE_TYPE, DamageType, SpellData } from "data/Game";
 import { OFFENSE_IMG_PATH } from "data/constants";
 
 export function spellDataUtils(spellID: string) {

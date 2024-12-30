@@ -1,9 +1,9 @@
 import {
   createDefenseCountLog,
   DefenseCountLog,
-} from "features/advance_calc/objects/defenseCountLog";
-import { DefenseDisplayData } from "features/advance_calc/objects/defenseDisplayData";
-import { DEFENSE_STATUS } from "features/advance_calc/objects/defenseLog";
+} from "features/AdvanceCalculator/objects/defenseCountLog";
+import { DefenseDisplayData } from "features/AdvanceCalculator/objects/defenseDisplayData";
+import { DEFENSE_STATUS } from "features/AdvanceCalculator/objects/defenseLog";
 import { defenseDataUtils } from "utils/GameData/defenseDataUtils";
 
 export function filterDefenseDisplayDataList(

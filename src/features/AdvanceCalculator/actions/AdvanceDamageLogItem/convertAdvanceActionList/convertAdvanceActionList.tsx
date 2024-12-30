@@ -1,6 +1,6 @@
 import { convertActionItem } from "actions/DamageLogItem";
-import { AdvanceActionItem } from "features/advance_calc/objects/advanceActionItem";
-import { AdvanceDamageLogItem } from "features/advance_calc/objects/advanceDamageLogItem";
+import { AdvanceActionItem } from "features/AdvanceCalculator/objects/advanceActionItem";
+import { AdvanceDamageLogItem } from "features/AdvanceCalculator/objects/advanceDamageLogItem";
 import { defenseDataUtils } from "utils/GameData/defenseDataUtils";
 
 export function convertAdvanceActionList(

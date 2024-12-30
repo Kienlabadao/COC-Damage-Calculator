@@ -1,5 +1,5 @@
-import { OffenseItem } from "features/zapquake_calc/objects/offenseItem";
-import { ZapquakeActionItem } from "features/zapquake_calc/objects/zapquakeActionItem";
+import { OffenseItem } from "features/ZapquakeCalculator/objects/offenseItem";
+import { ZapquakeActionItem } from "features/ZapquakeCalculator/objects/zapquakeActionItem";
 import { convertOffenseItem } from "../convertOffenseItem";
 
 export function convertOffenseItemList(

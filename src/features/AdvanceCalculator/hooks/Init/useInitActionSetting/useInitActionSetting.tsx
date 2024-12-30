@@ -1,4 +1,4 @@
-import { manageShowDetailActionListLocalStorage } from "features/advance_calc/utils/LocalStorageData/manageShowDetailActionListLocalStorage";
+import { manageShowDetailActionListLocalStorage } from "features/AdvanceCalculator/utils/LocalStorageData/manageShowDetailActionListLocalStorage";
 import { usePersistedState } from "hooks";
 import { useCallback } from "react";
 

@@ -1,11 +1,11 @@
 import {
   useInitTroop,
   useInitTroopSetting,
-} from "features/advance_calc/hooks/Init";
-import { TroopSetting } from "./TroopSetting";
-import { TroopCardWrapper } from "./TroopCardWrapper";
-import { useOffensesSectionContext } from "features/advance_calc/contexts";
-import { getActiveModifier } from "features/advance_calc/actions/ModifierItem";
+} from "features/AdvanceCalculator/hooks/Init";
+import { TroopSetting } from "./troopSetting";
+import { useOffensesSectionContext } from "features/AdvanceCalculator/contexts";
+import { getActiveModifier } from "features/AdvanceCalculator/actions/ModifierItem";
+import { TroopCardContainer } from "./troopCardContainer";
 
 export function TroopsSection() {
   const { modifierItemList } = useOffensesSectionContext();
@@ -19,7 +19,6 @@ export function TroopsSection() {
       <h3 className="text-center">Troop</h3>
 
       <TroopSetting
-        className="setting-container"
         useTroopDeathDamage={useTroopDeathDamage}
         setUseTroopDeathDamage={setUseTroopDeathDamage}
         setAllTroopsToMax={setAllTroopsToMax}
@@ -35,7 +34,7 @@ export function TroopsSection() {
           );
 
           return (
-            <TroopCardWrapper
+            <TroopCardContainer
               key={troop.id}
               troopItem={troop}
               activeModifier={activeModifier}

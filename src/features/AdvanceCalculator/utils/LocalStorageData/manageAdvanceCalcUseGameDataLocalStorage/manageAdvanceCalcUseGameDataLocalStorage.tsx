@@ -1,6 +1,6 @@
-import { GAME_DATA_TYPE, GameDataType } from "data/game";
+import { GAME_DATA_TYPE, GameDataType } from "data/Game";
 import { getAdvanceCalcUseGameDataStorageKey } from "../../advanceCalcUtils";
-import { DEFAULT_USE_EQUIPMENT } from "features/advance_calc/config";
+import { DEFAULT_USE_EQUIPMENT } from "features/AdvanceCalculator/config";
 import { manageUseOffenseLocalStorage } from "utils/LocalStorageData/manageUseOffenseLocalStorage";
 
 export function manageAdvanceCalcUseGameDataLocalStorage(

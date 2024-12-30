@@ -1,7 +1,7 @@
-import { DEFAULT_SEARCH_QUERY } from "features/zapquake_calc/config";
-import { manageHideEquipmentDestroyedDefenseLocalStorage } from "features/zapquake_calc/utils/LocalStorageData/manageHideEquipmentDestroyedDefenseLocalStorage";
-import { manageHideImpossibleDestroyDefenseLocalStorage } from "features/zapquake_calc/utils/LocalStorageData/manageHideImpossibleDestroyDefenseLocalStorage";
-import { manageHideNormalDefenseLocalStorage } from "features/zapquake_calc/utils/LocalStorageData/manageHideNormalDefenseLocalStorage";
+import { DEFAULT_SEARCH_QUERY } from "features/ZapquakeCalculator/config";
+import { manageHideEquipmentDestroyedDefenseLocalStorage } from "features/ZapquakeCalculator/utils/LocalStorageData/manageHideEquipmentDestroyedDefenseLocalStorage";
+import { manageHideImpossibleDestroyDefenseLocalStorage } from "features/ZapquakeCalculator/utils/LocalStorageData/manageHideImpossibleDestroyDefenseLocalStorage";
+import { manageHideNormalDefenseLocalStorage } from "features/ZapquakeCalculator/utils/LocalStorageData/manageHideNormalDefenseLocalStorage";
 import { usePersistedState } from "hooks";
 import { useCallback, useState } from "react";
 

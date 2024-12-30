@@ -1,14 +1,17 @@
 import {
   filterDefenseDisplayDataList,
   initDefenseDisplayDataList,
-} from "features/advance_calc/actions/DefenseDisplayData";
-import { useCacheDefenseLog } from "features/advance_calc/hooks";
-import { useInitDefense } from "features/advance_calc/hooks/Init";
-import { AdvanceActionItem } from "features/advance_calc/objects/advanceActionItem";
-import { useInitDefenseSetting } from "features/advance_calc/hooks/Init";
-import { SectionContainer } from "components";
-import { DefenseSettingSection } from "./DefenseSettingSection";
-import { DefenseDisplaySection } from "./DefenseDisplaySection";
+} from "features/AdvanceCalculator/actions/DefenseDisplayData";
+import { useCacheDefenseLog } from "features/AdvanceCalculator/hooks";
+import { useInitDefense } from "features/AdvanceCalculator/hooks/Init";
+import { AdvanceActionItem } from "features/AdvanceCalculator/objects/advanceActionItem";
+import { useInitDefenseSetting } from "features/AdvanceCalculator/hooks/Init";
+import {
+  SectionContainerWrapper,
+  SectionCardContainerWrapper,
+} from "components/Wrapper";
+import { DefenseSettingSection } from "./defenseSettingSection";
+import { DefenseDisplaySection } from "./defenseDisplaySection";
 
 interface Props {
   actionList: AdvanceActionItem[];
@@ -49,7 +52,7 @@ export function DefensesSection({ actionList }: Props) {
 
   return (
     <>
-      <SectionContainer className="card-custom p-4 shadow my-5">
+      <SectionCardContainerWrapper className="mt-5">
         <DefenseSettingSection
           hideSurvivedDefense={hideSurvivedDefense}
           hideDestroyedDefense={hideDestroyedDefense}
@@ -61,13 +64,13 @@ export function DefensesSection({ actionList }: Props) {
           setAllDefensesToMin={setAllDefensesToMin}
           defenseCountLog={defenseCountLog}
         />
-      </SectionContainer>
+      </SectionCardContainerWrapper>
 
-      <SectionContainer>
+      <SectionContainerWrapper className="mt-5">
         <DefenseDisplaySection
           defenseDisplayDataList={filteredDefenseDisplayDataList}
         />
-      </SectionContainer>
+      </SectionContainerWrapper>
     </>
   );
 }

@@ -1,6 +1,6 @@
 import { clearItem, getItem, setItem } from "utils/localStorage";
 import { isBoolean } from "utils/objectUtils";
-import { DEFAULT_USE_TROOP_DEATH_DAMAGE } from "features/advance_calc/config";
+import { DEFAULT_USE_TROOP_DEATH_DAMAGE } from "features/AdvanceCalculator/config";
 import { getUseTroopDeathDamageStorageKey } from "../../advanceCalcUtils";
 
 export function manageUseTroopDeathDamageLocalStorage() {

@@ -1,9 +1,9 @@
-import { EquipmentItem } from "features/advance_calc/objects/equipmentItem";
+import { EquipmentItem } from "features/AdvanceCalculator/objects/equipmentItem";
 import {
   createEquipmentDisplayData,
   EquipmentDisplayData,
-} from "features/advance_calc/objects/equipmentDisplayData";
-import { EquipmentDamageLog } from "features/advance_calc/objects/equipmentDamageLog";
+} from "features/AdvanceCalculator/objects/equipmentDisplayData";
+import { EquipmentDamageLog } from "features/AdvanceCalculator/objects/equipmentDamageLog";
 
 export function initEquipmentDisplayDataList(
   equipmentItemList: EquipmentItem[],

@@ -1,8 +1,8 @@
 import {
   createSpellCountItem,
   SpellCountItem,
-} from "features/zapquake_calc/objects/spellCountItem";
-import { ZapquakeDamageLogItem } from "features/zapquake_calc/objects/zapquakeDamageLogItem";
+} from "features/ZapquakeCalculator/objects/spellCountItem";
+import { ZapquakeDamageLogItem } from "features/ZapquakeCalculator/objects/zapquakeDamageLogItem";
 import { ACTION_TYPE } from "objects/actionItem";
 import { DAMAGE_LOG_TYPE } from "objects/damageLogItem";
 

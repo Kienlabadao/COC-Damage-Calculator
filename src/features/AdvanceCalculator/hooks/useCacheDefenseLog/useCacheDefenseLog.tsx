@@ -1,13 +1,13 @@
-import { calculateDefense } from "features/advance_calc/actions/DefenseItem";
+import { calculateDefense } from "features/AdvanceCalculator/actions/DefenseItem";
 import {
   AdvanceActionItem,
   compareAdvanceActionItemList,
-} from "features/advance_calc/objects/advanceActionItem";
+} from "features/AdvanceCalculator/objects/advanceActionItem";
 import {
   compareDefenseItem,
   DefenseItem,
-} from "features/advance_calc/objects/defenseItem";
-import { DefenseLog } from "features/advance_calc/objects/defenseLog";
+} from "features/AdvanceCalculator/objects/defenseItem";
+import { DefenseLog } from "features/AdvanceCalculator/objects/defenseLog";
 import { useRef } from "react";
 import { transformRecord } from "utils/objectUtils";
 

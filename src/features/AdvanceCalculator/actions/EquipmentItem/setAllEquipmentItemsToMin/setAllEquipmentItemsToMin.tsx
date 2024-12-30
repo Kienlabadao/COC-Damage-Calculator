@@ -1,7 +1,7 @@
-import { manageAdvanceCalcLevelPosGameDataLocalStorage } from "features/advance_calc/utils/LocalStorageData/manageAdvanceCalcLevelPosGameDataLocalStorage";
+import { manageAdvanceCalcLevelPosGameDataLocalStorage } from "features/AdvanceCalculator/utils/LocalStorageData/manageAdvanceCalcLevelPosGameDataLocalStorage";
 import { getGameDataMinLevelPos } from "utils/GameData/gameDataUtils";
 import { initEquipmentItem } from "../initEquipmentItem";
-import { EquipmentItem } from "features/advance_calc/objects/equipmentItem";
+import { EquipmentItem } from "features/AdvanceCalculator/objects/equipmentItem";
 
 export function setAllEquipmentItemsToMin(
   equipmentItemList: EquipmentItem[],

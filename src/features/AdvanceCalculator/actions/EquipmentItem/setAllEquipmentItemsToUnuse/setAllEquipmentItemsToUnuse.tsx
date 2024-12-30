@@ -1,6 +1,6 @@
 import { initEquipmentItem } from "../initEquipmentItem";
-import { EquipmentItem } from "features/advance_calc/objects/equipmentItem";
-import { manageAdvanceCalcUseGameDataLocalStorage } from "features/advance_calc/utils/LocalStorageData/manageAdvanceCalcUseGameDataLocalStorage";
+import { EquipmentItem } from "features/AdvanceCalculator/objects/equipmentItem";
+import { manageAdvanceCalcUseGameDataLocalStorage } from "features/AdvanceCalculator/utils/LocalStorageData/manageAdvanceCalcUseGameDataLocalStorage";
 
 export function setAllEquipmentItemsToUnuse(
   equipmentItemList: EquipmentItem[],

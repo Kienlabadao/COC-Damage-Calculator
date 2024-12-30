@@ -8,7 +8,7 @@ import {
   Hero,
   RARITY,
   Rarity,
-} from "data/game";
+} from "data/Game";
 import { OFFENSE_IMG_PATH } from "data/constants";
 
 export function equipmentDataUtils(equipmentID: string) {

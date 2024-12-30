@@ -1,16 +1,21 @@
-import { SectionContainer } from "components";
-import { useInitDefense } from "features/zapquake_calc/hooks/Init";
-import { OffenseItem } from "features/zapquake_calc/objects/offenseItem";
-import { DonatedLightningSpellItem } from "features/zapquake_calc/objects/donatedLightningSpellItem/donatedLightningSpellItem";
-import { EarthquakeOrder } from "features/zapquake_calc/data/constants";
-import { DefenseDisplaySection } from "./DefenseDisplaySection";
-import { DefenseSettingSection } from "./DefenseSettingSection";
-import { useInitDefenseSetting } from "features/zapquake_calc/hooks/Init";
+import {
+  SectionCardContainerWrapper,
+  SectionContainerWrapper,
+} from "components/Wrapper";
+import {
+  useInitDefense,
+  useInitDefenseSetting,
+} from "features/ZapquakeCalculator/hooks/Init";
+import { OffenseItem } from "features/ZapquakeCalculator/objects/offenseItem";
+import { DonatedLightningSpellItem } from "features/ZapquakeCalculator/objects/donatedLightningSpellItem/donatedLightningSpellItem";
+import { EarthquakeOrder } from "features/ZapquakeCalculator/data/constants";
+import { DefenseDisplaySection } from "./defenseDisplaySection";
+import { DefenseSettingSection } from "./defenseSettingSection";
 import {
   filterDefenseDisplayDataList,
   initDefenseDisplayDataList,
-} from "features/zapquake_calc/actions/DefenseDisplayData";
-import { useCacheDefenseLog } from "features/zapquake_calc/hooks";
+} from "features/ZapquakeCalculator/actions/DefenseDisplayData";
+import { useCacheDefenseLog } from "features/ZapquakeCalculator/hooks";
 
 interface Props {
   offenseItemList: OffenseItem[];
@@ -65,7 +70,7 @@ export function DefensesSection({
 
   return (
     <>
-      <SectionContainer className="card-custom p-4 shadow my-5">
+      <SectionCardContainerWrapper className="mt-5">
         <DefenseSettingSection
           hideImpossibleDestroyDefense={hideImpossibleDestroyDefense}
           hideEquipmentDestroyedDefense={hideEquipmentDestroyedDefense}
@@ -79,14 +84,14 @@ export function DefensesSection({
           setAllDefensesToMin={setAllDefensesToMin}
           defenseCountLog={defenseCountLog}
         />
-      </SectionContainer>
+      </SectionCardContainerWrapper>
 
-      <SectionContainer>
+      <SectionContainerWrapper className="mt-5">
         <DefenseDisplaySection
           offenseItemList={offenseItemList}
           defenseDisplayDataList={filteredDefenseDisplayDataList}
         />
-      </SectionContainer>
+      </SectionContainerWrapper>
     </>
   );
 }

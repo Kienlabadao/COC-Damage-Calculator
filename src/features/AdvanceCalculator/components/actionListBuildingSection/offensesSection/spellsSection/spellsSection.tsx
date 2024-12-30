@@ -1,7 +1,7 @@
-import { useOffensesSectionContext } from "features/advance_calc/contexts";
-import { SpellCardWrapper } from "./SpellCardWrapper";
-import { SpellSetting } from "./SpellSetting";
-import { useInitSpell } from "features/advance_calc/hooks/Init";
+import { useOffensesSectionContext } from "features/AdvanceCalculator/contexts";
+import { SpellSetting } from "./spellSetting";
+import { useInitSpell } from "features/AdvanceCalculator/hooks/Init";
+import { SpellCardContainer } from "./spellCardContainer";
 
 export function SpellsSection() {
   const { addAction } = useOffensesSectionContext();
@@ -14,14 +14,13 @@ export function SpellsSection() {
       <h3 className="text-center">Spell</h3>
 
       <SpellSetting
-        className="setting-container"
         setAllSpellsToMax={setAllSpellsToMax}
         setAllSpellsToMin={setAllSpellsToMin}
       />
 
       <div className="row row-cols-6 justify-content-evenly gap-3 mt-5">
         {spellItemList.map((spell) => (
-          <SpellCardWrapper
+          <SpellCardContainer
             key={spell.id}
             spellItem={spell}
             updateSpell={updateSpell}

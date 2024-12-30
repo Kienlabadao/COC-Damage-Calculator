@@ -1,7 +1,7 @@
-import { DefenseDisplayData } from "features/zapquake_calc/objects/defenseDisplayData";
-import { DefenseCard } from "./DefenseCard";
-import { NoDefenseFoundStatus } from "./NoDefenseFoundStatus";
-import { OffenseItem } from "features/zapquake_calc/objects/offenseItem";
+import { DefenseDisplayData } from "features/ZapquakeCalculator/objects/defenseDisplayData";
+import { DefenseCardContainer } from "./defenseCardContainer";
+import { OffenseItem } from "features/ZapquakeCalculator/objects/offenseItem";
+import { NoDefenseFoundStatus } from "components/Calculator";
 
 interface Props {
   offenseItemList: OffenseItem[];
@@ -17,7 +17,7 @@ export function DefenseDisplaySection({
       return (
         <div className="row row-cols-md-2 row-cols-xl-3 row-cols-xxl-4 gy-3">
           {defenseDisplayDataList.map((defenseDisplayData) => (
-            <DefenseCard
+            <DefenseCardContainer
               key={defenseDisplayData.id}
               defenseItem={defenseDisplayData.defenseItem}
               updateDefense={defenseDisplayData.updateDefense}

@@ -1,16 +1,16 @@
-import { Button } from "components";
+import { Button } from "components/UI";
 import { BS_COLOR } from "data/constants";
-import { OFFENSE_TYPE, OffenseType } from "data/game";
-import { EarthquakeOrderDropdown } from "./EarthquakeOrderDropdown";
+import { OFFENSE_TYPE, OffenseType } from "data/Game";
 import { memo } from "react";
-import { EarthquakeOrder } from "features/zapquake_calc/data/constants";
+import { EarthquakeOrder } from "features/ZapquakeCalculator/data/constants";
+import { EarthquakeOrderDropdown } from "./earthquakeOrderDropdown";
+import { SettingContainerWrapper } from "components/Wrapper";
 
 interface Props {
   earthquakeOrder: EarthquakeOrder;
   setEarthquakeOrder: React.Dispatch<React.SetStateAction<EarthquakeOrder>>;
   setAllOffensesToMax: (offenseTypeFilterList: Set<OffenseType>) => void;
   setAllOffensesToMin: (offenseTypeFilterList: Set<OffenseType>) => void;
-  className?: string;
 }
 
 export const EquipmentSetting = memo(function EquipmentSetting({
@@ -18,10 +18,9 @@ export const EquipmentSetting = memo(function EquipmentSetting({
   setEarthquakeOrder,
   setAllOffensesToMax,
   setAllOffensesToMin,
-  className = "",
 }: Props) {
   return (
-    <div className={className}>
+    <SettingContainerWrapper>
       <div className="d-flex flex-wrap gap-2 my-2">
         <Button
           color={BS_COLOR.Gray}
@@ -42,6 +41,6 @@ export const EquipmentSetting = memo(function EquipmentSetting({
         earthquakeOrder={earthquakeOrder}
         setEarthquakeOrder={setEarthquakeOrder}
       />
-    </div>
+    </SettingContainerWrapper>
   );
 });

@@ -1,7 +1,7 @@
-import { ModifierItem } from "features/advance_calc/objects/modifierItem";
-import { ModifierCardWrapper } from "./ModifierCardWrapper";
-import { ModifierSetting } from "./ModifierSetting";
-import { HIDE_MODIFIERS } from "features/advance_calc/config";
+import { ModifierItem } from "features/AdvanceCalculator/objects/modifierItem";
+import { ModifierCardContainer } from "./modifierCardContainer";
+import { ModifierSetting } from "./modifierSetting";
+import { HIDE_MODIFIERS } from "features/AdvanceCalculator/config";
 
 interface Props {
   modifierItemList: ModifierItem[];
@@ -25,7 +25,6 @@ export function ModifiersSection({
       <h3 className="text-center">Modifier</h3>
 
       <ModifierSetting
-        className="setting-container"
         setAllModifiersToMax={setAllModifiersToMax}
         setAllModifiersToMin={setAllModifiersToMin}
       />
@@ -34,7 +33,7 @@ export function ModifiersSection({
         {modifierItemList
           .filter((modifier) => !HIDE_MODIFIERS.includes(modifier.modifierID))
           .map((modifier) => (
-            <ModifierCardWrapper
+            <ModifierCardContainer
               key={modifier.id}
               modifierItem={modifier}
               updateModifier={updateModifier}

@@ -1,20 +1,20 @@
-import { EQUIPMENT_TYPE, OFFENSE_TYPE, OffenseType, SPELL } from "data/game";
+import { EQUIPMENT_TYPE, OFFENSE_TYPE, OffenseType, SPELL } from "data/Game";
 import {
   initDonatedLightningSpellItem,
   setDonatedLightningSpellToMax,
   setDonatedLightningSpellToMin,
   updateDonatedLightningSpell,
-} from "features/zapquake_calc/actions/DonatedLightningSpellItem";
+} from "features/ZapquakeCalculator/actions/DonatedLightningSpellItem";
 import {
   initOffenseItem,
   setAllOffenseItemsToMax,
   setAllOffenseItemsToMin,
   updateOffenseItem,
-} from "features/zapquake_calc/actions/OffenseItem";
+} from "features/ZapquakeCalculator/actions/OffenseItem";
 import {
   OffenseItem,
   updateOffenseItemInList,
-} from "features/zapquake_calc/objects/offenseItem";
+} from "features/ZapquakeCalculator/objects/offenseItem";
 import { useCallback, useState } from "react";
 import {
   getAllEquipmentIDs,

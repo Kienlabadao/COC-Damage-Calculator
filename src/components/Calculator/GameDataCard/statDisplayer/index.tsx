@@ -4,3 +4,7 @@ export * from "./damageStatDisplayer";
 export * from "./modifyStatDisplayer";
 export * from "./repairStatDisplayer";
 export * from "./statDisplayer";
+export * from "./extraDamageStatDisplayer";
+export * from "./dphStatDisplayer";
+export * from "./dpsStatDisplayer";
+export * from "./equipmentTypeStatDisplayer";

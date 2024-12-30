@@ -1,26 +1,26 @@
-import { EarthquakeOrder } from "features/zapquake_calc/data/constants";
-import { DonatedLightningSpellItem } from "features/zapquake_calc/objects/donatedLightningSpellItem";
+import { EarthquakeOrder } from "features/ZapquakeCalculator/data/constants";
+import { DonatedLightningSpellItem } from "features/ZapquakeCalculator/objects/donatedLightningSpellItem";
 import {
   filterOffenseItemList,
   OffenseItem,
-} from "features/zapquake_calc/objects/offenseItem";
+} from "features/ZapquakeCalculator/objects/offenseItem";
 import {
   isListContainOneTypeOnly,
   SpellCountItem,
-} from "features/zapquake_calc/objects/spellCountItem";
+} from "features/ZapquakeCalculator/objects/spellCountItem";
 import { canEquipmentDestroyDefense } from "../../canEquipmentDestroyDefense";
-import { MAX_SPELL_COUNT } from "features/zapquake_calc/config/config";
+import { MAX_SPELL_COUNT } from "features/ZapquakeCalculator/config/config";
 import { createZapquakeActionList } from "../../ZapquakeActionItem";
 import { convertZapquakeActionList } from "../../ZapquakeDamageLogItem";
 import { getArrayLastElement } from "utils/objectUtils";
 import { convertZapquakeDamageLogList } from "../../SpellCountItem";
-import { SPELL } from "data/game";
-import { DefenseItem } from "features/zapquake_calc/objects/defenseItem";
+import { SPELL } from "data/Game";
+import { DefenseItem } from "features/ZapquakeCalculator/objects/defenseItem";
 import {
   DEFENSE_STATUS,
   DefenseLog,
   DefenseStatus,
-} from "features/zapquake_calc/objects/defenseLog";
+} from "features/ZapquakeCalculator/objects/defenseLog";
 
 export function calculateDefense(
   defenseItem: DefenseItem,

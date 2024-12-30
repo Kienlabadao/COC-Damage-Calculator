@@ -1,6 +1,6 @@
-import { DEFAULT_SEARCH_QUERY } from "features/advance_calc/config";
-import { manageHideDestroyedDefenseLocalStorage } from "features/advance_calc/utils/LocalStorageData/manageHideDestroyedDefenseLocalStorage";
-import { manageHideSurvivedDefenseLocalStorage } from "features/advance_calc/utils/LocalStorageData/manageHideSurvivedDefenseLocalStorage";
+import { DEFAULT_SEARCH_QUERY } from "features/AdvanceCalculator/config";
+import { manageHideDestroyedDefenseLocalStorage } from "features/AdvanceCalculator/utils/LocalStorageData/manageHideDestroyedDefenseLocalStorage";
+import { manageHideSurvivedDefenseLocalStorage } from "features/AdvanceCalculator/utils/LocalStorageData/manageHideSurvivedDefenseLocalStorage";
 import { usePersistedState } from "hooks";
 import { useCallback, useState } from "react";
 

@@ -3,11 +3,11 @@ import {
   setAllDefenseItemsToMax,
   setAllDefenseItemsToMin,
   updateDefenseItem,
-} from "features/advance_calc/actions/DefenseItem";
+} from "features/AdvanceCalculator/actions/DefenseItem";
 import {
   DefenseItem,
   updateDefenseItemInList,
-} from "features/advance_calc/objects/defenseItem";
+} from "features/AdvanceCalculator/objects/defenseItem";
 import { useCallback, useState } from "react";
 import { getAllDefenseIDs } from "utils/GameData/gameDataUtils";
 

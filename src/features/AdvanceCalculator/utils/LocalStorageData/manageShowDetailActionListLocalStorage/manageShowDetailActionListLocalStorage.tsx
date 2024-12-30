@@ -1,6 +1,6 @@
 import { clearItem, getItem, setItem } from "utils/localStorage";
 import { isBoolean } from "utils/objectUtils";
-import { DEFAULT_SHOW_DETAIL_ACTION_LIST } from "features/advance_calc/config";
+import { DEFAULT_SHOW_DETAIL_ACTION_LIST } from "features/AdvanceCalculator/config";
 import { getShowDetailActionListStorageKey } from "../../advanceCalcUtils";
 
 export function manageShowDetailActionListLocalStorage() {

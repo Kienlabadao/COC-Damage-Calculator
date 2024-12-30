@@ -4,6 +4,7 @@ import { BS_COLOR } from "data/constants";
 import { memo } from "react";
 import { Button } from "components/UI";
 import { DonatedLightningSpellItem } from "features/ZapquakeCalculator/objects/donatedLightningSpellItem";
+import { SettingContainerWrapper } from "components/Wrapper";
 
 interface Props {
   donatedLightningSpellItem: DonatedLightningSpellItem;
@@ -17,7 +18,6 @@ interface Props {
   ) => void;
   setAllOffensesToMax: (offenseTypeFilterList: Set<OffenseType>) => void;
   setAllOffensesToMin: (offenseTypeFilterList: Set<OffenseType>) => void;
-  className?: string;
 }
 
 export const SpellSetting = memo(function SpellSetting({
@@ -25,10 +25,9 @@ export const SpellSetting = memo(function SpellSetting({
   updateOffense,
   setAllOffensesToMax,
   setAllOffensesToMin,
-  className = "",
 }: Props) {
   return (
-    <div className={className}>
+    <SettingContainerWrapper>
       <div className="d-flex flex-wrap gap-2 my-2">
         <Button
           color={BS_COLOR.Gray}
@@ -48,6 +47,6 @@ export const SpellSetting = memo(function SpellSetting({
         spell={donatedLightningSpellItem}
         updateOffense={updateOffense}
       />
-    </div>
+    </SettingContainerWrapper>
   );
 });

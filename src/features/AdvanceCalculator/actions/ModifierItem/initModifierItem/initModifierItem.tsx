@@ -1,10 +1,10 @@
-import { GAME_DATA_TYPE } from "data/game";
+import { GAME_DATA_TYPE } from "data/Game";
 import {
   createModifierItem,
   ModifierItem,
-} from "features/advance_calc/objects/modifierItem";
-import { manageAdvanceCalcLevelPosGameDataLocalStorage } from "features/advance_calc/utils/LocalStorageData/manageAdvanceCalcLevelPosGameDataLocalStorage";
-import { manageAdvanceCalcUseGameDataLocalStorage } from "features/advance_calc/utils/LocalStorageData/manageAdvanceCalcUseGameDataLocalStorage";
+} from "features/AdvanceCalculator/objects/modifierItem";
+import { manageAdvanceCalcLevelPosGameDataLocalStorage } from "features/AdvanceCalculator/utils/LocalStorageData/manageAdvanceCalcLevelPosGameDataLocalStorage";
+import { manageAdvanceCalcUseGameDataLocalStorage } from "features/AdvanceCalculator/utils/LocalStorageData/manageAdvanceCalcUseGameDataLocalStorage";
 
 const type = GAME_DATA_TYPE.Modifier;
 

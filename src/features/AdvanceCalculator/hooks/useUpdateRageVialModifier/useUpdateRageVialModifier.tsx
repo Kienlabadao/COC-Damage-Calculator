@@ -1,6 +1,6 @@
-import { EQUIPMENT, HERO, MODIFIER } from "data/game";
-import { EquipmentItem } from "features/advance_calc/objects/equipmentItem";
-import { HeroItem } from "features/advance_calc/objects/heroItem";
+import { EQUIPMENT, HERO, MODIFIER } from "data/Game";
+import { EquipmentItem } from "features/AdvanceCalculator/objects/equipmentItem";
+import { HeroItem } from "features/AdvanceCalculator/objects/heroItem";
 import { useEffect } from "react";
 
 export function useUpdateRageVialModifier(

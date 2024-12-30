@@ -1,5 +1,5 @@
 import { useGameDataImageDisplayerContext } from "../gameDataImageDisplayerContext";
-import { convertToOverlaySize } from "../Helper/convertToOverlaySize";
+import { convertToOverlaySize } from "../Helper";
 import { Overlay, OVERLAY_TYPE, OverlayPosition } from "./overlay";
 
 interface Props {

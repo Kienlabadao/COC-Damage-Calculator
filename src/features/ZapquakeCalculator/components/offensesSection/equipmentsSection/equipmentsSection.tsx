@@ -1,8 +1,8 @@
-import { OFFENSE_TYPE } from "data/game";
-import { useOffensesSectionContext } from "features/zapquake_calc/contexts/OffensesSectionContext";
-import { EquipmentCard } from "./EquipmentCard";
-import { EquipmentSetting } from "./EquipmentSetting";
-import { filterOffenseItemList } from "features/zapquake_calc/objects/offenseItem";
+import { OFFENSE_TYPE } from "data/Game";
+import { useOffensesSectionContext } from "features/ZapquakeCalculator/contexts/OffensesSectionContext";
+import { EquipmentSetting } from "./equipmentSetting";
+import { filterOffenseItemList } from "features/ZapquakeCalculator/objects/offenseItem";
+import { EquipmentCardContainer } from "./equipmentCardContainer";
 
 export function EquipmentsSection() {
   const {
@@ -23,7 +23,6 @@ export function EquipmentsSection() {
         setEarthquakeOrder={setEarthquakeOrder}
         setAllOffensesToMax={setAllOffensesToMax}
         setAllOffensesToMin={setAllOffensesToMin}
-        className="setting-container"
       />
 
       <div className="row row-cols-6 justify-content-evenly gap-3 mt-5">
@@ -31,7 +30,7 @@ export function EquipmentsSection() {
           offenseItemList,
           new Set([OFFENSE_TYPE.Equipment])
         ).map((offense) => (
-          <EquipmentCard
+          <EquipmentCardContainer
             key={offense.id}
             equipment={offense}
             updateOffense={updateOffense}

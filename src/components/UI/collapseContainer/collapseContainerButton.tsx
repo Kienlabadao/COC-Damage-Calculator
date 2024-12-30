@@ -1,6 +1,6 @@
 import { BSColor } from "data/constants";
-import { Button } from "react-bootstrap";
 import { useCollapseContainerContext } from "./collapseContainerContext";
+import { Button } from "../button";
 
 interface Props {
   color: BSColor;

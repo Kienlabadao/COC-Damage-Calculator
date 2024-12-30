@@ -1,5 +1,5 @@
 import { ROUNDING_PRECISION } from "config";
-import { MODIFIER_HERO_EFFECTIVENESS } from "data/game";
+import { MODIFIER_HERO_EFFECTIVENESS } from "data/Game";
 import { ACTION_TYPE, ActionType } from "objects/actionItem";
 import { BaseModifierItem } from "objects/baseModifierItem";
 import { calculateModifiedValue } from "utils/GameData/gameDataCalculatorUtils";

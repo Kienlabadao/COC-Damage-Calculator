@@ -1,6 +1,6 @@
 import { Checkbox } from "components/UI";
-import { OffenseType } from "data/game";
-import { DonatedLightningSpellItem } from "features/zapquake_calc/objects/donatedLightningSpellItem";
+import { OffenseType } from "data/Game";
+import { DonatedLightningSpellItem } from "features/ZapquakeCalculator/objects/donatedLightningSpellItem";
 import { useCallback } from "react";
 import { spellDataUtils } from "utils/GameData/spellDataUtils";
 

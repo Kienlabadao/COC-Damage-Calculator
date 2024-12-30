@@ -1,4 +1,4 @@
-import { GAME_DATA_TYPE, GameDataType, SPELL } from "data/game";
+import { GAME_DATA_TYPE, GameDataType, SPELL } from "data/Game";
 import {
   CALCULATOR_TYPE,
   DONATED_STR,
@@ -13,7 +13,7 @@ import {
   DEFAULT_LEVEL,
   MAX_DONATED_SPELL_COUNT,
   MIN_DONATED_SPELL_COUNT,
-} from "features/zapquake_calc/config";
+} from "features/ZapquakeCalculator/config";
 
 const calculatorType = CALCULATOR_TYPE.Zapquake;
 

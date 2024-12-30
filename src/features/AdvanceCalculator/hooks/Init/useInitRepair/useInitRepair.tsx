@@ -3,11 +3,11 @@ import {
   setAllRepairItemsToMax,
   setAllRepairItemsToMin,
   updateRepairItem,
-} from "features/advance_calc/actions/RepairItem";
+} from "features/AdvanceCalculator/actions/RepairItem";
 import {
   RepairItem,
   updateRepairItemInList,
-} from "features/advance_calc/objects/repairItem";
+} from "features/AdvanceCalculator/objects/repairItem";
 import { useCallback, useState } from "react";
 import { getAllRepairIDs } from "utils/GameData/gameDataUtils";
 

@@ -1,4 +1,4 @@
-import { EquipmentItem } from "features/advance_calc/objects/equipmentItem";
+import { EquipmentItem } from "features/AdvanceCalculator/objects/equipmentItem";
 import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
 import { calculateCombinedPercentageIncrease } from "utils/numberUtils";
 

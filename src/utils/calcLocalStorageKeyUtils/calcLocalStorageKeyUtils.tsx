@@ -1,4 +1,4 @@
-import { GameDataType } from "data/game";
+import { GameDataType } from "data/Game";
 import { ObjectValues } from "utils/objectUtils";
 
 export const CALCULATOR_TYPE = {

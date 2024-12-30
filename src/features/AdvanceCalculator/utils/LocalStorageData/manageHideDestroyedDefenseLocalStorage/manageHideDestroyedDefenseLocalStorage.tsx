@@ -1,6 +1,6 @@
 import { clearItem, getItem, setItem } from "utils/localStorage";
 import { isBoolean } from "utils/objectUtils";
-import { DEFAULT_HIDE_DESTROYED_DEFENSE } from "features/advance_calc/config";
+import { DEFAULT_HIDE_DESTROYED_DEFENSE } from "features/AdvanceCalculator/config";
 import { getHideDestroyedDefenseStorageKey } from "../../advanceCalcUtils";
 
 export function manageHideDestroyedDefenseLocalStorage() {

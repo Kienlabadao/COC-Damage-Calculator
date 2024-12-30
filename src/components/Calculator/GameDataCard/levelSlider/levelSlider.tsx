@@ -5,6 +5,7 @@ interface Props {
   maxLevelPos: number;
   currentLevelPos: number;
   updateCurrentLevelPos: (newCurrentLevelPos: number) => void;
+  useTheme?: boolean;
 }
 
 export function LevelSlider({
@@ -12,6 +13,7 @@ export function LevelSlider({
   maxLevelPos,
   currentLevelPos,
   updateCurrentLevelPos,
+  useTheme = true,
 }: Props) {
   return (
     <Slider
@@ -19,6 +21,7 @@ export function LevelSlider({
       max={maxLevelPos}
       currentValue={currentLevelPos}
       onChange={(newValue: number) => updateCurrentLevelPos(newValue)}
+      useTheme={useTheme}
     />
   );
 }

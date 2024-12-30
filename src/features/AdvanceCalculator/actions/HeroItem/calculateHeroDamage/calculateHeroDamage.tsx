@@ -1,7 +1,7 @@
-import { EquipmentDamageLog } from "features/advance_calc/objects/equipmentDamageLog";
-import { EquipmentItem } from "features/advance_calc/objects/equipmentItem";
-import { HeroItem } from "features/advance_calc/objects/heroItem";
-import { ModifierItem } from "features/advance_calc/objects/modifierItem";
+import { EquipmentDamageLog } from "features/AdvanceCalculator/objects/equipmentDamageLog";
+import { EquipmentItem } from "features/AdvanceCalculator/objects/equipmentItem";
+import { HeroItem } from "features/AdvanceCalculator/objects/heroItem";
+import { ModifierItem } from "features/AdvanceCalculator/objects/modifierItem";
 import { calculateDPH } from "utils/GameData/gameDataCalculatorUtils";
 import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
 import { roundToN } from "utils/numberUtils";

@@ -1,4 +1,4 @@
-import { EQUIPMENT, SPELL } from "data/game";
+import { EQUIPMENT, SPELL } from "data/Game";
 import { ObjectValues } from "utils/objectUtils";
 
 export const EARTHQUAKE_ORDER = {

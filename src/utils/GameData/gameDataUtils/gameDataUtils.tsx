@@ -10,7 +10,7 @@ import {
   RepairData,
   SpellData,
   TroopData,
-} from "data/game";
+} from "data/Game";
 import { getAllObjectKeys } from "utils/objectUtils";
 import { spellDataUtils } from "../spellDataUtils";
 import { troopDataUtils } from "../troopDataUtils";

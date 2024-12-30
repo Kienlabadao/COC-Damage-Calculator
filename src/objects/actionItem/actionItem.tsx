@@ -1,4 +1,4 @@
-import { DAMAGE_TYPE, GAME_DATA_TYPE, OFFENSE_TYPE } from "data/game";
+import { DAMAGE_TYPE, GAME_DATA_TYPE, OFFENSE_TYPE } from "data/Game";
 import { ObjectValues } from "utils/objectUtils";
 import { isValidGameDataLevelPos } from "utils/GameData/gameDataUtils";
 import {

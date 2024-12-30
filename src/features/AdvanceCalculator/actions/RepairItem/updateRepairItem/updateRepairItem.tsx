@@ -1,6 +1,6 @@
-import { GAME_DATA_TYPE } from "data/game";
-import { RepairItem } from "features/advance_calc/objects/repairItem";
-import { manageAdvanceCalcLevelPosGameDataLocalStorage } from "features/advance_calc/utils/LocalStorageData/manageAdvanceCalcLevelPosGameDataLocalStorage";
+import { GAME_DATA_TYPE } from "data/Game";
+import { RepairItem } from "features/AdvanceCalculator/objects/repairItem";
+import { manageAdvanceCalcLevelPosGameDataLocalStorage } from "features/AdvanceCalculator/utils/LocalStorageData/manageAdvanceCalcLevelPosGameDataLocalStorage";
 import { initRepairItem } from "../initRepairItem";
 
 export function updateRepairItem(

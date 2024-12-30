@@ -2,9 +2,9 @@ import { getArrayLastElement } from "utils/objectUtils";
 import {
   DEFENSE_STATUS,
   DefenseLog,
-} from "features/advance_calc/objects/defenseLog";
-import { DefenseItem } from "features/advance_calc/objects/defenseItem";
-import { AdvanceActionItem } from "features/advance_calc/objects/advanceActionItem/advanceActionItem";
+} from "features/AdvanceCalculator/objects/defenseLog";
+import { DefenseItem } from "features/AdvanceCalculator/objects/defenseItem";
+import { AdvanceActionItem } from "features/AdvanceCalculator/objects/advanceActionItem/advanceActionItem";
 import { convertAdvanceActionList } from "../../AdvanceDamageLogItem";
 
 export function calculateDefense(

@@ -1,7 +1,7 @@
-import { RARITY, Rarity } from "data/game";
+import { RARITY, Rarity } from "data/Game";
 import { useGameDataImageDisplayerContext } from "../gameDataImageDisplayerContext";
-import { convertToOverlaySize } from "../Helper/convertToOverlaySize";
 import { Overlay, OVERLAY_TYPE, OverlayPosition, OverlayType } from "./overlay";
+import { convertToOverlaySize } from "../Helper";
 
 function getOverlayType(rarity: Rarity): OverlayType {
   switch (rarity) {

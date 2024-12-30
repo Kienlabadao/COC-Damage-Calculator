@@ -1,5 +1,5 @@
 import { DEFENSE_IMG_PATH, IMAGE_PATH, OFFENSE_IMG_PATH } from "data/constants";
-import { DEFENSE_TYPE, DefenseData, DefenseType } from "data/game";
+import { DEFENSE_TYPE, DefenseData, DefenseType } from "data/Game";
 
 export function defenseDataUtils(defenseID: string) {
   const defenseData = DefenseData[defenseID];

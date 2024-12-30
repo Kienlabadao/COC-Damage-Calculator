@@ -1,5 +1,5 @@
-import { ActionCard } from "features/advance_calc/components/ActionCard";
-import { AdvanceActionItem } from "features/advance_calc/objects/advanceActionItem";
+import { ActionCard } from "features/AdvanceCalculator/components/actionCard";
+import { AdvanceActionItem } from "features/AdvanceCalculator/objects/advanceActionItem";
 
 interface Props {
   actionList: AdvanceActionItem[];

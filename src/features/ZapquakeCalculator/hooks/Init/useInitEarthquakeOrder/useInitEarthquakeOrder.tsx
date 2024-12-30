@@ -1,5 +1,5 @@
-import { EarthquakeOrder } from "features/zapquake_calc/data/constants";
-import { manageEarthquakeOrderLocalStorage } from "features/zapquake_calc/utils/LocalStorageData/manageEarthquakeOrderLocalStorage";
+import { EarthquakeOrder } from "features/ZapquakeCalculator/data/constants";
+import { manageEarthquakeOrderLocalStorage } from "features/ZapquakeCalculator/utils/LocalStorageData/manageEarthquakeOrderLocalStorage";
 import { usePersistedState } from "hooks";
 import { useCallback } from "react";
 

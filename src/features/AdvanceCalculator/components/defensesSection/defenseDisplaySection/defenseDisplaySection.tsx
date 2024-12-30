@@ -1,6 +1,6 @@
-import { DefenseDisplayData } from "features/advance_calc/objects/defenseDisplayData";
-import { DefenseCard } from "./DefenseCard";
-import { NoDefenseFoundStatus } from "./NoDefenseFoundStatus";
+import { DefenseDisplayData } from "features/AdvanceCalculator/objects/defenseDisplayData";
+import { NoDefenseFoundStatus } from "components/Calculator";
+import { DefenseCardContainer } from "./defenseCardContainer";
 
 interface Props {
   defenseDisplayDataList: DefenseDisplayData[];
@@ -12,7 +12,7 @@ export function DefenseDisplaySection({ defenseDisplayDataList }: Props) {
       return (
         <div className="row row-cols-md-2 row-cols-xl-3 row-cols-xxl-4 gy-3">
           {defenseDisplayDataList.map((defenseDisplayData) => (
-            <DefenseCard
+            <DefenseCardContainer
               key={defenseDisplayData.id}
               defenseItem={defenseDisplayData.defenseItem}
               updateDefense={defenseDisplayData.updateDefense}

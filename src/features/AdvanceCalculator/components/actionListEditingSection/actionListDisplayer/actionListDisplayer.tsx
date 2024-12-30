@@ -1,7 +1,12 @@
-import { CollapseContainer } from "components";
-import { AdvanceActionItem } from "features/advance_calc/objects/advanceActionItem";
-import { DetailActionListDisplayer } from "./DetailActionListDisplayer";
-import { SimpleActionListDisplayer } from "./SimpleActionListDisplayer";
+import {
+  CollapseContainer,
+  CollapseContainerButton,
+  CollapseContainerContent,
+} from "components/UI";
+import { AdvanceActionItem } from "features/AdvanceCalculator/objects/advanceActionItem";
+import { DetailActionListDisplayer } from "./detailActionListDisplayer";
+import { SimpleActionListDisplayer } from "./simpleActionListDisplayer";
+import { BS_COLOR } from "data/constants";
 
 interface Props {
   actionList: AdvanceActionItem[];
@@ -22,7 +27,8 @@ export function ActionListDisplayer({
 
   return (
     <CollapseContainer id={`show_action_list`} defaultOpen={true}>
-      {renderActionList()}
+      <CollapseContainerButton color={BS_COLOR.Gray} />
+      <CollapseContainerContent>{renderActionList()}</CollapseContainerContent>
     </CollapseContainer>
   );
 }

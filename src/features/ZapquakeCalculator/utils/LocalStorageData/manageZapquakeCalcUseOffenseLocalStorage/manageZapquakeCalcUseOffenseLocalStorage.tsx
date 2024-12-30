@@ -1,9 +1,9 @@
-import { OFFENSE_TYPE, OffenseType, SPELL } from "data/game";
+import { OFFENSE_TYPE, OffenseType, SPELL } from "data/Game";
 import {
   DEFAULT_USE_SPELL,
   DEFAULT_USE_EQUIPMENT,
   DEFAULT_USE_DONATED_LIGHTNING_SPELL,
-} from "features/zapquake_calc/config/config";
+} from "features/ZapquakeCalculator/config/config";
 import { manageUseOffenseLocalStorage } from "utils/LocalStorageData/manageUseOffenseLocalStorage";
 import { getZapquakeCalcUseOffenseStorageKey } from "../../zapquakeCalcUtils";
 

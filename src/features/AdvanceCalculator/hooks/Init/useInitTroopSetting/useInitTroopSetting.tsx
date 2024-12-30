@@ -1,4 +1,4 @@
-import { manageUseTroopDeathDamageLocalStorage } from "features/advance_calc/utils/LocalStorageData/manageUseTroopDeathDamageLocalStorage";
+import { manageUseTroopDeathDamageLocalStorage } from "features/AdvanceCalculator/utils/LocalStorageData/manageUseTroopDeathDamageLocalStorage";
 import { usePersistedState } from "hooks";
 import { useCallback } from "react";
 

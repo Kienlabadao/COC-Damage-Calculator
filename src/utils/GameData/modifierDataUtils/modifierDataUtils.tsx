@@ -1,4 +1,4 @@
-import { GameDataType, ModifierData } from "data/game";
+import { GameDataType, ModifierData } from "data/Game";
 import { MODIFIER_IMG_PATH } from "data/constants";
 
 export function modifierDataUtils(modifierID: string) {

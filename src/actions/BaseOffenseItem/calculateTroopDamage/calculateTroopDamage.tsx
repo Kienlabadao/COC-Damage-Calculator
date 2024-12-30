@@ -1,6 +1,6 @@
 import { BaseModifierItem } from "objects/baseModifierItem";
 import { troopDataUtils } from "utils/GameData/troopDataUtils";
-import { GAME_DATA_TYPE } from "data/game";
+import { GAME_DATA_TYPE } from "data/Game";
 import { BaseOffenseItem } from "objects/baseOffenseItem";
 import { ACTION_TYPE } from "objects/actionItem";
 import { calculateModifiedActionValue } from "actions/BaseModifierItem";

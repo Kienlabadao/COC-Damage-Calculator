@@ -1,8 +1,8 @@
 import { createContext, useContext } from "react";
-import { OffenseType } from "data/game";
-import { OffenseItem } from "features/zapquake_calc/objects/offenseItem";
-import { DonatedLightningSpellItem } from "features/zapquake_calc/objects/donatedLightningSpellItem";
-import { EarthquakeOrder } from "features/zapquake_calc/data/constants";
+import { OffenseType } from "data/Game";
+import { OffenseItem } from "features/ZapquakeCalculator/objects/offenseItem";
+import { DonatedLightningSpellItem } from "features/ZapquakeCalculator/objects/donatedLightningSpellItem";
+import { EarthquakeOrder } from "features/ZapquakeCalculator/data/constants";
 
 interface OffensesSectionContextProps {
   offenseItemList: OffenseItem[];

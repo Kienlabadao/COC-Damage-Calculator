@@ -1,4 +1,4 @@
-import { OFFENSE_TYPE } from "data/game";
+import { OFFENSE_TYPE } from "data/Game";
 import { BaseOffenseItem } from "objects/baseOffenseItem";
 import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
 import {
@@ -6,11 +6,9 @@ import {
   BackgroundType,
   GameDataImageDisplayer,
   SIZE,
-} from "../gameDataImageDisplayer";
-import {
   LevelOverlay,
   OVERLAY_POSITION,
-} from "../gameDataImageDisplayer/Overlay";
+} from "../gameDataImageDisplayer";
 
 function createEquipmentRow(
   equipmentItemList: BaseOffenseItem[],
@@ -53,7 +51,7 @@ function createEquipmentRow(
         size={SIZE.Small}
       >
         <LevelOverlay
-          position={OVERLAY_POSITION.Header}
+          position={OVERLAY_POSITION.BottomLeft}
           level={currentLevel}
           isMaxed={isMaxed}
         />

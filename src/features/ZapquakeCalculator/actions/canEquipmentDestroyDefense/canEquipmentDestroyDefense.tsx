@@ -1,8 +1,8 @@
-import { OFFENSE_TYPE } from "data/game";
+import { OFFENSE_TYPE } from "data/Game";
 import {
   filterOffenseItemList,
   OffenseItem,
-} from "features/zapquake_calc/objects/offenseItem";
+} from "features/ZapquakeCalculator/objects/offenseItem";
 import { getArrayLastElement } from "utils/objectUtils";
 import { convertOffenseItemList } from "../ZapquakeActionItem";
 import { convertZapquakeActionList } from "../ZapquakeDamageLogItem";

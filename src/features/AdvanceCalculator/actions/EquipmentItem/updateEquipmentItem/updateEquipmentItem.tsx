@@ -1,7 +1,7 @@
-import { OFFENSE_TYPE } from "data/game";
-import { manageAdvanceCalcLevelPosGameDataLocalStorage } from "features/advance_calc/utils/LocalStorageData/manageAdvanceCalcLevelPosGameDataLocalStorage";
-import { EquipmentItem } from "features/advance_calc/objects/equipmentItem";
-import { manageAdvanceCalcUseGameDataLocalStorage } from "features/advance_calc/utils/LocalStorageData/manageAdvanceCalcUseGameDataLocalStorage";
+import { OFFENSE_TYPE } from "data/Game";
+import { manageAdvanceCalcLevelPosGameDataLocalStorage } from "features/AdvanceCalculator/utils/LocalStorageData/manageAdvanceCalcLevelPosGameDataLocalStorage";
+import { EquipmentItem } from "features/AdvanceCalculator/objects/equipmentItem";
+import { manageAdvanceCalcUseGameDataLocalStorage } from "features/AdvanceCalculator/utils/LocalStorageData/manageAdvanceCalcUseGameDataLocalStorage";
 import { initEquipmentItem } from "../initEquipmentItem";
 
 const type = OFFENSE_TYPE.Equipment;

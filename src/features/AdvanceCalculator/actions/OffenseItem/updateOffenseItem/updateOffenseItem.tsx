@@ -1,6 +1,6 @@
-import { OffenseType } from "data/game";
-import { OffenseItem } from "features/advance_calc/objects/offenseItem";
-import { manageAdvanceCalcLevelPosGameDataLocalStorage } from "features/advance_calc/utils/LocalStorageData/manageAdvanceCalcLevelPosGameDataLocalStorage";
+import { OffenseType } from "data/Game";
+import { OffenseItem } from "features/AdvanceCalculator/objects/offenseItem";
+import { manageAdvanceCalcLevelPosGameDataLocalStorage } from "features/AdvanceCalculator/utils/LocalStorageData/manageAdvanceCalcLevelPosGameDataLocalStorage";
 import { initOffenseItem } from "../initOffenseItem";
 
 export function updateOffenseItem(

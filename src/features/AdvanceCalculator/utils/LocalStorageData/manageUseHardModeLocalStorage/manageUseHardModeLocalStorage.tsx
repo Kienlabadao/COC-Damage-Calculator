@@ -1,6 +1,6 @@
 import { clearItem, getItem, setItem } from "utils/localStorage";
 import { isBoolean } from "utils/objectUtils";
-import { DEFAULT_USE_HARD_MODE } from "features/advance_calc/config";
+import { DEFAULT_USE_HARD_MODE } from "features/AdvanceCalculator/config";
 import { getUseHardModeStorageKey } from "../../advanceCalcUtils";
 
 export function manageUseHardModeLocalStorage() {

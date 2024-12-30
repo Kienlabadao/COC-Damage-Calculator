@@ -1,19 +1,19 @@
-import { calculateDefense } from "features/zapquake_calc/actions/DefenseItem";
-import { EarthquakeOrder } from "features/zapquake_calc/data/constants";
+import { calculateDefense } from "features/ZapquakeCalculator/actions/DefenseItem";
+import { EarthquakeOrder } from "features/ZapquakeCalculator/data/constants";
 import {
   compareDefenseItem,
   DefenseItem,
-} from "features/zapquake_calc/objects/defenseItem";
-import { DefenseLog } from "features/zapquake_calc/objects/defenseLog";
+} from "features/ZapquakeCalculator/objects/defenseItem";
+import { DefenseLog } from "features/ZapquakeCalculator/objects/defenseLog";
 import {
   compareDonatedLightningSpellItem,
   DonatedLightningSpellItem,
-} from "features/zapquake_calc/objects/donatedLightningSpellItem";
+} from "features/ZapquakeCalculator/objects/donatedLightningSpellItem";
 import {
   compareOffenseItemList,
   filterOffenseItemList,
   OffenseItem,
-} from "features/zapquake_calc/objects/offenseItem";
+} from "features/ZapquakeCalculator/objects/offenseItem";
 import { useRef } from "react";
 import { transformRecord } from "utils/objectUtils";
 

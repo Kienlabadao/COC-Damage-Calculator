@@ -1,7 +1,7 @@
-import { ModifierItem } from "features/advance_calc/objects/modifierItem";
-import { EquipmentCardWrapper } from "./EquipmentCardWrapper";
-import { EquipmentDisplayData } from "features/advance_calc/objects/equipmentDisplayData";
-import { MAX_SELECTED_EQUIPMENT } from "data/game";
+import { ModifierItem } from "features/AdvanceCalculator/objects/modifierItem";
+import { EquipmentCardContainer } from "./equipmentCardContainer";
+import { EquipmentDisplayData } from "features/AdvanceCalculator/objects/equipmentDisplayData";
+import { MAX_SELECTED_EQUIPMENT } from "data/Game";
 
 interface Props {
   equipmentDisplayDataList: EquipmentDisplayData[];
@@ -36,7 +36,7 @@ export function EquipmentsSection({
       {renderSelectedEquipmentWarning()}
       <div className="equipment-list row row-cols-5 justify-content-evenly gap-3 mt-4">
         {equipmentDisplayDataList.map((equipmentDisplayData) => (
-          <EquipmentCardWrapper
+          <EquipmentCardContainer
             key={equipmentDisplayData.id}
             equipmentItem={equipmentDisplayData.equipmentItem}
             updateEquipment={equipmentDisplayData.updateEquipment}

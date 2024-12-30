@@ -1,10 +1,10 @@
-import { Dropdown } from "components";
+import { Dropdown } from "components/UI";
 import { BS_COLOR } from "data/constants";
 import {
   EARTHQUAKE_ORDER,
   EarthquakeOrder,
-} from "features/zapquake_calc/data/constants";
-import { isEarthquakeOrderType } from "features/zapquake_calc/utils/customObjectUtils";
+} from "features/ZapquakeCalculator/data/constants";
+import { isEarthquakeOrderType } from "features/ZapquakeCalculator/utils/customObjectUtils";
 
 interface Props {
   earthquakeOrder: EarthquakeOrder;

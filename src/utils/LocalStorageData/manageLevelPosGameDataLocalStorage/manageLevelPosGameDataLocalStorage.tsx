@@ -1,5 +1,5 @@
 import { clearItem, getItem, setItem } from "utils/localStorage";
-import { GameDataType } from "data/game";
+import { GameDataType } from "data/Game";
 import { isNumber } from "utils/objectUtils";
 import { isValidGameDataLevelPos } from "utils/GameData/gameDataUtils";
 

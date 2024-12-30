@@ -1,4 +1,4 @@
-import { GameDataType } from "data/game";
+import { GameDataType } from "data/Game";
 import { manageLevelPosGameDataLocalStorage } from "utils/LocalStorageData/manageLevelPosGameDataLocalStorage";
 import {
   getAdvanceCalcLevelPosGameDataStorageKey,

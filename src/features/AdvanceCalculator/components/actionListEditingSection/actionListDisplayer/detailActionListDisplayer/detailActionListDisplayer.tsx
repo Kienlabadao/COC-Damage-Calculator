@@ -1,6 +1,6 @@
-import { Column, TableRow } from "components/Table";
-import { ActionCard } from "features/advance_calc/components/ActionCard";
-import { AdvanceActionItem } from "features/advance_calc/objects/advanceActionItem";
+import { Column, TableRow } from "components/UI";
+import { ActionCard } from "features/AdvanceCalculator/components/actionCard";
+import { AdvanceActionItem } from "features/AdvanceCalculator/objects/advanceActionItem";
 
 interface Props {
   actionList: AdvanceActionItem[];

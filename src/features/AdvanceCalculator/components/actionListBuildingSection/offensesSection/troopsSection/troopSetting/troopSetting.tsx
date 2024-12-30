@@ -1,5 +1,7 @@
-import { Button, Checkbox } from "components";
+import { Button, Checkbox, TEXT_TYPE, TextFormatter } from "components/UI";
+import { SettingContainerWrapper } from "components/Wrapper";
 import { BS_COLOR } from "data/constants";
+import { getUseTroopDeathDamageStorageKey } from "features/AdvanceCalculator/utils/advanceCalcUtils";
 import { memo } from "react";
 
 interface Props {
@@ -7,7 +9,6 @@ interface Props {
   setUseTroopDeathDamage: React.Dispatch<React.SetStateAction<boolean>>;
   setAllTroopsToMax: () => void;
   setAllTroopsToMin: () => void;
-  className?: string;
 }
 
 export const TroopSetting = memo(function TroopSetting({
@@ -15,14 +16,14 @@ export const TroopSetting = memo(function TroopSetting({
   setUseTroopDeathDamage,
   setAllTroopsToMax,
   setAllTroopsToMin,
-  className = "",
 }: Props) {
   function handleUseTroopDeathDamage(value: boolean) {
     setUseTroopDeathDamage(value);
   }
+  const useTroopDeathDamageID = getUseTroopDeathDamageStorageKey();
 
   return (
-    <div className={className}>
+    <SettingContainerWrapper>
       <div className="d-flex flex-wrap gap-2 my-2">
         <Button color={BS_COLOR.Gray} onClick={() => setAllTroopsToMax()}>
           Set All Troops to Max Level
@@ -31,20 +32,20 @@ export const TroopSetting = memo(function TroopSetting({
           Set All Troops to Min Level
         </Button>
       </div>
-      <div>
+      <div className="mt-2">
         <Checkbox
-          key={`use_troop_death_damage`}
-          id={`use_troop_death_damage`}
+          key={useTroopDeathDamageID}
+          id={useTroopDeathDamageID}
           label={`Use Troop's Death Damage`}
           isChecked={useTroopDeathDamage}
           onChange={handleUseTroopDeathDamage}
-          className="mt-2"
         />
       </div>
-      <div className="text text--warning">
-        *Note: Death damage always takes precedence over modifiers. If both are
-        selected, death damage will be applied.
-      </div>
-    </div>
+      <TextFormatter
+        content={`*Note: Death damage always takes precedence over modifiers. If both are
+        selected, death damage will be applied.`}
+        textType={TEXT_TYPE.Warning}
+      />
+    </SettingContainerWrapper>
   );
 });

@@ -1,4 +1,4 @@
-import { OFFENSE_TYPE } from "data/game";
+import { OFFENSE_TYPE } from "data/Game";
 import {
   compareOffenseItem,
   createOffenseItem,

@@ -1,5 +1,5 @@
 import { VALUE_BOUNDARY, ValueBoundary } from "data/constants";
-import { MODIFIER } from "data/game";
+import { MODIFIER } from "data/Game";
 
 export const DEFAULT_LEVEL: ValueBoundary = VALUE_BOUNDARY.MAX;
 export const DEFAULT_USE_EQUIPMENT = false;

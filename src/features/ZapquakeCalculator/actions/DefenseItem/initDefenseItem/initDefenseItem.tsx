@@ -1,9 +1,9 @@
-import { GAME_DATA_TYPE } from "data/game";
+import { GAME_DATA_TYPE } from "data/Game";
 import {
   createDefenseItem,
   DefenseItem,
-} from "features/zapquake_calc/objects/defenseItem";
-import { manageZapquakeCalcLevelPosGameDataLocalStorage } from "features/zapquake_calc/utils/LocalStorageData/manageZapquakeCalcLevelPosGameDataLocalStorage";
+} from "features/ZapquakeCalculator/objects/defenseItem";
+import { manageZapquakeCalcLevelPosGameDataLocalStorage } from "features/ZapquakeCalculator/utils/LocalStorageData/manageZapquakeCalcLevelPosGameDataLocalStorage";
 
 export function initDefenseItem(defenseID: string): DefenseItem {
   const { getOrStoreLevelPos } = manageZapquakeCalcLevelPosGameDataLocalStorage(

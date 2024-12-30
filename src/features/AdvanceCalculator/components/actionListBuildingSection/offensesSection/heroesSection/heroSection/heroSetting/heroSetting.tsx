@@ -1,4 +1,5 @@
-import { Button } from "components";
+import { Button } from "components/UI";
+import { SettingContainerWrapper } from "components/Wrapper";
 import { BS_COLOR } from "data/constants";
 import { memo } from "react";
 
@@ -7,7 +8,6 @@ interface Props {
   setAllEquipmentsToMin: () => void;
   setAllEquipmentsToUse: () => void;
   setAllEquipmentsToUnuse: () => void;
-  className?: string;
 }
 
 export const HeroSetting = memo(function HeroSetting({
@@ -15,10 +15,9 @@ export const HeroSetting = memo(function HeroSetting({
   setAllEquipmentsToMin,
   setAllEquipmentsToUse,
   setAllEquipmentsToUnuse,
-  className = "",
 }: Props) {
   return (
-    <div className={className}>
+    <SettingContainerWrapper>
       <div className="d-flex flex-wrap gap-2 my-2">
         <Button color={BS_COLOR.Gray} onClick={() => setAllEquipmentsToMax()}>
           Set All Equipments to Max Level
@@ -35,6 +34,6 @@ export const HeroSetting = memo(function HeroSetting({
           Unuse All Equipments
         </Button>
       </div>
-    </div>
+    </SettingContainerWrapper>
   );
 });

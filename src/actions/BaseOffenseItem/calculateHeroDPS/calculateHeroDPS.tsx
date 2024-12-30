@@ -1,4 +1,4 @@
-import { ModifierItem } from "features/advance_calc/objects/modifierItem";
+import { ModifierItem } from "features/AdvanceCalculator/objects/modifierItem";
 import { heroDataUtils } from "utils/GameData/heroDataUtils";
 import {
   calculateDPSAfterAttackSpeedModified,
@@ -6,7 +6,7 @@ import {
 } from "utils/GameData/gameDataCalculatorUtils";
 import { calculateModifiedActionValue } from "actions/BaseModifierItem";
 import { ACTION_TYPE } from "objects/actionItem";
-import { GAME_DATA_TYPE } from "data/game";
+import { GAME_DATA_TYPE } from "data/Game";
 import { BaseOffenseItem } from "objects/baseOffenseItem";
 
 const type = GAME_DATA_TYPE.Hero;

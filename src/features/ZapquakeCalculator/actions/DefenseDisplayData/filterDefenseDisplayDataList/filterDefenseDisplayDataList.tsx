@@ -1,9 +1,9 @@
 import {
   createDefenseCountLog,
   DefenseCountLog,
-} from "features/zapquake_calc/objects/defenseCountLog";
-import { DefenseDisplayData } from "features/zapquake_calc/objects/defenseDisplayData";
-import { DEFENSE_STATUS } from "features/zapquake_calc/objects/defenseLog";
+} from "features/ZapquakeCalculator/objects/defenseCountLog";
+import { DefenseDisplayData } from "features/ZapquakeCalculator/objects/defenseDisplayData";
+import { DEFENSE_STATUS } from "features/ZapquakeCalculator/objects/defenseLog";
 import { defenseDataUtils } from "utils/GameData/defenseDataUtils";
 
 export function filterDefenseDisplayDataList(

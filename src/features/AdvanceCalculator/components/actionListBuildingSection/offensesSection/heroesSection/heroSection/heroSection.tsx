@@ -1,22 +1,22 @@
-import { Hero, OFFENSE_TYPE } from "data/game";
-import { HeroCardWrapper } from "./HeroCardWrapper";
+import { Hero, OFFENSE_TYPE } from "data/Game";
+import { HeroCardContainer } from "./heroCardContainer";
 import { heroDataUtils } from "utils/GameData/heroDataUtils";
-import { EquipmentsSection } from "./EquipmentsSection";
+import { EquipmentsSection } from "./equipmentsSection";
 import {
   useInitEquipment,
   useInitHero,
-} from "features/advance_calc/hooks/Init";
-import { HeroSetting } from "./HeroSetting";
+} from "features/AdvanceCalculator/hooks/Init";
+import { HeroSetting } from "./heroSetting";
 import { memo } from "react";
-import { ModifierItem } from "features/advance_calc/objects/modifierItem";
-import { getActiveModifier } from "features/advance_calc/actions/ModifierItem";
-import { calculateHeroAttackSpeed } from "features/advance_calc/actions/EquipmentItem";
+import { ModifierItem } from "features/AdvanceCalculator/objects/modifierItem";
+import { getActiveModifier } from "features/AdvanceCalculator/actions/ModifierItem";
+import { calculateHeroAttackSpeed } from "features/AdvanceCalculator/actions/EquipmentItem";
 import {
   useCacheEquipmentDamageLog,
   useUpdateRageVialModifier,
-} from "features/advance_calc/hooks";
-import { initEquipmentDisplayDataList } from "features/advance_calc/actions/EquipmentDisplayDataList";
-import { filterEquipmentItemList } from "features/advance_calc/objects/equipmentItem";
+} from "features/AdvanceCalculator/hooks";
+import { initEquipmentDisplayDataList } from "features/AdvanceCalculator/actions/EquipmentDisplayDataList";
+import { filterEquipmentItemList } from "features/AdvanceCalculator/objects/equipmentItem";
 
 interface Props {
   hero: Hero;
@@ -85,7 +85,6 @@ export const HeroSection = memo(function HeroSection({
       <h2 className="text-center">{getHeroName()}</h2>
       <div className="mt-3">
         <HeroSetting
-          className="setting-container"
           setAllEquipmentsToMax={setAllEquipmentsToMax}
           setAllEquipmentsToMin={setAllEquipmentsToMin}
           setAllEquipmentsToUse={setAllEquipmentsToUse}
@@ -94,7 +93,7 @@ export const HeroSection = memo(function HeroSection({
         <div className="row align-items-center gy-5 gy-lg-0 mt-3">
           <div className="col-lg-4 col-xl-3">
             <div className="row row-cols-1 justify-content-center">
-              <HeroCardWrapper
+              <HeroCardContainer
                 heroItem={heroItem}
                 equipmentItemList={equipmentItemList}
                 equipmentDamageLogList={equipmentDamageLogList}

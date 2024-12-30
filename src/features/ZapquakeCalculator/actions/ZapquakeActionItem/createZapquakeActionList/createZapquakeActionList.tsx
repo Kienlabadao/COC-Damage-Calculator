@@ -1,17 +1,17 @@
-import { EQUIPMENT, OFFENSE_TYPE, SPELL } from "data/game";
-import { MAX_SPELL_COUNT } from "features/zapquake_calc/config/config";
+import { EQUIPMENT, OFFENSE_TYPE, SPELL } from "data/Game";
+import { MAX_SPELL_COUNT } from "features/ZapquakeCalculator/config/config";
 import {
   EARTHQUAKE_ORDER,
   EarthquakeOrder,
-} from "features/zapquake_calc/data/constants";
-import { DonatedLightningSpellItem } from "features/zapquake_calc/objects/donatedLightningSpellItem";
+} from "features/ZapquakeCalculator/data/constants";
+import { DonatedLightningSpellItem } from "features/ZapquakeCalculator/objects/donatedLightningSpellItem";
 import {
   filterOffenseItemList,
   findOffenseItem,
   OffenseItem,
   removeOffenseItem,
-} from "features/zapquake_calc/objects/offenseItem";
-import { ZapquakeActionItem } from "features/zapquake_calc/objects/zapquakeActionItem";
+} from "features/ZapquakeCalculator/objects/offenseItem";
+import { ZapquakeActionItem } from "features/ZapquakeCalculator/objects/zapquakeActionItem";
 import { duplicateItem } from "utils/objectUtils";
 import { convertOffenseItemList } from "../convertOffenseItemList";
 import { convertOffenseItem } from "../convertOffenseItem";

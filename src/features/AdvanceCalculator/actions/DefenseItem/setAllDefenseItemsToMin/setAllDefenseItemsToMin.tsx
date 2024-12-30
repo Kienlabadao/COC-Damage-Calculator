@@ -1,6 +1,6 @@
-import { GAME_DATA_TYPE } from "data/game";
-import { DefenseItem } from "features/advance_calc/objects/defenseItem";
-import { manageAdvanceCalcLevelPosGameDataLocalStorage } from "features/advance_calc/utils/LocalStorageData/manageAdvanceCalcLevelPosGameDataLocalStorage";
+import { GAME_DATA_TYPE } from "data/Game";
+import { DefenseItem } from "features/AdvanceCalculator/objects/defenseItem";
+import { manageAdvanceCalcLevelPosGameDataLocalStorage } from "features/AdvanceCalculator/utils/LocalStorageData/manageAdvanceCalcLevelPosGameDataLocalStorage";
 import { getGameDataMinLevelPos } from "utils/GameData/gameDataUtils";
 import { initDefenseItem } from "../initDefenseItem";
 

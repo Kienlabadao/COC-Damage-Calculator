@@ -1,9 +1,9 @@
-import { DefenseItem } from "features/zapquake_calc/objects/defenseItem";
+import { DefenseItem } from "features/ZapquakeCalculator/objects/defenseItem";
 import {
   createDefenseDisplayData,
   DefenseDisplayData,
-} from "features/zapquake_calc/objects/defenseDisplayData";
-import { DefenseLog } from "features/zapquake_calc/objects/defenseLog";
+} from "features/ZapquakeCalculator/objects/defenseDisplayData";
+import { DefenseLog } from "features/ZapquakeCalculator/objects/defenseLog";
 
 export function initDefenseDisplayDataList(
   defenseItemList: DefenseItem[],

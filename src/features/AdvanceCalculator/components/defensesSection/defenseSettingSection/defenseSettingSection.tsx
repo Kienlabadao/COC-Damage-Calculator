@@ -1,7 +1,17 @@
-import { Button, Checkbox, CollapseContainer } from "components";
-import { LiveTextInput } from "components/LiveTextInput";
+import {
+  Button,
+  Checkbox,
+  CollapseContainer,
+  CollapseContainerButton,
+  CollapseContainerContent,
+  LiveTextInput,
+} from "components/UI";
 import { BS_COLOR } from "data/constants";
-import { DefenseCountLog } from "features/advance_calc/objects/defenseCountLog";
+import { DefenseCountLog } from "features/AdvanceCalculator/objects/defenseCountLog";
+import {
+  getHideDestroyedDefenseStorageKey,
+  getHideSurvivedDefenseStorageKey,
+} from "features/AdvanceCalculator/utils/advanceCalcUtils";
 import { memo } from "react";
 
 interface Props {
@@ -46,54 +56,28 @@ export const DefenseSettingSection = memo(function DefenseSettingSection({
     setSearchQuery(value);
   }
 
-  return (
-    <>
-      <h2 className="text-center">Defenses Section</h2>
-      <hr />
-      <LiveTextInput
-        id={`search_defense`}
-        value={searchQuery}
-        onChange={handleSearchDefense}
-        placeHolder={`Search a defense (case insensitive)`}
-      />
-      <div className="d-flex flex-wrap gap-2 mt-3">
-        <Button color={BS_COLOR.Gray} onClick={setAllDefensesToMax}>
-          Set All Defenses to Max Level
-        </Button>
-        <Button color={BS_COLOR.Gray} onClick={setAllDefensesToMin}>
-          Set All Defenses to Min Level
-        </Button>
-      </div>
-      <div>
-        <Checkbox
-          key={`hide_survived`}
-          id={`hide_survived`}
-          label={`Hide survived defense`}
-          isChecked={hideSurvivedDefense}
-          onChange={handleHideSurvivedDefense}
-          className="mt-2"
-        />
-        <Checkbox
-          key={`hide_destroyed`}
-          id={`hide_destroyed`}
-          label={`Hide destroyed defense`}
-          isChecked={hideDestroyedDefense}
-          onChange={(isChecked: boolean) =>
-            handleHideDestroyedDefense(isChecked)
-          }
-          className="mt-2"
-        />
-      </div>
-      <hr />
-      <div>
-        <div className="h5 mb-0">{`Defenses Count: ${remainingDefense}/${maxDefenseCount}`}</div>
-        {remainingDefense !== maxDefenseCount && (
-          <CollapseContainer
-            id={`show_defense_count_detail`}
-            openText={`Show Detail`}
-            closeText={`Hide Detail`}
-            buttonContainerClassName={`mt-2`}
-          >
+  const hideDestroyedDefenseCheckboxID = getHideDestroyedDefenseStorageKey();
+  const hideSurvivedDefenseCheckboxID = getHideSurvivedDefenseStorageKey();
+
+  function renderDefenseCountDisplayer() {
+    const defenseCountDisplayer = (
+      <div className="h5 mb-0">{`Defenses Count: ${remainingDefense}/${maxDefenseCount}`}</div>
+    );
+
+    if (remainingDefense === maxDefenseCount) {
+      return defenseCountDisplayer;
+    } else {
+      return (
+        <CollapseContainer id={`show_defense_count_detail`}>
+          <div className="d-flex align-items-center gap-2 mt-2">
+            {defenseCountDisplayer}
+            <CollapseContainerButton
+              color={BS_COLOR.Gray}
+              openText={`Show Detail`}
+              closeText={`Hide Detail`}
+            />
+          </div>
+          <CollapseContainerContent>
             <ul>
               {hiddenSettingDefenseCount > 0 && (
                 <li>Defense hidden by setting: {hiddenSettingDefenseCount}</li>
@@ -117,9 +101,52 @@ export const DefenseSettingSection = memo(function DefenseSettingSection({
                 </li>
               )}
             </ul>
-          </CollapseContainer>
-        )}
+          </CollapseContainerContent>
+        </CollapseContainer>
+      );
+    }
+  }
+
+  return (
+    <>
+      <h2 className="text-center">Defenses Section</h2>
+      <hr />
+      <LiveTextInput
+        id={`search_defense`}
+        value={searchQuery}
+        onChange={handleSearchDefense}
+        placeHolder={`Search a defense (case insensitive)`}
+      />
+      <div className="d-flex flex-wrap gap-2 mt-3">
+        <Button color={BS_COLOR.Gray} onClick={setAllDefensesToMax}>
+          Set All Defenses to Max Level
+        </Button>
+        <Button color={BS_COLOR.Gray} onClick={setAllDefensesToMin}>
+          Set All Defenses to Min Level
+        </Button>
       </div>
+      <div>
+        <Checkbox
+          key={hideSurvivedDefenseCheckboxID}
+          id={hideSurvivedDefenseCheckboxID}
+          label={`Hide survived defense`}
+          isChecked={hideSurvivedDefense}
+          onChange={handleHideSurvivedDefense}
+          className="mt-2"
+        />
+        <Checkbox
+          key={hideDestroyedDefenseCheckboxID}
+          id={hideDestroyedDefenseCheckboxID}
+          label={`Hide destroyed defense`}
+          isChecked={hideDestroyedDefense}
+          onChange={(isChecked: boolean) =>
+            handleHideDestroyedDefense(isChecked)
+          }
+          className="mt-2"
+        />
+      </div>
+      <hr />
+      <div>{renderDefenseCountDisplayer()}</div>
     </>
   );
 });

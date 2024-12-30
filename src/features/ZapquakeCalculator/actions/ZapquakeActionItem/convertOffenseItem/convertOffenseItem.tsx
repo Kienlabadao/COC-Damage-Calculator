@@ -1,9 +1,9 @@
-import { DamageType, OFFENSE_TYPE } from "data/game";
-import { OffenseItem } from "features/zapquake_calc/objects/offenseItem";
+import { DamageType, OFFENSE_TYPE } from "data/Game";
+import { OffenseItem } from "features/ZapquakeCalculator/objects/offenseItem";
 import {
   createZapquakeActionItem,
   ZapquakeActionItem,
-} from "features/zapquake_calc/objects/zapquakeActionItem";
+} from "features/ZapquakeCalculator/objects/zapquakeActionItem";
 import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
 import { spellDataUtils } from "utils/GameData/spellDataUtils";
 

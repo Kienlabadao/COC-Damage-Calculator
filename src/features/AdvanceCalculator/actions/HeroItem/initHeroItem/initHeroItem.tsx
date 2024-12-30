@@ -1,10 +1,10 @@
-import { OFFENSE_TYPE } from "data/game";
+import { OFFENSE_TYPE } from "data/Game";
 import {
   createHeroItem,
   HeroItem,
-} from "features/advance_calc/objects/heroItem";
-import { manageAdvanceCalcLevelPosGameDataLocalStorage } from "features/advance_calc/utils/LocalStorageData/manageAdvanceCalcLevelPosGameDataLocalStorage";
-import { manageUseAbilityHeroLocalStorage } from "features/advance_calc/utils/LocalStorageData/manageUseAbilityHeroLocalStorage";
+} from "features/AdvanceCalculator/objects/heroItem";
+import { manageAdvanceCalcLevelPosGameDataLocalStorage } from "features/AdvanceCalculator/utils/LocalStorageData/manageAdvanceCalcLevelPosGameDataLocalStorage";
+import { manageUseAbilityHeroLocalStorage } from "features/AdvanceCalculator/utils/LocalStorageData/manageUseAbilityHeroLocalStorage";
 
 export function initHeroItem(heroID: string): HeroItem {
   const { getOrStoreLevelPos } = manageAdvanceCalcLevelPosGameDataLocalStorage(

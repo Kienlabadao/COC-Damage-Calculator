@@ -9,8 +9,8 @@ import {
   ChangelogPage,
   PageNotFoundPage,
   ErrorPage,
-  ZapquakeCalcPage,
-  AdvanceCalcPage,
+  ZapquakeCalculatorPage,
+  AdvanceCalculatorPage,
   SettingPage,
 } from "pages";
 import { ToastContainer } from "react-toastify";
@@ -33,7 +33,7 @@ export default function App() {
       path: `${PAGE_URLS.ZapquakeCalcPage}`,
       element: (
         <>
-          <ZapquakeCalcPage />
+          <ZapquakeCalculatorPage />
           <AutoScrollWrapper />
         </>
       ),
@@ -42,7 +42,7 @@ export default function App() {
       path: `${PAGE_URLS.AdvanceCalcPage}`,
       element: (
         <>
-          <AdvanceCalcPage />
+          <AdvanceCalculatorPage />
           <AutoScrollWrapper />
         </>
       ),

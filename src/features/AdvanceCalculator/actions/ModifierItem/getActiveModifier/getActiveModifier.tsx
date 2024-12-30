@@ -1,5 +1,5 @@
-import { GameDataType } from "data/game";
-import { ModifierItem } from "features/advance_calc/objects/modifierItem";
+import { GameDataType } from "data/Game";
+import { ModifierItem } from "features/AdvanceCalculator/objects/modifierItem";
 import { modifierDataUtils } from "utils/GameData/modifierDataUtils";
 
 export function getActiveModifier(

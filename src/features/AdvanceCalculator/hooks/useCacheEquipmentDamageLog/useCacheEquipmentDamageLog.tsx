@@ -1,13 +1,13 @@
-import { calculateEquipmentDamageLog } from "features/advance_calc/actions/EquipmentDamage";
-import { EquipmentDamageLog } from "features/advance_calc/objects/equipmentDamageLog";
+import { calculateEquipmentDamageLog } from "features/AdvanceCalculator/actions/EquipmentDamage";
+import { EquipmentDamageLog } from "features/AdvanceCalculator/objects/equipmentDamageLog";
 import {
   compareEquipmentItem,
   EquipmentItem,
-} from "features/advance_calc/objects/equipmentItem";
+} from "features/AdvanceCalculator/objects/equipmentItem";
 import {
   compareModifierItem,
   ModifierItem,
-} from "features/advance_calc/objects/modifierItem";
+} from "features/AdvanceCalculator/objects/modifierItem";
 import { useRef } from "react";
 import { transformRecord } from "utils/objectUtils";
 

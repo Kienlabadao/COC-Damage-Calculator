@@ -4,7 +4,7 @@ import {
   TROOP_TYPE,
   TroopData,
   TroopType,
-} from "data/game";
+} from "data/Game";
 import { OFFENSE_IMG_PATH } from "data/constants";
 
 export function troopDataUtils(troopID: string) {

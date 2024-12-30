@@ -1,6 +1,4 @@
-function getHPTextClass(isMaxed: boolean) {
-  return isMaxed ? "text text--level-maxed" : "text";
-}
+import { TEXT_TYPE, TextFormatter } from "components/UI";
 
 interface Props {
   currentLevel: number;
@@ -8,10 +6,13 @@ interface Props {
 }
 
 export function LevelStatCell({ currentLevel, isMaxed }: Props) {
+  const content = `${currentLevel}`;
+  const textType = isMaxed ? TEXT_TYPE.LevelMaxed : TEXT_TYPE.Normal;
+
   return (
     <div className="card-custom card-custom__stat">
       <i className="fa-solid fa-chart-simple me-1" aria-hidden="true"></i>
-      <span className={getHPTextClass(isMaxed)}>{currentLevel}</span>
+      <TextFormatter content={content} textType={textType} />
     </div>
   );
 }

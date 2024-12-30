@@ -4,7 +4,7 @@ import {
   getDonatedLightningSpellCountStorageKey,
   isValidDonatedSpellCount,
 } from "../../zapquakeCalcUtils";
-import { DEFAULT_DONATED_SPELL_COUNT } from "features/zapquake_calc/config/config";
+import { DEFAULT_DONATED_SPELL_COUNT } from "features/ZapquakeCalculator/config/config";
 
 export function manageDonatedLightningSpellCountLocalStorage() {
   const key = getDonatedLightningSpellCountStorageKey();

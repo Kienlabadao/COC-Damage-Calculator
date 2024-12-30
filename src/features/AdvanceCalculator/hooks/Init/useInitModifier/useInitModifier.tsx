@@ -3,11 +3,11 @@ import {
   setAllModifierItemsToMax,
   setAllModifierItemsToMin,
   updateModifierItem,
-} from "features/advance_calc/actions/ModifierItem";
+} from "features/AdvanceCalculator/actions/ModifierItem";
 import {
   ModifierItem,
   updateModifierItemInList,
-} from "features/advance_calc/objects/modifierItem";
+} from "features/AdvanceCalculator/objects/modifierItem";
 import { useCallback, useState } from "react";
 import { getAllModifierIDs } from "utils/GameData/gameDataUtils";
 

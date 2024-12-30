@@ -1,9 +1,9 @@
 import { useOffensesSectionContext } from "features/ZapquakeCalculator/contexts";
 import { SpellSetting } from "./spellSetting";
-import { DonatedSpellCard } from "./donatedSpellCardContainer";
-import { filterOffenseItemList } from "features/AdvanceCalculator/objects/offenseItem";
+import { filterOffenseItemList } from "features/ZapquakeCalculator/objects/offenseItem";
+import { SpellCardContainer } from "./spellCardContainer";
 import { OFFENSE_TYPE } from "data/Game";
-import { SpellCard } from "./spellCard";
+import { DonatedSpellCardContainer } from "./donatedSpellCardContainer";
 
 export function SpellsSection() {
   const {
@@ -19,7 +19,6 @@ export function SpellsSection() {
       <h3 className="text-center">Spell</h3>
 
       <SpellSetting
-        className="setting-container"
         donatedLightningSpellItem={donatedLightningSpellItem}
         updateOffense={updateOffense}
         setAllOffensesToMax={setAllOffensesToMax}
@@ -28,7 +27,7 @@ export function SpellsSection() {
 
       <div className="row row-cols-6 justify-content-evenly gap-3 mt-5">
         {donatedLightningSpellItem.use && (
-          <DonatedSpellCard
+          <DonatedSpellCardContainer
             key={donatedLightningSpellItem.id}
             spell={donatedLightningSpellItem}
             updateOffense={updateOffense}
@@ -38,7 +37,7 @@ export function SpellsSection() {
           offenseItemList,
           new Set([OFFENSE_TYPE.Spell])
         ).map((offense) => (
-          <SpellCard
+          <SpellCardContainer
             key={offense.id}
             spell={offense}
             updateOffense={updateOffense}

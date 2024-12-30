@@ -1,14 +1,14 @@
-import { OFFENSE_TYPE } from "data/game";
+import { OFFENSE_TYPE } from "data/Game";
 import {
   initOffenseItem,
   setAllOffenseItemsToMax,
   setAllOffenseItemsToMin,
   updateOffenseItem,
-} from "features/advance_calc/actions/OffenseItem";
+} from "features/AdvanceCalculator/actions/OffenseItem";
 import {
   OffenseItem,
   updateOffenseItemInList,
-} from "features/advance_calc/objects/offenseItem";
+} from "features/AdvanceCalculator/objects/offenseItem";
 import { useCallback, useState } from "react";
 import { getAllTroopIDs } from "utils/GameData/gameDataUtils";
 

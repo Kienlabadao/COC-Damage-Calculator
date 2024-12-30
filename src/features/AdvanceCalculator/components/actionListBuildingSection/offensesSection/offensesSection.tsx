@@ -1,6 +1,6 @@
-import { SpellsSection } from "./SpellsSection";
-import { TroopsSection } from "./TroopsSection";
-import { HeroesSection } from "./HeroesSection";
+import { SpellsSection } from "./spellsSection";
+import { TroopsSection } from "./troopsSection";
+import { HeroesSection } from "./heroesSection";
 
 export function OffensesSection() {
   return (

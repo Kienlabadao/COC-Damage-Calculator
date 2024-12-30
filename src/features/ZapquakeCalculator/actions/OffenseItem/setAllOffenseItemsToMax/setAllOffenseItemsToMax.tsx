@@ -1,6 +1,6 @@
-import { OffenseType } from "data/game";
-import { OffenseItem } from "features/zapquake_calc/objects/offenseItem";
-import { manageZapquakeCalcLevelPosGameDataLocalStorage } from "features/zapquake_calc/utils/LocalStorageData/manageZapquakeCalcLevelPosGameDataLocalStorage";
+import { OffenseType } from "data/Game";
+import { OffenseItem } from "features/ZapquakeCalculator/objects/offenseItem";
+import { manageZapquakeCalcLevelPosGameDataLocalStorage } from "features/ZapquakeCalculator/utils/LocalStorageData/manageZapquakeCalcLevelPosGameDataLocalStorage";
 import { getGameDataMaxLevelPos } from "utils/GameData/gameDataUtils";
 import { initOffenseItem } from "../initOffenseItem";
 

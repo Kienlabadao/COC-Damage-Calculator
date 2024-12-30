@@ -1,8 +1,8 @@
-import { useInitHeroSetting } from "features/advance_calc/hooks/Init/useInitHeroSetting";
-import { HeroesSetting } from "./HeroesSetting";
-import { HeroSection } from "./HeroSection";
-import { HERO } from "data/game";
-import { useOffensesSectionContext } from "features/advance_calc/contexts";
+import { useInitHeroSetting } from "features/AdvanceCalculator/hooks/Init/useInitHeroSetting";
+import { HeroesSetting } from "./heroesSetting";
+import { HeroSection } from "./heroSection";
+import { HERO } from "data/Game";
+import { useOffensesSectionContext } from "features/AdvanceCalculator/contexts";
 
 export function HeroesSection() {
   const { modifierItemList, updateModifier } = useOffensesSectionContext();
@@ -15,7 +15,6 @@ export function HeroesSection() {
     <div className="mb-5">
       <h3 className="text-center">Hero</h3>
       <HeroesSetting
-        className="setting-container"
         useHardMode={useHardMode}
         setUseHardMode={setUseHardMode}
       />

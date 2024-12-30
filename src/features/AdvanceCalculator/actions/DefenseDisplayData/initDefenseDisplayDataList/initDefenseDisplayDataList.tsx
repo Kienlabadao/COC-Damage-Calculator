@@ -1,9 +1,9 @@
-import { DefenseItem } from "features/advance_calc/objects/defenseItem";
+import { DefenseItem } from "features/AdvanceCalculator/objects/defenseItem";
 import {
   createDefenseDisplayData,
   DefenseDisplayData,
-} from "features/advance_calc/objects/defenseDisplayData";
-import { DefenseLog } from "features/advance_calc/objects/defenseLog";
+} from "features/AdvanceCalculator/objects/defenseDisplayData";
+import { DefenseLog } from "features/AdvanceCalculator/objects/defenseLog";
 
 export function initDefenseDisplayDataList(
   defenseItemList: DefenseItem[],

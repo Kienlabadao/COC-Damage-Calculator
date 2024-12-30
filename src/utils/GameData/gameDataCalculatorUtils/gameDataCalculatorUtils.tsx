@@ -6,7 +6,7 @@ import {
   scaleAndRoundValue,
 } from "utils/numberUtils";
 import { ROUNDING_PRECISION } from "config/config";
-import { HARD_MODE_HERO_DAMAGE_MODIFIER } from "data/game";
+import { HARD_MODE_HERO_DAMAGE_MODIFIER } from "data/Game";
 
 export function calculateDirectDamage(hp: number, damage: number): number {
   const remainingHP = hp - damage;

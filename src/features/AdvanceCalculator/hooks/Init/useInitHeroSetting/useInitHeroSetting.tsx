@@ -1,4 +1,4 @@
-import { manageUseHardModeLocalStorage } from "features/advance_calc/utils/LocalStorageData/manageUseHardModeLocalStorage";
+import { manageUseHardModeLocalStorage } from "features/AdvanceCalculator/utils/LocalStorageData/manageUseHardModeLocalStorage";
 import { usePersistedState } from "hooks";
 import { useCallback } from "react";
 

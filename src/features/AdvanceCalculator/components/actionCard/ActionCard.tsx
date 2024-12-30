@@ -1,15 +1,15 @@
 import {
   BACKGROUND_TYPE,
   BackgroundType,
-  GameDataCardContainer,
+  convertEquipmentRarity,
+  GameDataImageDisplayer,
+  LevelOverlay,
+  OrderOverlay,
+  OVERLAY_POSITION,
   SIZE,
-} from "components/CalculatorComponents/GameDataCardContainer";
-import {
-  OVERLAY_TYPE,
-  OverlayType,
-} from "components/CalculatorComponents/GameDataCardContainer/Overlay";
-import { SPELL } from "data/game";
-import { AdvanceActionItem } from "features/advance_calc/objects/advanceActionItem";
+} from "components/Calculator";
+import { convertSpellID } from "components/Calculator/GameDataCard/gameDataImageDisplayer/Helper/convertSpellID";
+import { AdvanceActionItem } from "features/AdvanceCalculator/objects/advanceActionItem";
 import { ACTION_TYPE, ActionType } from "objects/actionItem";
 import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
 import {
@@ -24,14 +24,12 @@ interface Props {
 }
 
 function getBackgroundType(actionID: string, type: ActionType): BackgroundType {
-  if (type === ACTION_TYPE.Spell && actionID === SPELL.EarthquakeSpell) {
-    return BACKGROUND_TYPE.Earthquake;
+  if (type === ACTION_TYPE.Spell) {
+    return convertSpellID(actionID);
   } else if (type === ACTION_TYPE.Equipment) {
-    const { isEquipmentRarityEpic } = equipmentDataUtils(actionID);
+    const { getEquipmentRarity } = equipmentDataUtils(actionID);
 
-    if (isEquipmentRarityEpic()) {
-      return BACKGROUND_TYPE.Epic;
-    }
+    return convertEquipmentRarity(getEquipmentRarity());
   }
 
   return BACKGROUND_TYPE.Normal;
@@ -46,23 +44,20 @@ export function ActionCard({ action, index }: Props) {
   const isMaxed = isMaxGameDataLevelPos(actionID, type, currentLevelPos);
   const currentLevel = getGameDataLevel(actionID, type, currentLevelPos);
 
-  const bottomLeftOverlayType: OverlayType = isMaxed
-    ? OVERLAY_TYPE.NumLevelMaxed
-    : OVERLAY_TYPE.Num;
+  const backgroundType = getBackgroundType(actionID, type);
 
   return (
-    <GameDataCardContainer
+    <GameDataImageDisplayer
       imgPath={imgPath}
-      backgroundType={getBackgroundType(actionID, type)}
+      backgroundType={backgroundType}
       size={SIZE.Responsive}
-      bottomLeftOverlay={{
-        type: bottomLeftOverlayType,
-        content: currentLevel.toString(),
-      }}
-      bottomRightOverlay={{
-        type: OVERLAY_TYPE.NumOrder,
-        content: index.toString(),
-      }}
-    />
+    >
+      <LevelOverlay
+        position={OVERLAY_POSITION.BottomLeft}
+        level={currentLevel}
+        isMaxed={isMaxed}
+      />
+      <OrderOverlay position={OVERLAY_POSITION.BottomRight} order={index} />
+    </GameDataImageDisplayer>
   );
 }

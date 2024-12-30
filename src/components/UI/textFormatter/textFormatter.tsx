@@ -47,8 +47,8 @@ interface Props {
 
 export function TextFormatter({ content, textType = TEXT_TYPE.Normal }: Props) {
   return (
-    <div className={`text ${renderContentType(textType)} fw-bold`}>
+    <span className={`text ${renderContentType(textType)} fw-bold`}>
       {content}
-    </div>
+    </span>
   );
 }

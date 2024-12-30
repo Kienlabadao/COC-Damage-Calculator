@@ -1,9 +1,9 @@
-import { GAME_DATA_TYPE } from "data/game";
+import { GAME_DATA_TYPE } from "data/Game";
 import {
   createDefenseItem,
   DefenseItem,
-} from "features/advance_calc/objects/defenseItem";
-import { manageAdvanceCalcLevelPosGameDataLocalStorage } from "features/advance_calc/utils/LocalStorageData/manageAdvanceCalcLevelPosGameDataLocalStorage";
+} from "features/AdvanceCalculator/objects/defenseItem";
+import { manageAdvanceCalcLevelPosGameDataLocalStorage } from "features/AdvanceCalculator/utils/LocalStorageData/manageAdvanceCalcLevelPosGameDataLocalStorage";
 
 export function initDefenseItem(defenseID: string): DefenseItem {
   const { getOrStoreLevelPos } = manageAdvanceCalcLevelPosGameDataLocalStorage(

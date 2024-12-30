@@ -1,9 +1,9 @@
-import { Hero } from "data/game";
+import { Hero } from "data/Game";
 import {
   initHeroItem,
   updateHeroItem,
-} from "features/advance_calc/actions/HeroItem";
-import { HeroItem } from "features/advance_calc/objects/heroItem";
+} from "features/AdvanceCalculator/actions/HeroItem";
+import { HeroItem } from "features/AdvanceCalculator/objects/heroItem";
 import { useCallback, useState } from "react";
 
 function getHero(hero: Hero): HeroItem {

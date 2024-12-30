@@ -1,1 +1,1 @@
-export * from "./donatedSpellCard";
+export * from "./donatedSpellCardContainer";
