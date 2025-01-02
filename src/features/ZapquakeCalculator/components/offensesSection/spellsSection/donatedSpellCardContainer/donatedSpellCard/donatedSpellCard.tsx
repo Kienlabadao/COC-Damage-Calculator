@@ -10,9 +10,9 @@ import {
   DonatedOverlay,
   LevelOverlay,
   OVERLAY_POSITION,
+  convertSpellID,
 } from "components/Calculator";
 import { getDonatedLightningSpellCountStorageKey } from "features/ZapquakeCalculator/utils/zapquakeCalcUtils";
-import { convertSpellID } from "components/Calculator/GameDataCard/gameDataImageDisplayer/Helper/convertSpellID";
 
 interface Props {
   name: string;

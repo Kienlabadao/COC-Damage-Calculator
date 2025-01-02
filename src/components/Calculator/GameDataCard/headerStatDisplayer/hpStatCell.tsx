@@ -5,7 +5,7 @@ import {
 } from "config";
 import { formatNumber } from "utils/numberUtils";
 
-function getTextType(currentHP: number, maxHP: number): TextType {
+export function getHPTextType(currentHP: number, maxHP: number): TextType {
   if (currentHP <= 0) {
     return TEXT_TYPE.Destroyed;
   } else if (currentHP === maxHP) {
@@ -26,7 +26,7 @@ export function HPStatCell({ currentHP, maxHP }: Props) {
     MIN_DISPLAYING_DECIMAL_PLACE,
     MAX_DISPLAYING_DECIMAL_PLACE
   );
-  const textType = getTextType(currentHP, maxHP);
+  const textType = getHPTextType(currentHP, maxHP);
 
   return (
     <div className="card-custom card-custom__stat">

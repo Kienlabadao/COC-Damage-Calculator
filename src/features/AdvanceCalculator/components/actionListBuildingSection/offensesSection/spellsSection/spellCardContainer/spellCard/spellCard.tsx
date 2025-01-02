@@ -8,8 +8,8 @@ import {
   SIZE,
   LevelOverlay,
   OVERLAY_POSITION,
+  convertSpellID,
 } from "components/Calculator";
-import { convertSpellID } from "components/Calculator/GameDataCard/gameDataImageDisplayer/Helper/convertSpellID";
 import { DamageType } from "data/Game";
 import { memo } from "react";
 

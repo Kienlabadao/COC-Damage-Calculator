@@ -3,19 +3,46 @@ import {
   RouterProvider,
   useLocation,
 } from "react-router-dom";
-
-import {
-  HomePage,
-  ChangelogPage,
-  PageNotFoundPage,
-  ErrorPage,
-  ZapquakeCalculatorPage,
-  AdvanceCalculatorPage,
-  SettingPage,
-} from "pages";
 import { ToastContainer } from "react-toastify";
 import { PAGE_URLS } from "data/constants";
 import { AutoScrollToggler } from "components/Layout";
+import { lazy } from "react";
+
+const HomePage = lazy(() =>
+  import("pages").then((module) => ({
+    default: module.HomePage,
+  }))
+);
+const ChangelogPage = lazy(() =>
+  import("pages").then((module) => ({
+    default: module.ChangelogPage,
+  }))
+);
+const ZapquakeCalculatorPage = lazy(() =>
+  import("pages").then((module) => ({
+    default: module.ZapquakeCalculatorPage,
+  }))
+);
+const AdvanceCalculatorPage = lazy(() =>
+  import("pages").then((module) => ({
+    default: module.AdvanceCalculatorPage,
+  }))
+);
+const SettingPage = lazy(() =>
+  import("pages").then((module) => ({
+    default: module.SettingPage,
+  }))
+);
+const ErrorPage = lazy(() =>
+  import("pages").then((module) => ({
+    default: module.ErrorPage,
+  }))
+);
+const PageNotFoundPage = lazy(() =>
+  import("pages").then((module) => ({
+    default: module.PageNotFoundPage,
+  }))
+);
 
 export default function App() {
   const router = createBrowserRouter([

@@ -6,8 +6,8 @@ import {
   LevelOverlay,
   OVERLAY_POSITION,
   SpellCountOverlay,
+  convertSpellID,
 } from "components/Calculator";
-import { convertSpellID } from "components/Calculator/GameDataCard/gameDataImageDisplayer/Helper/convertSpellID";
 import { IMAGE_PATH } from "data/constants";
 import { MAX_SPELL_COUNT } from "features/ZapquakeCalculator/config";
 import { SpellCountItem } from "features/ZapquakeCalculator/objects/spellCountItem";

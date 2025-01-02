@@ -8,6 +8,7 @@ import {
 import { DefenseCard } from "./defenseCard";
 import { AdvanceDamageLogItem } from "features/AdvanceCalculator/objects/advanceDamageLogItem";
 import { getArrayLastElement } from "utils/objectUtils";
+import { DamageLogDetailDisplayer } from "./damageLogDetailDisplayer";
 
 interface Props {
   defenseItem: DefenseItem;
@@ -56,6 +57,13 @@ export const DefenseCardContainer = memo(function DefenseCardContainer({
       ? getArrayLastElement(damageLogList).remainingHP
       : maxHP;
 
+  const damageLogDetailDisplayer = (
+    <DamageLogDetailDisplayer
+      defenseItem={defenseItem}
+      damageLogList={damageLogList}
+    />
+  );
+
   return (
     <DefenseCard
       name={name}
@@ -69,6 +77,7 @@ export const DefenseCardContainer = memo(function DefenseCardContainer({
       updateCurrentLevelPos={updateCurrentLevelPos}
       maxHP={maxHP}
       remainingHP={remainingHP}
+      damageLogDetailDisplayer={damageLogDetailDisplayer}
     />
   );
 });

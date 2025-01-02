@@ -1,17 +1,17 @@
 import { ReactNode } from "react";
 
-export interface Column {
+export interface TableColumn {
   header: string;
-  accessor: string; // Keys for row objects
+  accessor: string;
 }
 
-export interface TableRow {
+export interface TableData {
   [key: string]: ReactNode;
 }
 
 interface TableProps {
-  columns: Column[];
-  data: TableRow[]; // Data rows with values as ReactNode
+  columns: TableColumn[];
+  data: TableData[];
   className?: string;
 }
 

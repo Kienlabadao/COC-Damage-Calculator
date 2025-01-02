@@ -6,10 +6,10 @@ import {
   LevelOverlay,
   OrderOverlay,
   OVERLAY_POSITION,
-  SIZE,
+  convertSpellID,
+  Size,
 } from "components/Calculator";
-import { convertSpellID } from "components/Calculator/GameDataCard/gameDataImageDisplayer/Helper/convertSpellID";
-import { AdvanceActionItem } from "features/AdvanceCalculator/objects/advanceActionItem";
+import { GameDataType } from "data/Game";
 import { ACTION_TYPE, ActionType } from "objects/actionItem";
 import { equipmentDataUtils } from "utils/GameData/equipmentDataUtils";
 import {
@@ -17,11 +17,6 @@ import {
   getGameDataLevel,
   isMaxGameDataLevelPos,
 } from "utils/GameData/gameDataUtils";
-
-interface Props {
-  action: AdvanceActionItem;
-  index: number;
-}
 
 function getBackgroundType(actionID: string, type: ActionType): BackgroundType {
   if (type === ACTION_TYPE.Spell) {
@@ -35,29 +30,41 @@ function getBackgroundType(actionID: string, type: ActionType): BackgroundType {
   return BACKGROUND_TYPE.Normal;
 }
 
-export function ActionCard({ action, index }: Props) {
-  const actionID = action.actionID;
-  const type = action.type;
-  const currentLevelPos = action.currentLevelPos;
+interface Props {
+  size: Size;
+  gameDataID: string;
+  type: GameDataType;
+  currentLevelPos: number;
+  order?: number;
+}
 
-  const imgPath = getGameDataImgPath(actionID, type, currentLevelPos);
-  const isMaxed = isMaxGameDataLevelPos(actionID, type, currentLevelPos);
-  const currentLevel = getGameDataLevel(actionID, type, currentLevelPos);
+export function GameDataImageDisplayerContainer({
+  size,
+  gameDataID,
+  type,
+  currentLevelPos,
+  order,
+}: Props) {
+  const imgPath = getGameDataImgPath(gameDataID, type, currentLevelPos);
+  const isMaxed = isMaxGameDataLevelPos(gameDataID, type, currentLevelPos);
+  const currentLevel = getGameDataLevel(gameDataID, type, currentLevelPos);
 
-  const backgroundType = getBackgroundType(actionID, type);
+  const backgroundType = getBackgroundType(gameDataID, type);
 
   return (
     <GameDataImageDisplayer
       imgPath={imgPath}
       backgroundType={backgroundType}
-      size={SIZE.Responsive}
+      size={size}
     >
       <LevelOverlay
         position={OVERLAY_POSITION.BottomLeft}
         level={currentLevel}
         isMaxed={isMaxed}
       />
-      <OrderOverlay position={OVERLAY_POSITION.BottomRight} order={index} />
+      {order && (
+        <OrderOverlay position={OVERLAY_POSITION.BottomRight} order={order} />
+      )}
     </GameDataImageDisplayer>
   );
 }

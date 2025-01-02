@@ -25,10 +25,18 @@ export function ActionListDisplayer({
     );
   }
 
+  const actionCount = actionList.length;
+
   return (
-    <CollapseContainer id={`show_action_list`} defaultOpen={true}>
-      <CollapseContainerButton color={BS_COLOR.Gray} />
-      <CollapseContainerContent>{renderActionList()}</CollapseContainerContent>
-    </CollapseContainer>
+    <>
+      {actionCount > 0 && (
+        <CollapseContainer id={`show_action_list`} defaultOpen={true}>
+          <CollapseContainerButton color={BS_COLOR.Gray} />
+          <CollapseContainerContent>
+            <div className={`mt-3`}>{renderActionList()}</div>
+          </CollapseContainerContent>
+        </CollapseContainer>
+      )}
+    </>
   );
 }

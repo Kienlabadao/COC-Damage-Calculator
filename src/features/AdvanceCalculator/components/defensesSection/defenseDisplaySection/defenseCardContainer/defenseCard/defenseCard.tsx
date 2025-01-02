@@ -3,6 +3,7 @@ import {
   HeaderStatDisplayer,
   LevelSlider,
 } from "components/Calculator";
+import { ReactNode } from "react";
 
 interface Props {
   name: string;
@@ -16,6 +17,7 @@ interface Props {
   updateCurrentLevelPos: (newCurrentLevelPos: number) => void;
   maxHP: number;
   remainingHP: number;
+  damageLogDetailDisplayer: ReactNode;
 }
 
 export function DefenseCard({
@@ -30,6 +32,7 @@ export function DefenseCard({
   updateCurrentLevelPos,
   maxHP,
   remainingHP,
+  damageLogDetailDisplayer,
 }: Props) {
   return (
     <DefenseCardWrapper>
@@ -51,7 +54,7 @@ export function DefenseCard({
           useTheme={false}
         />
       </div>
-      <div className="mt-3"></div>
+      <div className="mt-3">{damageLogDetailDisplayer}</div>
     </DefenseCardWrapper>
   );
 }

@@ -8,8 +8,8 @@ import {
   LevelOverlay,
   OVERLAY_POSITION,
   UseCheckbox,
+  convertSpellID,
 } from "components/Calculator";
-import { convertSpellID } from "components/Calculator/GameDataCard/gameDataImageDisplayer/Helper/convertSpellID";
 import { DamageType, GAME_DATA_TYPE } from "data/Game";
 import { getZapquakeCalcUseOffenseStorageKey } from "features/ZapquakeCalculator/utils/zapquakeCalcUtils";
 
