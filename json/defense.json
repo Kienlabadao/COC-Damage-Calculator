@@ -80,7 +80,9 @@
     "inferno_tower": {
       "name": "Inferno Tower",
       "type": "building",
-      "hp": [1500, 1800, 2100, 2400, 2700, 3000, 3300, 3700, 4000, 4400, 4600],
+      "hp": [
+        1500, 1800, 2100, 2400, 2700, 3000, 3300, 3700, 4000, 4400, 4800, 5000
+      ],
       "immune": []
     },
     "eagle_artillery": {
@@ -98,7 +100,7 @@
     "builders_hut": {
       "name": "Builder's Hut",
       "type": "building",
-      "hp": [250, 1000, 1300, 1600, 1800, 1900, 1950],
+      "hp": [250, 1000, 1300, 1600, 1800, 1900, 2000, 2050],
       "immune": []
     },
     "spell_tower": {
@@ -110,7 +112,7 @@
     "monolith": {
       "name": "Monolith",
       "type": "building",
-      "hp": [4747, 5050, 5353],
+      "hp": [4747, 5050, 5353, 5656, 5858],
       "immune": []
     },
     "ricochet_cannon": {
@@ -134,7 +136,7 @@
     "multigear_tower": {
       "name": "Multi-Gear Tower",
       "type": "building",
-      "hp": [4000, 4200],
+      "hp": [4000, 4200, 4350],
       "immune": []
     },
     "townhall": {
