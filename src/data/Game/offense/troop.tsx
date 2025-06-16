@@ -49,6 +49,7 @@ export const TroopData: Record<string, TroopStats> = {
       { level: 9, damage: 768 },
       { level: 10, damage: 828 },
       { level: 11, damage: 870 },
+      { level: 12, damage: 912 },
     ],
     death_damage: [
       { level: 1, death_damage: 25 },
@@ -62,6 +63,7 @@ export const TroopData: Record<string, TroopStats> = {
       { level: 9, death_damage: 322 },
       { level: 10, death_damage: 352 },
       { level: 11, death_damage: 375 },
+      { level: 12, death_damage: 398 },
     ],
   },
   rocket_balloon: {
@@ -73,12 +75,14 @@ export const TroopData: Record<string, TroopStats> = {
       { level: 9, damage: 840 },
       { level: 10, damage: 855 },
       { level: 11, damage: 870 },
+      { level: 12, damage: 912 },
     ],
     death_damage: [
       { level: 8, death_damage: 580 },
       { level: 9, death_damage: 620 },
       { level: 10, death_damage: 650 },
       { level: 11, death_damage: 700 },
+      { level: 12, death_damage: 730 },
     ],
   },
 };
