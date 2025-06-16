@@ -139,6 +139,24 @@
       "hp": [4000, 4200, 4350],
       "immune": []
     },
+    "hook_tower": {
+      "name": "Hook Tower (HP Module)",
+      "type": "building",
+      "hp": [500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000],
+      "immune": []
+    },
+    "flame_spinner": {
+      "name": "Flame Spinner (HP Module)",
+      "type": "building",
+      "hp": [600, 1200, 1800, 2400, 3000, 3600, 4200, 4800, 5400, 6000],
+      "immune": []
+    },
+    "crusher_mortar": {
+      "name": "Crusher Mortar (HP Module)",
+      "type": "building",
+      "hp": [400, 900, 1400, 1900, 2400, 2900, 3400, 3900, 4400, 4900],
+      "immune": []
+    },
     "townhall": {
       "name": "Townhall",
       "type": "building",
