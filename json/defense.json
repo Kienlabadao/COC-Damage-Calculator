@@ -74,7 +74,7 @@
       "type": "building",
       "hp": [
         1500, 1900, 2300, 2700, 3100, 3400, 3700, 4000, 4200, 4400, 4600, 4800,
-        4900
+        5000
       ],
       "immune": []
     },
@@ -95,7 +95,7 @@
     "scattershot": {
       "name": "Scattershot",
       "type": "building",
-      "hp": [3600, 4200, 4800, 5100, 5410, 5600, 5750],
+      "hp": [3600, 4200, 4800, 5100, 5410, 5600, 5800],
       "immune": []
     },
     "builders_hut": {
@@ -152,22 +152,22 @@
       "hp": [5800, 6200],
       "immune": []
     },
-    "hero_bell": {
-      "name": "Hero Bell (HP Module)",
+    "roaster": {
+      "name": "Roaster (HP Module)",
       "type": "building",
-      "hp": [400, 900, 1400, 1900, 2400, 2900, 3400, 3900, 4400, 4900],
+      "hp": [960, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5200, 6000],
       "immune": []
     },
-    "light_beam": {
-      "name": "Light Beam (HP Module)",
+    "air_bombs": {
+      "name": "Air Bombs (HP Module)",
       "type": "building",
-      "hp": [600, 1200, 1800, 2400, 3000, 3600, 4200, 4800, 5400, 6000],
+      "hp": [600, 1000, 1500, 2000, 2600, 3200, 3800, 4400, 5200, 6000],
       "immune": []
     },
-    "bomb_hive": {
-      "name": "Bomb Hive (HP Module)",
+    "lava_launcher": {
+      "name": "Lava Launcher (HP Module)",
       "type": "building",
-      "hp": [400, 900, 1400, 1900, 2400, 2900, 3400, 3900, 4400, 4900],
+      "hp": [450, 800, 1200, 1600, 2100, 2600, 3100, 3600, 4200, 4900],
       "immune": []
     },
     "townhall": {
