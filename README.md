@@ -1,61 +1,75 @@
-<p align="center">
-    <img width="100" src="https://cocdamagecalculator.netlify.app/images/other/logo.webp">
-</p>
-<h1 align="center">Clash of Clans - Damage Calculator</h1>
-<h3 align="center">Your one-stop spot for all damage calculations in Clash of Clans</h3>
+# React + TypeScript + Vite
 
-## Description
-This is a convenient website focused on calculating damage in Clash of Clans. It has two main features:
-- **Zapquake Calculator:** Calculates how many Lightning and Earthquake spells are needed to destroy specific defenses, just like any zapquake calculator out there. But it comes with two extra features:
-  - The ability to account for hero equipment.
-  - The ability to factor in donated Lightning spells.
-- **Advance Calculator:** For more advanced calculations, featuring:
-  - The ability to select actions such as spells, hero equipment, and troops in any order.
-  - The option to manage those actions by removing or reordering them.
-  - Calculations that show:
-    - How much damage each action inflicts.
-    - The remaining HP of the defense after each action.
-    - The impact of modifiers (e.g., Rage spell, cumulative Earthquake damage).
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Table of Contents
-- [Built With](#built-with)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Roadmap](#roadmap)
-- [Contributing](#contributing)
-- [Credits](#credits)
-- [License](#license)
-  
-## Built With
-- **Backend**
-  - **JavaScript**
-- **Frontend**
-  - **[SASS](https://sass-lang.com/):** Helps keep large stylesheets well-organized and makes it easy to share design within and across projects.
-  - **[Bootstrap](https://getbootstrap.com/):** Powerful, extensible, and feature-packed frontend toolkit.
+Currently, two official plugins are available:
 
-## Installation
-### Prerequisites
-- Just any code editor will work.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-### Installation
-- Download the project file and open it in your code editor.
+## React Compiler
 
-## Usage
-Instructions on how to use the website are included in the website, as well as comments throughout the source code.
+The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
 
-## Future plan
-- Make demonstration video for each calculators.
-- Add support for more troops in the advance calculator.
-- Add support for hero in the advance calculator.
+Note: This will impact Vite dev & build performances.
 
-I will work on them in the future whenever I have free time. Otherwise, the website is fully functional and ready to use. As always, I will update the data whenever there are new updates or balance changes coming to the game.
+## Expanding the ESLint configuration
 
-## Contributing
-Any contributions to the project are always appreciated! A quick note: I’ve done my best to clean up my code as much as I can. However, since I’m not a senior developer, there may be some parts that are messy and confusing, and I'm sorry for that! If you need help understanding anything, feel free to contact me.
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## Credits
-- **[Zapquaker](https://zapquaker.netlify.app/)** for inspired me to make this website (and some UI design ideas)
-- **[Clash of Clans Wiki](https://clashofclans.fandom.com/wiki/Clash_of_Clans_Wiki)** for informations, images, and formula.
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-## License
-This project is distributed under the MIT License. See `LICENSE.md` for more information.
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
+
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
