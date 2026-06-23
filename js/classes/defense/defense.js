@@ -82,9 +82,23 @@ class Defense {
 
     if (heroList.includes(this.defenseID)) {
       return `/images/defense/${this.defenseID}/${this.defenseID}.webp`;
-    } else {
-      return `/images/defense/${this.defenseID}/${this.getCurrentLevel()}.webp`;
     }
+
+    // Special case: Lava Launcher (non-linear image scaling)
+    if (this.defenseID === "lava_launcher") {
+      const i = this.currentLevelPos;
+
+      if (i <= 0) return `/images/defense/lava_launcher/1.webp`;
+      if (i <= 1) return `/images/defense/lava_launcher/2.webp`;
+      if (i <= 2) return `/images/defense/lava_launcher/3.webp`;
+      if (i <= 3) return `/images/defense/lava_launcher/4.webp`;
+      if (i <= 5) return `/images/defense/lava_launcher/5.webp`;
+      if (i <= 7) return `/images/defense/lava_launcher/6.webp`;
+      
+      return `/images/defense/lava_launcher/7.webp`;
+    }
+
+    return `/images/defense/${this.defenseID}/${this.getCurrentLevel()}.webp`;
   }
 
   // Get defense destroyed state's image path in the project folder

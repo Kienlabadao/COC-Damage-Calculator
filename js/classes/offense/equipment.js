@@ -22,23 +22,53 @@ class Equipment extends Offense {
     // Calculate how many damages does this equipment do to defense
     // For eq damage type equipment, also include reduced damage as eq type damage deal less damage the more its target got hit by eq type damage
     calcDamage(defense) {
-        if (defense instanceof Defense) {
-            if (defense.isImmune(this)) {
-                return 0;
-            }
-
-            const maxHP = defense.getCurrentMaxHP();
-            const eqCount = defense.eqCount;
-
-            switch (this.damageType) {
-                case "direct":
-                    return NumberUtil.round2Places(this.getCurrentDamage());
-                case "earthquake":
-                    return NumberUtil.round2Places(this.calcBaseEQDamage(maxHP) * (1 / (2 * eqCount + 1)));            
-            }  
-        } else {
+        if (!(defense instanceof Defense)) {
             throw new Error(`Invalid defense: ${defense}`);
-        }    
+        }
+
+        if (defense.isImmune(this)) {
+            return 0;
+        }
+
+        const maxHP = defense.getCurrentMaxHP();
+        const eqCount = defense.eqCount;
+
+        let damage = 0;
+
+        // 1. Base DMG
+        switch (this.damageType) {
+            case "direct":
+                damage = NumberUtil.round2Places(this.getCurrentDamage());
+                break;
+
+            case "earthquake":
+                damage = NumberUtil.round2Places(
+                    this.calcBaseEQDamage(maxHP) * (1 / (2 * eqCount + 1))
+                );
+                break;
+
+            default:
+                damage = 0;
+        }
+
+        // 2. Equipment modifiers
+        const modifiers = this.offenseJSON?.modifiers;
+
+        if (Array.isArray(modifiers)) {
+            const defenseID = defense.defenseID || defense.id;
+
+            for (const mod of modifiers) {
+                if (mod.type !== "damage_multiplier") continue;
+
+                if (mod.targets.includes(defenseID)) {
+                    damage = NumberUtil.round2Places(
+                        damage * mod.multiplier
+                    );
+                }
+            }
+        }
+
+        return damage;
     }
  
     // Calculate and update defense remaining HP after getting hit by equipment

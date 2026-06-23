@@ -7,11 +7,24 @@ class DefenseListManager {
         this._defenseList = [];
     }
 
+    createDefense(defenseID, type) {
+        const defense = new Defense(defenseID, null);
+        defense.sourceType = type; // "defense" | "temporary_defense"
+        return defense;
+    }
+
     // Load all defenses based on json file
     // Current level is set to default (max level)
     load() {
-        for (const defenseID of Object.keys(getAllDefenses())) {
-            this.add(new Defense(defenseID, null));
+        const normal = getAllDefenses();
+        const temp = getAllTemporaryDefenses();
+
+        for (const defenseID of Object.keys(normal)) {
+            this.add(this.createDefense(defenseID, "defense"));
+        }
+
+        for (const defenseID of Object.keys(temp)) {
+            this.add(this.createDefense(defenseID, "temporary_defense"));
         }
     }
 
@@ -19,9 +32,27 @@ class DefenseListManager {
     // Current level is set to user choices (which is stored in localStorage)
     // If there is none (storage reset or first time visit), then it's set to default (max level)
     loadKey(type) {
-        for (const defenseID of Object.keys(getAllDefenses())) {
-            const defense = new Defense(defenseID, null);
-            defense.currentLevelPos = LocalStorageUtils.loadNumber(LocalStorageUtils.getObjectKey(type, "defense", defenseID), defense.currentLevelPos);
+        const normal = getAllDefenses();
+        const temp = getAllTemporaryDefenses();
+
+        for (const defenseID of Object.keys(normal)) {
+            const defense = this.createDefense(defenseID, "defense");
+
+            defense.currentLevelPos = LocalStorageUtils.loadNumber(
+                LocalStorageUtils.getObjectKey(type, "defense", defenseID),
+                defense.currentLevelPos
+            );
+
+            this.add(defense);
+        }
+
+        for (const defenseID of Object.keys(temp)) {
+            const defense = this.createDefense(defenseID, "temporary_defense");
+
+            defense.currentLevelPos = LocalStorageUtils.loadNumber(
+                LocalStorageUtils.getObjectKey(type, "temporary_defense", defenseID),
+                defense.currentLevelPos
+            );
 
             this.add(defense);
         }
@@ -54,7 +85,7 @@ class DefenseListManager {
                 this.defenseList.push(newDefense);
             } else {
                 throw new Error(`DefenseID already exist: ${newDefense.defenseID}`);
-            }  
+            }
         } else {
             throw new Error(`Invalid newDefense: ${newDefense}`);
         }
