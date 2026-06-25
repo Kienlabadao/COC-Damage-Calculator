@@ -18,11 +18,3 @@ export const DEFENSE_TYPE = {
 } as const;
 
 export type DefenseType = (typeof DEFENSE_TYPE)[keyof typeof DEFENSE_TYPE];
-
-export const DAMAGE_TYPE = {
-  Direct: "direct",
-  Earthquake: "earthquake",
-  Burst: "burst",
-} as const;
-
-export type DamageType = (typeof DAMAGE_TYPE)[keyof typeof DAMAGE_TYPE];
