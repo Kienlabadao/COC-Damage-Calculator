@@ -33,7 +33,18 @@ async function fetchJSON() {
 
 // Get object from json
 function getDefense(defenseID) {
-    return defenseJSON["defense"][defenseID];
+    const normal = defenseJSON["defense"];
+    const temp = defenseJSON["temporary_defense"];
+
+    if (normal && normal[defenseID]) {
+        return normal[defenseID];
+    }
+
+    if (temp && temp[defenseID]) {
+        return temp[defenseID];
+    }
+
+    return undefined;
 }
 
 function getEquipment(equipmentID) {
@@ -58,6 +69,10 @@ function getRepair(repairID) {
 
 function getAllDefenses() {
     return defenseJSON["defense"];
+}
+
+function getAllTemporaryDefenses() {
+    return defenseJSON["temporary_defense"];
 }
 
 function getAllEquipments() {
