@@ -1,11 +1,40 @@
-import { type TargetType } from "../targetType";
+import { type TargetType } from "../target/targetType";
+import { type AdditionalDamageType } from "./additionalDamageType";
 import { type DamageType } from "./damageType";
 import { type OffenseModifierType } from "./offenseModifierType";
 
-export type OffenseDamageData = {
-  preferenceTargetType?: TargetType[];
-
+export type OffenseStageDamageData = {
+  chargeDuration: number;
   damagePerHit: number;
+};
+
+export type OffenseMonolithDamageData = {
+  minHousingSpace: number;
+  maxHousingSpace?: number;
+
+  extraDamageInPercentage: number;
+};
+
+export type OffenseSplashDamageData = {
+  minRadius: number;
+  maxRadius?: number;
+
+  extraDamagePerHit: number;
+};
+
+export type OffenseDamageData = {
+  targetType?: TargetType[];
+
+  damagePerHit?: number;
+  earthquakeDamagePerHit?: number;
+  deathDamage?: number;
+  auraDamagePerHit?: number;
+
+  stageDamages?: OffenseStageDamageData[];
+
+  monolithDamages?: OffenseMonolithDamageData[];
+  splashDamages?: OffenseSplashDamageData[];
+  pointBlankDamagePerHit?: number;
 };
 
 export type OffenseRawLevelData = {
@@ -29,91 +58,33 @@ export type OffenseModifierData = {
   attackSpeedBetweenHitMultiplierInPercentage?: number;
 };
 
-export type OffenseData = {
-  damageType: DamageType;
-  attackSpeedBetweenHit: number;
+export type OffenseSeparateAttackSpeedData = {
+  targetType: TargetType[];
+
+  attackSpeedBetweenHit?: number;
   attackSpeedBetweenBurst?: number;
+  auraDamageAttackSpeed?: number;
+};
+
+export type OffenseData = {
+  damageType: DamageType[];
+  additionalDamageType?: AdditionalDamageType;
+
+  attackSpeedBetweenHit?: number;
+  attackSpeedBetweenBurst?: number;
+  auraDamageAttackSpeed?: number;
+  separateAttackSpeed?: OffenseSeparateAttackSpeedData[];
 
   modifiers?: OffenseModifierData[];
 
-  canDealDeathDamage: boolean;
-  canDealAuraDamage: boolean;
-  haveSeparateWallDamage: boolean;
-  haveStageDamage: boolean;
-  canDealPointBlankDamage: boolean;
+  canAttackAir: boolean;
 
-  canDealChainDamage: boolean;
+  maxAttackCountPerBurst?: number;
+
+  maxDeathDamageHitCount?: number;
+
   maxChainTargets?: number;
-  chainDamageMultiplierInPercentage?: number;
+  chainDamageReductionInPercentage?: number;
 
-  canDealPoisonDamage: boolean;
-
-  canOneShotWalls?: boolean;
-
-  isTemporary: boolean;
-  isTemporaryAvailable?: boolean;
-
-  wikiUrl?: string;
+  instaKillTargets?: TargetType[];
 };
-
-export function normalizeOffenseDamageData(
-  damageData: OffenseDamageData[],
-): OffenseLevelData {
-  if (damageData.length === 0) {
-    throw new Error("Offense level must have at least 1 damageData entry.");
-  }
-
-  let genericDamageData: OffenseDamageData | undefined;
-  const damageDataByTargetType: OffenseDamageByTargetData = {};
-
-  for (let i = 0; i < damageData.length; i += 1) {
-    const currentDamageData = damageData[i];
-    const targets = currentDamageData.preferenceTargetType;
-    const isGeneric = targets === undefined || targets.length === 0;
-
-    if (isGeneric) {
-      if (genericDamageData !== undefined) {
-        throw new Error(
-          "Only 1 generic damageData entry is allowed (without preferenceTargetType).",
-        );
-      }
-
-      genericDamageData = currentDamageData;
-      continue;
-    }
-
-    const seenInCurrentDamageData = new Set<TargetType>();
-
-    for (const targetType of targets) {
-      if (seenInCurrentDamageData.has(targetType)) {
-        throw new Error(
-          "Duplicate target type in a single damageData entry at index " +
-            i +
-            ": " +
-            targetType,
-        );
-      }
-
-      if (damageDataByTargetType[targetType] !== undefined) {
-        throw new Error(
-          "Target type appears in more than one damageData entry: " +
-            targetType,
-        );
-      }
-
-      seenInCurrentDamageData.add(targetType);
-      damageDataByTargetType[targetType] = currentDamageData;
-    }
-  }
-
-  if (genericDamageData === undefined) {
-    throw new Error(
-      "Offense level must include 1 generic damageData entry without preferenceTargetType.",
-    );
-  }
-
-  return {
-    genericDamageData,
-    damageDataByTargetType,
-  };
-}

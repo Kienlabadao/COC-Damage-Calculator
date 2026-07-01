@@ -1,11 +1,13 @@
 import { DAMAGE_TYPE } from "../shared/offense/damageType";
-import { normalizeLevelData } from "../shared/baseData";
+import { normalizeLevelData } from "../shared/baseData.util";
+import { normalizeOffenseDamageTypes } from "../shared/offense/offenseData.util";
+import { type HeroData, type HeroRawLevelData } from "./shared/heroData";
 import {
   normalizeHeroLevelData,
-  type HeroData,
-  type HeroRawLevelData,
-} from "./shared/heroData";
+  validateHeroEntityData,
+} from "./shared/heroData.util";
 import { HERO_ID } from "./shared/id";
+import { TARGET_TYPE } from "../shared/target/targetType";
 
 const barbarianKingRawLevels: Record<number, HeroRawLevelData> = {
   1: {
@@ -1466,25 +1468,23 @@ const barbarianKingRawLevels: Record<number, HeroRawLevelData> = {
   },
 };
 
+const targetType = [TARGET_TYPE.Ground, TARGET_TYPE.Hero];
+const damageType = normalizeOffenseDamageTypes([DAMAGE_TYPE.Direct]);
+
 export const BarbarianKing: HeroData = {
   id: HERO_ID.BarbarianKing,
+  targetType: targetType,
 
-  damageType: DAMAGE_TYPE.Direct,
+  damageType: damageType,
   attackSpeedBetweenHit: 1.2,
 
-  ...normalizeLevelData(barbarianKingRawLevels, normalizeHeroLevelData),
+  ...normalizeLevelData(barbarianKingRawLevels, (rawLevelData) =>
+    normalizeHeroLevelData(rawLevelData, damageType),
+  ),
 
-  canDealDeathDamage: false,
-  canDealAuraDamage: false,
-  haveSeparateWallDamage: false,
-  haveStageDamage: false,
-  canDealPointBlankDamage: false,
-
-  canDealChainDamage: false,
-
-  canDealPoisonDamage: false,
-
-  isTemporary: false,
+  canAttackAir: false,
 
   wikiUrl: "https://clashofclans.fandom.com/wiki/Barbarian_King",
 };
+
+validateHeroEntityData(BarbarianKing);

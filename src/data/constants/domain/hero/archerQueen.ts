@@ -1,10 +1,12 @@
-﻿import { normalizeLevelData } from "../shared/baseData";
+﻿import { normalizeLevelData } from "../shared/baseData.util";
 import { DAMAGE_TYPE } from "../shared/offense/damageType";
+import { normalizeOffenseDamageTypes } from "../shared/offense/offenseData.util";
+import { TARGET_TYPE } from "../shared/target/targetType";
+import { type HeroData, type HeroRawLevelData } from "./shared/heroData";
 import {
   normalizeHeroLevelData,
-  type HeroData,
-  type HeroRawLevelData,
-} from "./shared/heroData";
+  validateHeroEntityData,
+} from "./shared/heroData.util";
 import { HERO_ID } from "./shared/id";
 
 const archerQueenRawLevels: Record<number, HeroRawLevelData> = {
@@ -1440,25 +1442,23 @@ const archerQueenRawLevels: Record<number, HeroRawLevelData> = {
   },
 };
 
+const targetType = [TARGET_TYPE.Ground, TARGET_TYPE.Hero];
+const damageType = normalizeOffenseDamageTypes([DAMAGE_TYPE.Direct]);
+
 export const ArcherQueen: HeroData = {
   id: HERO_ID.ArcherQueen,
+  targetType: targetType,
 
-  damageType: DAMAGE_TYPE.Direct,
+  damageType: damageType,
   attackSpeedBetweenHit: 0.75,
 
-  ...normalizeLevelData(archerQueenRawLevels, normalizeHeroLevelData),
+  ...normalizeLevelData(archerQueenRawLevels, (rawLevelData) =>
+    normalizeHeroLevelData(rawLevelData, damageType),
+  ),
 
-  canDealDeathDamage: false,
-  canDealAuraDamage: false,
-  haveSeparateWallDamage: false,
-  haveStageDamage: false,
-  canDealPointBlankDamage: false,
-
-  canDealChainDamage: false,
-
-  canDealPoisonDamage: false,
-
-  isTemporary: false,
+  canAttackAir: true,
 
   wikiUrl: "https://clashofclans.fandom.com/wiki/Archer_Queen",
 };
+
+validateHeroEntityData(ArcherQueen);

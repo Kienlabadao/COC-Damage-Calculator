@@ -1,36 +1,23 @@
-import type { HeroId } from "./id";
+import { type HeroId } from "./id";
 import { type BaseData, type BaseLevelData } from "../../shared/baseData";
 import {
-  normalizeOffenseDamageData,
   type OffenseData,
   type OffenseLevelData,
   type OffenseRawLevelData,
 } from "../../shared/offense/offenseData";
-import { type DefenseLevelData } from "../../shared/defense/defenseData";
+import {
+  type TargetLevelData,
+  type TargetData,
+} from "../../shared/target/targetData";
 
 export type HeroRawLevelData = BaseLevelData &
   OffenseRawLevelData &
-  DefenseLevelData;
+  TargetLevelData;
 
-export type HeroLevelData = BaseLevelData & OffenseLevelData & DefenseLevelData;
+export type HeroLevelData = BaseLevelData & OffenseLevelData & TargetLevelData;
 
 export type HeroData = BaseData<HeroLevelData> &
-  OffenseData & {
+  OffenseData &
+  TargetData & {
     id: HeroId;
   };
-
-export function normalizeHeroLevelData(
-  rawLevelData: HeroRawLevelData,
-): HeroLevelData {
-  const { level, isMaxLevel, townHallLevel, damageData, hp } = rawLevelData;
-
-  const normalizedOffenseLevelData = normalizeOffenseDamageData(damageData);
-
-  return {
-    ...normalizedOffenseLevelData,
-    level,
-    isMaxLevel,
-    townHallLevel,
-    hp,
-  };
-}

@@ -1,10 +1,12 @@
-﻿import { normalizeLevelData } from "../shared/baseData";
+﻿import { normalizeLevelData } from "../shared/baseData.util";
 import { DAMAGE_TYPE } from "../shared/offense/damageType";
+import { normalizeOffenseDamageTypes } from "../shared/offense/offenseData.util";
+import { TARGET_TYPE } from "../shared/target/targetType";
+import { type HeroData, type HeroRawLevelData } from "./shared/heroData";
 import {
   normalizeHeroLevelData,
-  type HeroData,
-  type HeroRawLevelData,
-} from "./shared/heroData";
+  validateHeroEntityData,
+} from "./shared/heroData.util";
 import { HERO_ID } from "./shared/id";
 
 const minionPrinceRawLevels: Record<number, HeroRawLevelData> = {
@@ -1245,25 +1247,23 @@ const minionPrinceRawLevels: Record<number, HeroRawLevelData> = {
   },
 };
 
+const targetType = [TARGET_TYPE.Air, TARGET_TYPE.Hero];
+const damageType = normalizeOffenseDamageTypes([DAMAGE_TYPE.Direct]);
+
 export const MinionPrince: HeroData = {
   id: HERO_ID.MinionPrince,
+  targetType: targetType,
 
-  damageType: DAMAGE_TYPE.Direct,
+  damageType: damageType,
   attackSpeedBetweenHit: 0.85,
 
-  ...normalizeLevelData(minionPrinceRawLevels, normalizeHeroLevelData),
+  ...normalizeLevelData(minionPrinceRawLevels, (rawLevelData) =>
+    normalizeHeroLevelData(rawLevelData, damageType),
+  ),
 
-  canDealDeathDamage: false,
-  canDealAuraDamage: false,
-  haveSeparateWallDamage: false,
-  haveStageDamage: false,
-  canDealPointBlankDamage: false,
-
-  canDealChainDamage: false,
-
-  canDealPoisonDamage: false,
-
-  isTemporary: false,
+  canAttackAir: true,
 
   wikiUrl: "https://clashofclans.fandom.com/wiki/Minion_Prince",
 };
+
+validateHeroEntityData(MinionPrince);
