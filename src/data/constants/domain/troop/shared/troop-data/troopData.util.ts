@@ -11,7 +11,7 @@ import {
 
 export function normalizeTroopLevelData(
   rawLevelData: TroopRawLevelData,
-  damageTypes: DamageType[],
+  damageTypes: readonly DamageType[],
 ): TroopLevelData {
   const { level, isMaxLevel, townHallLevel, damageData, hp } = rawLevelData;
 

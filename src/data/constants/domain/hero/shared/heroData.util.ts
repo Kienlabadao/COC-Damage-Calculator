@@ -11,7 +11,7 @@ import {
 
 export function normalizeHeroLevelData(
   rawLevelData: HeroRawLevelData,
-  damageTypes: DamageType[],
+  damageTypes: readonly DamageType[],
 ): HeroLevelData {
   const { level, isMaxLevel, townHallLevel, damageData, hp } = rawLevelData;
 

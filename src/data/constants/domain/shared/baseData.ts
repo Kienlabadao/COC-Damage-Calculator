@@ -1,19 +1,19 @@
 export type BaseLevelData = {
-  level: number;
-  isMaxLevel: boolean;
-  townHallLevel: number;
-  isAccessibleInEventOnly?: boolean;
+  readonly level: number;
+  readonly isMaxLevel: boolean;
+  readonly townHallLevel: number;
+  readonly isAccessibleInEventOnly?: boolean;
 };
 
 export type LevelPairKey = `${number}:${number}`;
 
 export type LevelByPairData<TLevel extends BaseLevelData = BaseLevelData> =
-  Record<LevelPairKey, TLevel>;
+  Readonly<Record<LevelPairKey, TLevel>>;
 
 export type BaseData<TLevel extends BaseLevelData = BaseLevelData> = {
-  levels: Record<number, TLevel>;
-  levelsOrdered: TLevel[];
-  levelsByPair: LevelByPairData<TLevel>;
+  readonly levels: Readonly<Record<number, TLevel>>;
+  readonly levelsOrdered: readonly TLevel[];
+  readonly levelsByPair: LevelByPairData<TLevel>;
 
-  wikiUrl: string;
+  readonly wikiUrl: string;
 };

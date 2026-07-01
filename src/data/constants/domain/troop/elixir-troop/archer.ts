@@ -10,7 +10,8 @@ import {
   normalizeTroopLevelData,
   validateTroopEntityData,
 } from "../shared/troop-data/troopData.util";
-import { TROOP_ID } from "../shared/id";
+import { TROOP_ID } from "../../shared/id/troopId";
+import { TROOP_TYPE } from "../shared/troopType";
 
 const archerRawLevels: Record<number, TroopRawLevelData> = {
   1: {
@@ -202,6 +203,8 @@ const damageType = normalizeOffenseDamageTypes([DAMAGE_TYPE.Direct]);
 
 export const Archer: TroopData = {
   id: TROOP_ID.ElixirTroop.Archer,
+  troopType: [TROOP_TYPE.Elixir],
+
   targetType: targetType,
 
   damageType: damageType,

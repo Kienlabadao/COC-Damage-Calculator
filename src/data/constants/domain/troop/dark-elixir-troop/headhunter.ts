@@ -10,9 +10,10 @@ import {
   normalizeTroopLevelData,
   validateTroopEntityData,
 } from "../shared/troop-data/troopData.util";
-import { TROOP_ID } from "../shared/id";
-import { OFFENSE_MODIFIER_TYPE } from "../../shared/offense/offenseModifierType";
+import { TROOP_ID } from "../../shared/id/troopId";
+import { OFFENSE_MODIFIER_TYPE } from "../../shared/offense/offenseModifierData";
 import { ADDITIONAL_DAMAGE_TYPE } from "../../shared/offense/additionalDamageType";
+import { TROOP_TYPE } from "../shared/troopType";
 
 const headhunterRawLevels: Record<number, TroopRawLevelData> = {
   1: {
@@ -74,6 +75,8 @@ const damageType = normalizeOffenseDamageTypes([DAMAGE_TYPE.Direct]);
 
 export const Headhunter: TroopData = {
   id: TROOP_ID.DarkElixirTroop.Headhunter,
+  troopType: [TROOP_TYPE.DarkElixir],
+
   targetType: targetType,
 
   damageType: damageType,

@@ -1,4 +1,4 @@
-import { TROOP_ID } from "./shared/id";
+import { TROOP_ID } from "../shared/id/troopId";
 import {
   asGenericTroopData,
   asTargetOnlyTroopData,
@@ -22,6 +22,7 @@ import {
   DragonRider,
   ElectroTitan,
   RootRider,
+  Thrower,
   MeteorGolem,
 } from "./elixir-troop";
 import {
@@ -46,7 +47,7 @@ type ElixirTroopId =
 type DarkElixirTroopId =
   (typeof TROOP_ID.DarkElixirTroop)[keyof typeof TROOP_ID.DarkElixirTroop];
 
-export const ElixirTroopList: Partial<Record<ElixirTroopId, AnyTroopData>> = {
+export const ElixirTroopList: Readonly<Record<ElixirTroopId, AnyTroopData>> = {
   [TROOP_ID.ElixirTroop.Barbarian]: asGenericTroopData(Barbarian),
   [TROOP_ID.ElixirTroop.Archer]: asGenericTroopData(Archer),
   [TROOP_ID.ElixirTroop.Giant]: asGenericTroopData(Giant),
@@ -64,10 +65,11 @@ export const ElixirTroopList: Partial<Record<ElixirTroopId, AnyTroopData>> = {
   [TROOP_ID.ElixirTroop.DragonRider]: asGenericTroopData(DragonRider),
   [TROOP_ID.ElixirTroop.ElectroTitan]: asGenericTroopData(ElectroTitan),
   [TROOP_ID.ElixirTroop.RootRider]: asGenericTroopData(RootRider),
+  [TROOP_ID.ElixirTroop.Thrower]: asGenericTroopData(Thrower),
   [TROOP_ID.ElixirTroop.MeteorGolem]: asGenericTroopData(MeteorGolem),
 };
 
-export const DarkElixirTroopList: Partial<
+export const DarkElixirTroopList: Readonly<
   Record<DarkElixirTroopId, AnyTroopData>
 > = {
   [TROOP_ID.DarkElixirTroop.Minion]: asGenericTroopData(Minion),

@@ -7,7 +7,7 @@ import {
   normalizeHeroLevelData,
   validateHeroEntityData,
 } from "./shared/heroData.util";
-import { HERO_ID } from "./shared/id";
+import { HERO_ID } from "../shared/id/heroId";
 
 const minionPrinceRawLevels: Record<number, HeroRawLevelData> = {
   1: {

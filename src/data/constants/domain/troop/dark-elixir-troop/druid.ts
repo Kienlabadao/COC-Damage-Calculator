@@ -1,12 +1,13 @@
 import { normalizeLevelData } from "../../shared/baseData.util";
 import { TARGET_TYPE } from "../../shared/target/targetType";
 import { normalizeTargetOnlyTroopLevelData } from "../shared/target-only-troop-data/targetOnlyTroopData.util";
-import { TROOP_ID } from "../shared/id";
+import { TROOP_ID } from "../../shared/id/troopId";
 import {
   type TargetOnlyTroopData,
   type TargetOnlyTroopRawLevelData,
 } from "../shared/target-only-troop-data/targetOnlyTroopData";
 import { validateTargetOnlyTroopEntityData } from "../shared/target-only-troop-data/targetOnlyTroopData.util";
+import { TROOP_TYPE } from "../shared/troopType";
 
 const healerRawLevels: Record<number, TargetOnlyTroopRawLevelData> = {
   1: {
@@ -57,6 +58,8 @@ const targetType = [TARGET_TYPE.Ground, TARGET_TYPE.Troop];
 
 export const Druid: TargetOnlyTroopData = {
   id: TROOP_ID.DarkElixirTroop.Druid,
+  troopType: [TROOP_TYPE.DarkElixir],
+
   targetType: targetType,
 
   ...normalizeLevelData(healerRawLevels, (rawLevelData) =>

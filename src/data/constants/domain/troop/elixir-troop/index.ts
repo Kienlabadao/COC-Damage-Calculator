@@ -15,4 +15,5 @@ export { Yeti } from "./yeti";
 export { DragonRider } from "./dragonRider";
 export { ElectroTitan } from "./electroTitan";
 export { RootRider } from "./rootRider";
+export { Thrower } from "./thrower";
 export { MeteorGolem } from "./meteorGolem";

@@ -10,8 +10,9 @@ import {
   normalizeTroopLevelData,
   validateTroopEntityData,
 } from "../shared/troop-data/troopData.util";
-import { TROOP_ID } from "../shared/id";
-import { OFFENSE_MODIFIER_TYPE } from "../../shared/offense/offenseModifierType";
+import { TROOP_ID } from "../../shared/id/troopId";
+import { OFFENSE_MODIFIER_TYPE } from "../../shared/offense/offenseModifierData";
+import { TROOP_TYPE } from "../shared/troopType";
 
 const wallBreakerRawLevels: Record<number, TroopRawLevelData> = {
   1: {
@@ -220,6 +221,8 @@ const damageType = normalizeOffenseDamageTypes([
 
 export const WallBreaker: TroopData = {
   id: TROOP_ID.ElixirTroop.WallBreaker,
+  troopType: [TROOP_TYPE.Elixir],
+
   targetType: targetType,
 
   damageType: damageType,

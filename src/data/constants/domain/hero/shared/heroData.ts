@@ -1,4 +1,4 @@
-import { type HeroId } from "./id";
+import { type HeroId } from "../../shared/id/heroId";
 import { type BaseData, type BaseLevelData } from "../../shared/baseData";
 import {
   type OffenseData,
@@ -19,5 +19,5 @@ export type HeroLevelData = BaseLevelData & OffenseLevelData & TargetLevelData;
 export type HeroData = BaseData<HeroLevelData> &
   OffenseData &
   TargetData & {
-    id: HeroId;
+    readonly id: HeroId;
   };

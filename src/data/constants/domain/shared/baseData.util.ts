@@ -17,10 +17,10 @@ export function compareLevelOrder(a: BaseLevelData, b: BaseLevelData): number {
 }
 
 export function normalizeLevelsFromEntries<TLevel extends BaseLevelData>(
-  entries: Array<[number, TLevel]>,
+  entries: ReadonlyArray<readonly [number, TLevel]>,
 ) {
   const levels: Record<number, TLevel> = {};
-  const levelsByPair = {} as LevelByPairData<TLevel>;
+  const levelsByPair: Record<LevelPairKey, TLevel> = {};
   const seenPairToKey = new Map<LevelPairKey, number>();
 
   for (const [recordKey, row] of entries) {
@@ -48,14 +48,16 @@ export function normalizeLevelsFromEntries<TLevel extends BaseLevelData>(
   }
 
   return {
-    levels,
-    levelsOrdered: [...Object.values(levels)].sort(compareLevelOrder),
-    levelsByPair,
+    levels: levels as Readonly<Record<number, TLevel>>,
+    levelsOrdered: [...Object.values(levels)].sort(
+      compareLevelOrder,
+    ) as readonly TLevel[],
+    levelsByPair: levelsByPair as LevelByPairData<TLevel>,
   };
 }
 
 export function normalizeLevelsFromRecord<TLevel extends BaseLevelData>(
-  levels: Record<number, TLevel>,
+  levels: Readonly<Record<number, TLevel>>,
 ) {
   return normalizeLevelsFromEntries(
     Object.entries(levels).map(([recordKey, row]) => [Number(recordKey), row]),
@@ -63,7 +65,7 @@ export function normalizeLevelsFromRecord<TLevel extends BaseLevelData>(
 }
 
 export function normalizeLevelData<TRawLevel, TLevel extends BaseLevelData>(
-  rawLevels: Record<number, TRawLevel>,
+  rawLevels: Readonly<Record<number, TRawLevel>>,
   normalizeFn: (rawLevel: TRawLevel) => TLevel,
 ) {
   const levelData: Record<number, TLevel> = {};

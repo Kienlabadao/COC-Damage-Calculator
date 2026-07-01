@@ -1,9 +1,9 @@
 import { type TargetType } from "./targetType";
 
 export type TargetLevelData = {
-  hp: number;
+  readonly hp: number;
 };
 
 export type TargetData = {
-  targetType: TargetType[];
+  readonly targetType: readonly TargetType[];
 };

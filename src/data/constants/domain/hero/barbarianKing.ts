@@ -6,7 +6,7 @@ import {
   normalizeHeroLevelData,
   validateHeroEntityData,
 } from "./shared/heroData.util";
-import { HERO_ID } from "./shared/id";
+import { HERO_ID } from "../shared/id/heroId";
 import { TARGET_TYPE } from "../shared/target/targetType";
 
 const barbarianKingRawLevels: Record<number, HeroRawLevelData> = {

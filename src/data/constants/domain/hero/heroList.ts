@@ -1,4 +1,4 @@
-import { HERO_ID, type HeroId } from "./shared/id";
+import { HERO_ID, type HeroId } from "../shared/id/heroId";
 import { type HeroData } from "./shared/heroData";
 import { BarbarianKing } from "./barbarianKing";
 import { ArcherQueen } from "./archerQueen";
@@ -7,7 +7,7 @@ import { GrandWarden } from "./grandWarden";
 import { RoyalChampion } from "./royalChampion";
 import { DragonDuke } from "./dragonDuke";
 
-export const HeroList: Record<HeroId, HeroData> = {
+export const HeroList: Readonly<Record<HeroId, HeroData>> = {
   [HERO_ID.BarbarianKing]: BarbarianKing,
   [HERO_ID.ArcherQueen]: ArcherQueen,
   [HERO_ID.MinionPrince]: MinionPrince,

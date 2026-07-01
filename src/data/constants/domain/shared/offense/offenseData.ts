@@ -1,90 +1,82 @@
 import { type TargetType } from "../target/targetType";
 import { type AdditionalDamageType } from "./additionalDamageType";
 import { type DamageType } from "./damageType";
-import { type OffenseModifierType } from "./offenseModifierType";
+import type { OffenseModifierData } from "./offenseModifierData";
 
 export type OffenseStageDamageData = {
-  chargeDuration: number;
-  damagePerHit: number;
+  readonly chargeDuration: number;
+  readonly damagePerHit: number;
 };
 
 export type OffenseMonolithDamageData = {
-  minHousingSpace: number;
-  maxHousingSpace?: number;
+  readonly minHousingSpace: number;
+  readonly maxHousingSpace?: number;
 
-  extraDamageInPercentage: number;
+  readonly extraDamageInPercentage: number;
 };
 
 export type OffenseSplashDamageData = {
-  minRadius: number;
-  maxRadius?: number;
+  readonly minRadius: number;
+  readonly maxRadius?: number;
 
-  extraDamagePerHit: number;
+  readonly extraDamagePerHit: number;
 };
 
 export type OffenseDamageData = {
-  targetType?: TargetType[];
+  readonly targetType?: readonly TargetType[];
 
-  damagePerHit?: number;
-  earthquakeDamagePerHit?: number;
-  deathDamage?: number;
-  auraDamagePerHit?: number;
+  readonly damagePerHit?: number;
+  readonly earthquakeDamagePerHit?: number;
+  readonly deathDamage?: number;
+  readonly auraDamagePerHit?: number;
 
-  stageDamages?: OffenseStageDamageData[];
+  readonly stageDamages?: readonly OffenseStageDamageData[];
 
-  monolithDamages?: OffenseMonolithDamageData[];
-  splashDamages?: OffenseSplashDamageData[];
-  pointBlankDamagePerHit?: number;
+  readonly monolithDamages?: readonly OffenseMonolithDamageData[];
+  readonly splashDamages?: readonly OffenseSplashDamageData[];
+  readonly pointBlankDamagePerHit?: number;
 };
 
 export type OffenseRawLevelData = {
-  damageData: OffenseDamageData[];
+  readonly damageData: readonly OffenseDamageData[];
 };
 
 export type OffenseDamageByTargetData = Partial<
-  Record<TargetType, OffenseDamageData>
+  Readonly<Record<TargetType, OffenseDamageData>>
 >;
 
 export type OffenseLevelData = {
-  genericDamageData: OffenseDamageData;
-  damageDataByTargetType: OffenseDamageByTargetData;
-};
-
-export type OffenseModifierData = {
-  modifierType: OffenseModifierType;
-  preferenceTargetType?: TargetType;
-
-  damagePerHitMultiplierInPercentage?: number;
-  attackSpeedBetweenHitMultiplierInPercentage?: number;
+  readonly genericDamageData: OffenseDamageData;
+  readonly damageDataByTargetType: OffenseDamageByTargetData;
 };
 
 export type OffenseSeparateAttackSpeedData = {
-  targetType: TargetType[];
+  readonly targetType: readonly TargetType[];
 
-  attackSpeedBetweenHit?: number;
-  attackSpeedBetweenBurst?: number;
-  auraDamageAttackSpeed?: number;
+  readonly attackSpeedBetweenHit?: number;
+  readonly attackSpeedBetweenBurst?: number;
+  readonly auraDamageAttackSpeed?: number;
 };
 
 export type OffenseData = {
-  damageType: DamageType[];
-  additionalDamageType?: AdditionalDamageType;
+  readonly damageType: readonly DamageType[];
+  readonly additionalDamageType?: AdditionalDamageType;
 
-  attackSpeedBetweenHit?: number;
-  attackSpeedBetweenBurst?: number;
-  auraDamageAttackSpeed?: number;
-  separateAttackSpeed?: OffenseSeparateAttackSpeedData[];
+  readonly attackSpeedBetweenHit?: number;
+  readonly attackSpeedBetweenBurst?: number;
+  readonly auraDamageAttackSpeed?: number;
+  readonly separateAttackSpeed?: readonly OffenseSeparateAttackSpeedData[];
 
-  modifiers?: OffenseModifierData[];
+  readonly modifiers?: readonly OffenseModifierData[];
 
-  canAttackAir: boolean;
+  readonly canAttackAir: boolean;
 
-  maxAttackCountPerBurst?: number;
+  readonly maxAttackCountPerBurst?: number;
 
-  maxDeathDamageHitCount?: number;
+  readonly maxDeathDamageHitCount?: number;
 
-  maxChainTargets?: number;
-  chainDamageReductionInPercentage?: number;
+  readonly maxChainTargets?: number;
+  readonly chainDamageReductionInPercentage?: number;
 
-  instaKillTargets?: TargetType[];
+  readonly instaKillTargets?: readonly TargetType[];
 };

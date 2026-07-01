@@ -1,7 +1,7 @@
 import { type TargetType } from "../target/targetType";
 import { type DamageType } from "./damageType";
+import { isPresentPositiveNumber } from "../../../../../utils/number.util";
 import {
-  type OffenseDamageByTargetData,
   type OffenseDamageData,
   type OffenseData,
   type OffenseLevelData,
@@ -18,14 +18,10 @@ export type OffenseEntityValidationData = Pick<
 >;
 
 function hasDamageType(
-  damageTypes: DamageType[],
+  damageTypes: readonly DamageType[],
   targetType: DamageType,
 ): boolean {
   return damageTypes.includes(targetType);
-}
-
-function isPresentPositiveNumber(value: number | undefined): boolean {
-  return value !== undefined && Number.isFinite(value) && value > 0;
 }
 
 export function validateOffenseEntityData(
@@ -94,7 +90,7 @@ export function validateOffenseEntityData(
 
 function validateOffenseDamageEntry(
   damageEntry: OffenseDamageData,
-  damageTypes: DamageType[],
+  damageTypes: readonly DamageType[],
   index: number,
 ): void {
   const isDirectOrBurst =
@@ -183,8 +179,8 @@ function validateOffenseDamageEntry(
 }
 
 export function normalizeOffenseDamageTypes(
-  damageTypes: DamageType[],
-): DamageType[] {
+  damageTypes: readonly DamageType[],
+): readonly DamageType[] {
   if (damageTypes.length === 0) {
     throw new Error("Offense damageType must include at least one type.");
   }
@@ -199,23 +195,26 @@ export function normalizeOffenseDamageTypes(
     seenDamageTypes.add(damageType);
   }
 
-  return damageTypes;
+  return [...damageTypes];
 }
 
 export function normalizeOffenseDamageData(
-  damageData: OffenseDamageData[],
-  damageTypes: DamageType[],
+  damageData: readonly OffenseDamageData[],
+  damageTypes: readonly DamageType[],
 ): OffenseLevelData {
   if (damageData.length === 0) {
     throw new Error("Offense level must have at least 1 damageData entry.");
   }
 
+  const normalizedDamageTypes = normalizeOffenseDamageTypes(damageTypes);
+
   let genericDamageData: OffenseDamageData | undefined;
-  const damageDataByTargetType: OffenseDamageByTargetData = {};
+  const damageDataByTargetType: Partial<Record<TargetType, OffenseDamageData>> =
+    {};
 
   for (let i = 0; i < damageData.length; i += 1) {
     const currentDamageData = damageData[i];
-    validateOffenseDamageEntry(currentDamageData, damageTypes, i);
+    validateOffenseDamageEntry(currentDamageData, normalizedDamageTypes, i);
 
     const targets = currentDamageData.targetType;
     const isGeneric = targets === undefined || targets.length === 0;

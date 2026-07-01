@@ -1,14 +1,14 @@
 ﻿import { normalizeLevelData } from "../shared/baseData.util";
 import { DAMAGE_TYPE } from "../shared/offense/damageType";
 import { normalizeOffenseDamageTypes } from "../shared/offense/offenseData.util";
-import { OFFENSE_MODIFIER_TYPE } from "../shared/offense/offenseModifierType";
+import { OFFENSE_MODIFIER_TYPE } from "../shared/offense/offenseModifierData";
 import { TARGET_TYPE } from "../shared/target/targetType";
 import { type HeroData, type HeroRawLevelData } from "./shared/heroData";
 import {
   normalizeHeroLevelData,
   validateHeroEntityData,
 } from "./shared/heroData.util";
-import { HERO_ID } from "./shared/id";
+import { HERO_ID } from "../shared/id/heroId";
 
 const dragonDukeRawLevels: Record<number, HeroRawLevelData> = {
   1: {
